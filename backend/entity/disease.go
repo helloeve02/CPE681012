@@ -6,4 +6,6 @@ type Disease struct {
 	gorm.Model
 	Name			string
 	DiseaseStage 	string
+
+	DiseaseTag	[]DiseaseTag `gorm:"foreignKey:DiseaseID"`
 }
