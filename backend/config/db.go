@@ -1014,4 +1014,26 @@ func SetupDatabase() {
 		db.FirstOrCreate(&pkg, entity.Menu{Title: pkg.Title})
 	}
 
+	images := []entity.MenuImage{
+		{MenuID: 1, Image: "https://f.ptcdn.info/511/002/000/1361646707-IMG2766Med-o.jpg"},
+		{MenuID: 2, Image: "https://img.wongnai.com/p/1920x0/2017/09/24/c415bbcecc5145c9a967b132e28a1087.jpg"},
+		{MenuID: 3, Image: "https://i.ytimg.com/vi/Jvf4KMuuoEQ/maxresdefault.jpg"},
+		{MenuID: 4, Image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikO0YvxPPCqwJAgtPfgJjjdTX2oZvUWFvgAHLRItqY9q1UbwYqXBIEZqUmjsrk4wfTavQfzmLbPzMUSd6LBjZmxI3Vhag7jsOMyxPg3V2AVikonT_SdHb5CiDBbQkI2Fv68L8eMmlyKhM/s1600/%E0%B9%81%E0%B8%81%E0%B8%87%E0%B8%95%E0%B8%B9%E0%B8%99%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%9B%E0%B8%A5%E0%B8%B2.jpg"},
+		{MenuID: 5, Image: "https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSC41tBS2JyaLrHhBkHieCf4lwMRxT.jpg"},
+		{MenuID: 6, Image: "https://png.pngtree.com/thumb_back/fh260/background/20220324/pngtree-spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo-image_21814272.jpg"},
+		{MenuID: 7, Image: "https://sharp-weeclub.com/wp-content/uploads/2022/01/%E0%B8%82%E0%B8%99%E0%B8%A1%E0%B8%88%E0%B8%B5%E0%B8%991-990x510-1.jpg"},
+		{MenuID: 8, Image: "https://www.maeban.co.th/upfiles/blog/469811576_1757125385107540_8515113923452393484_n.jpg"},
+		{MenuID: 9, Image: "https://img.kapook.com/u/surauch/cook1/Thai_2.jpg"},
+		{MenuID: 10, Image: "https://img.wongnai.com/p/256x256/2023/06/04/b1e8748c61d4459d826187fb574aeb1f.jpg"},
+		{MenuID: 11, Image: "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-650.jpg"},
+		{MenuID: 12, Image: "https://thecookingsociety.com/wp-content/uploads/2022/02/Screen-Shot-2565-02-26-at-15.54.50.png"},
+		{MenuID: 13, Image: "https://sdmntpritalynorth.oaiusercontent.com/files/00000000-5a60-6246-a89c-6716f0dd5147/raw?se=2025-06-21T10%3A06%3A25Z&sp=r&sv=2024-08-04&sr=b&scid=04d39307-bed5-5c2e-8538-5d9312cb33df&skoid=f28c0102-4d9d-4950-baf0-4a8e5f6cf9d4&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-06-20T17%3A13%3A30Z&ske=2025-06-21T17%3A13%3A30Z&sks=b&skv=2024-08-04&sig=bfNJ1VWoxr7gIVKpWTS493w%2B38gfwnwKC3QwnRJp83w%3D"},
+		{MenuID: 14, Image: "https://www.bloggang.com/data/jazzy-bong/picture/1436528038.jpg"},
+		{MenuID: 15, Image: "https://img.wongnai.com/p/1920x0/2021/02/19/4ebb3ee1417746ba8f552a195f26e908.jpg"},
+	}
+
+	for _, img := range images {
+		db.FirstOrCreate(&img, entity.MenuImage{MenuID: img.MenuID})
+	}
+
 }
