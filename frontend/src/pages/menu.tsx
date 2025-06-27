@@ -1,51 +1,51 @@
+import type { MenuInterface } from "../interfaces/Menu";
+import { GetAllMenu } from "../services/https";
+import React, { useEffect, useState } from "react";
+import { Card, Col, Row, Alert } from "antd";
 
-const Menu: React.FC = () =>  {
+const Menu: React.FC = () => {
+  const [menu, setMenu] = useState<MenuInterface[]>([]);
+  const [error, setError] = useState("");
+
+  const getAllMenu = async () => {
+    try {
+      const res = await GetAllMenu();
+      if (Array.isArray(res?.data?.menu)) {
+        setMenu(res.data.menu);
+      } else {
+        setError("Failed to load menu items");
+      }
+    } catch (error) {
+      setError("Error fetching menu items. Please try again later.");
+    }
+  };
+
+  useEffect(() => {
+    getAllMenu();
+  }, []);
+
   return (
-    <div className="bg-gray-50 flex justify-center items-center  w-full">
-      <div className="ant-card-body flex flex-col w-full max-w-5xl p-6 rounded shadow-lg">
+    
+    <div className="bg-gray-50 min-h-screen p-6">
+      <div className="max-w-6xl mx-auto">
+       <div className="w-[10cm] h-[10px] bg-blue-500 mb-4">Menu List</div>
+       <div className="bg-red-500 text-white p-4">ทดสอบ</div>
 
-        <div className="flex-1 p-6 max-w-full">
-          <div className="bg-white shadow-lg rounded-lg p-6 mb-6 w-full">
-            <h2 className="text-3xl font-bold flex items-center gap-2 text-black mb-2">
-            </h2>
-            <table className="table-auto w-full">
-              <thead>
-                <tr>
-                  <th className="text-left p-1">Product</th>
-                  <th className="text-left p-2">Product Name</th>
-                  <th className="text-left p-3">Price</th>
-                  <th className="text-left p-4">Quantity</th>
-                  <th className="text-left p-5">Total Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedCartItems.map((item: CartitemInterface, index: number) => (
-                  <tr key={item.ID}>
-                    <td className="p-2">{index + 1}</td>
-                    <td className="p-2 w-full whitespace-normal">
-                      {item.Product?.product_name || "No name"}
-                    </td>
-                    <td className="p-2">
-                      {item.Product?.price?.toFixed(2) || "0.00"}
-                    </td>
-                    <td className="p-2 text-center">{item.Quantity}</td>
-                    <td className="p-2">
-                      {(item.Quantity! * (item.Product?.price || 0)).toFixed(2)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="bg-white shadow-lg rounded-lg p-6 mb-6 w-full">
-            <div className="flex justify-between items-center">
-              <div className="text-3xl font-bold flex items-center gap-2 text-black">
-              </div>
-            </div>
-          </div>
-        </div>
+        {error && <Alert message={error} type="error" showIcon className="mb-4" />}
+
+        <Row gutter={[16,20]}>
+          {menu.map((item) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={item.ID}>
+              <Card title={`${item.Title || "No Title"}`} bordered={true}>
+                {/* คุณสามารถเพิ่มคำอธิบายหรือรูปได้ที่นี่ ,,b*/}
+                {/* <p>{item.Description || "No Description"}</p> */}
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </div>
     </div>
- );
-}
+  );
+};
+
 export default Menu;
