@@ -20,7 +20,7 @@ func GetAllMenu(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"menus": menu})
+	c.JSON(http.StatusOK, gin.H{"menu": menu})
 }
 
 func GetMenuByID(c *gin.Context) {
