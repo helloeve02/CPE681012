@@ -30,6 +30,14 @@ func SetupDatabase() {
 	// Automigrate Tables
 	err := db.AutoMigrate(
 		&entity.Menu{},
+		&entity.MenuImage{},
+		&entity.Admin{},
+		&entity.DiseaseTag{},
+		&entity.Disease{},
+		&entity.EducationalContent{},
+		&entity.FiveFoodGroups{},
+		&entity.Ingredients{},
+		&entity.Tag{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
