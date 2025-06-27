@@ -37,7 +37,7 @@ const Menu: React.FC = () => {
           {menu.map((item) => (
             <Col xs={24} sm={12} md={8} lg={6} key={item.ID}>
               <Card title={`${item.Title || "No Title"}`} bordered={true}>
-                {/* คุณสามารถเพิ่มคำอธิบายหรือรูปได้ที่นี่ ,,*/}
+                {/* คุณสามารถเพิ่มคำอธิบายหรือรูปได้ที่นี่ ,,b*/}
                 {/* <p>{item.Description || "No Description"}</p> */}
               </Card>
             </Col>
