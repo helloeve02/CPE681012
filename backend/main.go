@@ -2,17 +2,11 @@ package main
 
 
 import (
-
    "net/http"
-
-
    "github.com/gin-gonic/gin"
-
-
-//    "github.com/helloeve02/CPE681012/config"
-
-
+   "github.com/helloeve02/CPE681012/config"
    "github.com/helloeve02/CPE681012/middlewares"
+   "github.com/helloeve02/CPE681012/controller"
 
 )
 
@@ -22,32 +16,17 @@ const PORT = "8000"
 
 func main() {
 
-
-   // open connection database
-
-//    config.ConnectionDB() //ยังไม่ได้เขียน db
-
-
-   // Generate databases
-
-//    config.SetupDatabase() //ยังไม่ได้เขียน db
-
-
+   config.ConnectionDB() //ยังไม่ได้เขียน db
+   config.SetupDatabase() //ยังไม่ได้เขียน db
    r := gin.Default()
-
-
    r.Use(CORSMiddleware())
-
-
-   // Auth Route
 
    router := r.Group("/")
 
    {
-
        router.Use(middlewares.Authorizes())
-
-
+       r.GET("/menu", controller.GetAllMenu)
+       r.GET("/menu/:id", controller.GetMenuByID)
    }
 
 
