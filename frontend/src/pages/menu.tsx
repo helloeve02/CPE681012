@@ -25,15 +25,15 @@ const Menu: React.FC = () => {
   }, []);
 
   return (
-    
+
     <div className="bg-gray-50 min-h-screen p-6">
       <div className="max-w-6xl mx-auto">
-       <div className="w-[10cm] h-[10px] bg-blue-500 mb-4">Menu List</div>
-       <div className="bg-red-500 text-white p-4">ทดสอบ</div>
-
+        <div style={{ width: "100vw",height: "50px",backgroundColor: "#3B82F6",marginBottom: "1rem"}}>
+          <h2 className="text-3xl font-bold text-black text-">Menu List</h2>
+        </div>
         {error && <Alert message={error} type="error" showIcon className="mb-4" />}
 
-        <Row gutter={[16,20]}>
+        <Row gutter={[16, 20]}>
           {menu.map((item) => (
             <Col xs={24} sm={12} md={8} lg={6} key={item.ID}>
               <Card title={`${item.Title || "No Title"}`} bordered={true}>
