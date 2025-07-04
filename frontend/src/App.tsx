@@ -1,10 +1,10 @@
 import React from "react";
-import Menu from "../src/pages/menu";
+import NutritionInput from "./pages/nutrition/NutritionInput";
 
 function App() {
   return (
     <div>
-      <Menu />
+      <NutritionInput />
     </div>
   );
 }
