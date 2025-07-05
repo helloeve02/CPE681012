@@ -1,35 +1,21 @@
 import { useState } from "react";
-import { Button, Dropdown, Input, Radio } from "antd";
+import { Button, Input, Radio, Select } from "antd";
 import type { RadioChangeEvent } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+
 const NutritionInput = () => {
-  const genderItems = [
-    { key: "1", label: "หญิง" },
-    { key: "2", label: "ชาย" },
-    { key: "3", label: "อื่นๆ" },
-  ];
-
-  const kidneyStages = [
-    { key: "1", label: "ไตระยะที่ 1" },
-    { key: "2", label: "ไตระยะที่ 2" },
-    { key: "3", label: "ไตระยะที่ 3" },
-    { key: "4", label: "ไตระยะที่ 4" },
-    { key: "5", label: "ไตระยะที่ 5" },
-  ];
-
-  const diabetesStages = [
-    { key: "1", label: "Type 1" },
-    { key: "2", label: "Type 2" },
-  ];
 
   const [disease, setDisease] = useState<number | null>(null);
-  const [kidneyStage, setKidneyStage] = useState<string | null>(null);
-  const [diabetesStage, setDiabetesStage] = useState<string | null>(null);
 
   const onDiseaseChange = (e: RadioChangeEvent) => {
     setDisease(e.target.value);
-    setKidneyStage(null);
-    setDiabetesStage(null);
+  };
+
+  const onChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
+  const onSearch = (value: string) => {
+    console.log("search:", value);
   };
 
   return (
@@ -44,56 +30,61 @@ const NutritionInput = () => {
         บอกเราเกี่ยวกับคุณ
       </div>
 
-      <div className="text-sm flex flex-col gap-[3vh] pl-10 pr-10 md:text-xl md:pl-20 md:pr-20">
+      <div className="text-sm grid gap-[3vh] pl-10 pr-10 md:text-xl md:pl-20 md:pr-20 lg:grid-cols-2">
         {/* เพศ */}
         <div className="flex flex-col gap-1">
-          <label className="font-bold">เพศ</label>
-          <Dropdown
-            menu={{
-              items: genderItems,
-              selectable: true,
-              defaultSelectedKeys: ["3"],
-            }}
-          >
-            <Input
-              readOnly
-              value={"กรุณากรอกเพศ"}
-              suffix={<DownOutlined />}
-              className="text-gray-400"
-            />
-          </Dropdown>
+          <label className="">เพศ</label>
+          <Select
+                showSearch
+                placeholder="เลือกเพศ"
+                optionFilterProp="label"
+                onChange={onChange}
+                onSearch={onSearch}
+                options={[
+                  {
+                    value: "m",
+                    label: "ชาย",
+                  },
+                  {
+                    value: "f",
+                    label: "หญิง",
+                  },
+                ]}
+                className="!font-kanit"
+                dropdownClassName="!font-kanit"
+              />
         </div>
 
         {/* อายุ */}
-        <div className="flex flex-col font-semibold gap-1">
+        <div className="flex flex-col gap-1">
           <label>อายุ</label>
-          <Input type="text" placeholder="อายุ" />
+          <Input type="text" placeholder="อายุ" className="!font-kanit"/>
         </div>
 
         {/* ส่วนสูง */}
-        <div className="flex flex-col font-semibold gap-1">
+        <div className="flex flex-col gap-1">
           <label>ส่วนสูง</label>
-          <Input type="text" placeholder="ส่วนสูง" />
+          <Input type="text" placeholder="ส่วนสูง" className="!font-kanit"/>
         </div>
 
         {/* น้ำหนัก */}
-        <div className="flex flex-col font-semibold gap-1">
+        <div className="flex flex-col gap-1">
           <label>น้ำหนัก</label>
-          <Input type="text" placeholder="น้ำหนัก" />
+          <Input type="text" placeholder="น้ำหนัก" className="!font-kanit"/>
         </div>
 
         {/* โรคของคุณ */}
-        <div className="flex flex-col gap-1 ">
-          <label className="font-semibold">โรคของคุณ</label>
+        <div className="flex flex-col gap-2">
+          <label>โรคของคุณ</label>
           <Radio.Group
             onChange={onDiseaseChange}
             value={disease}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center lg:justify-start lg:gap-50"
           >
-            <Radio value={1} className="text-sm md:text-xl font-kanit">
+            <Radio value={1} className="text-sm md:text-xl !font-kanit">
               เบาหวาน
             </Radio>
-            <Radio value={2} className="text-sm md:text-xl font-kanit">
+            <Radio value={2} className="text-sm md:text-xl !font-kanit">
               ไต
             </Radio>
           </Radio.Group>
@@ -102,27 +93,25 @@ const NutritionInput = () => {
           {disease === 1 && (
             <div className="mt-2 flex flex-col gap-y-3">
               <label className="font-normal">เลือกระยะเบาหวาน</label>
-              <Dropdown
-                menu={{
-                  items: diabetesStages,
-                  onClick: ({ key }) => setDiabetesStage(key),
-                  selectable: true,
-                  defaultSelectedKeys: diabetesStage ? [diabetesStage] : [],
-                }}
-              >
-                <Input
-                  readOnly
-                  value={
-                    diabetesStage
-                      ? diabetesStages.find(
-                          (item) => item.key === diabetesStage
-                        )?.label
-                      : "เลือกระยะเบาหวานของคุณ"
-                  }
-                  suffix={<DownOutlined />}
-                  className={diabetesStage ? "" : "text-[#BFBFBF] md:text-xl"}
-                />
-              </Dropdown>
+              <Select
+                showSearch
+                placeholder="เลือกระยะเบาหวาน"
+                optionFilterProp="label"
+                onChange={onChange}
+                onSearch={onSearch}
+                options={[
+                  {
+                    value: "type 1",
+                    label: "type 1",
+                  },
+                  {
+                    value: "type 2",
+                    label: "type 2",
+                  },
+                ]}
+                className="!font-kanit"
+                dropdownClassName="!font-kanit"
+              />
             </div>
           )}
 
@@ -130,35 +119,42 @@ const NutritionInput = () => {
           {disease === 2 && (
             <div className="mt-2 flex flex-col gap-y-3">
               <label className="font-normal">เลือกไตระยะ</label>
-              <Dropdown
-                menu={{
-                  items: kidneyStages,
-                  onClick: ({ key }) => setKidneyStage(key),
-                  selectable: true,
-                  defaultSelectedKeys: kidneyStage ? [kidneyStage] : [],
-                }}
-              >
-                <Input
-                  readOnly
-                  value={
-                    kidneyStage
-                      ? kidneyStages.find((item) => item.key === kidneyStage)
-                          ?.label
-                      : "เลือกไตระยะของคุณ"
-                  }
-                  suffix={<DownOutlined />}
-                  className={kidneyStage ? "" : "text-gray-400"}
-                />
-              </Dropdown>
+              <Select
+                showSearch
+                placeholder="เลือกระยะไต"
+                optionFilterProp="label"
+                onChange={onChange}
+                onSearch={onSearch}
+                options={[
+                  {
+                    value: "1",
+                    label: "ระยะที่ 1",
+                  },
+                  {
+                    value: "2",
+                    label: "ระยะที่ 2",
+                  },
+                  {
+                    value: "3a",
+                    label: "ระยะที่ 3a",
+                  },
+                ]}
+                className="!font-kanit"
+                dropdownClassName="!font-kanit"
+              />
             </div>
           )}
         </div>
       </div>
-      <div className="p-[4vh] md:pl-20 md:pr-20">
-        <Button type="primary" className="w-full md:text-2xl p-5 md:p-8">
-          ยืนยัน
-        </Button>
-      </div>
+      <div className="p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
+  <Button
+    type="primary"
+    className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
+  >
+    ยืนยัน
+  </Button>
+</div>
+
     </div>
   );
 };
