@@ -6,6 +6,7 @@ type Menu struct {
 	gorm.Model
 	Title		string
 	Description	string
+	Region		string
 
 	AdminID		uint
 	Admin 	Admin

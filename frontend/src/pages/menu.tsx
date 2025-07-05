@@ -1,7 +1,7 @@
 import type { MenuInterface } from "../interfaces/Menu";
 import { GetAllMenu } from "../services/https";
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Alert } from "antd";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
@@ -25,24 +25,45 @@ const Menu: React.FC = () => {
   }, []);
 
   return (
-
-    <div className="bg-gray-50 min-h-screen p-6">
-      <div className="max-w-6xl mx-auto">
-        <div style={{ width: "100vw",height: "50px",backgroundColor: "#3B82F6",marginBottom: "1rem"}}>
-          <h2 className="text-3xl font-bold text-black text-">Menu List</h2>
+    <div className="max-w mx-auto bg-white min-h-screen">
+      {/* Header */}
+      <div className="bg-blue-500 text-white px-4 py-6">
+        <div className="flex items-center justify-between mb-4">
+          <button className="p-2 rounded-full border border-white border-opacity-30">
+            <ChevronLeft size={20} />
+          </button>
+          <h1 className="text-lg font-medium">ความรู้ เมนูอาหารแนะนำ</h1>
+          <div className="w-8"></div>
         </div>
-        {error && <Alert message={error} type="error" showIcon className="mb-4" />}
+        <h2 className="text-2xl font-bold text-center">เมนูอาหารแนะนำ</h2>
+      </div>
 
-        <Row gutter={[16, 20]}>
-          {menu.map((item) => (
-            <Col xs={24} sm={12} md={8} lg={6} key={item.ID}>
-              <Card title={`${item.Title || "No Title"}`} bordered={true}>
-                {/* คุณสามารถเพิ่มคำอธิบายหรือรูปได้ที่นี่ ,,b*/}
-                {/* <p>{item.Description || "No Description"}</p> */}
-              </Card>
-            </Col>
-          ))}
-        </Row>
+      {/* Menu Items */}
+      <div className="p-4 space-y-4">
+        {menu.map((item) => (
+          <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                <img 
+                  // src={item.image} 
+                  alt={item.Title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <div className="flex items-center space-x-2 mb-1">
+                  <span className="text-yellow-500 text-sm">⭐</span>
+                  <span className="text-xs text-gray-600">{item.Region}</span>
+                </div>
+                <h3 className="font-medium text-gray-800">{item.Title}</h3>
+              </div>
+            </div>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm flex items-center space-x-1">
+              <span>ดูข้อมูลเพิ่มเติม</span>
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
