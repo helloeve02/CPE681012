@@ -30,7 +30,6 @@ func SetupDatabase() {
 	// Automigrate Tables
 	err := db.AutoMigrate(
 		&entity.Menu{},
-		&entity.MenuImage{},
 		&entity.Admin{},
 		&entity.DiseaseTag{},
 		&entity.Disease{},
@@ -68,6 +67,7 @@ func SetupDatabase() {
 		4. ใส่หมูบดลงไป ผัดจนหมูสุกและเข้ากันดี
 		5. ตักใส่จาน โรยหน้าด้วยต้นหอม ผักชี และใบแมงลักเพื่อความสวยงาม`,
 		Region: "ภาคเหนือ",
+		Image: "https://f.ptcdn.info/511/002/000/1361646707-IMG2766Med-o.jpg",
 		},
 		{
 			Title: "น้ำพริกอ่อง",
@@ -96,6 +96,7 @@ func SetupDatabase() {
 	5. ปรุงรสด้วยน้ำปลา และน้ำมะขามเปียก
 	6. ตักใส่ถ้วย แต่งหน้าด้วยผักชี รับประทานกับผักสด`,
 	Region: "ภาคเหนือ",
+	Image: "https://img.wongnai.com/p/1920x0/2017/09/24/c415bbcecc5145c9a967b132e28a1087.jpg",
 		},
 		{
 			Title: "แกงแคไก่บ้าน",
@@ -120,6 +121,7 @@ func SetupDatabase() {
 	4. เมื่อน้ำเดือดอีกครั้ง ใส่ผักสุกง่าย เช่น ใบชะพลู ชะอม ใบพริกอ่อน
 	5. รอให้เดือดอีกครั้ง แล้วยกลงจากเตา ตักเสิร์ฟร้อน ๆ`,
 	Region: "ภาคเหนือ",
+	Image: "https://i.ytimg.com/vi/Jvf4KMuuoEQ/maxresdefault.jpg", 
 		},
 		{
 			Title: "แกงส้มตูนปลานิล",
@@ -1066,9 +1068,8 @@ Region: "ภาคตะวันออกเฉียงเหนือ",
 	}
 
 	images := []entity.MenuImage{
-		{MenuID: 1, Image: "https://f.ptcdn.info/511/002/000/1361646707-IMG2766Med-o.jpg"},
-		{MenuID: 2, Image: "https://img.wongnai.com/p/1920x0/2017/09/24/c415bbcecc5145c9a967b132e28a1087.jpg"},
-		{MenuID: 3, Image: "https://i.ytimg.com/vi/Jvf4KMuuoEQ/maxresdefault.jpg"},
+		{MenuID: 2, },
+		{MenuID: 3, },
 		{MenuID: 4, Image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikO0YvxPPCqwJAgtPfgJjjdTX2oZvUWFvgAHLRItqY9q1UbwYqXBIEZqUmjsrk4wfTavQfzmLbPzMUSd6LBjZmxI3Vhag7jsOMyxPg3V2AVikonT_SdHb5CiDBbQkI2Fv68L8eMmlyKhM/s1600/%E0%B9%81%E0%B8%81%E0%B8%87%E0%B8%95%E0%B8%B9%E0%B8%99%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%9B%E0%B8%A5%E0%B8%B2.jpg"},
 		{MenuID: 5, Image: "https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSC41tBS2JyaLrHhBkHieCf4lwMRxT.jpg"},
 		{MenuID: 6, Image: "https://png.pngtree.com/thumb_back/fh260/background/20220324/pngtree-spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo-image_21814272.jpg"},

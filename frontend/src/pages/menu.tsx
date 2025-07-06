@@ -1,11 +1,13 @@
 import type { MenuInterface } from "../interfaces/Menu";
-import { GetAllMenu } from "../services/https";
+import { GetAllMenu, GetAllMenuImage} from "../services/https";
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+// import type { MenuImageInterface } from "../interfaces/MenuImage";
 
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
   const [error, setError] = useState("");
+  // const [image, setimage] = useState<MenuImageInterface[]>([]);
 
   const getAllMenu = async () => {
     try {
@@ -22,17 +24,27 @@ const Menu: React.FC = () => {
 
   useEffect(() => {
     getAllMenu();
+    // getAllMenuImage();
   }, []);
 
   return (
     <div className="max-w mx-auto bg-white min-h-screen">
       {/* Header */}
       <div className="bg-blue-500 text-white px-4 py-6">
+        <div className="flex">
+          <button className="ml-auto">
+            <h1 className="text-lg font-medium px-8">ความรู้</h1>
+          </button>
+          <button>
+            <h1 className="text-lg font-medium"> เมนูอาหารแนะนำ</h1>
+          </button>
+        </div>
+
         <div className="flex items-center justify-between mb-4">
           <button className="p-2 rounded-full border border-white border-opacity-30">
             <ChevronLeft size={20} />
           </button>
-          <h1 className="text-lg font-medium">ความรู้ เมนูอาหารแนะนำ</h1>
+          
           <div className="w-8"></div>
         </div>
         <h2 className="text-2xl font-bold text-center">เมนูอาหารแนะนำ</h2>
@@ -44,9 +56,8 @@ const Menu: React.FC = () => {
           <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
-                <img 
-                  // src={item.image} 
-                  alt={item.Title}
+                <img
+                  src={item.Image} 
                   className="w-full h-full object-cover"
                 />
               </div>

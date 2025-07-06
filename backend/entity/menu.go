@@ -7,9 +7,9 @@ type Menu struct {
 	Title		string
 	Description	string
 	Region		string
+	Image		string
 
 	AdminID		uint
 	Admin 	Admin
 
-	MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
 }
