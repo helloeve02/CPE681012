@@ -11,4 +11,7 @@ type Menu struct {
 	Admin 	Admin
 
 	MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
+	
+	// 1 Menu เป็นเจ้าของได้หลาย MealMenu
+	MealMenus []MealMenu `gorm:"foreignKey:MenuID"`
 }
