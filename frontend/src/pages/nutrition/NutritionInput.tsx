@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Input, Radio, Select } from "antd";
 import type { RadioChangeEvent } from "antd";
 
 const NutritionInput = () => {
-
   const [disease, setDisease] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  const handleConfirm = () => {
+    navigate("/nutrition-suggestion");
+  };
 
   const onDiseaseChange = (e: RadioChangeEvent) => {
     setDisease(e.target.value);
@@ -35,42 +40,42 @@ const NutritionInput = () => {
         <div className="flex flex-col gap-1">
           <label className="">เพศ</label>
           <Select
-                showSearch
-                placeholder="เลือกเพศ"
-                optionFilterProp="label"
-                onChange={onChange}
-                onSearch={onSearch}
-                options={[
-                  {
-                    value: "m",
-                    label: "ชาย",
-                  },
-                  {
-                    value: "f",
-                    label: "หญิง",
-                  },
-                ]}
-                className="!font-kanit"
-                dropdownClassName="!font-kanit"
-              />
+            showSearch
+            placeholder="เลือกเพศ"
+            optionFilterProp="label"
+            onChange={onChange}
+            onSearch={onSearch}
+            options={[
+              {
+                value: "m",
+                label: "ชาย",
+              },
+              {
+                value: "f",
+                label: "หญิง",
+              },
+            ]}
+            className="!font-kanit"
+            dropdownClassName="!font-kanit"
+          />
         </div>
 
         {/* อายุ */}
         <div className="flex flex-col gap-1">
           <label>อายุ</label>
-          <Input type="text" placeholder="อายุ" className="!font-kanit"/>
+          <Input type="text" placeholder="อายุ" className="!font-kanit" />
         </div>
 
         {/* ส่วนสูง */}
         <div className="flex flex-col gap-1">
           <label>ส่วนสูง</label>
-          <Input type="text" placeholder="ส่วนสูง" className="!font-kanit"/>
+          <Input type="text" placeholder="ส่วนสูง" className="!font-kanit" />
         </div>
 
         {/* น้ำหนัก */}
         <div className="flex flex-col gap-1">
           <label>น้ำหนัก</label>
-          <Input type="text" placeholder="น้ำหนัก" className="!font-kanit"/>
+          <Input type="text" placeholder="น้ำหนัก" className="!font-kanit" />
         </div>
 
         {/* โรคของคุณ */}
@@ -147,14 +152,14 @@ const NutritionInput = () => {
         </div>
       </div>
       <div className="p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
-  <Button
-    type="primary"
-    className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
-  >
-    ยืนยัน
-  </Button>
-</div>
-
+        <Button
+          type="primary"
+          className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
+          onClick={handleConfirm}
+        >
+          ยืนยัน
+        </Button>
+      </div>
     </div>
   );
 };
