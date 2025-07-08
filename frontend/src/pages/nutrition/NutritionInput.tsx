@@ -20,7 +20,7 @@ const NutritionInput = () => {
 
   return (
     <div className="h-screen font-kanit">
-      <div className="bg-[#2E77F8] w-full p-5 md:p-10 flex items-center justify-center text-white">
+      <div className="bg-[#2E77F8] p-5 md:p-8 flex items-center justify-center text-white">
         <div className="font-semibold text-2xl md:text-4xl">
           โภชนาการที่เหมาะกับคุณ
         </div>
