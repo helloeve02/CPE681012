@@ -1,0 +1,48 @@
+import React, { useState } from "react";
+import { MenuOutlined } from "@ant-design/icons";
+const NavBar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+  return (
+    //bg-[#2E77F8]
+    <div className="bg-[#2E77F8] p-3">
+      <div className="flex items-center justify-between">
+        <div className="text-white text-2xl font-bold pl-5 md:pl-10">NavBar</div>
+        <div className="md:hidden">
+          <MenuOutlined className="!text-white text-2xl pr-5 cursor-pointer" onClick={toggleMenu} />
+        </div>
+        <ul className="hidden md:flex space-x-15 mr-10 font-kanit">
+          <li>
+            <a href="#" className="text-white cursor-pointer">
+              ความรู้
+            </a>
+          </li>
+          <li>
+            <a href="#" className="text-white cursor-pointer">
+              เมนูอาหารแนะนำ
+            </a>
+          </li>
+        </ul>
+      </div>
+      {/* Mobile Menu */}
+      {isMenuOpen ? (
+      <ul className="md:hidden space-x-15 mr-10 font-kanit pl-8">
+        <li>
+          <a href="#" className="text-white cursor-pointer">
+            ความรู้
+          </a>
+        </li>
+        <li>
+          <a href="#" className="text-white cursor-pointer">
+            เมนูอาหารแนะนำ
+          </a>
+        </li>
+      </ul>
+      ) : null}
+    </div>
+  );
+};
+
+export default NavBar;
