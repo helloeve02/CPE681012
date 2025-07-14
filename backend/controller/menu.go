@@ -14,7 +14,7 @@ func GetAllMenu(c *gin.Context) {
 	db := config.DB()
 
 	// Query ดึงเมนูทั้งหมด พร้อม preload รูปภาพ
-	err := db.Preload("MenuImage").Find(&menu).Error
+	err := db.Find(&menu).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูลเมนูทั้งหมดได้"})
 		return
@@ -34,7 +34,7 @@ func GetMenuByID(c *gin.Context) {
 	db := config.DB()
 
 	// Query with joins to get the menu by ID and preload related images
-	err := db.Preload("MenuImage").First(&menu, "id = ?", menuID).Error
+	err := db.First(&menu, "id = ?", menuID).Error
 	if err != nil {
 		// Handle errors and return an appropriate response
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to fetch menu details"})
