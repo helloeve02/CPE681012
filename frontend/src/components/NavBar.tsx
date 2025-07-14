@@ -20,7 +20,7 @@ const NavBar = () => {
             </a>
           </li>
           <li>
-            <a href="#" className="text-white cursor-pointer">
+            <a href="menu" className="text-white cursor-pointer">
               เมนูอาหารแนะนำ
             </a>
           </li>
