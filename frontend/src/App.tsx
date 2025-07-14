@@ -1,11 +1,20 @@
 import React from "react";
-import Menu from "../src/pages/menu";
+import NutritionInput from "./pages/nutrition/NutritionInput";
+import NutritionSuggestion from "./pages/nutrition/NutritionSuggestion";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Menu from "./pages/Menu/menu"
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
-    <div>
-      <Menu />
-    </div>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<NutritionInput />} />
+        <Route path="/nutrition-suggestion" element={<NutritionSuggestion />} />
+        <Route path="/menu" element={<Menu />} />
+      </Routes>
+    </Router>
   );
 }
 

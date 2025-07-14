@@ -12,4 +12,6 @@ type Menu struct {
 	AdminID		uint
 	Admin 	Admin
 
+	// MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
+	MealMenus []MealMenu `gorm:"foreignKey:MenuID"`
 }

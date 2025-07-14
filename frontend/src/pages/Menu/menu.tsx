@@ -1,5 +1,5 @@
-import type { MenuInterface } from "../interfaces/Menu";
-import { GetAllMenu, GetAllMenuImage} from "../services/https";
+import type { MenuInterface } from "../../interfaces/Menu";
+import { GetAllMenu, GetAllMenuImage} from "../../services/https";
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 // import type { MenuImageInterface } from "../interfaces/MenuImage";
@@ -31,15 +31,6 @@ const Menu: React.FC = () => {
     <div className="max-w mx-auto bg-white min-h-screen">
       {/* Header */}
       <div className="bg-blue-500 text-white px-4 py-6">
-        <div className="flex">
-          <button className="ml-auto">
-            <h1 className="text-lg font-medium px-8">ความรู้</h1>
-          </button>
-          <button>
-            <h1 className="text-lg font-medium"> เมนูอาหารแนะนำ</h1>
-          </button>
-        </div>
-
         <div className="flex items-center justify-between mb-4">
           <button className="p-2 rounded-full border border-white border-opacity-30">
             <ChevronLeft size={20} />
