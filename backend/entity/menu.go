@@ -6,12 +6,12 @@ type Menu struct {
 	gorm.Model
 	Title		string
 	Description	string
+	Region		string
+	Image		string
 
 	AdminID		uint
 	Admin 	Admin
 
-	MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
-	
-	// 1 Menu เป็นเจ้าของได้หลาย MealMenu
+	// MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
 	MealMenus []MealMenu `gorm:"foreignKey:MenuID"`
 }

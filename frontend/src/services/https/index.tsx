@@ -25,7 +25,15 @@ async function GetMenuById(id: string) {
 
 }
 
+async function GetAllMenuImage() {
+  return await axios
+    .get(`${apiUrl}/menuimage`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
-    GetMenuById
+    GetMenuById,
+    GetAllMenuImage
 }
