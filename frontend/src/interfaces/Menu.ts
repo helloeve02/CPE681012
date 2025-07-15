@@ -1,4 +1,5 @@
 export interface MenuInterface {
+    toLowerCase(): unknown;
     ID?: number;
     Title?: string;
     Description?: string;
