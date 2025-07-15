@@ -6,6 +6,7 @@ import Menu from "./pages/Menu/menu"
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/home/HomePage";
 import ChooseAvoid from "./pages/nutrition/ChooseAvoid";
+import MenuDetail from "./pages/Menu/menudetails";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/nutrition-suggestion" element={<NutritionSuggestion />} />
         <Route path="/choose-avoid" element={<ChooseAvoid />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/menu/:id" element={<MenuDetail />} />
       </Routes>
     </Router>
   );
