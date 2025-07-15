@@ -1,26 +1,47 @@
 import React, { useState } from "react";
 import { MenuOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 const NavBar = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleIconClick = () => {
+    navigate("/");
+  };
+
+  const handleMenuClick = () => {
+    navigate("/menu");
+  };
+
+  const handleNutritionClick = () => {
+    navigate("/nutrition");
+  };
+
   return (
     //bg-[#2E77F8]
     <div className="bg-[#2E77F8] p-3">
       <div className="flex items-center justify-between">
-        <div className="text-white text-2xl font-bold pl-5 md:pl-10">NavBar</div>
+        <div onClick={handleIconClick} className="text-white text-4xl font-bold pl-5 cursor-pointer md:pl-10">NavBar</div>
         <div className="md:hidden">
           <MenuOutlined className="!text-white text-2xl pr-5 cursor-pointer" onClick={toggleMenu} />
         </div>
-        <ul className="hidden md:flex space-x-15 mr-10 font-kanit">
+        <ul className="text-xl hidden md:flex space-x-15 mr-10 font-kanit">
           <li>
-            <a href="#" className="text-white cursor-pointer">
+            <a onClick={handleNutritionClick} className="text-white cursor-pointer">
+              โภชนาการที่เหมาะกับคุณ
+            </a>
+          </li>
+          <li>
+            <a className="text-white cursor-pointer">
               ความรู้
             </a>
           </li>
           <li>
-            <a href="menu" className="text-white cursor-pointer">
+            <a onClick={handleMenuClick} className="text-white cursor-pointer">
               เมนูอาหารแนะนำ
             </a>
           </li>
@@ -30,12 +51,17 @@ const NavBar = () => {
       {isMenuOpen ? (
       <ul className="md:hidden space-x-15 mr-10 font-kanit pl-8">
         <li>
+            <a onClick={handleNutritionClick} className="text-white cursor-pointer">
+              โภชนาการที่เหมาะกับคุณ
+            </a>
+          </li>
+        <li>
           <a href="#" className="text-white cursor-pointer">
             ความรู้
           </a>
         </li>
         <li>
-          <a href="#" className="text-white cursor-pointer">
+          <a onClick={handleMenuClick} className="text-white cursor-pointer">
             เมนูอาหารแนะนำ
           </a>
         </li>

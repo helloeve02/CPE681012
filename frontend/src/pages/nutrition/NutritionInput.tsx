@@ -63,20 +63,21 @@ const NutritionInput = () => {
         {/* อายุ */}
         <div className="flex flex-col gap-1">
           <label>อายุ</label>
-          <Input type="text" placeholder="อายุ" className="!font-kanit" />
+          <Input type="number" placeholder="อายุ" className="!font-kanit" />
         </div>
 
         {/* ส่วนสูง */}
         <div className="flex flex-col gap-1">
           <label>ส่วนสูง</label>
-          <Input type="text" placeholder="ส่วนสูง" className="!font-kanit" />
+          <Input type="number" placeholder="ส่วนสูง" className="!font-kanit" />
         </div>
 
-        {/* น้ำหนัก */}
+        {/* น้ำหนัก 
         <div className="flex flex-col gap-1">
           <label>น้ำหนัก</label>
           <Input type="text" placeholder="น้ำหนัก" className="!font-kanit" />
         </div>
+        */}
 
         {/* โรคของคุณ */}
         <div className="flex flex-col gap-2">
@@ -132,16 +133,20 @@ const NutritionInput = () => {
                 onSearch={onSearch}
                 options={[
                   {
-                    value: "1",
-                    label: "ระยะที่ 1",
+                    value: "1-3a",
+                    label: "1-3a",
                   },
                   {
-                    value: "2",
-                    label: "ระยะที่ 2",
+                    value: "3a-5",
+                    label: "3a-5",
                   },
                   {
-                    value: "3a",
-                    label: "ระยะที่ 3a",
+                    value: "hd",
+                    label: "HD",
+                  },
+                  {
+                    value: "capd",
+                    label: "CAPD",
                   },
                 ]}
                 className="!font-kanit"

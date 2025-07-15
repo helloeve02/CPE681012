@@ -104,7 +104,7 @@ const NutritionSuggestion = () => {
             <hr className="border-t border-gray-400" />
             <ul className="list-disc list-inside space-y-1">
               {mealOrder.map((mealTime) =>
-                meals[mealTime] ? (
+                meals[mealTime] && meals[mealTime].amount !== 0 ? (
                   <li className="md:pl-5" key={mealTime}>
                     {mealTime}: {meals[mealTime].amount} {meals[mealTime].unit}
                   </li>
