@@ -3,6 +3,7 @@ import { GetAllMenu } from "../../services/https";
 import React, { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 // import type { MenuImageInterface } from "../interfaces/MenuImage";
+import { Link } from 'react-router-dom';
 
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
@@ -56,7 +57,7 @@ const Menu: React.FC = () => {
           placeholder="ค้นหาเมนู..."
           className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-kanit"
         />
-        
+
       </div>
 
       {/* Menu Items */}
@@ -83,10 +84,12 @@ const Menu: React.FC = () => {
               </div>
             </div>
 
-            <button className="w-40 max-w-sm bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded-full flex items-center justify-center space-x-1 text-sm sm:text-base font-kanit shadow">
-              <span>ดูข้อมูลเพิ่มเติม</span>
-              <ChevronRight size={19} />
-            </button>
+            <Link to={`/menu/${item.ID}`}>
+              <button className="w-40 max-w-sm bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded-full flex items-center justify-center space-x-1 text-sm sm:text-base font-kanit shadow">
+                <span>ดูข้อมูลเพิ่มเติม</span>
+                <ChevronRight size={19} />
+              </button>
+            </Link>
           </div>
         ))}
       </div>
