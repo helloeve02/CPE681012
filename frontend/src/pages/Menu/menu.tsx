@@ -35,7 +35,7 @@ const Menu: React.FC = () => {
           <button className="p-2 rounded-full border border-white border-opacity-30">
             <ChevronLeft size={20} />
           </button>
-          <h2 className="text-3xl text-center font-kanit">เมนูอาหารแนะนำ</h2>
+          <h2 className="font-semibold text-4xl text-center font-kanit">เมนูอาหารแนะนำ</h2>
           <div className="w-8"></div>
         </div>
 
@@ -59,16 +59,27 @@ const Menu: React.FC = () => {
               <div>
                 <div className="flex items-center space-x-2 mb-4">
                   <span className="text-yellow-500 text-xl">⭐</span>
-                  <span className="text-xl font-kanit text-yellow-600">{item.Region}</span>
+
+                  {/* ทำให้ยืดหยุ่น + responsive + จำกัดความกว้างสูงสุด */}
+                  <span className="text-sm sm:text-base font-kanit text-yellow-600 w-full max-w-xs sm:max-w-sm truncate">
+                    {item.Region}
+                  </span>
                 </div>
-                <h3 className="text-2xl font-kanit text-gray-800 ml-3">{item.Title}</h3>
+
+                {/* Title ปรับระยะ + responsive font */}
+                <h3 className="text-lg sm:text-xl font-kanit text-gray-800 ml-3">
+                  {item.Title}
+                </h3>
               </div>
+
             </div>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-full flex items-center space-x-1 text-xl font-kanit">
+            <button className="w-40 max-w-sm bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded-full flex items-center justify-center space-x-1 text-sm sm:text-base font-kanit shadow">
               <span>ดูข้อมูลเพิ่มเติม</span>
               <ChevronRight size={19} />
             </button>
+
           </div>
+
         ))}
       </div>
     </div>
