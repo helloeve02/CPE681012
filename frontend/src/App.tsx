@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./pages/Menu/menu"
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/home/HomePage";
+import ChooseAvoid from "./pages/nutrition/ChooseAvoid";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/nutrition" element={<NutritionInput />} />
         <Route path="/nutrition-suggestion" element={<NutritionSuggestion />} />
+        <Route path="/choose-avoid" element={<ChooseAvoid />} />
         <Route path="/menu" element={<Menu />} />
       </Routes>
     </Router>
