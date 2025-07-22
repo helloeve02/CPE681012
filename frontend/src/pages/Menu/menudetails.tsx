@@ -56,24 +56,20 @@ const ingredients = extractIngredients(description);
     <div className="max-w mx-auto bg-white min-h-screen">
       {/* Header */}
       <div className="bg-[#2E77F8] text-white px-4 py-6">
-        <div className="flex items-center justify-between mb-4">
-          <button className="p-2 rounded-full border border-white border-opacity-30">
-            <ChevronLeft size={20} />
-          </button>
           <h2 className="font-semibold text-4xl text-center font-kanit">เมนูอาหารแนะนำ</h2>
           <div className="w-8"></div>
-        </div>
       </div>
 
       {/* Food Image */}
       <div className="px-4 py-6">
-        <div className="w-full h-48 bg-gray-200 rounded-lg overflow-hidden mb-4">
-          <img
-            src={menu.Image}
-            alt={menu.Title}
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <div className="w-full max-w-2xl aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden mb-4 mx-auto">
+  <img
+    src={menu.Image}
+    alt={menu.Title}
+    className="w-full h-full object-cover"
+  />
+</div>
+
 
         {/* Category Badge */}
         <div className="flex items-center space-x-2 mb-4">

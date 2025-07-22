@@ -38,14 +38,8 @@ const Menu: React.FC = () => {
     <div className="max-w mx-auto bg-white min-h-screen">
       {/* Header */}
       <div className="bg-[#2E77F8] text-white px-4 py-6">
-        <div className="flex items-center justify-between mb-4">
-          <button className="p-2 rounded-full border border-white border-opacity-30">
-            <ChevronLeft size={20} />
-          </button>
           <h2 className="font-semibold text-4xl text-center font-kanit">เมนูอาหารแนะนำ</h2>
           <div className="w-8"></div>
-        </div>
-
       </div>
       <div className="relative max-w-md mx-auto mt-5 ">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#2E77F8]" size={20} />
