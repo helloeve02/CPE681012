@@ -53,7 +53,7 @@ const Menu: React.FC = () => {
         />
 
       </div>
-
+    
       {/* Menu Items */}
       <div className="p-4 space-y-4">
         {query && filteredItems.length === 0 && (
@@ -86,7 +86,13 @@ const Menu: React.FC = () => {
             </Link>
           </div>
         ))}
+        <div className="bg-[#2E77F8] text-white px-4 py-6">
+          <h2 className="font-semibold text-4xl text-center font-kanit">ผัก ผลไม้ แนะนำ</h2>
+          <div className="w-8"></div>
       </div>
+      <h1>ไก่พพ</h1>
+      </div>
+      
 
     </div>
   );
