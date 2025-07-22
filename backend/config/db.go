@@ -37,6 +37,10 @@ func SetupDatabase() {
 		&entity.FiveFoodGroups{},
 		&entity.Ingredients{},
 		&entity.Tag{},
+		&entity.MealMenu{},
+		&entity.Meal{},
+		&entity.Mealday{},
+		&entity.Mealplan{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
@@ -1106,5 +1110,111 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 		db.FirstOrCreate(&pkg, entity.Menu{Title: pkg.Title})
 	}
 
-	
+	Meals := []entity.Meal{
+	{MealdayID: 1, MealType: "มื้อเช้า"},
+	{MealdayID: 1, MealType: "มื้อว่าง"},
+	{MealdayID: 1, MealType: "มื้อกลางวัน"},
+	{MealdayID: 1, MealType: "มื้อเย็น"},
+	{MealdayID: 2, MealType: "มื้อเช้า"},
+	{MealdayID: 2, MealType: "มื้อว่าง"},
+	{MealdayID: 2, MealType: "มื้อกลางวัน"},
+	{MealdayID: 2, MealType: "มื้อเย็น"},
+	{MealdayID: 3, MealType: "มื้อเช้า"},
+	{MealdayID: 3, MealType: "มื้อว่าง"},
+	{MealdayID: 3, MealType: "มื้อกลางวัน"},
+	{MealdayID: 3, MealType: "มื้อเย็น"},
+	{MealdayID: 4, MealType: "มื้อเช้า"},
+	{MealdayID: 4, MealType: "มื้อว่าง"},
+	{MealdayID: 4, MealType: "มื้อกลางวัน"},
+	{MealdayID: 4, MealType: "มื้อเย็น"},
+	{MealdayID: 5, MealType: "มื้อเช้า"},
+	{MealdayID: 5, MealType: "มื้อว่าง"},
+	{MealdayID: 5, MealType: "มื้อกลางวัน"},
+	{MealdayID: 5, MealType: "มื้อเย็น"},
+	{MealdayID: 6, MealType: "มื้อเช้า"},
+	{MealdayID: 6, MealType: "มื้อว่าง"},
+	{MealdayID: 6, MealType: "มื้อกลางวัน"},
+	{MealdayID: 6, MealType: "มื้อเย็น"},
+	{MealdayID: 7, MealType: "มื้อเช้า"},
+	{MealdayID: 7, MealType: "มื้อว่าง"},
+	{MealdayID: 7, MealType: "มื้อกลางวัน"},
+	{MealdayID: 7, MealType: "มื้อเย็น"},
+	}
+
+	for _, mealtype := range Meals {
+		db.FirstOrCreate(&mealtype, entity.Meal{
+			MealdayID: mealtype.MealdayID,
+			MealType: mealtype.MealType,
+		})
+	}
+
+	Mealdays := []entity.Mealday{
+	{MealplanID: 1, DayofWeek: "วันจันทร์"},
+	{MealplanID: 1, DayofWeek: "วันอังคาร"},
+	{MealplanID: 1, DayofWeek: "วันพุธ"},
+	{MealplanID: 1, DayofWeek: "วันพฤหัสบดี"},
+	{MealplanID: 1, DayofWeek: "วันศุกร์"},
+	{MealplanID: 1, DayofWeek: "วันเสาร์"},
+	{MealplanID: 1, DayofWeek: "วันอาทิตย์"},
+	}
+
+	for _, day := range Mealdays {
+	db.FirstOrCreate(&day, entity.Mealday{
+		MealplanID: day.MealplanID,
+		DayofWeek:  day.DayofWeek,
+		})
+	}
+
+	MealMenus := []entity.MealMenu{
+	{MealID: 1, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 2, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
+	{MealID: 3, MenuID: 6, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 4, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 5, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 6, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
+	{MealID: 7, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 8, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 9, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 10, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
+	{MealID: 11, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 12, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 13, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 14, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
+	{MealID: 15, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 16, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 17, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 18, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
+	{MealID: 19, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 20, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 21, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 22, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
+	{MealID: 23, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 24, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 25, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 26, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
+	{MealID: 27, MenuID: 30, MenuType: "เมนูหลัก" , PortionText: ""},
+	{MealID: 28, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+	}
+
+	for _, mealmenu := range MealMenus {
+		db.FirstOrCreate(&mealmenu, entity.MealMenu{
+			MealID: mealmenu.MealID,
+			MenuID: mealmenu.MenuID,
+			MenuType: mealmenu.MenuType,
+			PortionText: mealmenu.PortionText,
+		})
+	}
+
+	Mealplans := []entity.Mealplan{
+		{AdminID: 1,DiseaseID: 1,PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+	}
+
+	for _, mealplan := range Mealplans {
+		db.FirstOrCreate(&mealplan, entity.Mealplan{
+			AdminID: mealplan.AdminID,
+			DiseaseID: mealplan.DiseaseID,
+			PlanName: mealplan.PlanName,
+		})
+	}
+
 }
