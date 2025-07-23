@@ -36,7 +36,7 @@ const AssessmentSlider: React.FC = () => {
     <section>
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">แบบประเมินสุขภาพ</h2>
-        <Link to="/SelectAssessmentCategoryPage" className="text-blue-500 text-sm hover:underline">
+        <Link to="/selectassessmentcategorypage" className="text-blue-500 text-sm hover:underline">
           ดูทั้งหมด
         </Link>
       </div>

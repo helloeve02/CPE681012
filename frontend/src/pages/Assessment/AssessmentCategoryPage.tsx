@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 const healthSections = [
   {
     title: "สุขภาพทั่วไป",
-    items: [{ label: "บันทึกสุขภาพและดัชนีมวลกาย", path: "/assessment/general" }],
+    items: [{ label: "บันทึกสุขภาพและดัชนีมวลกาย", path: "/assessment/information/bmi" }],
   },
   {
     title: "โรคเสี่ยงพบบ่อย",
     items: [
-      { label: "โรคเบาหวาน", path: "/assessment/diabetes" },
+      { label: "โรคเบาหวาน", path: "/assessment/selectagerange" },
       { label: "โรคไต", path: "/assessment/kidney" },
     ],
   },
