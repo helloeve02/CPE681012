@@ -49,7 +49,6 @@ func SetupDatabase() {
 		&entity.NutritionReccomentation{},
 		&entity.PortionReccomentation{},
 		&entity.Rule{},
-		&entity.Stage{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
@@ -1328,7 +1327,7 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 	}
 
 	Rules := []entity.Rule{
-		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, StageID: 1},
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1},
 	}
 
 	for _, rule := range Rules {
@@ -1336,32 +1335,23 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 			Calories: rule.Calories,
 			IbwRangeID: rule.IbwRangeID,
 			AgeRangeID: rule.AgeRangeID,
-			StageID: rule.StageID,
+			DiseaseID: rule.DiseaseID,
 		})
 	}
 
 	Diseases := []entity.Disease{
-		{Name: "โรคไต"},
-		{Name: "โรคเบาหวาน"},
+		{Name: "โรคไต", Stage: "1-3a"},
+		{Name: "โรคไต", Stage: "3b-5"},
+		{Name: "โรคไต", Stage: "HD"},
+		{Name: "โรคไต", Stage: "CAPD"},
+		{Name: "โรคเบาหวาน", Stage: "Type 1"},
+		{Name: "โรคเบาหวาน", Stage: "Type 2"},
 	}
 
 	for _, disease := range Diseases {
 		db.FirstOrCreate(&disease, entity.Disease{
 			Name: disease.Name,
-		})
-	}
-
-	Stages := []entity.Stage{
-		{Stage: "1-3a", DiseaseID: 1},
-		{Stage: "3b-5", DiseaseID: 1},
-		{Stage: "HD", DiseaseID: 1},
-		{Stage: "CAPD", DiseaseID: 1},
-	}
-
-	for _, rule := range Stages {
-		db.FirstOrCreate(&rule, entity.Stage{
-			Stage: rule.Stage,
-			DiseaseID: rule.DiseaseID,
+			Stage: disease.Stage,
 		})
 	}
 
