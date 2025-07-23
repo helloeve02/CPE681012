@@ -34,7 +34,7 @@ const SelectAgeRange: React.FC = () => {
 
         {/* ปุ่ม: อินโฟกราฟฟิก */}
         <button
-          onClick={() => navigate("#")}
+          onClick={() => navigate("/assessment/diabeteslessassessmentpage")}
           className="flex items-center justify-between bg-gray-200 hover:bg-gray-300 px-5 py-3 rounded-xl w-full transition duration-200 shadow-sm"
         >
           <span className="text-gray-700 font-medium">ฉันอายุระหว่าง 15 - 34 ปี</span>

@@ -16,6 +16,8 @@ import GeneralHealthIntroPage from "./pages/Assessment/BMI/InformationBMI";
 import BMICalculatorResultPage from "./pages/Assessment/BMI/BMICalculatorResultPage";
 import SelectAgeRange from "./pages/Assessment/Diabetes/SelectAge";
 import DiabetesMoreAssessmentPage from "./pages/Assessment/Diabetes/More";
+import DiabetesLessAssessmentPage from "./pages/Assessment/Diabetes/Less";
+import KidneyriskAssessmentPage from "./pages/Assessment/Kidney/Kidney";
 
 function App() {
   return (
@@ -37,6 +39,9 @@ function App() {
         <Route path="/assessment/bmiresult" element={<BMICalculatorResultPage />} />
         <Route path="/assessment/selectagerange" element={<SelectAgeRange />} />
         <Route path="/assessment/diabetesmoreassessmentpage" element={<DiabetesMoreAssessmentPage />} />
+        <Route path="/assessment/diabeteslessassessmentpage" element={<DiabetesLessAssessmentPage />} />
+        <Route path="/assessment/kidneyriskassessmentpage" element={<KidneyriskAssessmentPage />} />
+        
 
 
       </Routes>
