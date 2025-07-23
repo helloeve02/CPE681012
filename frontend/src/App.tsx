@@ -1,21 +1,21 @@
 import React from "react";
-import NutritionInput from "./pages/nutrition/NutritionInput";
-import NutritionSuggestion from "./pages/nutrition/NutritionSuggestion";
+import NutritionInput from "./pages/Nutrition/NutritionInput";
+import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./pages/Menu/menu"
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/Home/HomePage";
-import MenuDetail from "./pages/Menu/Menudetails"
-import NewsCategoryPage from "./pages/Knowledge_News/NewsCategoryPage";
-import MediaNewsPage from "./pages/Knowledge_News/Multimedia";
-import InfographicNewsPage from "./pages/Knowledge_News/Infographic";
+import ChooseAvoid from "./pages/Nutrition/ChooseAvoid";
+import MenuDetail from "./pages/Menu/menudetails";
+import NewsCategoryPage from "./pages/KnowledgeNews/NewsCategoryPage";
+import MediaNewsPage from "./pages/KnowledgeNews/Multimedia";
+import InfographicNewsPage from "./pages/KnowledgeNews/Infographic";
 import HealthAssessmentPage from "./pages/Assessment/AssessmentCategoryPage";
 import BMICalculator from "./pages/Assessment/BMI/BMI";
 import GeneralHealthIntroPage from "./pages/Assessment/BMI/InformationBMI";
 import BMICalculatorResultPage from "./pages/Assessment/BMI/BMICalculatorResultPage";
 import SelectAgeRange from "./pages/Assessment/Diabetes/SelectAge";
 import DiabetesMoreAssessmentPage from "./pages/Assessment/Diabetes/More";
-
 
 function App() {
   return (
@@ -25,6 +25,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/nutrition" element={<NutritionInput />} />
         <Route path="/nutrition-suggestion" element={<NutritionSuggestion />} />
+        <Route path="/choose-avoid" element={<ChooseAvoid />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/menu/:id" element={<MenuDetail />} />
         <Route path="/selectnewscategorypage" element={<NewsCategoryPage />} />
