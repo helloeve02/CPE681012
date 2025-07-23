@@ -15,9 +15,9 @@ type Rule struct {
 	AgeRangeID uint
 	AgeRange AgeRange `gorm:"foreignKey:AgeRangeID"`
 
-	// StageID ทำหน้าที่เป็น FK
-	StageID uint
-	Stage Stage `gorm:"foreignKey:StageID"`
+	// DiseaseID ทำหน้าที่เป็น FK
+	DiseaseID uint
+	Disease Disease `gorm:"foreignKey:DiseaseID"`
 
 	// 1 Rule เป็นเจ้าของได้หลาย PortionReccomentation
 	PortionReccomentations []PortionReccomentation `gorm:"foreignKey:RuleID"`
