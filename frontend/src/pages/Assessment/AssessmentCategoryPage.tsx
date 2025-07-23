@@ -10,7 +10,7 @@ const healthSections = [
     title: "โรคเสี่ยงพบบ่อย",
     items: [
       { label: "โรคเบาหวาน", path: "/assessment/selectagerange" },
-      { label: "โรคไต", path: "/assessment/kidney" },
+      { label: "โรคไต", path: "/assessment/kidneyriskassessmentpage" },
     ],
   },
   {

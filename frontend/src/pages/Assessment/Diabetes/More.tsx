@@ -63,15 +63,15 @@ const DiabetesMoreAssessmentPage: React.FC = () => {
           </div>
 
           {/* Basic Inputs */}
-          <input name="weight" type="number" onChange={handleChange} placeholder="น้ำหนัก" className="input-field" />
-          <input name="height" type="number" onChange={handleChange} placeholder="ส่วนสูง" className="input-field" />
-          <input name="waist" type="number" onChange={handleChange} placeholder="รอบเอว วัดในระดับสะดือ" className="input-field" />
+          <input name="weight" type="number" onChange={handleChange} placeholder="น้ำหนัก" className="w-full px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-sm" />
+          <input name="height" type="number" onChange={handleChange} placeholder="ส่วนสูง" className="w-full px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-sm" />
+          <input name="waist" type="number" onChange={handleChange} placeholder="รอบเอว วัดในระดับสะดือ" className="w-full px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-sm" />
 
           {/* Blood Pressure */}
           <h2 className="text-sm font-bold text-gray-800 mt-4">ค่าความดัน</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input name="systolic" type="number" onChange={handleChange} placeholder="ค่าความดันตัวบน" className="input-field" />
-            <input name="diastolic" type="number" onChange={handleChange} placeholder="ค่าความดันตัวล่าง" className="input-field" />
+            <input name="systolic" type="number" onChange={handleChange} placeholder="ค่าความดันตัวบน" className="w-full px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-sm" />
+            <input name="diastolic" type="number" onChange={handleChange} placeholder="ค่าความดันตัวล่าง" className="w-full px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-sm" />
           </div>
 
           {/* Blood Sugar */}
@@ -81,7 +81,7 @@ const DiabetesMoreAssessmentPage: React.FC = () => {
             type="number"
             onChange={handleChange}
             placeholder="ระดับน้ำตาลในเลือดขณะอดอาหาร"
-            className="input-field"
+            className="w-full px-4 py-2 rounded-md border border-gray-300 bg-gray-100 text-sm"
           />
 
           {/* Family History */}
