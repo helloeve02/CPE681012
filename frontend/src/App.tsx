@@ -4,8 +4,13 @@ import NutritionSuggestion from "./pages/nutrition/NutritionSuggestion";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./pages/Menu/menu"
 import NavBar from "./components/NavBar";
-import HomePage from "./pages/home/HomePage";
+import HomePage from "./pages/Home/HomePage";
 import MenuDetail from "./pages/Menu/Menudetails"
+import NewsCategoryPage from "./pages/Knowledge_News/NewsCategoryPage";
+import MediaNewsPage from "./pages/Knowledge_News/Multimedia";
+import InfographicNewsPage from "./pages/Knowledge_News/Infographic";
+import HealthAssessmentPage from "./pages/Assessment/AssessmentCategoryPage";
+
 
 function App() {
   return (
@@ -17,6 +22,10 @@ function App() {
         <Route path="/nutrition-suggestion" element={<NutritionSuggestion />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/menu/:id" element={<MenuDetail />} />
+        <Route path="/SelectNewsCategoryPage" element={<NewsCategoryPage  />} />
+        <Route path="/MediaNewsPage" element={<MediaNewsPage  />} />
+        <Route path="/InfographicNewsPage" element={<InfographicNewsPage  />} />
+        <Route path="/SelectAssessmentCategoryPage" element={<HealthAssessmentPage  />} />
       </Routes>
     </Router>
   );
