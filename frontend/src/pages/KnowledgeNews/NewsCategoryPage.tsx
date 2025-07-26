@@ -25,7 +25,7 @@ const NewsCategoryPage: React.FC = () => {
 
         {/* ปุ่ม: สื่อมัลติมีเดีย */}
         <button
-          onClick={() => navigate("/MediaNewsPage")}
+          onClick={() => navigate("/medianewspage")}
           className="flex items-center justify-between bg-gray-200 hover:bg-gray-300 px-5 py-3 rounded-xl w-full transition duration-200 shadow-sm"
         >
           <span className="text-gray-700 font-medium">สื่อมัลติมีเดีย</span>
@@ -34,7 +34,7 @@ const NewsCategoryPage: React.FC = () => {
 
         {/* ปุ่ม: อินโฟกราฟฟิก */}
         <button
-          onClick={() => navigate("/InfographicNewsPage")}
+          onClick={() => navigate("/infographicnewspage")}
           className="flex items-center justify-between bg-gray-200 hover:bg-gray-300 px-5 py-3 rounded-xl w-full transition duration-200 shadow-sm"
         >
           <span className="text-gray-700 font-medium">อินโฟกราฟฟิก</span>

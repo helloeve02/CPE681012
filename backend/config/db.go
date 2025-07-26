@@ -41,6 +41,14 @@ func SetupDatabase() {
 		&entity.Meal{},
 		&entity.Mealday{},
 		&entity.Mealplan{},
+		&entity.AgeRange{},
+		&entity.FoodGroup{},
+		&entity.IbwRange{},
+		&entity.MealTime{},
+		&entity.NutritionGroup{},
+		&entity.NutritionReccomentation{},
+		&entity.PortionReccomentation{},
+		&entity.Rule{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
@@ -1111,34 +1119,34 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 	}
 
 	Meals := []entity.Meal{
-	{MealdayID: 1, MealType: "มื้อเช้า"},
-	{MealdayID: 1, MealType: "มื้อว่าง"},
-	{MealdayID: 1, MealType: "มื้อกลางวัน"},
-	{MealdayID: 1, MealType: "มื้อเย็น"},
-	{MealdayID: 2, MealType: "มื้อเช้า"},
-	{MealdayID: 2, MealType: "มื้อว่าง"},
-	{MealdayID: 2, MealType: "มื้อกลางวัน"},
-	{MealdayID: 2, MealType: "มื้อเย็น"},
-	{MealdayID: 3, MealType: "มื้อเช้า"},
-	{MealdayID: 3, MealType: "มื้อว่าง"},
-	{MealdayID: 3, MealType: "มื้อกลางวัน"},
-	{MealdayID: 3, MealType: "มื้อเย็น"},
-	{MealdayID: 4, MealType: "มื้อเช้า"},
-	{MealdayID: 4, MealType: "มื้อว่าง"},
-	{MealdayID: 4, MealType: "มื้อกลางวัน"},
-	{MealdayID: 4, MealType: "มื้อเย็น"},
-	{MealdayID: 5, MealType: "มื้อเช้า"},
-	{MealdayID: 5, MealType: "มื้อว่าง"},
-	{MealdayID: 5, MealType: "มื้อกลางวัน"},
-	{MealdayID: 5, MealType: "มื้อเย็น"},
-	{MealdayID: 6, MealType: "มื้อเช้า"},
-	{MealdayID: 6, MealType: "มื้อว่าง"},
-	{MealdayID: 6, MealType: "มื้อกลางวัน"},
-	{MealdayID: 6, MealType: "มื้อเย็น"},
-	{MealdayID: 7, MealType: "มื้อเช้า"},
-	{MealdayID: 7, MealType: "มื้อว่าง"},
-	{MealdayID: 7, MealType: "มื้อกลางวัน"},
-	{MealdayID: 7, MealType: "มื้อเย็น"},
+		{MealdayID: 1, MealType: "มื้อเช้า"},
+		{MealdayID: 1, MealType: "มื้อว่าง"},
+		{MealdayID: 1, MealType: "มื้อกลางวัน"},
+		{MealdayID: 1, MealType: "มื้อเย็น"},
+		{MealdayID: 2, MealType: "มื้อเช้า"},
+		{MealdayID: 2, MealType: "มื้อว่าง"},
+		{MealdayID: 2, MealType: "มื้อกลางวัน"},
+		{MealdayID: 2, MealType: "มื้อเย็น"},
+		{MealdayID: 3, MealType: "มื้อเช้า"},
+		{MealdayID: 3, MealType: "มื้อว่าง"},
+		{MealdayID: 3, MealType: "มื้อกลางวัน"},
+		{MealdayID: 3, MealType: "มื้อเย็น"},
+		{MealdayID: 4, MealType: "มื้อเช้า"},
+		{MealdayID: 4, MealType: "มื้อว่าง"},
+		{MealdayID: 4, MealType: "มื้อกลางวัน"},
+		{MealdayID: 4, MealType: "มื้อเย็น"},
+		{MealdayID: 5, MealType: "มื้อเช้า"},
+		{MealdayID: 5, MealType: "มื้อว่าง"},
+		{MealdayID: 5, MealType: "มื้อกลางวัน"},
+		{MealdayID: 5, MealType: "มื้อเย็น"},
+		{MealdayID: 6, MealType: "มื้อเช้า"},
+		{MealdayID: 6, MealType: "มื้อว่าง"},
+		{MealdayID: 6, MealType: "มื้อกลางวัน"},
+		{MealdayID: 6, MealType: "มื้อเย็น"},
+		{MealdayID: 7, MealType: "มื้อเช้า"},
+		{MealdayID: 7, MealType: "มื้อว่าง"},
+		{MealdayID: 7, MealType: "มื้อกลางวัน"},
+		{MealdayID: 7, MealType: "มื้อเย็น"},
 	}
 
 	for _, mealtype := range Meals {
@@ -1214,6 +1222,136 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 			AdminID: mealplan.AdminID,
 			DiseaseID: mealplan.DiseaseID,
 			PlanName: mealplan.PlanName,
+		})
+	}
+
+	AgeRanges := []entity.AgeRange{
+		{AgeMin: 0, AgeMax: 60},
+		{AgeMin: 61, AgeMax: 200},
+	}
+
+	for _, ageRange := range AgeRanges {
+		db.FirstOrCreate(&ageRange, entity.AgeRange{
+			AgeMin: ageRange.AgeMin,
+			AgeMax: ageRange.AgeMax,
+		})
+	}
+
+	FoodGroups := []entity.FoodGroup{
+		{Name: "ข้าว/แป้ง", Unit: "ทัพพี"},
+		{Name: "ผัก", Unit: "ทัพพี"},
+		{Name: "ผลไม้", Unit: "ส่วน"},
+		{Name: "เนื้อสัตว์", Unit: "ช้อนโต๊ะ"},
+		{Name: "ไขมัน", Unit: "ช้อนชา"},
+		{Name: "เครื่องปรุง", Unit: "ช้อนชา"},
+	}
+
+	for _, foodGroup := range FoodGroups {
+		db.FirstOrCreate(&foodGroup, entity.FoodGroup{
+			Name: foodGroup.Name,
+			Unit: foodGroup.Unit,
+		})
+	}
+
+	IbwRanges := []entity.IbwRange{
+		{IbwMin: 0, IbwMax: 50},
+		{IbwMin: 51, IbwMax: 55},
+		{IbwMin: 56, IbwMax: 60},
+		{IbwMin: 61, IbwMax: 200},
+	}
+
+	for _, ibwRange := range IbwRanges {
+		db.FirstOrCreate(&ibwRange, entity.IbwRange{
+			IbwMin: ibwRange.IbwMin,
+			IbwMax: ibwRange.IbwMax,
+		})
+	}
+
+	MealTimes := []entity.MealTime{
+		{Name: "เช้า"},
+		{Name: "ว่างเช้า"},
+		{Name: "กลางวัน"},
+		{Name: "ว่างบ่าย"},
+		{Name: "เย็น"},
+	}
+
+	for _, mealTime := range MealTimes {
+		db.FirstOrCreate(&mealTime, entity.MealTime{
+			Name: mealTime.Name,
+		})
+	}
+
+	NutritionGroups := []entity.NutritionGroup{
+		{Name: "คาร์โบไฮเดรต"},
+		{Name: "โปรตีน"},
+		{Name: "ไขมัน"},
+	}
+
+	for _, nutritionGroup := range NutritionGroups {
+		db.FirstOrCreate(&nutritionGroup, entity.NutritionGroup{
+			Name: nutritionGroup.Name,
+		})
+	}
+
+	NutritionReccomentations := []entity.NutritionReccomentation{
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
+	}
+
+	for _, nutritionReccomentation := range NutritionReccomentations {
+		db.FirstOrCreate(&nutritionReccomentation, entity.NutritionReccomentation{
+			Amount: nutritionReccomentation.Amount,
+			FoodGroupID: nutritionReccomentation.FoodGroupID,
+			MealTimeID: nutritionReccomentation.MealTimeID,
+			RuleID: nutritionReccomentation.RuleID,
+		})
+	}
+
+	PortionReccomentations := []entity.PortionReccomentation{
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 5, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 6, MealTimeID: 1, RuleID: 1},
+	}
+
+	for _, portionReccomentation := range PortionReccomentations {
+		db.FirstOrCreate(&portionReccomentation, entity.PortionReccomentation{
+			Amount: portionReccomentation.Amount,
+			FoodGroupID: portionReccomentation.FoodGroupID,
+			MealTimeID: portionReccomentation.MealTimeID,
+			RuleID: portionReccomentation.RuleID,
+		})
+	}
+
+	Rules := []entity.Rule{
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1},
+	}
+
+	for _, rule := range Rules {
+		db.FirstOrCreate(&rule, entity.Rule{
+			Calories: rule.Calories,
+			IbwRangeID: rule.IbwRangeID,
+			AgeRangeID: rule.AgeRangeID,
+			DiseaseID: rule.DiseaseID,
+		})
+	}
+
+	Diseases := []entity.Disease{
+		{Name: "โรคไต", Stage: "1-3a"},
+		{Name: "โรคไต", Stage: "3b-5"},
+		{Name: "โรคไต", Stage: "HD"},
+		{Name: "โรคไต", Stage: "CAPD"},
+		{Name: "โรคเบาหวาน", Stage: "Type 1"},
+		{Name: "โรคเบาหวาน", Stage: "Type 2"},
+	}
+
+	for _, disease := range Diseases {
+		db.FirstOrCreate(&disease, entity.Disease{
+			Name: disease.Name,
+			Stage: disease.Stage,
 		})
 	}
 

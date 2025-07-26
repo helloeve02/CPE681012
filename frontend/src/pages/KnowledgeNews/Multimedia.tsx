@@ -19,11 +19,11 @@ const MediaNewsPage: React.FC = () => {
     // ดึงข้อมูล (mock)
     const fetched = [
       { title: "เสริมความรู้เรื่องไข้", date: "14 กรกฎาคม 2568", group: "กลุ่มวัยเรียน", youtubeId: "dQw4w9WgXcQ" },
-      { title: "อาหารที่ควรรับประทาน", date: "14 กรกฎาคม 2568", group: "กลุ่มวัยทำงาน", youtubeId: "eY52Zsg-KVI" },
-      { title: "การดูแลสุขภาพเบื้องต้น", date: "13 กรกฎาคม 2568", group: "กลุ่มผู้สูงอายุ" },
-      { title: "โรคติดต่อในเด็ก", date: "12 กรกฎาคม 2568", group: "กลุ่มเด็ก" },
-      { title: "การนอนหลับที่ดี", date: "11 กรกฎาคม 2568", group: "กลุ่มวัยรุ่น" },
-      { title: "การนอนหลับที่ดี", date: "11 กรกฎาคม 2568", group: "กลุ่มวัยรุ่น" },
+      { title: "อาหารที่ควรรับประทาน", date: "14 กรกฎาคม 2568", group: "กลุ่มวัยทำงาน", youtubeId: "dQw4w9WgXcQ" },
+      { title: "การดูแลสุขภาพเบื้องต้น", date: "13 กรกฎาคม 2568", group: "กลุ่มผู้สูงอายุ" , youtubeId: "dQw4w9WgXcQ"},
+      { title: "โรคติดต่อในเด็ก", date: "12 กรกฎาคม 2568", group: "กลุ่มเด็ก" , youtubeId: "dQw4w9WgXcQ"},
+      { title: "การนอนหลับที่ดี", date: "11 กรกฎาคม 2568", group: "กลุ่มวัยรุ่น" , youtubeId: "dQw4w9WgXcQ"},
+      { title: "การนอนหลับที่ดี", date: "11 กรกฎาคม 2568", group: "กลุ่มวัยรุ่น" , youtubeId: "dQw4w9WgXcQ"},
     ];
     setMediaData(fetched);
   }, []);
