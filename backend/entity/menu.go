@@ -8,7 +8,7 @@ type Menu struct {
 	Description	string
 	Region		string
 	Image		string
-
+	Credit 		string
 	AdminID		uint
 	Admin 	Admin
 
