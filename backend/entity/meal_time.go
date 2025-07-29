@@ -9,6 +9,4 @@ type MealTime struct {
 	// 1 MealTime เป็นเจ้าของได้หลาย PortionReccomentation
 	PortionReccomentations []PortionReccomentation `gorm:"foreignKey:MealTimeID"`
 
-	// 1 MealTime เป็นเจ้าของได้หลาย NutritionReccomentation
-	NutritionReccomentations []NutritionReccomentation `gorm:"foreignKey:MealTimeID"`
 }

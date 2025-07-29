@@ -1294,16 +1294,15 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 	}
 
 	NutritionReccomentations := []entity.NutritionReccomentation{
-		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, NutritionID: 1,  RuleID: 1},
+		{Amount: 0, NutritionID: 2,  RuleID: 1},
+		{Amount: 0, NutritionID: 3,  RuleID: 1},
 	}
 
 	for _, nutritionReccomentation := range NutritionReccomentations {
 		db.FirstOrCreate(&nutritionReccomentation, entity.NutritionReccomentation{
 			Amount: nutritionReccomentation.Amount,
-			FoodGroupID: nutritionReccomentation.FoodGroupID,
-			MealTimeID: nutritionReccomentation.MealTimeID,
+			NutritionID: nutritionReccomentation.NutritionID,
 			RuleID: nutritionReccomentation.RuleID,
 		})
 	}
@@ -1344,8 +1343,7 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 		{Name: "โรคไต", Stage: "3b-5"},
 		{Name: "โรคไต", Stage: "HD"},
 		{Name: "โรคไต", Stage: "CAPD"},
-		{Name: "โรคเบาหวาน", Stage: "Type 1"},
-		{Name: "โรคเบาหวาน", Stage: "Type 2"},
+		{Name: "โรคเบาหวาน", Stage: "-"},
 	}
 
 	for _, disease := range Diseases {

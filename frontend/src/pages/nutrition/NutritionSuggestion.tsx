@@ -1,6 +1,7 @@
 // import React from "react";
 
-import { Button } from "antd";
+import { Button, Spin } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type MealTime = "เช้า" | "ว่างสาย" | "กลางวัน" | "ว่างบ่าย" | "เย็น";
@@ -90,61 +91,74 @@ const NutritionSuggestion = () => {
     },
   ];
 
-    const navigate = useNavigate();
-    
+  const navigate = useNavigate();
+const [isLoading, setLoading] = useState(true);
   const handleNext = () => {
     navigate("/choose-avoid");
   };
 
+  useEffect(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    }, []);
 
   return (
-    <div className="h-screen font-kanit">
-      <div className="bg-[#2E77F8] p-5 md:p-8 flex items-center justify-center text-white">
-        <div className="font-semibold text-2xl md:text-4xl">
-          ปริมาณอาหารที่เหมาะกับคุณ
+    <>
+    {isLoading ? (
+        <div className="fixed top-1/5 left-1/2 ">
+          <Spin />
         </div>
-      </div>
-      <div className="p-4 space-y-4 md:space-y-0 md:grid md:grid-cols-3 md:gap-4">
-        {nutritionData.map(({ topic, meals }) => (
-          <div
-            key={topic}
-            className="border border-gray-500 p-3 rounded shadow-sm"
-          >
-            <div className="text-xl font-semibold mb-2">{topic}</div>
+      ) : (
+      <div className="h-screen font-kanit">
+        <div className="bg-[#2E77F8] p-5 md:p-8 flex items-center justify-center text-white">
+          <div className="font-semibold text-2xl md:text-4xl">
+            ปริมาณอาหารที่เหมาะกับคุณ
+          </div>
+        </div>
+        <div className="p-4 space-y-4 md:space-y-0 md:grid md:grid-cols-3 md:gap-4">
+          {nutritionData.map(({ topic, meals }) => (
+            <div
+              key={topic}
+              className="border border-gray-500 p-3 rounded shadow-sm"
+            >
+              <div className="text-xl font-semibold mb-2">{topic}</div>
+              <hr className="border-t border-gray-400" />
+              <ul className="list-disc list-inside space-y-1">
+                {mealOrder.map((mealTime) =>
+                  meals[mealTime] && meals[mealTime].amount !== 0 ? (
+                    <li className="md:pl-5" key={mealTime}>
+                      {mealTime}: {meals[mealTime].amount}{" "}
+                      {meals[mealTime].unit}
+                    </li>
+                  ) : null
+                )}
+              </ul>
+            </div>
+          ))}
+          <div className="border border-gray-500 p-3 rounded shadow-sm">
+            <div className="text-xl font-semibold mb-2">
+              พลังงาน 2,275 กิโลแคลอรี่
+            </div>
             <hr className="border-t border-gray-400" />
             <ul className="list-disc list-inside space-y-1">
-              {mealOrder.map((mealTime) =>
-                meals[mealTime] && meals[mealTime].amount !== 0 ? (
-                  <li className="md:pl-5" key={mealTime}>
-                    {mealTime}: {meals[mealTime].amount} {meals[mealTime].unit}
-                  </li>
-                ) : null
-              )}
+              <li className="md:pl-5">คาร์โบไฮเดรต: 313 กรัม 55 เปอร์เซ็น</li>
+              <li className="md:pl-5">โปรตีน: 313 กรัม 55 เปอร์เซ็น</li>
+              <li className="md:pl-5">ไขมัน: 313 กรัม 55 เปอร์เซ็น</li>
             </ul>
           </div>
-        ))}
-        <div className="border border-gray-500 p-3 rounded shadow-sm">
-          <div className="text-xl font-semibold mb-2">
-            พลังงาน 2,275 กิโลแคลอรี่
-          </div>
-          <hr className="border-t border-gray-400" />
-          <ul className="list-disc list-inside space-y-1">
-            <li className="md:pl-5">คาร์โบไฮเดรต: 313 กรัม 55 เปอร์เซ็น</li>
-            <li className="md:pl-5">โปรตีน: 313 กรัม 55 เปอร์เซ็น</li>
-            <li className="md:pl-5">ไขมัน: 313 กรัม 55 เปอร์เซ็น</li>
-          </ul>
         </div>
-      </div>
-      <div className="p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
-        <Button
-          type="primary"
-          className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
-          onClick={handleNext}
-        >
-          ดูสิ่งที่เลือกทานและหลีกเลี่ยง
-        </Button>
-      </div>
-    </div>
+        <div className="p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
+          <Button
+            type="primary"
+            className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
+            onClick={handleNext}
+          >
+            ดูสิ่งที่เลือกทานและหลีกเลี่ยง
+          </Button>
+        </div>
+      </div>)}
+    </>
   );
 };
 

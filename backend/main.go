@@ -27,6 +27,7 @@ func main() {
        router.Use(middlewares.Authorizes())
        r.GET("/menu", controller.GetAllMenu)
        r.GET("/menu/:id", controller.GetMenuByID)
+       r.GET("/diseases", controller.GetAllDisease)
    }
 
 

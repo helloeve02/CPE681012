@@ -32,8 +32,16 @@ async function GetAllMenuImage() {
     .catch((e) => e.response);
 }
 
+async function GetAllDisease() {
+  return await axios
+    .get(`${apiUrl}/diseases`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
-    GetAllMenuImage
+    GetAllMenuImage,
+    GetAllDisease
 }
