@@ -594,11 +594,11 @@ import React, { useState } from 'react';
 import { ChevronLeft, Download, FileText } from 'lucide-react';
 import type { MealdayInterface } from '../../interfaces/Mealday';
 import type { MealInterface } from '../../interfaces/Meal';
-/* import type { MealMenuInterface } from '../../interfaces/MealMenu';
- */import type { MealplanInterface } from '../../interfaces/Mealplan';
+import type { MealMenuInterface } from '../../interfaces/MealMenu';
+import type { MealplanInterface } from '../../interfaces/Mealplan';
 import type { DiseaseInterface } from '../../interfaces/Disease';
-/* import type { MenuInterface } from '../../interfaces/Menu';
- */
+import type { MenuInterface } from '../../interfaces/Menu';
+
 /* // Interface definitions
 interface DiseaseInterface {
   ID?: number;
@@ -606,14 +606,14 @@ interface DiseaseInterface {
   DiseaseStage?: string;
 }
 */
-interface MenuInterface {
+/* interface MenuInterface {
   ID?: number;
   Title?: string;
   Description?: string;
   Region?: string;
   Image?: string;
   AdminID?: number; // FK
-}
+} */
 /*
 interface MealplanInterface {
   ID?: number;
@@ -634,13 +634,13 @@ interface MealInterface {
   MealdayID?: number; // FK
 }*/
 
-interface MealMenuInterface {
+/* interface MealMenuInterface {
   ID?: number;
   MenuType?: string;
   Portiontext?: string;
   MealID?: number; // FK
   MenuID?: number; // FK
-} 
+}  */
 
 // Extended interfaces for UI data
 interface MealPlanData {
