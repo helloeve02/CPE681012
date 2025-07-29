@@ -1427,4 +1427,14 @@ func SetupDatabase() {
 		})
 	}
 
+	Ingredient := []entity.Ingredients{
+		{
+			Name: "อะโวคาโด",
+			Image: "https://medthai.com/wp-content/uploads/2013/07/Avocado-1.jpg",
+			Credit: "https://medthai.com/%E0%B8%AD%E0%B8%B0%E0%B9%82%E0%B8%A7%E0%B8%84%E0%B8%B2%E0%B9%82%E0%B8%94/",
+		},
+	}
+	for _, pkg := range Ingredient {
+		db.FirstOrCreate(&pkg, entity.Ingredients{Name: pkg.Name})
+	}
 }
