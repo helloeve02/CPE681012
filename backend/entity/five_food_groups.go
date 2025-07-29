@@ -6,5 +6,4 @@ type FiveFoodGroups struct {
 	gorm.Model
 	Name		string
 
-	Ingredients	[]Ingredients `gorm:"foreignKey:FiveFoodGroupsID"`
 }
