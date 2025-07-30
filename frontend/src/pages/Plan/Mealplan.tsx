@@ -982,19 +982,19 @@ const MealPlannerApp = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-blue-500 text-white px-4 py-4">
+      {/* <div className="bg-blue-500 text-white px-4 py-4">
         <div className="flex items-center">
           <ChevronLeft className="w-6 h-6 mr-3" />
           <h1 className="text-lg font-medium">ความรู้ แผนอาหารแนะนำ</h1>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
 
       {/* Content */}
       <div className="p-4">
         {/* Stage Selector */}
         <div className="flex justify-end mb-4">
           <div className="bg-white border border-gray-300 rounded px-3 py-2">
-            <span className="text-sm text-gray-600">เลือกระยะ:</span>
+            <span className="text-sm text-gray-600">เลือกแผน:</span>
             <select 
               value={selectedStage} 
               onChange={(e) => setSelectedStage(e.target.value as 'A1' | 'A2')}
