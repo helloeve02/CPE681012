@@ -3,3 +3,9 @@ export interface DiseaseInterface {
     Name?: string;
     DiseaseStage?: 	string;
 }
+
+export interface DiseasesInterface {
+    ID?: number;
+    Name?: string;
+    Stage?: string; 
+}

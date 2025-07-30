@@ -29,6 +29,8 @@ func main() {
        r.GET("/menu/:id", controller.GetMenuByID)
        r.GET("/ingredients", controller.GetAllIngredients)
        r.GET("/ingredients/:id", controller.GetIngredientsByID)
+       r.GET("/diseases", controller.GetAllDisease)
+       r.POST("/rule", controller.GetRuleByUserInfo)
    }
 
 

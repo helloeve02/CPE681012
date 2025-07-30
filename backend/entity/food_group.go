@@ -10,6 +10,4 @@ type FoodGroup struct {
 	// 1 FoodGroup เป็นเจ้าของได้หลาย PortionReccomentation
 	PortionReccomentations []PortionReccomentation `gorm:"foreignKey:FoodGroupID"`
 
-	// 1 FoodGroup เป็นเจ้าของได้หลาย NutritionReccomentation
-	NutritionReccomentations []NutritionReccomentation `gorm:"foreignKey:FoodGroupID"`
 }

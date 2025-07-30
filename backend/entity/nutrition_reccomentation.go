@@ -6,13 +6,9 @@ type NutritionReccomentation struct {
 	gorm.Model
 	Amount float32
 
-	// FoodGroupID ทำหน้าที่เป็น FK
-	FoodGroupID uint
-	FoodGroup FoodGroup `gorm:"foreignKey:FoodGroupID"`
-
-	// MealTimeID ทำหน้าที่เป็น FK
-	MealTimeID uint
-	MealTime MealTime `gorm:"foreignKey:MealTimeID"`
+	// NutritionID ทำหน้าที่เป็น FK
+	NutritionID uint
+	Nutrition FoodGroup `gorm:"foreignKey:NutritionID"`
 
 	// RuleID ทำหน้าที่เป็น FK
 	RuleID uint

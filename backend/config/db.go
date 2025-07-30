@@ -1330,6 +1330,9 @@ func SetupDatabase() {
 		{IbwMin: 51, IbwMax: 55},
 		{IbwMin: 56, IbwMax: 60},
 		{IbwMin: 61, IbwMax: 200},
+		{IbwMin: 61, IbwMax: 65},
+		{IbwMin: 66, IbwMax: 200},
+		{IbwMin: 45, IbwMax: 200},
 	}
 
 	for _, ibwRange := range IbwRanges {
@@ -1365,49 +1368,42 @@ func SetupDatabase() {
 		})
 	}
 
-	NutritionReccomentations := []entity.NutritionReccomentation{
-		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
-	}
-
-	for _, nutritionReccomentation := range NutritionReccomentations {
-		db.FirstOrCreate(&nutritionReccomentation, entity.NutritionReccomentation{
-			Amount:      nutritionReccomentation.Amount,
-			FoodGroupID: nutritionReccomentation.FoodGroupID,
-			MealTimeID:  nutritionReccomentation.MealTimeID,
-			RuleID:      nutritionReccomentation.RuleID,
-		})
-	}
-
-	PortionReccomentations := []entity.PortionReccomentation{
-		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 4, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 5, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 6, MealTimeID: 1, RuleID: 1},
-	}
-
-	for _, portionReccomentation := range PortionReccomentations {
-		db.FirstOrCreate(&portionReccomentation, entity.PortionReccomentation{
-			Amount:      portionReccomentation.Amount,
-			FoodGroupID: portionReccomentation.FoodGroupID,
-			MealTimeID:  portionReccomentation.MealTimeID,
-			RuleID:      portionReccomentation.RuleID,
-		})
-	}
-
 	Rules := []entity.Rule{
 		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 1},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 1},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 1},
+
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 2},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 2},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 2},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 2},
+		
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 3},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 3},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 3},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 3},
+
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 4},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 4},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 4},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 4},
+
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 1950, IbwRangeID: 5, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 2100, IbwRangeID: 6, AgeRangeID: 1, DiseaseID: 5},
+
+		{Calories: 1500, IbwRangeID: 7, AgeRangeID: 2, DiseaseID: 5},
 	}
 
 	for _, rule := range Rules {
 		db.FirstOrCreate(&rule, entity.Rule{
-			Calories:   rule.Calories,
+			Calories: rule.Calories,
 			IbwRangeID: rule.IbwRangeID,
 			AgeRangeID: rule.AgeRangeID,
-			DiseaseID:  rule.DiseaseID,
+			DiseaseID: rule.DiseaseID,
 		})
 	}
 
@@ -1416,8 +1412,7 @@ func SetupDatabase() {
 		{Name: "โรคไต", Stage: "3b-5"},
 		{Name: "โรคไต", Stage: "HD"},
 		{Name: "โรคไต", Stage: "CAPD"},
-		{Name: "โรคเบาหวาน", Stage: "Type 1"},
-		{Name: "โรคเบาหวาน", Stage: "Type 2"},
+		{Name: "โรคเบาหวาน", Stage: "-"},
 	}
 
 	for _, disease := range Diseases {
@@ -1436,5 +1431,37 @@ func SetupDatabase() {
 	}
 	for _, pkg := range Ingredient {
 		db.FirstOrCreate(&pkg, entity.Ingredients{Name: pkg.Name})
+	}
+
+	NutritionReccomentations := []entity.NutritionReccomentation{
+		{Amount: 0, NutritionID: 1,  RuleID: 1},
+		{Amount: 0, NutritionID: 2,  RuleID: 1},
+		{Amount: 0, NutritionID: 3,  RuleID: 1},
+	}
+
+	for _, nutritionReccomentation := range NutritionReccomentations {
+		db.FirstOrCreate(&nutritionReccomentation, entity.NutritionReccomentation{
+			Amount: nutritionReccomentation.Amount,
+			NutritionID: nutritionReccomentation.NutritionID,
+			RuleID: nutritionReccomentation.RuleID,
+		})
+	}
+
+	PortionReccomentations := []entity.PortionReccomentation{
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 5, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 6, MealTimeID: 1, RuleID: 1},
+	}
+
+	for _, portionReccomentation := range PortionReccomentations {
+		db.FirstOrCreate(&portionReccomentation, entity.PortionReccomentation{
+			Amount: portionReccomentation.Amount,
+			FoodGroupID: portionReccomentation.FoodGroupID,
+			MealTimeID: portionReccomentation.MealTimeID,
+			RuleID: portionReccomentation.RuleID,
+		})
 	}
 }
