@@ -2,31 +2,66 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Input, Radio, Select, Spin } from "antd";
 import type { RadioChangeEvent } from "antd";
-import { GetAllDisease } from "../../services/https";
+import { GetAllDisease, GetRuleByUserInfo } from "../../services/https";
 import type { DiseasesInterface } from "../../interfaces/Disease";
 
 const NutritionInput = () => {
   const [disease, setDisease] = useState<number | null>(null);
   const [isLoading, setLoading] = useState(true);
+  const [gender, setGender] = useState<string | null>(null);
+  const [age, setAge] = useState<number | null>(null);
+  const [height, setHeight] = useState<number | null>(null);
+  const [diseaseStage, setDiseaseStage] = useState<string | null>(null);
+  const [diseases, setDiseases] = useState<DiseasesInterface[]>([]);
+
   const navigate = useNavigate();
 
-  const handleConfirm = () => {
-    navigate("/nutrition-suggestion");
+  const handleConfirm = async () => {
+    if (
+      age === null ||
+      height === null ||
+      gender === null ||
+      disease === null
+    ) {
+      alert("กรุณากรอกข้อมูลให้ครบ");
+      return;
+    }
+
+    if (disease === 2 && !diseaseStage) {
+      alert("กรุณาเลือกระยะของโรคไต");
+      return;
+    }
+
+    const userData = {
+      age,
+      height,
+      gender,
+      disease_stage: disease === 2 && diseaseStage ? diseaseStage : "-",
+    };
+
+    try {
+      const rule = await GetRuleByUserInfo(userData);
+      console.log(userData);
+      if (rule?.data) {
+        // Save to localStorage or call your API here
+        localStorage.setItem("rule", JSON.stringify(rule.data));
+        navigate("/nutrition-suggestion");
+      } else {
+        alert("ไม่สามารถดึงข้อมูลคำแนะนำได้");
+      }
+    } catch (error) {
+      console.error("Error getting rule:", error);
+      alert("เกิดข้อผิดพลาดในการเรียกข้อมูล");
+    }
   };
 
   const onDiseaseChange = (e: RadioChangeEvent) => {
     setDisease(e.target.value);
   };
 
-  const onChange = (value: string) => {
-    console.log(`selected ${value}`);
-  };
-
   const onSearch = (value: string) => {
     console.log("search:", value);
   };
-
-  const [diseases, setDiseases] = useState<DiseasesInterface[]>([]);
 
   const getAllDisease = async () => {
     try {
@@ -86,17 +121,12 @@ const NutritionInput = () => {
                 showSearch
                 placeholder="เลือกเพศ"
                 optionFilterProp="label"
-                onChange={onChange}
+                value={gender ?? undefined}
+                onChange={(value) => setGender(value)}
                 onSearch={onSearch}
                 options={[
-                  {
-                    value: "m",
-                    label: "ชาย",
-                  },
-                  {
-                    value: "f",
-                    label: "หญิง",
-                  },
+                  { value: "male", label: "ชาย" },
+                  { value: "female", label: "หญิง" },
                 ]}
                 className="!font-kanit"
                 dropdownClassName="!font-kanit"
@@ -106,13 +136,21 @@ const NutritionInput = () => {
             {/* อายุ */}
             <div className="flex flex-col gap-1">
               <label>อายุ</label>
-              <Input type="number" placeholder="อายุ" className="!font-kanit" />
+              <Input
+                value={age ?? ""}
+                onChange={(e) => setAge(Number(e.target.value))}
+                type="number"
+                placeholder="อายุ"
+                className="!font-kanit"
+              />
             </div>
 
             {/* ส่วนสูง */}
             <div className="flex flex-col gap-1">
               <label>ส่วนสูง</label>
               <Input
+                value={height ?? ""}
+                onChange={(e) => setHeight(Number(e.target.value))}
                 type="number"
                 placeholder="ส่วนสูง"
                 className="!font-kanit"
@@ -143,7 +181,8 @@ const NutritionInput = () => {
                     showSearch
                     placeholder="เลือกระยะไต"
                     optionFilterProp="label"
-                    onChange={onChange}
+                    value={diseaseStage ?? undefined}
+                    onChange={(value) => setDiseaseStage(value)}
                     onSearch={onSearch}
                     options={kidneyStages}
                     className="!font-kanit"

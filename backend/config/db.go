@@ -1258,6 +1258,9 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 		{IbwMin: 51, IbwMax: 55},
 		{IbwMin: 56, IbwMax: 60},
 		{IbwMin: 61, IbwMax: 200},
+		{IbwMin: 61, IbwMax: 65},
+		{IbwMin: 66, IbwMax: 200},
+		{IbwMin: 45, IbwMax: 200},
 	}
 
 	for _, ibwRange := range IbwRanges {
@@ -1293,6 +1296,60 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 		})
 	}
 
+	Rules := []entity.Rule{
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 1},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 1},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 1},
+
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 2},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 2},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 2},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 2},
+		
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 3},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 3},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 3},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 3},
+
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 4},
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 4},
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 4},
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 4},
+
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 1950, IbwRangeID: 5, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 2100, IbwRangeID: 6, AgeRangeID: 1, DiseaseID: 5},
+
+		{Calories: 1500, IbwRangeID: 7, AgeRangeID: 2, DiseaseID: 5},
+	}
+
+	for _, rule := range Rules {
+		db.FirstOrCreate(&rule, entity.Rule{
+			Calories: rule.Calories,
+			IbwRangeID: rule.IbwRangeID,
+			AgeRangeID: rule.AgeRangeID,
+			DiseaseID: rule.DiseaseID,
+		})
+	}
+
+	Diseases := []entity.Disease{
+		{Name: "โรคไต", Stage: "1-3a"},
+		{Name: "โรคไต", Stage: "3b-5"},
+		{Name: "โรคไต", Stage: "HD"},
+		{Name: "โรคไต", Stage: "CAPD"},
+		{Name: "โรคเบาหวาน", Stage: "-"},
+	}
+
+	for _, disease := range Diseases {
+		db.FirstOrCreate(&disease, entity.Disease{
+			Name: disease.Name,
+			Stage: disease.Stage,
+		})
+	}
+
 	NutritionReccomentations := []entity.NutritionReccomentation{
 		{Amount: 0, NutritionID: 1,  RuleID: 1},
 		{Amount: 0, NutritionID: 2,  RuleID: 1},
@@ -1324,33 +1381,4 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 			RuleID: portionReccomentation.RuleID,
 		})
 	}
-
-	Rules := []entity.Rule{
-		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1},
-	}
-
-	for _, rule := range Rules {
-		db.FirstOrCreate(&rule, entity.Rule{
-			Calories: rule.Calories,
-			IbwRangeID: rule.IbwRangeID,
-			AgeRangeID: rule.AgeRangeID,
-			DiseaseID: rule.DiseaseID,
-		})
-	}
-
-	Diseases := []entity.Disease{
-		{Name: "โรคไต", Stage: "1-3a"},
-		{Name: "โรคไต", Stage: "3b-5"},
-		{Name: "โรคไต", Stage: "HD"},
-		{Name: "โรคไต", Stage: "CAPD"},
-		{Name: "โรคเบาหวาน", Stage: "-"},
-	}
-
-	for _, disease := range Diseases {
-		db.FirstOrCreate(&disease, entity.Disease{
-			Name: disease.Name,
-			Stage: disease.Stage,
-		})
-	}
-
 }

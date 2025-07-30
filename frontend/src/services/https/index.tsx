@@ -39,9 +39,26 @@ async function GetAllDisease() {
     .catch((e) => e.response);
 }
 
+async function GetRuleByUserInfo(userInfo: {
+  age: number;
+  height: number;
+  gender: string;
+  disease_stage: string;
+}) {
+  return await axios
+    .post(`${apiUrl}/rule`, userInfo)
+    .then((res) => res.data) 
+    .catch((e) => {
+      console.error("Error fetching rule:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+
 export{
     GetAllMenu,
     GetMenuById,
     GetAllMenuImage,
-    GetAllDisease
+    GetAllDisease,
+    GetRuleByUserInfo
 }
