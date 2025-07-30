@@ -64,7 +64,7 @@ const HomePage: React.FC = () => {
             {[
               { title: "โภชนาการที่เหมาะกับคุณ", icon: "📄", path: "/nutrition" },
               { title: "เมนูอาหารแนะนำ", icon: "📝", path: "/menu" },
-              { title: "แผนมื้ออาหาร", icon: "🗓️", path: "/meal-plan" },
+              { title: "แผนมื้ออาหาร", icon: "🗓️", path: "/mealplanner" },
             ].map((item, index) => (
               <Link to={item.path} key={index} className="h-full">
                 <div className="bg-white p-3 sm:p-4 rounded-lg shadow flex flex-col items-center justify-center h-full min-h-[120px] hover:bg-gray-100 transition">

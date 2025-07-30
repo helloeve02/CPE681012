@@ -21,6 +21,10 @@ const NavBar = () => {
     navigate("/nutrition");
   };
 
+  const handleMealPlanClick = () => {
+    navigate("/mealplanner");
+  };
+
   return (
     //bg-[#2E77F8]
     <div className="bg-[#2E77F8] p-3">
@@ -45,6 +49,11 @@ const NavBar = () => {
               เมนูอาหารแนะนำ
             </a>
           </li>
+           <li>
+            <a onClick={handleMealPlanClick} className="text-white cursor-pointer">
+              แผนมื้ออาหาร
+            </a>
+          </li>
         </ul>
       </div>
       {/* Mobile Menu */}
@@ -65,6 +74,11 @@ const NavBar = () => {
             เมนูอาหารแนะนำ
           </a>
         </li>
+        <li>
+            <a onClick={handleMealPlanClick} className="text-white cursor-pointer">
+              แผนมื้ออาหาร
+            </a>
+          </li>
       </ul>
       ) : null}
     </div>
