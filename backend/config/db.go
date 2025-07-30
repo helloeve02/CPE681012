@@ -78,8 +78,9 @@ func SetupDatabase() {
 		3. ผัดเครื่องแกงที่โขลกไว้กับน้ำมันรำข้าว
 		4. ใส่หมูบดลงไป ผัดจนหมูสุกและเข้ากันดี
 		5. ตักใส่จาน โรยหน้าด้วยต้นหอม ผักชี และใบแมงลักเพื่อความสวยงาม`,
-		Region: "ภาคเหนือ",
-		Image: "https://f.ptcdn.info/511/002/000/1361646707-IMG2766Med-o.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://f.ptcdn.info/511/002/000/1361646707-IMG2766Med-o.jpg",
+			Credit: "https://pantip.com/topic/30178641",
 		},
 		{
 			Title: "น้ำพริกอ่อง",
@@ -107,8 +108,9 @@ func SetupDatabase() {
 	4. ผัดเครื่องแกงที่โขลกไว้กับน้ำมันให้หอม ใส่หมูบดผัดให้สุก ใส่น้ำ
 	5. ปรุงรสด้วยน้ำปลา และน้ำมะขามเปียก
 	6. ตักใส่ถ้วย แต่งหน้าด้วยผักชี รับประทานกับผักสด`,
-	Region: "ภาคเหนือ",
-	Image: "https://img.wongnai.com/p/1920x0/2017/09/24/c415bbcecc5145c9a967b132e28a1087.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://img.wongnai.com/p/1920x0/2017/09/24/c415bbcecc5145c9a967b132e28a1087.jpg",
+			Credit: "https://www.facebook.com/amonrat.Thuamchot",
 		},
 		{
 			Title: "แกงแคไก่บ้าน",
@@ -132,8 +134,9 @@ func SetupDatabase() {
 	3. ใส่เนื้อไก่ลงต้มจนเริ่มสุก จากนั้นใส่ผักที่สุกยาก เช่น ถั่วฝักยาว มะเขือเปราะ
 	4. เมื่อน้ำเดือดอีกครั้ง ใส่ผักสุกง่าย เช่น ใบชะพลู ชะอม ใบพริกอ่อน
 	5. รอให้เดือดอีกครั้ง แล้วยกลงจากเตา ตักเสิร์ฟร้อน ๆ`,
-	Region: "ภาคเหนือ",
-	Image: "https://i.ytimg.com/vi/Jvf4KMuuoEQ/maxresdefault.jpg", 
+			Region: "ภาคเหนือ",
+			Image:  "https://i.ytimg.com/vi/Jvf4KMuuoEQ/maxresdefault.jpg",
+			Credit: "https://www.facebook.com/profile.php?id=100080562848664",
 		},
 		{
 			Title: "แกงส้มตูนปลานิล",
@@ -156,8 +159,9 @@ func SetupDatabase() {
 	3. ต้มน้ำให้เดือด แล้วใส่เครื่องแกงที่โขลกไว้ลงไป
 	4. ใส่เนื้อปลานิล ก้านตูน และยอดตำลึงลงไปต้มจนสุก
 	5. ปรุงรสด้วยน้ำมะกรูดก่อนยกลง ตักใส่ถ้วยพร้อมเสิร์ฟ`,
-	Region: "ภาคเหนือ",
-	Image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikO0YvxPPCqwJAgtPfgJjjdTX2oZvUWFvgAHLRItqY9q1UbwYqXBIEZqUmjsrk4wfTavQfzmLbPzMUSd6LBjZmxI3Vhag7jsOMyxPg3V2AVikonT_SdHb5CiDBbQkI2Fv68L8eMmlyKhM/s1600/%E0%B9%81%E0%B8%81%E0%B8%87%E0%B8%95%E0%B8%B9%E0%B8%99%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%9B%E0%B8%A5%E0%B8%B2.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikO0YvxPPCqwJAgtPfgJjjdTX2oZvUWFvgAHLRItqY9q1UbwYqXBIEZqUmjsrk4wfTavQfzmLbPzMUSd6LBjZmxI3Vhag7jsOMyxPg3V2AVikonT_SdHb5CiDBbQkI2Fv68L8eMmlyKhM/s1600/%E0%B9%81%E0%B8%81%E0%B8%87%E0%B8%95%E0%B8%B9%E0%B8%99%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%9B%E0%B8%A5%E0%B8%B2.jpg",
+			Credit: "https://th.wikipedia.org/wiki/%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88",
 		},
 		{
 			Title: "จอผักกาด",
@@ -179,8 +183,9 @@ func SetupDatabase() {
 	3. เติมน้ำเห็ดหอมลงในหม้อ รอให้เดือดแล้วใส่ผักกวางตุ้ง เคี่ยวจนผักเปื่อยนุ่ม
 	4. ใส่พริกทอด 2 เม็ดลงเคี่ยวพร้อมผัก ปรุงรสด้วยน้ำมะขามเปียกและน้ำตาลปี๊บ คนให้เข้ากัน
 	5. ตักใส่ถ้วย โรยหน้าด้วยกระเทียมเจียว และแต่งหน้าด้วยพริกทอดที่เหลือ`,
-	Region: "ภาคเหนือ",
-	Image: "https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSC41tBS2JyaLrHhBkHieCf4lwMRxT.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSC41tBS2JyaLrHhBkHieCf4lwMRxT.jpg",
+			
 		},
 		{
 			Title: "ลาบคั่ว",
@@ -208,8 +213,10 @@ func SetupDatabase() {
 	4. เจียวขิงหั่นฝอยให้เหลืองตักพักไว้ในข้อ 3 จากนั้นนำน้ำมันที่เหลือเจียวกระเทียม ตักขึ้น และเจียวรากผักชีให้หอม
 	5. นำส่วนผสมข้อ 3 ผัดต่อใส่น้ำเห็ดหอมผัดจนแห้ง ปรุงรสด้วยซีอิ๊วขาว ต้นหอม ผักชี
 	6. ปิดไฟใส่น้ำมะนาวคนให้เข้ากันตักใส่จาน โรยด้วยต้นหอม ผักชีอีกเล็กน้อย รับประทานคู่กับผักกาดขาว`,
-	Region: "ภาคเหนือ",
-	Image: "https://png.pngtree.com/thumb_back/fh260/background/20220324/pngtree-spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo-image_21814272.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://png.pngtree.com/thumb_back/fh260/background/20220324/pngtree-spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo-image_21814272.jpg",
+			Credit: "https://th.pngtree.com/freebackground/spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo_8413949.html",
+			
 		},
 		{
 			Title: "ขนมจีนน้ำเงี้ยว",
@@ -237,8 +244,10 @@ func SetupDatabase() {
 	3. ผัดเนื้อหมูจนสุก และเข้ากันดี
 	4. ใส่น้ำเปล่าลงไป หรี่ไฟแล้วเคี่ยวจนเดือด และมีกลิ่นหอม จากนั้นใส่ดอกงิ้ว และมะเขือเทศ เคี่ยวจนเข้ากัน
 	5. จัดเสิร์ฟ พร้อมกะหล่ำปลีซอย กระเทียมเจียว หากชอบรสเปรี้ยวสามารถปรุงรสด้วยน้ำมะนาวตามชอบ`,
-	Region: "ภาคเหนือ",
-	Image: "https://sharp-weeclub.com/wp-content/uploads/2022/01/%E0%B8%82%E0%B8%99%E0%B8%A1%E0%B8%88%E0%B8%B5%E0%B8%991-990x510-1.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://sharp-weeclub.com/wp-content/uploads/2022/01/%E0%B8%82%E0%B8%99%E0%B8%A1%E0%B8%88%E0%B8%B5%E0%B8%991-990x510-1.jpg",
+			Credit: "https://kongthaijeen.com/cn/41301/",
+			
 		},
 		{
 			Title: "ตำขนุน",
@@ -269,8 +278,10 @@ func SetupDatabase() {
   3. นำพริกแกง เนื้อหมูสับ มะเขือเทศ และขนุนมาโขลกรวมกัน
   4. เจียวกระเทียมพอเหลือง ใส่ส่วนผสมที่โขลกรวมกันแล้วลงผัดให้หอม
   5. เมื่อเนื้อหมูสุกดีแล้ว ใส่ใบมะกรูด ตามด้วยผักชี ต้นหอมซอย ลงผัดให้เข้ากัน`,
-  Region: "ภาคเหนือ",
-  Image: "https://www.maeban.co.th/upfiles/blog/469811576_1757125385107540_8515113923452393484_n.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://www.maeban.co.th/upfiles/blog/469811576_1757125385107540_8515113923452393484_n.jpg",
+			Credit: "https://phiangphitc.wordpress.com/2013/07/18/%E0%B8%95%E0%B8%B3%E0%B8%82%E0%B8%99%E0%B8%B8%E0%B8%99/",
+			
 		},
 		{
 			Title: "น้ำพริกมะเขือเทศ",
@@ -290,8 +301,10 @@ func SetupDatabase() {
   3. หากต้องการเผ็ดน้อย ควรเอาไส้พริกหนุ่มออก
   4. โขลกพริกหนุ่ม มะเขือเทศ หอมแดง กระเทียม ทั้งหมดให้เข้ากัน ปรุงรสด้วยน้ำปลา
   5. หากชอบรสเปรี้ยว ให้ปรุงรสด้วยน้ำมะนาวเล็กน้อย รับประทานแนมกับผักลวก และไข่ต้ม`,
-  Region: "ภาคเหนือ",
-  Image: "https://img.kapook.com/u/surauch/cook1/Thai_2.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://img.kapook.com/u/surauch/cook1/Thai_2.jpg",
+			Credit: "https://www.bloggang.com/m/viewdiary.php?id=thewho&month=03-2018&date=31&group=18&gblog=1",
+			
 		},
 		{
 			Title: "แอ๊บหมู",
@@ -308,8 +321,10 @@ func SetupDatabase() {
 2. ซอยเห็ดหูหนู ผักชีฝรั่ง ใบมะกรูด ผสมคลุกเคล้ากับเนื้อหมู
 3. ตัดใบตองซ้อนกันสองชั้น รองด้วยผักกาดขาวและโหระพา
 4. ตักส่วนผสมใส่ห่อใบตอง ใช้ไม้กลัดนำไปย่างหรืออบจนสุก`,
-Region: "ภาคเหนือ",
-Image: "https://img.wongnai.com/p/256x256/2023/06/04/b1e8748c61d4459d826187fb574aeb1f.jpg",
+			Region: "ภาคเหนือ",
+			Image:  "https://img.wongnai.com/p/256x256/2023/06/04/b1e8748c61d4459d826187fb574aeb1f.jpg",
+			Credit: "https://shorturl.at/YuvZu",
+			
 		},
 		{
 			Title: "ต้มโคล้งปลาช่อน",
@@ -329,8 +344,10 @@ Image: "https://img.wongnai.com/p/256x256/2023/06/04/b1e8748c61d4459d826187fb574
 3. ใส่เนื้อปลาช่อนหั่นชิ้นบางลงในน้ำซุป ต้มต่อจนสุก
 4. จัดใบมะกรูด, ใบกะเพรา, ผักชีฝรั่ง, น้ำมะนาว, น้ำปลา ลงในภาชนะ
 5. ตักต้มโคล้งใส่ลงไป รับประทานกับข้าวสวยร้อน ๆ`,
-Region: "ภาคกลาง",
-Image: "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-650.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-650.jpg",
+			Credit: "https://www.wongnai.com/reviews/71c0729575454bc18a87cdc060ac937c",
+			
 		},
 		{
 			Title: "แกงส้มเปลือกแตงโมกุ้งสด",
@@ -353,8 +370,10 @@ Image: "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-650.
 3. ใส่กะปิและเนื้อปลาที่ต้มไว้ลงโขลกให้เข้ากัน จะได้น้ำพริกแกงส้มสำหรับ 1 ที่
 4. ใส่น้ำพริกแกงและเปลือกแตงโมลงต้มจนเปลือกแตงโมนุ่ม
 5. ปรุงรสด้วยน้ำตาลและน้ำมะขามเปียก ตามด้วยกุ้ง รอจนสุกพร้อมตักเสิร์ฟ`,
-Region: "ภาคกลาง",
-Image: "https://thecookingsociety.com/wp-content/uploads/2022/02/Screen-Shot-2565-02-26-at-15.54.50.png",
+			Region: "ภาคกลาง",
+			Image:  "https://thecookingsociety.com/wp-content/uploads/2022/02/Screen-Shot-2565-02-26-at-15.54.50.png",
+			Credit: "https://cooking.kapook.com/view75219.html",
+			
 		},
 		{
 			Title: "ผัดฉ่าไข่ขาว",
@@ -376,8 +395,10 @@ Image: "https://thecookingsociety.com/wp-content/uploads/2022/02/Screen-Shot-256
 1. หั่นไข่ขาวต้มสุก 1 ฟองเป็นลูกเต๋าขนาดพอสวย คั่วด้วยไฟปานกลางพอเป็นสีเหลืองนวล ตักขึ้นพักไว้
 2. โขลกกระเทียมและพริกบางใหญ่แห้งจนละเอียดและเข้ากัน จากนั้นนำไปผัดในน้ำมันจนหอม ใส่ใบมะกรูด, กระชาย แล้วใส่ไข่ขาว ตามด้วยพริกหนุ่ม, พริกชี้ฟ้าสามสี, ใบมะกรูด, ผักชีฝรั่ง, ใบกะเพรา และพริกไทยอ่อน ผัดให้เข้ากัน (ถ้าแห้ง เติมน้ำเปล่าพอขลุกขลิก)
 3. ปรุงรสด้วยน้ำตาล, น้ำปลา แล้วจึงใส่ผักชีฝรั่งและใบกะเพรา ยกลงพร้อมเสิร์ฟ`,
-Region: "ภาคกลาง",
-Image: "https://i.ytimg.com/vi/dGQwq6GshVw/maxresdefault.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://i.ytimg.com/vi/dGQwq6GshVw/maxresdefault.jpg",
+			Credit: "https://www.youtube.com/watch?v=QluWnJGqMuU&ab_channel=%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%B5%E0%B8%81%E0%B8%B4%E0%B8%99%E0%B8%94%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B8%AA%E0%B8%95%E0%B8%B4",
+			
 		},
 		{
 			Title: "หลนกุ้ง ผักสด",
@@ -400,8 +421,10 @@ Image: "https://i.ytimg.com/vi/dGQwq6GshVw/maxresdefault.jpg",
 1. เคี่ยวน้ำกะทิด้วยไฟปานกลาง ใส่กุ้งสับ พอสุก ใส่หอมแดงทั้งหมด, ตะไคร้ซอย 1 ช้อนชา, ใบมะกรูดซอย 1 ช้อนชา คลุกเคล้าให้เข้ากัน
 2. ใส่พริกหนุ่ม, พริก 3 สี (เหลือไว้แต่งหน้าอย่างละ 2-3 ชิ้น) แล้วปรุงรสด้วยน้ำตาล, น้ำมะขามเปียก
 3. พอสุก ตักใส่ถ้วย ตกแต่งโรยหน้าด้วยพริกสี, ตะไคร้ซอย, ใบมะกรูดซอย ตกแต่งด้วยผักให้สวยงาม`,
-Region: "ภาคกลาง",
-Image: "https://www.bloggang.com/data/jazzy-bong/picture/1436528038.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://www.bloggang.com/data/jazzy-bong/picture/1436528038.jpg",
+			Credit: "https://www.bloggang.com/m/mainblog.php?id=jazzy-bong&month=11-07-2015&group=28&gblog=20",
+			
 		},
 		{
 			Title: "ข้าวผัดเบญจรงค์",
@@ -423,8 +446,10 @@ Image: "https://www.bloggang.com/data/jazzy-bong/picture/1436528038.jpg",
 1. ตั้งกระทะใส่น้ำมันบนไฟกลางพอร้อน ใส่หอมใหญ่, เห็ดหอมลงไปผัดพอหอม
 2. ใส่สันในไก่, แครอท, ถั่วฝักยาว ผัดจนสุก และใส่เมล็ดข้าวโพดหวาน
 3. ใส่ข้าวสวยปรุงรสด้วยซีอิ๊วขาว ผัดให้เข้ากัน ตักใส่จาน โรยด้วยพริกไทย ตกแต่งด้วยแตงกวา, ต้นหอม`,
-Region: "ภาคกลาง",
-Image: "https://img.wongnai.com/p/1920x0/2021/02/19/4ebb3ee1417746ba8f552a195f26e908.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://img.wongnai.com/p/1920x0/2021/02/19/4ebb3ee1417746ba8f552a195f26e908.jpg",
+			Credit: "https://www.sanook.com/women/tag/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9C%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%B8%E0%B9%89%E0%B8%87/",
+			
 		},
 		{
 			Title: "ปลาสามรส",
@@ -448,8 +473,10 @@ Image: "https://img.wongnai.com/p/1920x0/2021/02/19/4ebb3ee1417746ba8f552a195f26
 2. โขลกกระเทียม, พริกไทย, พริกสดพอหยาบ ใส่น้ำซุปลงไปเล็กน้อย ผัดให้หอม
 3. ใส่หอมใหญ่, มันฝรั่ง, มะเขือเทศ ปรุงรสด้วยน้ำตาลปี๊บ, น้ำมะขาม, น้ำปลา
 4. นำปลาที่ทอดไว้จัดใส่จาน ราดซอสบนปลาที่ทอดแล้ว แต่งหน้าด้วยผักชีและพริกชี้ฟ้าแดง`,
-Region: "ภาคกลาง",
-Image: "https://chefoldschool.com/wp-content/uploads/2020/06/p45.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://chefoldschool.com/wp-content/uploads/2020/06/p45.jpg",
+			Credit: "https://shop.line.me/@nuy98/product/1000746977",
+			
 		},
 		{
 			Title: "ยำใหญ่",
@@ -472,8 +499,10 @@ Image: "https://chefoldschool.com/wp-content/uploads/2020/06/p45.jpg",
 1. ลวกปลาหมึกสด, กุ้งสดในน้ำเดือด จากนั้นตักขึ้นพักไว้ให้สะเด็ดน้ำ
 2. ผสมน้ำปลา, น้ำตาลทราย เติมน้ำเล็กน้อย คนพอเข้ากัน ใส่พริกสดที่โขลกละเอียดแล้ว จากนั้นเคี่ยวบนไฟพอเดือดทิ้งให้เย็น ใส่น้ำมะนาว
 3. ผสมปลาหมึกสด, กุ้งสด, ไข่ขาว, แครอท, หอมใหญ่, แตงกวา, หัวไชเท้า และน้ำยำในข้อ 2 คลุกให้เข้ากัน จากนั้นตักใส่จาน ยกขึ้นเสิร์ฟ`,
-Region: "ภาคกลาง",
-Image: "https://img.wongnai.com/p/1920x0/2018/09/11/60880f95ecfd4ff68756ec9e680a6f3f.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://img.wongnai.com/p/1920x0/2018/09/11/60880f95ecfd4ff68756ec9e680a6f3f.jpg",
+			Credit: "https://www.wongnai.com/recipes/mixed-spicy-salad-recipe",
+			
 		},
 
 		{
@@ -501,8 +530,10 @@ Image: "https://img.wongnai.com/p/1920x0/2018/09/11/60880f95ecfd4ff68756ec9e680a
 3. ทุบกระเทียมพอแตก นำลงผัดในน้ำมันให้หอม ใส่เนื้อหมูลงผัด เคี่ยวหมูจนนุ่ม ใส่น้ำตาลปี๊บผัดให้หอมจนน้ำตาลละลาย
 4. ใส่ซีอิ๊วขาว, ซีอิ๊วดำ ผัดไปเรื่อยๆ เติมผักที่หั่นลงไป ผัดต่อประมาณ 10 นาที
 5. เติมน้ำต้มสุกให้ปริมาณน้ำต่ำกว่าผักเล็กน้อย ต้มไฟอ่อนๆ ต่อจนผักเปื่อย แล้วตักใส่ชามพร้อมเสิร์ฟ`,
-Region: "ภาคกลาง",
-Image: "https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5LJGNmDUIqkiQVkYDqXcFTh41EztNktBWbceEb2EWQpvlrKxcWU.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5LJGNmDUIqkiQVkYDqXcFTh41EztNktBWbceEb2EWQpvlrKxcWU.jpg",
+			Credit: "https://shorturl.at/Wdgo0",
+			
 		},
 
 		{
@@ -521,8 +552,10 @@ Image: "https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5LJGNmDUIqkiQVkYDqXc
 2. ล้างผักต่างๆ ให้สะอาด
 3. ตั้งไฟ เจียวกระเทียมให้เหลืองหอม ใส่ถั่วฝักยาว, แครอท, ผักกาดขาว, ไข่ขาว แล้วผัดให้สุก
 4. ปรุงรสด้วยซีอิ๊วขาว คนให้เข้ากันพอสุกยกลง`,
-Region: "ภาคกลาง",
-Image: "https://img.kapook.com/u/2018/surauch/cooking/co1/pk2.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://img.kapook.com/u/2018/surauch/cooking/co1/pk2.jpg",
+			Credit: "https://cooking.kapook.com/view207896.html",
+			
 		},
 
 		{
@@ -542,8 +575,10 @@ Image: "https://img.kapook.com/u/2018/surauch/cooking/co1/pk2.jpg",
 1. ตั้งกระทะใส่น้ำมันพอร้อน ใส่กระเทียมสับ, พริกขี้หนูสับ, หอมใหญ่ ผัดพอหอม ใส่เห็ดฟาง ผัดให้เข้ากันใส่ใบกะเพรา ปรุงรสด้วยซีอิ๊วขาว ยกลงพักไว้
 2. ผสมไข่ขาวกับนมสดคนให้เข้ากัน
 3. ตั้งกระทะพอร้อน ใส่ไข่ที่ผสมแล้ว ทอดแผ่ให้ทั่วกระทะใส่ส่วนผสมข้อที่ 1 วางตรงกลางไข่ เสร็จแล้วจึงค่อยๆ ห่อไข่เป็นรูปสี่เหลี่ยม พอสุกยกลงเสิร์ฟพร้อมผักต่างๆ`,
-Region: "ภาคกลาง",
-Image: "https://img.wongnai.com/p/1968x0/2020/03/24/524ed43d3e914520934b9f277820f00b.jpg",
+			Region: "ภาคกลาง",
+			Image:  "https://img.wongnai.com/p/1968x0/2020/03/24/524ed43d3e914520934b9f277820f00b.jpg",
+			Credit: "https://www.wongnai.com/recipes/ugc/08e2db7d1ac74e20b284c21388751dbd",
+			
 		},
 		{
 			Title: "ขนมจีนน้ำยาปักษ์ใต้",
@@ -564,8 +599,10 @@ Image: "https://img.wongnai.com/p/1968x0/2020/03/24/524ed43d3e914520934b9f277820
 3. ใส่ใบมะกรูดที่ฉีกเป็นชิ้นเล็ก ๆ ลงในน้ำยา ปรุงรสด้วยน้ำตาลปี๊บ และน้ำปลาดี ชิมรส คนให้เข้ากัน เติมกะทิ 1/2 ถ้วย คนจนเดือด ยกลงเสิร์ฟพร้อมขนมจีน และผักเคียง
 
 หมายเหตุ: กรณีผู้ป่วยเบาหวาน สามารถเพิ่มรสหวานโดยใส่น้ำตาลเทียมแทนน้ำตาลปี๊บและน้ำตาลทราย`,
-Region: "ภาคใต้",
-Image: "https://img.kapook.com/u/2017/surauch/cooking/y1_4.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://img.kapook.com/u/2017/surauch/cooking/y1_4.jpg",
+			Credit: "https://shorturl.at/TpDA3",
+			
 		},
 		{
 			Title: "น้ำพริกแกงปักษ์ใต้",
@@ -586,8 +623,10 @@ Image: "https://img.kapook.com/u/2017/surauch/cooking/y1_4.jpg",
 2. ใส่กะปิโขลกให้เข้ากันพักไว้เพื่อนำไปปรุงน้ำยา
 
 หมายเหตุ: สูตรน้ำพริกนี้เมื่อทำเสร็จจะได้ 195 กรัม (13 ช้อนโต๊ะ) สามารถนำไปเป็นเครื่องปรุงน้ำพริกแกงคั่ว น้ำยาปักษ์ใต้ ผัดเผ็ด คั่วกลิ้ง หรือแกงไตปลา ฯลฯ`,
-Region: "ภาคใต้",
-Image: "https://jeeor.com/wp-content/uploads/2023/08/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%9B%E0%B8%81%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%95%E0%B8%9B%E0%B8%A5%E0%B8%B2-Recovered.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://jeeor.com/wp-content/uploads/2023/08/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%9B%E0%B8%81%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%95%E0%B8%9B%E0%B8%A5%E0%B8%B2-Recovered.jpg",
+			Credit: "https://jeeor.com/?page_id=3444",
+			
 		},
 		{
 			Title: "คั่วกลิ้งหมู",
@@ -608,8 +647,9 @@ Image: "https://jeeor.com/wp-content/uploads/2023/08/%E0%B8%A0%E0%B8%B2%E0%B8%9E
 1. ใส่น้ำเปล่าลงในกระทะ ตั้งไฟพอร้อนใส่เนื้อหมูสับลงไปผัดจนเกือบสุก
 2. จากนั้นใส่น้ำพริกคั่วกลิ้งลงไปผัดกับหมูสับให้เข้ากัน ปรุงรสด้วยน้ำตาลปี๊บ และน้ำปลา ผัดให้เข้ากัน
 3. ปิดไฟแล้วใส่พริกไทยอ่อน, ตะไคร้หั่นฝอย ข่าสดสับ พริกชี้ฟ้าแดงหั่น และใบมะกรูดซอยลงไปผัดให้เข้ากัน ตักใส่จาน เสิร์ฟพร้อมกับผักสดตามชอบ`,
-Region: "ภาคใต้",
-Image: "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/red-meats-&-red-meat-dishes/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9_header.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/red-meats-&-red-meat-dishes/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9_header.jpg",
+			Credit: "https://www.unileverfoodsolutions.co.th/th/recipe/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9-R90018816.html",
 		},
 		{
 			Title: "ต้มกะทิผักเหลียงกุ้งสด",
@@ -633,8 +673,10 @@ Image: "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu
 4. พอเดือดใส่ใบผักเหลียง กะทิ น้ำตาลปี๊บ น้ำปลาดี เมื่อน้ำเดือด เคี่ยวต่อสักพัก
 5. หมั่นคนกะทิบ่อยๆ อย่าให้กะทิแตกมัน
 6. ใส่กุ้งสด เร่งไฟให้แรง จะช่วยป้องกันผักเหม็นเขียวได้ เติมหัวกะทิคนไม่ให้กะทิแตกมัน เมื่อกะทิเดือดอีกครั้ง ยกลงตักเสิร์ฟ`,
-Region: "ภาคใต้",
-Image: "https://img.wongnai.com/p/1920x0/2017/10/13/c4cd67bcd224401f800730cd9e4f3d02.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://img.wongnai.com/p/1920x0/2017/10/13/c4cd67bcd224401f800730cd9e4f3d02.jpg",
+			Credit: "https://nlovecooking.com/%E0%B9%83%E0%B8%9A%E0%B9%80%E0%B8%AB%E0%B8%A5%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%81%E0%B8%B0%E0%B8%97%E0%B8%B4/",
+			
 		},
 		{
 			Title: "ผัดผักเหลียงไข่ขาว",
@@ -656,8 +698,10 @@ Image: "https://img.wongnai.com/p/1920x0/2017/10/13/c4cd67bcd224401f800730cd9e4f
 4. เทไข่ขาวลงในกระทะคนให้สุก ใส่ใบเหลียงลงไป พร้อมน้ำเปล่า 30 ซีซี ผัดให้สุก
 5. ใส่เครื่องปรุงรส น้ำมันหอย ซีอิ๊วขาว น้ำตาลทราย คนให้เข้ากันยกลงตักเสิร์ฟ
 6. โรยหน้าด้วยพริกไทยป่น`,
-Region: "ภาคใต้",
-Image: "https://img.wongnai.com/p/1920x0/2019/03/07/fd1ee1e79c1043c281b46c47b8f8f6e6.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://img.wongnai.com/p/1920x0/2019/03/07/fd1ee1e79c1043c281b46c47b8f8f6e6.jpg",
+			Credit: "https://www.wongnai.com/recipes/ugc/330d0ad616a2490ebdbef06a61f86835",
+			
 		},
 		{
 			Title: "แกงเหลืองสับปะรดปลากะพง",
@@ -681,8 +725,10 @@ Image: "https://img.wongnai.com/p/1920x0/2019/03/07/fd1ee1e79c1043c281b46c47b8f8
 5. คนให้เข้ากัน ยกลงตักเสิร์ฟ
 
 หมายเหตุ: รสหวานของแกงเหลืองขึ้นอยู่กับความสุกของสับปะรด ดังนั้นควรค่อยๆ ปรุงน้ำตาลทีละน้อย`,
-Region: "ภาคใต้",
-Image: "https://img.wongnai.com/p/1920x0/2019/11/30/b3f5f4b444cd446aab4fc25d8b87880c.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://img.wongnai.com/p/1920x0/2019/11/30/b3f5f4b444cd446aab4fc25d8b87880c.jpg",
+			Credit: "https://www.wongnai.com/recipes/ugc/aafcebb8d02d4b69a84a05a69e128a4e",
+			
 		},
 		{
 			Title: "พริกแกงเหลือง",
@@ -700,8 +746,10 @@ Image: "https://img.wongnai.com/p/1920x0/2019/11/30/b3f5f4b444cd446aab4fc25d8b87
 
 หมายเหตุ: สูตรน้ำพริกนี้เมื่อทำเสร็จจะได้ 90 กรัม (6 ช้อนโต๊ะ) ข้าวสารทำให้แกงมีน้ำข้นนำไปเป็นเครื่องปรุงน้ำพริกแกงเหลืองใส่ผัก และปลาหรือกุ้งสดได้หลากหลาย เช่น แกงเหลืองมะละกอใส่กุ้งสด หรือแกงเหลืองสับปะรดใส่ปลาช่อน 
 หรือแกงเหลืองยอดมะพร้าวใส่ปลากะพง ฯลฯ`,
-Region: "ภาคใต้",
-Image: "https://www.thaimee-d.com/pub/media/catalog/product/cache/9ef2995c1c404cd4852076153399d50d/f/i/file_17_3.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://www.thaimee-d.com/pub/media/catalog/product/cache/9ef2995c1c404cd4852076153399d50d/f/i/file_17_3.jpg",
+			Credit: "https://www.lazada.co.th/products/500-i4821168369.html",
+			
 		},
 
 		{
@@ -721,8 +769,10 @@ Image: "https://www.thaimee-d.com/pub/media/catalog/product/cache/9ef2995c1c404c
 2. นำกะปิห่อใบตองปิ้งให้สุกหอมพักไว้
 3. นำกะปิที่ปิ้งไว้ กระเทียม และพริกขี้หนู โขลกหยาบๆ ในครก แบ่งเนื้อกุ้งมา 1 ใน 3 ส่วน ใส่ลงไปโขลกพร้อมน้ำพริก ปรุงรสด้วยน้ำตาลปี๊บ และมะนาว ชิมดูให้ออกรสเปรี้ยวหวาน
 4. ใส่เนื้อกุ้งที่เหลือ หอมแดงซอยลงไปคลุกเคล้าให้เข้ากัน (ไม่ต้องตำ) จากนั้นตักใส่ถ้วย เสิร์ฟคู่กับผักสด - ผักลวกตามชอบ`,
-Region: "ภาคใต้",
-Image: "https://www.gourmetandcuisine.com/Images/cooking/recipes/recipe_502detail.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://www.gourmetandcuisine.com/Images/cooking/recipes/recipe_502detail.jpg",
+			Credit: "https://www.wongnai.com/restaurants/2146372Lg-%E0%B9%80%E0%B8%A2%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A1%E0%B9%83%E0%B8%95%E0%B9%89-south-cuisine",
+			
 		},
 
 		{
@@ -740,8 +790,10 @@ Image: "https://www.gourmetandcuisine.com/Images/cooking/recipes/recipe_502detai
 1. ตั้งน้ำให้ร้อน ใส่หมูเนื้อแดงลงไปต้มจนเดือด
 2. เติมน้ำพริกแกงคนให้เข้ากัน แล้วเคี่ยวด้วยไฟอ่อนๆ ใส่ใบมะกรูดลงไป เคี่ยวจนหมูเริ่มเปื่อย
 3. ปรุงรสด้วยน้ำปลาดี น้ำตาลปี๊บ เคี่ยวให้เหลือน้ำขลุกขลิก ใส่ใบยี่หร่ายกลงตักเสิร์ฟกับข้าวสวยร้อนๆ`,
-Region: "ภาคใต้",
-Image: "https://i.ytimg.com/vi/5WmM3b-gaIY/sddefault.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://i.ytimg.com/vi/5WmM3b-gaIY/sddefault.jpg",
+			Credit: "https://www.youtube.com/watch?v=5WmM3b-gaIY&ab_channel=EasyYummy",
+			
 		},
 
 		{
@@ -770,8 +822,10 @@ Image: "https://i.ytimg.com/vi/5WmM3b-gaIY/sddefault.jpg",
 2. นำเส้นก๋วยเตี๋ยวเส้นเล็กหรือเส้นหมี่ขาวแช่น้ำให้นิ่ม สรงใส่ตะแกรงพักไว้
 3. ตั้งกระทะใส่กะทิเคี่ยวกับน้ำพริกหมี่ที่โขลกไว้ คนให้เข้ากัน เติมน้ำตาลปี๊บ น้ำมะขามเปียก น้ำปลา คนให้น้ำตาลปี๊บละลาย
 4. นำก๋วยเตี๋ยวเส้นเล็กหรือเส้นหมี่ขาวลงผัดกับน้ำแกงผัดหมี่ ใส่กุ้งสดลงผัดให้สุก เติมน้ำเปล่า ผัดคลุกจนเส้นนิ่ม ยกลงจัดใส่จาน รับประทานกับผัก เช่น แตงกวา ใบบัวบก ถั่วงอก ใบกุยช่าย มะนาว มะม่วงสับฝอย หรือลูกมุดสับฝอย`,
-Region: "ภาคใต้",
-Image: "https://img.wongnai.com/p/1920x0/2019/11/03/0f27887e3dcf43c9879e6693588e3751.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://img.wongnai.com/p/1920x0/2019/11/03/0f27887e3dcf43c9879e6693588e3751.jpg",
+			Credit: "https://www.wongnai.com/recipes/ugc/74fb5e3274c24f17b01926ffcf9bcabe",
+			
 		},
 
 		{
@@ -811,8 +865,10 @@ Image: "https://img.wongnai.com/p/1920x0/2019/11/03/0f27887e3dcf43c9879e6693588e
 2. พอเดือด ใส่ส้มแขก เกลือป่น น้ำตาลปี๊บ น้ำตาลทราย และน้ำมะขามเปียก เคี่ยวสักพัก
 3. ใส่ปลาทูต้มจนสุก
 4. ใส่พริกขี้หนูสด ยกลงตักเสิร์ฟ`,
-Region: "ภาคใต้",
-Image: "https://i.ytimg.com/vi/S3V3tA18wAY/maxresdefault.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://i.ytimg.com/vi/S3V3tA18wAY/maxresdefault.jpg",
+			Credit: "https://www.youtube.com/watch?v=S3V3tA18wAY&ab_channel=%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B8%9E%E0%B8%B5%E0%B9%88%E0%B8%81%E0%B8%B1%E0%B8%8D%E0%B8%8D%E0%B9%8CKruaP%27gunn",
+			
 		},
 		{
 			Title: "ข้าวยำปักษ์ใต้และน้ำบูดู",
@@ -847,8 +903,10 @@ Image: "https://i.ytimg.com/vi/S3V3tA18wAY/maxresdefault.jpg",
 5. เคี่ยวต่อประมาณ 5 นาที ยกลงพักไว้
 
 หมายเหตุ: น้ำบูดูสูตรนี้จะได้ปริมาณ 360 มิลลิลิตร หรือ 24 ช้อนโต๊ะ มีรสหวานนำและมีกลิ่นของสมุนไพรจากข่า ตะไคร้ หอมแดง เมื่อนำไปผสมกับข้าวสวยและเครื่องข้าวยำ จะช่วยเพิ่มรสเปรี้ยวและกลมกล่อมด้วยมะม่วงดิบ ส้มโอ และมะนาว`,
-Region: "ภาคใต้",
-Image: "https://storage.googleapis.com/gsk-site/khao-yam-1.jpg",
+			Region: "ภาคใต้",
+			Image:  "https://storage.googleapis.com/gsk-site/khao-yam-1.jpg",
+			Credit: "https://www.genyoungactive.com/articles/khao-yam",
+			
 		},
 		{
 			Title: "แกงผักหวานไข่มดแดง",
@@ -876,8 +934,10 @@ Image: "https://storage.googleapis.com/gsk-site/khao-yam-1.jpg",
 3. ล้างไข่มดแดงในน้ำให้สะอาด สรงใส่ตะแกรงให้สะเด็ดน้ำ
 4. นำผักหวานที่ล้างน้ำแล้ว ใส่ลงในหม้อคนให้ทั่ว แล้วหรี่ไฟลง
 5. ปรุงรสด้วยน้ำปลาร้า เติมผักติ้ว ไข่มดแดง คนจนทั่ว เคี่ยวจนเดือดประมาณ 5 นาที ปิดไฟ ตักใส่ชามพร้อมเสิร์ฟ`,
-Region: "ภาคอีสาน",
-Image: "https://img.wongnai.com/p/1920x0/2017/10/04/f4d2d901befc492f9569d9e47d3aca14.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://img.wongnai.com/p/1920x0/2017/10/04/f4d2d901befc492f9569d9e47d3aca14.jpg",
+			Credit: "https://www.wongnai.com/cooking/cookbooks/ant-eggs-recipes",
+			
 		},
 		{
 			Title: "ขนมจีนน้ำยาลาว",
@@ -899,8 +959,9 @@ Image: "https://img.wongnai.com/p/1920x0/2017/10/04/f4d2d901befc492f9569d9e47d3a
 2. นำเครื่องสมุนไพรในข้อ 1 มาโขลกให้ละเอียด
 3. นำปลาต้มมายีและผสมกับเครื่องแกง ข้อ 2 โขลกให้เข้ากัน
 4. นำน้ำที่ต้มเครื่องแกงมากรองด้วยกระชอน ตั้งไฟให้เดือด นำส่วนผสม ข้อ 3 ใส่ลงในน้ำ คนให้เข้ากัน ปรุงรสด้วยปลาร้า เกลือ พอน้ำเดือดได้ที่ ปิดไฟ เสิร์ฟพร้อมขนมจีน ผักหั่นฝอย ไข่ขาวต้ม`,
-Region: "ภาคอีสาน",
-Image: "https://food-heal.com/wp-content/uploads/2022/10/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9B%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B8%A7.png",
+			Region: "ภาคอีสาน",
+			Image:  "https://food-heal.com/wp-content/uploads/2022/10/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9B%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B8%A7.png",
+			Credit: "https://food-heal.com/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9B%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B8%A7/",
 		},
 		{
 			Title: "แกงหยวกกล้วย",
@@ -923,8 +984,10 @@ Image: "https://food-heal.com/wp-content/uploads/2022/10/%E0%B8%82%E0%B9%89%E0%B
 3. ตั้งกระทะผัดเครื่องแกง ข้อ 2 กับน้ำมันจนหอม ใส่อกไก่ผัดให้เข้ากัน ใส่เกลือ
 4. เติมน้ำพอท่วม ใส่หยวกกล้วย
 5. รอให้เดือดอีกครั้ง เติมวุ้นเส้น ปิดไฟ พร้อมเสิร์ฟ`,
-Region: "ภาคอีสาน",
-Image: "https://img.wongnai.com/p/1920x0/2023/08/01/7c1432face3448ffa084b0d7b204cddf.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://img.wongnai.com/p/1920x0/2023/08/01/7c1432face3448ffa084b0d7b204cddf.jpg",
+			Credit: "https://www.wongnai.com/recipes/ugc/19c117fd310344ec86eeb1dada5225b0",
+			
 		},
 		{
 			Title: "ห่อหมกปลาช่อนกะหล่ำปลี",
@@ -946,8 +1009,10 @@ Image: "https://img.wongnai.com/p/1920x0/2023/08/01/7c1432face3448ffa084b0d7b204
 2. โขลกพริกสด หอมแดง ตะไคร้ กะปิ ให้ละเอียด ตักใส่ชามผสม
 3. ผสมกะทิ ไข่ขาว คนให้เข้ากัน จากนั้นเติมผักแขยงคลุกให้เข้ากัน
 4. รองใบตองด้วยใบแมงลัก และกะหล่ำปลีหั่นต้มสุก ตักส่วนผสมข้อ 2 และ 3 ใส่กระทงใบตอง นึ่งในน้ำเดือดจัดประมาณ 30 นาที`,
-Region: "ภาคอีสาน",
-Image: "https://i.ytimg.com/vi/7sL1cOs-q68/sddefault.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://i.ytimg.com/vi/7sL1cOs-q68/sddefault.jpg",
+			Credit: "https://youtu.be/7sL1cOs-q68?si=Nao2LeC2WagHDAsf",
+			
 		},
 		{
 			Title: "ส้มตำปลาร้าพายัพ",
@@ -971,8 +1036,9 @@ Image: "https://i.ytimg.com/vi/7sL1cOs-q68/sddefault.jpg",
 2. นำเนื้อมะอึก มะเขือเจ้าพระยา หั่นเป็นชิ้นบางๆ คลุกเคล้ากับส่วนผสมข้อ 1 ให้เข้ากัน
 3. หั่นไข่ขาวต้มเป็นเส้นคล้ายมะละกอ คลุกเคล้าในส่วนผสมข้อ 2
 4. เติมน้ำปลาร้า น้ำมะขามเปียก น้ำมะนาว ผสมให้เข้ากัน ตักใส่จาน เสิร์ฟพร้อมขนมจีน`,
-Region: "ภาคอีสาน",
-Image: "https://img.wongnai.com/p/1920x0/2020/10/18/1ac05bb40f974c268374a1ae7c491e94.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://img.wongnai.com/p/1920x0/2020/10/18/1ac05bb40f974c268374a1ae7c491e94.jpg",
+			Credit: "https://www.wongnai.com/reviews/5fd7db16875b4da9843cfd227a12ade3",
 		},
 		{
 			Title: "แกงลาวผักรวม",
@@ -1002,8 +1068,9 @@ Image: "https://img.wongnai.com/p/1920x0/2020/10/18/1ac05bb40f974c268374a1ae7c49
 3. ตัดโคนเห็ดทิ้ง จากนั้นหั่นหรือฉีกเห็ดเป็นชิ้นๆ ปอกเปลือกบวบหอม และฟักทอง แล้วหั่นเป็นชิ้น เด็ดใบแมงลักเป็นช่อ
 4. เตรียมเครื่องแกงพริกขี้หนู หอมแดง กระเทียม ตะไคร้ ข่า ผิวมะกรูด กระชายหั่นฝอย ตวงตามส่วน โขลกรวมกันจนละเอียด
 5. ต้มน้ำใบย่านางพอเดือดใส่เครื่องแกง ฟักทองพอสุก บวบ เห็ด ข้าวเบือ ปรุงรสด้วยน้ำปลาร้า พอเดือดใส่ ใบมะกรูดฉีก ใบแมงลัก พริกแดง ยกลงตักเสิร์ฟ`,
-Region: "ภาคอีสาน",
-Image: "https://i.ytimg.com/vi/bWBpR0KQXD4/maxresdefault.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://i.ytimg.com/vi/bWBpR0KQXD4/maxresdefault.jpg",
+			
 		},
 		{
 			Title: "แจ่วบองสมุนไพร",
@@ -1029,8 +1096,9 @@ Image: "https://i.ytimg.com/vi/bWBpR0KQXD4/maxresdefault.jpg",
 3. เผามะเขือเทศ ลอกเปลือกออกแล้วสับละเอียด
 4. นำส่วนผสมในข้อ 1-3 มาโขลกรวมกัน ใส่น้ำมะขามเปียก พริกป่น นำลงผัดในน้ำมันให้เข้ากัน
 5. ตักใส่จาน โรยหน้าด้วยใบมะกรูดหั่นฝอย จัดเสิร์ฟพร้อมผักสด`,
-Region: "ภาคอีสาน",
-Image: "https://th-live-01.slatic.net/p/d885d27f6948ca0a9876c3beccf3a912.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://th-live-01.slatic.net/p/d885d27f6948ca0a9876c3beccf3a912.jpg",
+			Credit: "https://www.lazada.co.th/products/1-kg-i619954353.html",
 		},
 		{
 			Title: "ลาบไข่ขาว",
@@ -1056,8 +1124,10 @@ Image: "https://th-live-01.slatic.net/p/d885d27f6948ca0a9876c3beccf3a912.jpg",
 1. นำไข่ขาวนึ่งให้สุก สับหยาบๆ ผัดพอเหลือง
 2. ผสมน้ำตาลทราย น้ำปลา คนให้ละลาย ใส่น้ำมะนาว
 3. นำไข่ขาว ใส่น้ำปรุงรส ข้อ 2. เติมน้ำต้มสุก ใส่หอมแดง ข้าวคั่ว พริกขี้หนูซอย พริกป่น ต้นหอม ผักชี คลุกเคล้าให้เข้ากัน จัดใส่จาน แต่งหน้าด้วยสะระแหน่ เสิร์ฟพร้อมผักสด`,
-Region: "ภาคอีสาน",
-Image: "https://sou-dai.com/wp-content/uploads/2022/03/21-1.png",
+			Region: "ภาคอีสาน",
+			Image:  "https://sou-dai.com/wp-content/uploads/2022/03/21-1.png",
+			Credit: "https://youtu.be/G2wsykvvx_U?si=pNtg4x9Ywf5Qkwa3",
+			
 		},
 		{
 			Title: "ผัดหมี่พิมาย",
@@ -1084,8 +1154,9 @@ Image: "https://sou-dai.com/wp-content/uploads/2022/03/21-1.png",
 4. ตั้งกระทะใส่น้ำมัน เจียวหอม กระเทียม จนเหลือง ใส่น้ำปลา น้ำตาล น้ำมะขามเปียก น้ำส้มสายชู และน้ำเปล่า เคี่ยวพอได้สีที่ต้องการ ใส่พริกป่นลงไป
 5. นำเส้นหมี่ลงผัดในน้ำปรุง เคล้าให้เข้ากัน ถ้าเส้นแข็งเติมน้ำเปล่าเพิ่ม
 6. ตักเสิร์ฟ ตกแต่งด้วยไข่ฝอย ถั่วงอก และต้นหอม`,
-Region: "ภาคอีสาน",
-Image: "https://img.wongnai.com/p/1920x0/2017/10/21/2b9ba64f21e84f40a041377cd3b58e1d.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://img.wongnai.com/p/1920x0/2017/10/21/2b9ba64f21e84f40a041377cd3b58e1d.jpg",
+			Credit: "https://shorturl.at/JTFGx",
 		},
 		{
 			Title: "ป่นปลาผักต้ม",
@@ -1110,8 +1181,9 @@ Image: "https://img.wongnai.com/p/1920x0/2017/10/21/2b9ba64f21e84f40a041377cd3b5
 2. นำปลาช่อนย่าง แกะก้างออก โขลกรวมกับส่วนผสมในข้อ 1
 3. เผามะเขือเทศ ปอกเปลือก โขลกรวมกับส่วนผสมในข้อ 1 และ ข้อ 2 ให้เข้ากัน
 4. ปรุงรสด้วยน้ำปลาร้า น้ำมะขามเปียก น้ำมะนาว หากข้นไปให้เติมน้ำต้มสุกเพิ่ม จัดเสิร์ฟพร้อมผักสด และผักต้ม`,
-Region: "ภาคอีสาน",
-Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.jpg",
+			Region: "ภาคอีสาน",
+			Image:  "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.jpg",
+			Credit: "https://siamfishing.com/m/content/m.view.php?cat=recipe&nid=150703",
 		},
 	}
 	for _, pkg := range Menu {
@@ -1152,76 +1224,76 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 	for _, mealtype := range Meals {
 		db.FirstOrCreate(&mealtype, entity.Meal{
 			MealdayID: mealtype.MealdayID,
-			MealType: mealtype.MealType,
+			MealType:  mealtype.MealType,
 		})
 	}
 
 	Mealdays := []entity.Mealday{
-	{MealplanID: 1, DayofWeek: "วันจันทร์"},
-	{MealplanID: 1, DayofWeek: "วันอังคาร"},
-	{MealplanID: 1, DayofWeek: "วันพุธ"},
-	{MealplanID: 1, DayofWeek: "วันพฤหัสบดี"},
-	{MealplanID: 1, DayofWeek: "วันศุกร์"},
-	{MealplanID: 1, DayofWeek: "วันเสาร์"},
-	{MealplanID: 1, DayofWeek: "วันอาทิตย์"},
+		{MealplanID: 1, DayofWeek: "วันจันทร์"},
+		{MealplanID: 1, DayofWeek: "วันอังคาร"},
+		{MealplanID: 1, DayofWeek: "วันพุธ"},
+		{MealplanID: 1, DayofWeek: "วันพฤหัสบดี"},
+		{MealplanID: 1, DayofWeek: "วันศุกร์"},
+		{MealplanID: 1, DayofWeek: "วันเสาร์"},
+		{MealplanID: 1, DayofWeek: "วันอาทิตย์"},
 	}
 
 	for _, day := range Mealdays {
-	db.FirstOrCreate(&day, entity.Mealday{
-		MealplanID: day.MealplanID,
-		DayofWeek:  day.DayofWeek,
+		db.FirstOrCreate(&day, entity.Mealday{
+			MealplanID: day.MealplanID,
+			DayofWeek:  day.DayofWeek,
 		})
 	}
 
 	MealMenus := []entity.MealMenu{
-	{MealID: 1, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 2, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
-	{MealID: 3, MenuID: 6, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 4, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 5, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 6, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
-	{MealID: 7, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 8, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 9, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 10, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
-	{MealID: 11, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 12, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 13, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 14, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
-	{MealID: 15, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 16, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 17, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 18, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
-	{MealID: 19, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 20, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 21, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 22, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
-	{MealID: 23, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 24, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 25, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 26, MenuID: 1, MenuType: "ผลไม้" , PortionText: ""},
-	{MealID: 27, MenuID: 30, MenuType: "เมนูหลัก" , PortionText: ""},
-	{MealID: 28, MenuID: 1, MenuType: "เมนูหลัก" , PortionText: ""},
+		{MealID: 1, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 2, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
+		{MealID: 3, MenuID: 6, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 4, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 5, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 6, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
+		{MealID: 7, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 8, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 9, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 10, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
+		{MealID: 11, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 12, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 13, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 14, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
+		{MealID: 15, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 16, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 17, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 18, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
+		{MealID: 19, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 20, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 21, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 22, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
+		{MealID: 23, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 24, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 25, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 26, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
+		{MealID: 27, MenuID: 30, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 28, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
 	}
 
 	for _, mealmenu := range MealMenus {
 		db.FirstOrCreate(&mealmenu, entity.MealMenu{
-			MealID: mealmenu.MealID,
-			MenuID: mealmenu.MenuID,
-			MenuType: mealmenu.MenuType,
+			MealID:      mealmenu.MealID,
+			MenuID:      mealmenu.MenuID,
+			MenuType:    mealmenu.MenuType,
 			PortionText: mealmenu.PortionText,
 		})
 	}
 
 	Mealplans := []entity.Mealplan{
-		{AdminID: 1,DiseaseID: 1,PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+		{AdminID: 1, DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
 	}
 
 	for _, mealplan := range Mealplans {
 		db.FirstOrCreate(&mealplan, entity.Mealplan{
-			AdminID: mealplan.AdminID,
+			AdminID:   mealplan.AdminID,
 			DiseaseID: mealplan.DiseaseID,
-			PlanName: mealplan.PlanName,
+			PlanName:  mealplan.PlanName,
 		})
 	}
 
@@ -1345,9 +1417,20 @@ Image: "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.j
 
 	for _, disease := range Diseases {
 		db.FirstOrCreate(&disease, entity.Disease{
-			Name: disease.Name,
+			Name:  disease.Name,
 			Stage: disease.Stage,
 		})
+	}
+
+	Ingredient := []entity.Ingredients{
+		{
+			Name: "อะโวคาโด",
+			Image: "https://medthai.com/wp-content/uploads/2013/07/Avocado-1.jpg",
+			Credit: "https://medthai.com/%E0%B8%AD%E0%B8%B0%E0%B9%82%E0%B8%A7%E0%B8%84%E0%B8%B2%E0%B9%82%E0%B8%94/",
+		},
+	}
+	for _, pkg := range Ingredient {
+		db.FirstOrCreate(&pkg, entity.Ingredients{Name: pkg.Name})
 	}
 
 	NutritionReccomentations := []entity.NutritionReccomentation{

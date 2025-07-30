@@ -30,61 +30,72 @@ const FoodDetail = () => {
   };
 
   useEffect(() => {
-  const fetchMenu = async () => {
-    if (!id) return;
-    try {
-      const res = await GetMenuById(id);
-      const data = res.data;
-      const dataArray = Array.isArray(data) ? data : [data];
-      setMenu(dataArray[0].menu);
-      console.log(dataArray[0].menu);
-    } catch (err) {
-      console.error("Error fetching menu:", err);
-    }
-  };
-  fetchMenu();
-}, [id]);
+    const fetchMenu = async () => {
+      if (!id) return;
+      try {
+        const res = await GetMenuById(id);
+        const data = res.data;
+        const dataArray = Array.isArray(data) ? data : [data];
+        setMenu(dataArray[0].menu);
+        console.log(dataArray[0].menu);
+      } catch (err) {
+        console.error("Error fetching menu:", err);
+      }
+    };
+    fetchMenu();
+  }, [id]);
 
-if (!id) return <p>ไม่พบ ID</p>;
-if (!menu) return <p>Loading...</p>;
+  if (!id) return <p>ไม่พบ ID</p>;
+  if (!menu) return <p>Loading...</p>;
 
-const description = menu.Description ?? "";
-const ingredients = extractIngredients(description);
+  const description = menu.Description ?? "";
+  const ingredients = extractIngredients(description);
 
 
   return (
     <div className="max-w mx-auto bg-white min-h-screen">
       {/* Header */}
       <div className="bg-[#2E77F8] text-white px-4 py-6">
-          <h2 className="font-semibold text-4xl text-center font-kanit">เมนูอาหารแนะนำ</h2>
-          <div className="w-8"></div>
+        <h2 className="font-semibold text-4xl text-center font-kanit">เมนูอาหารแนะนำ</h2>
+        <div className="w-8"></div>
       </div>
 
       {/* Food Image */}
       <div className="px-4 py-6">
         <div className="w-full max-w-2xl aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden mb-4 mx-auto">
-  <img
-    src={menu.Image}
-    alt={menu.Title}
-    className="w-full h-full object-cover"
-  />
-</div>
+          <img
+            src={menu.Image}
+            alt={menu.Title}
+            className="w-full h-full object-cover"
+
+          />
+
+        </div>
+        <div>
+          <h2 className="text-lg sm:text-xl font-kanit text-blue-800 ml-3 text-center">
+            <a href= {menu.Credit} target="_blank" rel="noopener noreferrer">
+              ขอบคุณภาพจาก
+            </a>
+          </h2>
+        </div>
 
 
         {/* Category Badge */}
         <div className="flex items-center space-x-2 mb-4">
           <span className="text-yellow-500 text-sm">⭐</span>
-          <span className="text-sm text-gray-600">เมนูแนะนำ คาวหวาน</span>
+          <span className="text-xl text-gray-600 font-kanit">{menu.Region}</span>
+
         </div>
 
-        <h3 className="text-lg font-bold text-gray-800 mb-6">ส่วนประกอบ</h3>
+        <h3 className="text-2xl font-bold font-kanit text-gray-800 ">ส่วนประกอบ</h3>
+        <h3 className="text-l font-kanit text-gray-800 ">**ปริมาณสารอาหารอาจแตกต่างกันไปตามแต่ละบุคคล**</h3>
       </div>
 
       {/* Ingredients Table */}
-      <div className="px-4 mb-6">
+      <div className="px-4 mb-6  font-kanit">
         <div className="bg-gray-50 rounded-lg overflow-hidden">
-          <div className="grid grid-cols-3 bg-gray-100 p-3 text-sm font-medium text-gray-700">
-            <div>ส่วนประกอบ</div>
+          <div className="grid grid-cols-3 bg-gray-100 p-3 text-sm font-medium text-gray-700 ">
+            <div  className= "font-kanit">ส่วนประกอบ</div>
             <div className="text-center">ปริมาณ</div>
             <div className="text-center">น้ำหนัก</div>
           </div>

@@ -6,4 +6,5 @@ export interface MenuInterface {
     Region?: string;
     Image?: string;
     AdminID?: number; //FK
+    Credit?: string;
 }

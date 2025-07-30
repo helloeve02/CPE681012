@@ -5,13 +5,9 @@ import "gorm.io/gorm"
 type Ingredients struct {
 	gorm.Model
 	Name		string
+	Image		string
+	Credit 		string
 
-	TagID        uint 	 
-	Tag      Tag  
-	
-	FiveFoodGroupsID	uint
-	FiveFoodGroups	FiveFoodGroups
-	
 	AdminID		uint
 	Admin		Admin
 }
