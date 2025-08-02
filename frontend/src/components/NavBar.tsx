@@ -30,10 +30,10 @@ const NavBar = () => {
     <div className="bg-[#2E77F8] p-3">
       <div className="flex items-center justify-between">
         <div onClick={handleIconClick} className="text-white text-4xl font-bold pl-5 cursor-pointer md:pl-10">NavBar</div>
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <MenuOutlined className="!text-white text-2xl pr-5 cursor-pointer" onClick={toggleMenu} />
         </div>
-        <ul className="text-xl hidden md:flex space-x-15 mr-10 font-kanit">
+        <ul className="text-xl hidden lg:flex space-x-15 mr-15 font-kanit">
           <li>
             <a onClick={handleNutritionClick} className="text-white cursor-pointer">
               โภชนาการที่เหมาะกับคุณ
@@ -58,7 +58,7 @@ const NavBar = () => {
       </div>
       {/* Mobile Menu */}
       {isMenuOpen ? (
-      <ul className="md:hidden space-x-15 mr-10 font-kanit pl-8">
+      <ul className="lg:hidden space-x-15 md:ml-5 font-kanit pl-8">
         <li>
             <a onClick={handleNutritionClick} className="text-white cursor-pointer">
               โภชนาการที่เหมาะกับคุณ

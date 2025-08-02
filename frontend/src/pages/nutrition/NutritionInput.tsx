@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Input, Radio, Select, Spin } from "antd";
 import type { RadioChangeEvent } from "antd";
-import { GetAllDisease, GetRuleByUserInfo } from "../../services/https";
+import { GetAllDisease, FindRuleByUserInfo } from "../../services/https";
 import type { DiseasesInterface } from "../../interfaces/Disease";
 
 const NutritionInput = () => {
@@ -40,11 +40,18 @@ const NutritionInput = () => {
     };
 
     try {
-      const rule = await GetRuleByUserInfo(userData);
+      const rule = await FindRuleByUserInfo(userData);
       console.log(userData);
       if (rule?.data) {
-        // Save to localStorage or call your API here
-        localStorage.setItem("rule", JSON.stringify(rule.data));
+        const now = Date.now();
+        const expiresAt = now + 4 * 60 * 60 * 1000; // 4 hours from now
+
+        const ruleWithExpiry = {
+          rule: rule.data,
+          expiresAt,
+        };
+        // Save to localStorage
+        localStorage.setItem("rule", JSON.stringify(ruleWithExpiry));
         navigate("/nutrition-suggestion");
       } else {
         alert("ไม่สามารถดึงข้อมูลคำแนะนำได้");

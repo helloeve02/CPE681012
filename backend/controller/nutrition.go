@@ -78,8 +78,14 @@ func GetNutritionRecommendationByRule(c *gin.Context) {
 	// รับค่า Rule จากพารามิเตอร์ใน URL
 	rule := c.Param("rule")
 
+	type NutritionRecommendationResponse struct {
+		NutritionGroupName string  `gorm:"column:nutrition_group_name"`
+		AmountInGrams      float64 `gorm:"column:amount_in_grams"`
+		AmountInPercentage float64 `gorm:"column:amount_in_percentage"`
+	}
+
 	// กำหนด struct สำหรับเก็บผลลัพธ์ที่จะ return
-	var nutritionRecommendations []entity.NutritionRecommendation
+	var nutritionRecommendations []NutritionRecommendationResponse
 
 	// Get the database connection
 	db := config.DB()
@@ -108,14 +114,21 @@ func GetPortionRecommendationByRule(c *gin.Context) {
 	// รับค่า Rule จากพารามิเตอร์ใน URL
 	rule := c.Param("rule")
 
+	type PortionRecommendationResponse struct {
+		FoodGroupName string  `gorm:"column:food_group_name"`
+		Unit          string  `gorm:"column:unit"`
+		MealTimeName  string  `gorm:"column:meal_time_name"`
+		Amount        float32 `gorm:"column:amount"`
+	}
+
 	// กำหนด struct สำหรับเก็บผลลัพธ์ที่จะ return
-	var portionRecommendations []entity.PortionRecommendation
+	var portionRecommendations []PortionRecommendationResponse
 
 	// Get the database connection
 	db := config.DB()
 
 	query := `
-		SELECT food_groups.name, food_groups.unit, meal_times.name, portion_recommendations.amount
+		SELECT food_groups.name AS food_group_name, food_groups.unit, meal_times.name AS meal_time_name, portion_recommendations.amount
 		FROM portion_recommendations
 		JOIN food_groups ON food_groups.id = portion_recommendations.food_group_id
 		JOIN meal_times ON meal_times.id = portion_recommendations.meal_time_id
@@ -131,4 +144,23 @@ func GetPortionRecommendationByRule(c *gin.Context) {
 
 	// Return the fetched menu as a JSON response
 	c.JSON(http.StatusOK, gin.H{"portionRecommendations": portionRecommendations})
+}
+
+func GetCaloriesByRuleID(c *gin.Context) {
+    ruleID := c.Param("ruleid")
+    var calories int
+
+    db := config.DB()
+
+    err := db.Model(&entity.Rule{}).
+        Select("calories").
+        Where("id = ?", ruleID).
+        Scan(&calories).Error
+
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to fetch calories"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{"calories": calories})
 }
