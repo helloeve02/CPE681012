@@ -2,7 +2,7 @@ package entity
 
 import "gorm.io/gorm"
 
-type PortionReccomentation struct {
+type PortionRecommendation struct {
 	gorm.Model
 	Amount float32 
 

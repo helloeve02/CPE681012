@@ -20,8 +20,8 @@ type Rule struct {
 	Disease Disease `gorm:"foreignKey:DiseaseID"`
 
 	// 1 Rule เป็นเจ้าของได้หลาย PortionReccomentation
-	PortionReccomentations []PortionReccomentation `gorm:"foreignKey:RuleID"`
+	PortionReccomentations []PortionRecommendation `gorm:"foreignKey:RuleID"`
 
 	// 1 Rule เป็นเจ้าของได้หลาย NutritionReccomentation
-	NutritionReccomentations []NutritionReccomentation `gorm:"foreignKey:RuleID"`
+	NutritionReccomentations []NutritionRecommendation `gorm:"foreignKey:RuleID"`
 }

@@ -21,7 +21,7 @@ func GetAllDisease(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"diseases": diseases})
 }
 
-func GetRuleByUserInfo(c *gin.Context) {
+func FindRuleByUserInfo(c *gin.Context) {
 	// Define the input struct directly inside the function
 	type UserInput struct {
 		Age          int     `json:"age"`
@@ -74,16 +74,61 @@ func GetRuleByUserInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": ruleID})
 }
 
-// SELECT
-// 			rules.calories,
-// 			nutrition_reccomentations.amount,
-// 			nutrition_groups.name AS nutrition_group
-// 		FROM rules
-// 		JOIN nutrition_reccomentations ON rules.id = nutrition_reccomentations.rule_id
-// 		JOIN age_ranges ON age_ranges.id = rules.age_range_id
-// 		JOIN ibw_ranges ON ibw_ranges.id = rules.ibw_range_id
-// 		JOIN diseases ON diseases.id = rules.disease_id
-// 		JOIN nutrition_groups ON nutrition_groups.id = nutrition_reccomentations.nutrition_id
-// 		WHERE ? BETWEEN age_ranges.age_min AND age_ranges.age_max
-// 		  AND ? BETWEEN ibw_ranges.ibw_min AND ibw_ranges.ibw_max
-// 		  AND diseases.stage = ?
+func GetNutritionRecommendationByRule(c *gin.Context) {
+	// รับค่า Rule จากพารามิเตอร์ใน URL
+	rule := c.Param("rule")
+
+	// กำหนด struct สำหรับเก็บผลลัพธ์ที่จะ return
+	var nutritionRecommendations []entity.NutritionRecommendation
+
+	// Get the database connection
+	db := config.DB()
+
+	query := `
+		SELECT  nutrition_groups.name AS nutrition_group_name,
+				nutrition_recommendations.amount_in_grams,
+				nutrition_recommendations.amount_in_percentage
+		FROM nutrition_recommendations
+		JOIN nutrition_groups ON nutrition_groups.id = nutrition_recommendations.nutrition_group_id
+		WHERE nutrition_recommendations.rule_id = ?;
+		`
+	// Query with joins to get the menu by ID and preload related images
+	err := db.Raw(query, rule).Scan(&nutritionRecommendations).Error
+	if err != nil {
+		// Handle errors and return an appropriate response
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to fetch nutrition recommendations"})
+		return
+	}
+
+	// Return the fetched menu as a JSON response
+	c.JSON(http.StatusOK, gin.H{"nutritionRecommendations": nutritionRecommendations})
+}
+
+func GetPortionRecommendationByRule(c *gin.Context) {
+	// รับค่า Rule จากพารามิเตอร์ใน URL
+	rule := c.Param("rule")
+
+	// กำหนด struct สำหรับเก็บผลลัพธ์ที่จะ return
+	var portionRecommendations []entity.PortionRecommendation
+
+	// Get the database connection
+	db := config.DB()
+
+	query := `
+		SELECT food_groups.name, food_groups.unit, meal_times.name, portion_recommendations.amount
+		FROM portion_recommendations
+		JOIN food_groups ON food_groups.id = portion_recommendations.food_group_id
+		JOIN meal_times ON meal_times.id = portion_recommendations.meal_time_id
+		WHERE portion_recommendations.rule_id = ?;
+		`
+	// Query with joins to get the menu by ID and preload related images
+	err := db.Raw(query, rule).Scan(&portionRecommendations).Error
+	if err != nil {
+		// Handle errors and return an appropriate response
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to fetch portion recommendations"})
+		return
+	}
+
+	// Return the fetched menu as a JSON response
+	c.JSON(http.StatusOK, gin.H{"portionRecommendations": portionRecommendations})
+}
