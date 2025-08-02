@@ -40,7 +40,7 @@ async function GetAllDisease() {
     .catch((e) => e.response);
 }
 
-async function GetRuleByUserInfo(userInfo: UserInfo) {
+async function FindRuleByUserInfo(userInfo: UserInfo) {
   return await axios
     .post(`${apiUrl}/rule`, userInfo)
     .then((res) => res.data) 
@@ -50,11 +50,34 @@ async function GetRuleByUserInfo(userInfo: UserInfo) {
     });
 }
 
+async function GetNutritionDataByRule(rule: number) {
+  return await axios
+    .get(`${apiUrl}/nutritionrecommendation/${rule}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetPortionDataByRule(rule: number) {
+  return await axios
+    .get(`${apiUrl}/portionrecommendation/${rule}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetCaloriesByRule(rule: number) {
+  return await axios
+    .get(`${apiUrl}/calories/${rule}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
 
 export{
     GetAllMenu,
     GetMenuById,
     GetAllMenuImage,
     GetAllDisease,
-    GetRuleByUserInfo
+    FindRuleByUserInfo,
+    GetNutritionDataByRule,
+    GetPortionDataByRule,
+    GetCaloriesByRule,
 }

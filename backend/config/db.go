@@ -1366,7 +1366,7 @@ func SetupDatabase() {
 			Name: nutritionGroup.Name,
 		})
 	}
-
+	/*ขาดข้อมูลผู้ป่วยไตที่อายุ 61 ปี ขึ้นไป*/
 	Rules := []entity.Rule{
 		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1}, //1
 		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 1}, //2

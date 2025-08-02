@@ -33,6 +33,7 @@ func main() {
        r.POST("/rule", controller.FindRuleByUserInfo)
        r.GET("/nutritionrecommendation/:rule", controller.GetNutritionRecommendationByRule)
        r.GET("/portionrecommendation/:rule", controller.GetPortionRecommendationByRule)
+       r.GET("/calories/:ruleid", controller.GetCaloriesByRuleID)
    }
 
 
