@@ -2,6 +2,7 @@ const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");
 const Bearer = localStorage.getItem("token_type");
 import axios from "axios";
+import type { UserInfo } from "../../interfaces/Nutrition";
 const requestOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -39,12 +40,7 @@ async function GetAllDisease() {
     .catch((e) => e.response);
 }
 
-async function GetRuleByUserInfo(userInfo: {
-  age: number;
-  height: number;
-  gender: string;
-  disease_stage: string;
-}) {
+async function GetRuleByUserInfo(userInfo: UserInfo) {
   return await axios
     .post(`${apiUrl}/rule`, userInfo)
     .then((res) => res.data) 

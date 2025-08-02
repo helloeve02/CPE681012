@@ -46,8 +46,8 @@ func SetupDatabase() {
 		&entity.IbwRange{},
 		&entity.MealTime{},
 		&entity.NutritionGroup{},
-		&entity.NutritionReccomentation{},
-		&entity.PortionReccomentation{},
+		&entity.NutritionRecommendation{},
+		&entity.PortionRecommendation{},
 		&entity.Rule{},
 	)
 	if err != nil {
@@ -1311,11 +1311,12 @@ func SetupDatabase() {
 
 	FoodGroups := []entity.FoodGroup{
 		{Name: "ข้าว/แป้ง", Unit: "ทัพพี"},
+		{Name: "แป้งปลอดโปรตีน", Unit: "ทัพพี"},
 		{Name: "ผัก", Unit: "ทัพพี"},
 		{Name: "ผลไม้", Unit: "ส่วน"},
 		{Name: "เนื้อสัตว์", Unit: "ช้อนโต๊ะ"},
 		{Name: "ไขมัน", Unit: "ช้อนชา"},
-		{Name: "เครื่องปรุง", Unit: "ช้อนชา"},
+		{Name: "ซอสปรุงรส", Unit: "ช้อนชา"},
 	}
 
 	for _, foodGroup := range FoodGroups {
@@ -1344,9 +1345,7 @@ func SetupDatabase() {
 
 	MealTimes := []entity.MealTime{
 		{Name: "เช้า"},
-		{Name: "ว่างเช้า"},
 		{Name: "กลางวัน"},
-		{Name: "ว่างบ่าย"},
 		{Name: "เย็น"},
 	}
 
@@ -1369,33 +1368,33 @@ func SetupDatabase() {
 	}
 
 	Rules := []entity.Rule{
-		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1},
-		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 1},
-		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 1},
-		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 1},
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1}, //1
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 1}, //2
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 1}, //3
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 1}, //4
 
-		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 2},
-		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 2},
-		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 2},
-		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 2},
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 2}, //5
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 2}, //6
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 2}, //7
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 2}, //8
 		
-		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 3},
-		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 3},
-		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 3},
-		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 3},
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 3}, //9
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 3}, //10
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 3}, //11
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 3}, //12
 
-		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 4},
-		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 4},
-		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 4},
-		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 4},
+		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 4}, //13
+		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 4}, //14
+		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 4}, //15
+		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 4}, //16
 
-		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 5},
-		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 5},
-		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 5},
-		{Calories: 1950, IbwRangeID: 5, AgeRangeID: 1, DiseaseID: 5},
-		{Calories: 2100, IbwRangeID: 6, AgeRangeID: 1, DiseaseID: 5},
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 5}, //17
+		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 5}, //18
+		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 5}, //19
+		{Calories: 1950, IbwRangeID: 5, AgeRangeID: 1, DiseaseID: 5}, //20
+		{Calories: 2100, IbwRangeID: 6, AgeRangeID: 1, DiseaseID: 5}, //21
 
-		{Calories: 1500, IbwRangeID: 7, AgeRangeID: 2, DiseaseID: 5},
+		{Calories: 1500, IbwRangeID: 7, AgeRangeID: 2, DiseaseID: 5}, //22
 	}
 
 	for _, rule := range Rules {
@@ -1433,35 +1432,597 @@ func SetupDatabase() {
 		db.FirstOrCreate(&pkg, entity.Ingredients{Name: pkg.Name})
 	}
 
-	NutritionReccomentations := []entity.NutritionReccomentation{
-		{Amount: 0, NutritionID: 1,  RuleID: 1},
-		{Amount: 0, NutritionID: 2,  RuleID: 1},
-		{Amount: 0, NutritionID: 3,  RuleID: 1},
+	NutritionRecommendations := []entity.NutritionRecommendation{
+		{AmountInGrams: 240, AmountInPercentage: 55, NutritionGroupID: 1,  RuleID: 1},
+		{AmountInGrams: 43, AmountInPercentage: 10, NutritionGroupID: 2,  RuleID: 1},
+		{AmountInGrams: 68, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 1},
+
+		{AmountInGrams: 265, AmountInPercentage: 55, NutritionGroupID: 1,  RuleID: 2},
+		{AmountInGrams: 48, AmountInPercentage: 10, NutritionGroupID: 2,  RuleID: 2},
+		{AmountInGrams: 75, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 2},
+
+		{AmountInGrams: 288, AmountInPercentage: 55, NutritionGroupID: 1,  RuleID: 3},
+		{AmountInGrams: 53, AmountInPercentage: 10, NutritionGroupID: 2,  RuleID: 3},
+		{AmountInGrams: 82, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 3},
+		
+		{AmountInGrams: 313, AmountInPercentage: 55, NutritionGroupID: 1,  RuleID: 4},
+		{AmountInGrams: 57, AmountInPercentage: 10, NutritionGroupID: 2,  RuleID: 4},
+		{AmountInGrams: 88, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 4},
+
+		{AmountInGrams: 249, AmountInPercentage: 57, NutritionGroupID: 1,  RuleID: 5},
+		{AmountInGrams: 35, AmountInPercentage: 8, NutritionGroupID: 2,  RuleID: 5},
+		{AmountInGrams: 68, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 5},
+
+		{AmountInGrams: 274, AmountInPercentage: 57, NutritionGroupID: 1,  RuleID: 6},
+		{AmountInGrams: 38, AmountInPercentage: 8, NutritionGroupID: 2,  RuleID: 6},
+		{AmountInGrams: 75, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 6},
+
+		{AmountInGrams: 299, AmountInPercentage: 57, NutritionGroupID: 1,  RuleID: 7},
+		{AmountInGrams: 41, AmountInPercentage: 8, NutritionGroupID: 2,  RuleID: 7},
+		{AmountInGrams: 82, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 7},
+
+		{AmountInGrams: 324, AmountInPercentage: 57, NutritionGroupID: 1,  RuleID: 8},
+		{AmountInGrams: 45, AmountInPercentage: 8, NutritionGroupID: 2,  RuleID: 8},
+		{AmountInGrams: 88, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 8},
+
+		{AmountInGrams: 219, AmountInPercentage: 57, NutritionGroupID: 1,  RuleID: 9},
+		{AmountInGrams: 65, AmountInPercentage: 8, NutritionGroupID: 2,  RuleID: 9},
+		{AmountInGrams: 68, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 9},
+
+		{AmountInGrams: 240, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 10},
+		{AmountInGrams: 72, AmountInPercentage: 15, NutritionGroupID: 2,  RuleID: 10},
+		{AmountInGrams: 75, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 10},
+		
+		{AmountInGrams: 263, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 11},
+		{AmountInGrams: 78, AmountInPercentage: 15, NutritionGroupID: 2,  RuleID: 11},
+		{AmountInGrams: 82, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 11},
+
+		{AmountInGrams: 284, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 12},
+		{AmountInGrams: 85, AmountInPercentage: 15, NutritionGroupID: 2,  RuleID: 12},
+		{AmountInGrams: 88, AmountInPercentage: 35, NutritionGroupID: 3,  RuleID: 12},
+
+		{AmountInGrams: 218, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 13},
+		{AmountInGrams: 75, AmountInPercentage: 17, NutritionGroupID: 2,  RuleID: 13},
+		{AmountInGrams: 64, AmountInPercentage: 33, NutritionGroupID: 3,  RuleID: 13},
+
+		{AmountInGrams: 240, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 14},
+		{AmountInGrams: 82, AmountInPercentage: 17, NutritionGroupID: 2,  RuleID: 14},
+		{AmountInGrams: 71, AmountInPercentage: 33, NutritionGroupID: 3,  RuleID: 14},
+
+		{AmountInGrams: 263, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 15},
+		{AmountInGrams: 90, AmountInPercentage: 17, NutritionGroupID: 2,  RuleID: 15},
+		{AmountInGrams: 77, AmountInPercentage: 33, NutritionGroupID: 3,  RuleID: 15},
+
+		{AmountInGrams: 284, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 16},
+		{AmountInGrams: 97, AmountInPercentage: 17, NutritionGroupID: 2,  RuleID: 16},
+		{AmountInGrams: 83, AmountInPercentage: 33, NutritionGroupID: 3,  RuleID: 16},
+
+		{AmountInGrams: 187.5, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 17},
+		{AmountInGrams: 75, AmountInPercentage: 20, NutritionGroupID: 2,  RuleID: 17},
+		{AmountInGrams: 50, AmountInPercentage: 30, NutritionGroupID: 3,  RuleID: 17},
+
+		{AmountInGrams: 206.25, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 18},
+		{AmountInGrams: 82.5, AmountInPercentage: 20, NutritionGroupID: 2,  RuleID: 18},
+		{AmountInGrams: 55, AmountInPercentage: 30, NutritionGroupID: 3,  RuleID: 18},
+
+		{AmountInGrams: 225, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 19},
+		{AmountInGrams: 90, AmountInPercentage: 20, NutritionGroupID: 2,  RuleID: 19},
+		{AmountInGrams: 60, AmountInPercentage: 30, NutritionGroupID: 3,  RuleID: 19},
+
+		{AmountInGrams: 243.75, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 20},
+		{AmountInGrams: 97.5, AmountInPercentage: 20, NutritionGroupID: 2,  RuleID: 20},
+		{AmountInGrams: 65, AmountInPercentage: 30, NutritionGroupID: 3,  RuleID: 20},
+
+		{AmountInGrams: 262.5, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 21},
+		{AmountInGrams: 105, AmountInPercentage: 20, NutritionGroupID: 2,  RuleID: 21},
+		{AmountInGrams: 70, AmountInPercentage: 30, NutritionGroupID: 3,  RuleID: 21},
+
+		{AmountInGrams: 187.5, AmountInPercentage: 50, NutritionGroupID: 1,  RuleID: 22},
+		{AmountInGrams: 75, AmountInPercentage: 20, NutritionGroupID: 2,  RuleID: 22},
+		{AmountInGrams: 50, AmountInPercentage: 30, NutritionGroupID: 3,  RuleID: 22},
 	}
 
-	for _, nutritionReccomentation := range NutritionReccomentations {
-		db.FirstOrCreate(&nutritionReccomentation, entity.NutritionReccomentation{
-			Amount: nutritionReccomentation.Amount,
-			NutritionID: nutritionReccomentation.NutritionID,
-			RuleID: nutritionReccomentation.RuleID,
+	for _, nutritionRecommendation := range NutritionRecommendations {
+		db.FirstOrCreate(&nutritionRecommendation, entity.NutritionRecommendation{
+			AmountInGrams: nutritionRecommendation.AmountInGrams,
+			AmountInPercentage: nutritionRecommendation.AmountInPercentage,
+			NutritionGroupID: nutritionRecommendation.NutritionGroupID,
+			RuleID: nutritionRecommendation.RuleID,
 		})
 	}
 
-	PortionReccomentations := []entity.PortionReccomentation{
-		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 1},
+	PortionRecommendations := []entity.PortionRecommendation{
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 1}, //เช้า
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 4, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 5, MealTimeID: 1, RuleID: 1},
-		{Amount: 0, FoodGroupID: 6, MealTimeID: 1, RuleID: 1},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 1},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 1},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 1},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 1, RuleID: 1},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 1},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 1}, //กลางวัน
+		{Amount: 3.5, FoodGroupID: 2, MealTimeID: 2, RuleID: 1},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 1},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 1},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 1},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 2, RuleID: 1},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 1},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 1}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 1},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 1},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 1},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 3, RuleID: 1},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 1},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 1},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 2}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 2},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 2},
+		{Amount: 1.5, FoodGroupID: 4, MealTimeID: 1, RuleID: 2},
+		{Amount: 3.5, FoodGroupID: 5, MealTimeID: 1, RuleID: 2},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 2},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 2},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 2}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 2},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 2},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 2},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 2},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 2},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 2},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 2}, //เย็น
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 3, RuleID: 2},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 2},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 2},
+		{Amount: 3.5, FoodGroupID: 5, MealTimeID: 3, RuleID: 2},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 2},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 2},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 3}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 3},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 3},
+		{Amount: 1.5, FoodGroupID: 4, MealTimeID: 1, RuleID: 3},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 3},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 3},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 3},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 3}, //กลางวัน
+		{Amount: 3.5, FoodGroupID: 2, MealTimeID: 2, RuleID: 3},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 3},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 3},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 3},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 3},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 3},
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 3}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 3},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 3},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 3},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 3, RuleID: 3},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 3, RuleID: 3},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 3},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 4}, //เช้า
+		{Amount: 1.5, FoodGroupID: 2, MealTimeID: 1, RuleID: 4},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 1, RuleID: 4},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 4},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 4},
+		{Amount: 4, FoodGroupID: 6, MealTimeID: 1, RuleID: 4},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 4},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 4}, //กลางวัน
+		{Amount: 3.5, FoodGroupID: 2, MealTimeID: 2, RuleID: 4},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 4},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 4},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 4},
+		{Amount: 4, FoodGroupID: 6, MealTimeID: 2, RuleID: 4},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 4},
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 4}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 4},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 4},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 4},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 4},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 4},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 4},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 5}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 5},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 5},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 5},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 1, RuleID: 5},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 5},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 5},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 5}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 5},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 5},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 5},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 2, RuleID: 5},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 5},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 5},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 5}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 5},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 5},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 5},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 3, RuleID: 5},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 5},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 5},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 6}, //เช้า
+		{Amount: 1.5, FoodGroupID: 2, MealTimeID: 1, RuleID: 6},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 6},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 6},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 6},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 6},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 6},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 6}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 6},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 6},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 6},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 6},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 6},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 6},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 6}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 6},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 6},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 6},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 3, RuleID: 6},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 6},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 6},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 7}, //เช้า
+		{Amount: 1.5, FoodGroupID: 2, MealTimeID: 1, RuleID: 7},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 7},
+		{Amount: 3, FoodGroupID: 4, MealTimeID: 1, RuleID: 7},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 7},
+		{Amount: 4, FoodGroupID: 6, MealTimeID: 1, RuleID: 7},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 7},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 7}, //กลางวัน
+		{Amount: 4, FoodGroupID: 2, MealTimeID: 2, RuleID: 7},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 7},
+		{Amount: 2, FoodGroupID: 4, MealTimeID: 2, RuleID: 7},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 7},
+		{Amount: 4, FoodGroupID: 6, MealTimeID: 2, RuleID: 7},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 7},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 7}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 7},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 7},
+		{Amount: 3, FoodGroupID: 4, MealTimeID: 3, RuleID: 7},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 3, RuleID: 7},
+		{Amount: 4, FoodGroupID: 6, MealTimeID: 3, RuleID: 7},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 7},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 8}, //เช้า
+		{Amount: 1.5, FoodGroupID: 2, MealTimeID: 1, RuleID: 8},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 1, RuleID: 8},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 8},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 8},
+		{Amount: 5, FoodGroupID: 6, MealTimeID: 1, RuleID: 8},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 8},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 8}, //กลางวัน
+		{Amount: 4, FoodGroupID: 2, MealTimeID: 2, RuleID: 8},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 8},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 8},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 8},
+		{Amount: 4, FoodGroupID: 6, MealTimeID: 2, RuleID: 8},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 8},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 8}, //เย็น
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 3, RuleID: 8},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 8},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 8},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 3, RuleID: 8},
+		{Amount: 4, FoodGroupID: 6, MealTimeID: 3, RuleID: 8},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 8},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 9}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 9},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 9},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 9},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 9},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 9},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 9},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 9}, //กลางวัน
+		{Amount: 2, FoodGroupID: 2, MealTimeID: 2, RuleID: 9},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 9},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 9},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 9},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 2, RuleID: 9},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 9},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 9}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 9},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 9},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 9},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 9},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 9},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 9},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 10}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 10},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 10},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 10},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 10},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 10},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 10},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 10}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 10},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 10},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 10},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 10},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 10},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 10},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 10}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 10},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 10},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 10},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 10},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 10},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 10},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 11}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 11},
+		{Amount: 2.5, FoodGroupID: 3, MealTimeID: 1, RuleID: 11},
+		{Amount: 1.5, FoodGroupID: 4, MealTimeID: 1, RuleID: 11},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 11},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 11},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 11},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 11}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 11},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 11},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 11},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 2, RuleID: 11},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 11},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 11},
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 11}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 11},
+		{Amount: 2.5, FoodGroupID: 3, MealTimeID: 3, RuleID: 11},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 11},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 3, RuleID: 11},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 11},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 11},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 12}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 12},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 1, RuleID: 12},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 12},
+		{Amount: 6.5, FoodGroupID: 5, MealTimeID: 1, RuleID: 12},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 1, RuleID: 12},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 12},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 12}, //กลางวัน
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 2, RuleID: 12},
+		{Amount: 2.5, FoodGroupID: 3, MealTimeID: 2, RuleID: 12},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 12},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 2, RuleID: 12},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 12},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 12},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 12}, //เย็น
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 3, RuleID: 12},
+		{Amount: 2.5, FoodGroupID: 3, MealTimeID: 3, RuleID: 12},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 12},
+		{Amount: 6.5, FoodGroupID: 5, MealTimeID: 3, RuleID: 12},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 3, RuleID: 12},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 12},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 13}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 13},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 13},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 13},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 13},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 13},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 13},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 13}, //กลางวัน
+		{Amount: 2, FoodGroupID: 2, MealTimeID: 2, RuleID: 13},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 13},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 13},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 2, RuleID: 13},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 13},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 13},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 13}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 13},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 13},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 13},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 3, RuleID: 13},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 3, RuleID: 13},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 13},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 14}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 14},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 14},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 14},
+		{Amount: 7, FoodGroupID: 5, MealTimeID: 1, RuleID: 14},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 14},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 14},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 14}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 14},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 14},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 14},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 2, RuleID: 14},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 14},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 14},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 14}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 14},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 14},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 14},
+		{Amount: 7, FoodGroupID: 5, MealTimeID: 3, RuleID: 14},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 3, RuleID: 14},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 14},
+
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 15}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 15},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 15},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 15},
+		{Amount: 7.5, FoodGroupID: 5, MealTimeID: 1, RuleID: 15},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 15},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 15},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 15}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 15},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 15},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 15},
+		{Amount: 7, FoodGroupID: 5, MealTimeID: 2, RuleID: 15},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 15},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 15},
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 15}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 15},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 15},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 15},
+		{Amount: 7.5, FoodGroupID: 5, MealTimeID: 3, RuleID: 15},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 3, RuleID: 15},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 15},
+
+		{Amount: 4, FoodGroupID: 1, MealTimeID: 1, RuleID: 16}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 16},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 1, RuleID: 16},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 16},
+		{Amount: 8, FoodGroupID: 5, MealTimeID: 1, RuleID: 16},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 16},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 16},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 16}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 16},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 16},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 16},
+		{Amount: 8, FoodGroupID: 5, MealTimeID: 2, RuleID: 16},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 16},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 16},
+		{Amount: 3.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 16}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 16},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 16},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 16},
+		{Amount: 8, FoodGroupID: 5, MealTimeID: 3, RuleID: 16},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 3, RuleID: 16},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 16},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 17}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 17},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 17},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 17},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 17},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 17},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 17},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 17}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 17},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 17},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 17},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 17},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 17},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 17},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 17}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 17},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 17},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 17},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 17},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 17},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 17},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 18}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 18},
+		{Amount: 2.5, FoodGroupID: 3, MealTimeID: 1, RuleID: 18},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 18},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 18},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 18},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 18},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 18}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 18},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 18},
+		{Amount: 0.5, FoodGroupID: 4, MealTimeID: 2, RuleID: 18},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 18},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 18},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 18},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 18}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 18},
+		{Amount: 2.5, FoodGroupID: 3, MealTimeID: 3, RuleID: 18},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 18},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 18},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 18},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 18},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 19}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 19},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 1, RuleID: 19},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 19},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 19},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 19},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 19},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 2, RuleID: 19}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 19},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 19},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 19},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 19},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 19},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 19},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 19}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 19},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 19},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 19},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 19},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 19},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 19},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 20}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 20},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 1, RuleID: 20},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 20},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 20},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 20},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 20},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 2, RuleID: 20}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 20},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 2, RuleID: 20},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 20},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 20},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 20},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 20},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 20}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 20},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 20},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 20},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 20},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 20},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 20},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 21}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 21},
+		{Amount: 3.5, FoodGroupID: 3, MealTimeID: 1, RuleID: 21},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 21},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 21},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 21},
+		{Amount: 0.5, FoodGroupID: 7, MealTimeID: 1, RuleID: 21},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 2, RuleID: 21}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 21},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 2, RuleID: 21},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 21},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 21},
+		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 21},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 21},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 21}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 21},
+		{Amount: 3.5, FoodGroupID: 3, MealTimeID: 3, RuleID: 21},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 21},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 3, RuleID: 21},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 21},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 21},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 22}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 22},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 22},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 22},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 22},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 22},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 22},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 22}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 22},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 22},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 22},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 22},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 22},
+		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 22},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 22}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 22},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 22},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 22},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 22},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 22},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 22},
 	}
 
-	for _, portionReccomentation := range PortionReccomentations {
-		db.FirstOrCreate(&portionReccomentation, entity.PortionReccomentation{
-			Amount: portionReccomentation.Amount,
-			FoodGroupID: portionReccomentation.FoodGroupID,
-			MealTimeID: portionReccomentation.MealTimeID,
-			RuleID: portionReccomentation.RuleID,
+	for _, portionRecommendation := range PortionRecommendations {
+		db.FirstOrCreate(&portionRecommendation, entity.PortionRecommendation{
+			Amount: portionRecommendation.Amount,
+			FoodGroupID: portionRecommendation.FoodGroupID,
+			MealTimeID: portionRecommendation.MealTimeID,
+			RuleID: portionRecommendation.RuleID,
 		})
 	}
 }
