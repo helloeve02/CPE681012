@@ -2211,4 +2211,13 @@ func SetupDatabase() {
 	for _, pkg := range Ingredient {
 		db.FirstOrCreate(&pkg, entity.Ingredients{Name: pkg.Name})
 	}
+
+	hashedPassword, _ := HashPassword("123456")
+	users := []entity.Admin{
+		{FirstName: "Supaluck", LastName: "Tohthong", UserName: "Eveamare", Password: hashedPassword},
+	}
+	
+	for _, user := range users {
+		db.FirstOrCreate(&user, entity.Admin{FirstName: user.FirstName})
+	}
 }

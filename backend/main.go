@@ -34,6 +34,8 @@ func main() {
        r.GET("/nutritionrecommendation/:rule", controller.GetNutritionRecommendationByRule)
        r.GET("/portionrecommendation/:rule", controller.GetPortionRecommendationByRule)
        r.GET("/calories/:ruleid", controller.GetCaloriesByRuleID)
+       r.GET("/admin",controller.ListUsers)
+       r.GET("/admin/:id",controller.GetUserByID)
    }
 
 
