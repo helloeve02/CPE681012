@@ -3,6 +3,7 @@ const Authorization = localStorage.getItem("token");
 const Bearer = localStorage.getItem("token_type");
 import axios from "axios";
 import type { UserInfo } from "../../interfaces/Nutrition";
+import type { AdminInterface } from "../../interfaces/Admin";
 const requestOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -86,6 +87,95 @@ async function GetIngredientsByID(id: string) {
 
 }
 
+//==================================Login======================================⏬
+async function SignIn(data: AdminInterface) {
+  return await axios
+
+    .post(`${apiUrl}/signin`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}
+//signus
+async function CreateUser(data: AdminInterface) {
+  return await axios
+
+    .post(`${apiUrl}/signup`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}
+// ResetPassword
+async function ResetPassword(data: AdminInterface) {
+  return await axios
+
+    .put(`${apiUrl}/ResetPasswordUser`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}
+
+//==================================Login======================================⏫
+
+//=====================================================User===================================================
+// get User by id
+async function GetUserById(id: string) {
+  return await axios
+
+    .get(`${apiUrl}/users/${id}`, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}
+async function DeleteUserByID(id: Number | undefined) {
+  const requestOptions = {
+    method: "DELETE",
+  };
+
+  let res = await fetch(`${apiUrl}/users/${id}`, requestOptions).then((res) => {
+    if (res.status == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  return res;
+}
+// update user
+async function UpdateUserByid(id: string, data: AdminInterface) {
+  return await axios
+
+    .put(`${apiUrl}/users/${id}`, data, requestOptions)
+
+    .then((res) => res)
+
+    .catch((e) => e.response);
+}
+
+//ไม่ได้ใช้
+async function UpdateUser(data: AdminInterface) {
+  const requestOptions = {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/users`, requestOptions).then((res) => {
+    if (res.status == 200) {
+      return res.json();
+    } else {
+      return false;
+    }
+  });
+
+  return res;
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -97,4 +187,11 @@ export{
     GetCaloriesByRule,
     GetAllIngredients,
     GetIngredientsByID,
+    SignIn,
+    CreateUser,
+    ResetPassword,
+    GetUserById,
+    DeleteUserByID,
+    UpdateUserByid,
+    UpdateUser,
 }
