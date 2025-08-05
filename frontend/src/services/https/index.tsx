@@ -2,6 +2,7 @@ const apiUrl = "http://localhost:8000";
 const Authorization = localStorage.getItem("token");
 const Bearer = localStorage.getItem("token_type");
 import axios from "axios";
+import type { UserInfo } from "../../interfaces/Nutrition";
 const requestOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -32,8 +33,51 @@ async function GetAllMenuImage() {
     .catch((e) => e.response);
 }
 
+async function GetAllDisease() {
+  return await axios
+    .get(`${apiUrl}/diseases`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function FindRuleByUserInfo(userInfo: UserInfo) {
+  return await axios
+    .post(`${apiUrl}/rule`, userInfo)
+    .then((res) => res.data) 
+    .catch((e) => {
+      console.error("Error fetching rule:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function GetNutritionDataByRule(rule: number) {
+  return await axios
+    .get(`${apiUrl}/nutritionrecommendation/${rule}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetPortionDataByRule(rule: number) {
+  return await axios
+    .get(`${apiUrl}/portionrecommendation/${rule}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetCaloriesByRule(rule: number) {
+  return await axios
+    .get(`${apiUrl}/calories/${rule}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
-    GetAllMenuImage
+    GetAllMenuImage,
+    GetAllDisease,
+    FindRuleByUserInfo,
+    GetNutritionDataByRule,
+    GetPortionDataByRule,
+    GetCaloriesByRule,
 }

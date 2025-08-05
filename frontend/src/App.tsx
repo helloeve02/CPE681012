@@ -1,11 +1,7 @@
 import React from "react";
-import NutritionInput from "./pages/nutrition/NutritionInput";
-import NutritionSuggestion from "./pages/nutrition/NutritionSuggestion";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Menu from "./pages/Menu/menu"
 import NavBar from "./components/NavBar";
-import HomePage from "./pages/home/HomePage";
-import ChooseAvoid from "./pages/nutrition/ChooseAvoid";
 import MenuDetail from "./pages/Menu/menudetails";
 import NewsCategoryPage from "./pages/KnowledgeNews/NewsCategoryPage";
 import MediaNewsPage from "./pages/KnowledgeNews/Multimedia";
@@ -19,6 +15,11 @@ import DiabetesMoreAssessmentPage from "./pages/Assessment/Diabetes/More";
 import DiabetesLessAssessmentPage from "./pages/Assessment/Diabetes/Less";
 import KidneyriskAssessmentPage from "./pages/Assessment/Kidney/Kidney";
 import MealPlannerApp from "./pages/Plan/Mealplan";
+import HomePage from "./pages/Home/HomePage";
+import NutritionInput from "./pages/Nutrition/NutritionInput";
+import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
+import ChooseAvoid from "./pages/Nutrition/ChooseAvoid";
+
 function App() {
   return (
     <Router>
