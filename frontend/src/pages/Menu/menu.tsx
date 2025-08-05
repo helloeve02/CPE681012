@@ -1,17 +1,23 @@
 import type { MenuInterface } from "../../interfaces/Menu";
-import { GetAllMenu } from "../../services/https";
+import { GetAllMenu, GetAllIngredients } from "../../services/https";
 import React, { useEffect, useState } from "react";
 import { ChevronRight, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import type { IngredientsInterface } from "../../interfaces/Ingredients"
 
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"food" | "ingredient">("food");
+  const [ingredients, setIngredients] = useState<IngredientsInterface[]>([]);
 
   const filteredItems = menu.filter(menu =>
     (menu.Title?.toLowerCase() ?? '').includes(query.toLowerCase())
+  );
+
+  const filteredIngre = ingredients.filter(ingredients =>
+    (ingredients.Name?.toLowerCase() ?? '').includes(query.toLowerCase())
   );
 
   const getAllMenu = async () => {
@@ -27,8 +33,23 @@ const Menu: React.FC = () => {
     }
   };
 
+  const getAllIngredients = async () => {
+    try {
+      const res = await GetAllIngredients();
+      // console.log(res?.data?.ingredients)
+      if (Array.isArray(res?.data?.ingredients)) {
+        setIngredients(res.data.ingredients);
+      } else {
+        setError("Failed to load ingredients items");
+      }
+    } catch (error) {
+      setError("Error fetching ingredients items. Please try again later.");
+    }
+  };
+
   useEffect(() => {
     getAllMenu();
+    getAllIngredients();
   }, []);
 
   return (
@@ -44,8 +65,8 @@ const Menu: React.FC = () => {
           <li
             onClick={() => setActiveTab("food")}
             className={`flex-1 text-center cursor-pointer pb-2 ${activeTab === "food"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-500 hover:text-blue-500"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-500 hover:text-blue-500"
               }`}
           >
             อาหาร
@@ -53,8 +74,8 @@ const Menu: React.FC = () => {
           <li
             onClick={() => setActiveTab("ingredient")}
             className={`flex-1 text-center cursor-pointer pb-2 ${activeTab === "ingredient"
-                ? "text-blue-600 border-b-2 border-blue-600"
-                : "text-gray-500 hover:text-blue-500"
+              ? "text-blue-600 border-b-2 border-blue-600"
+              : "text-gray-500 hover:text-blue-500"
               }`}
           >
             วัตถุดิบ
@@ -112,9 +133,30 @@ const Menu: React.FC = () => {
         )}
 
         {activeTab === "ingredient" && (
-          <div className="text-center text-gray-700 font-kanit mt-10">
-            <h2 className="text-2xl mb-4">รายการวัตถุดิบ (กำลังพัฒนา)</h2>
-          </div>
+          <>
+            {query && filteredIngre.length === 0 && (
+              <p className="text-center text-gray-500 font-kanit mt-4">ไม่พบผลไม้และวัตถุดิบที่คุณค้นหา</p>
+            )}
+            {(query ? filteredIngre : ingredients).map((item) => (
+              <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="w-38 h-30 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+                    <img src={item.Image} className="w-full h-full object-cover" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg sm:text-2xl font-kanit text-gray-800 ml-3 mb-3">
+                      {item.Name}
+                    </h3>
+                    <h3 className="text-lg sm:text-x font-kanit text-blue-800 ml-3 text-center">
+                      <a href={item.Credit} target="_blank" rel="noopener noreferrer">
+                        ขอบคุณภาพจาก
+                      </a>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </>
         )}
       </div>
     </div>

@@ -71,6 +71,21 @@ async function GetCaloriesByRule(rule: number) {
     .catch((e) => e.response);
 }
 
+async function GetAllIngredients() {
+  return await axios
+    .get(`${apiUrl}/ingredients`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetIngredientsByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/ingredients/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -80,4 +95,6 @@ export{
     GetNutritionDataByRule,
     GetPortionDataByRule,
     GetCaloriesByRule,
+    GetAllIngredients,
+    GetIngredientsByID,
 }
