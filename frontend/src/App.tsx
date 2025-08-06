@@ -27,7 +27,7 @@ const AppContent = () => {
   const location = useLocation();
 
   // เช็คว่าไม่ใช่หน้า admin ค่อยแสดง NavBar
-  const hideNavBar = location.pathname === "/admin";
+  const hideNavBar = ["/admin", "/pdf-viewer"].includes(location.pathname);
 
   return (
     <>

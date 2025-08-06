@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: "#ccc",
     textAlign: "center",
-    fontSize: 10,
+    fontSize: 11,
   },
   headerCell: {
     backgroundColor: "#eee",
