@@ -14,7 +14,7 @@ const PDFViewerPage = () => {
     caloryDatas: 0,
   };
   return (
-    <div className="fixed top-0 left-0 w-screen h-screen z-[9999] bg-white">
+    <div className="fixed left-0 w-screen h-screen z-[9999] bg-white">
       <PDFViewer width="100%" height="100%">
         <NutritionPDF {...parsedData} />
       </PDFViewer>
