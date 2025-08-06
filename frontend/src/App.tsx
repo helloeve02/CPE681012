@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Menu from "./pages/Menu/menu"
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import Menu from "./pages/Menu/menu";
 import NavBar from "./components/NavBar";
 import MenuDetail from "./pages/Menu/menudetails";
 import NewsCategoryPage from "./pages/KnowledgeNews/NewsCategoryPage";
@@ -20,11 +20,18 @@ import NutritionInput from "./pages/Nutrition/NutritionInput";
 import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
 import ChooseAvoid from "./pages/Nutrition/ChooseAvoid";
 import PDFViewerPage from "./pages/Nutrition/PDFViewerPage";
+// import LoginSignupPage from "./pages/Admin/admin";
+// import ForgotPasswordPage from "./pages/Admin/forgorpass"
 
-function App() {
+const AppContent = () => {
+  const location = useLocation();
+
+  // เช็คว่าไม่ใช่หน้า admin ค่อยแสดง NavBar
+  const hideNavBar = location.pathname === "/admin";
+
   return (
-    <Router>
-      <NavBar />
+    <>
+      {!hideNavBar && <NavBar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/nutrition" element={<NutritionInput />} />
@@ -45,7 +52,17 @@ function App() {
         <Route path="/assessment/kidneyriskassessmentpage" element={<KidneyriskAssessmentPage />} />
         <Route path="/mealplanner" element={<MealPlannerApp />} />
         <Route path="/pdf-viewer" element={<PDFViewerPage />} />
+        {/* <Route path="/admin" element={<LoginSignupPage />} />
+        <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
       </Routes>
+    </>
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

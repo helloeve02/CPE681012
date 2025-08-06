@@ -1,4 +1,7 @@
 export interface AdminInterface {
     ID?: number;
-    Name?: string;
+    UserName?: string;
+    FirstName?: string;
+    LastName?: string;
+    Password?: string;
 }
