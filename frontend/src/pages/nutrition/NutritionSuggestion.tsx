@@ -10,12 +10,22 @@ import {
   GetPortionDataByRule,
 } from "../../services/https";
 import { getValidRule } from "../../services/https/ruleUtils";
+import { FilePdfOutlined } from "@ant-design/icons";
 
 const NutritionSuggestion = () => {
   const navigate = useNavigate();
   const [isLoading, setLoading] = useState(true);
   const handleNext = () => {
     navigate("/choose-avoid");
+  };
+  const handleOpenPDF = () => {
+    const dataToSend = {
+      nutritionDatas,
+      portionDatas,
+      caloryDatas,
+    };
+    const encoded = encodeURIComponent(JSON.stringify(dataToSend));
+    window.open(`/pdf-viewer?data=${encoded}`, "_blank");
   };
 
   const [nutritionDatas, setNutritionDatas] = useState<NutritionData[]>([]);
@@ -234,16 +244,14 @@ const NutritionSuggestion = () => {
               <ul className="list-disc list-inside space-y-1 m-2 ml-8">
                 {nutritionDatas.map((item) => (
                   <li key={item.nutrition_group_name}>
-                    {item.nutrition_group_name}&nbsp;:&nbsp;&nbsp;&nbsp;
-                    {item.amount_in_grams} กรัม&nbsp;&nbsp;&nbsp;
-                    {item.amount_in_percentage} เปอร์เซ็น
+                    {item.nutrition_group_name} : {item.amount_in_grams} กรัม ({item.amount_in_percentage}%)
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <div className="p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
+          <div className="flex p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
             <Button
               type="primary"
               className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
@@ -251,6 +259,7 @@ const NutritionSuggestion = () => {
             >
               ดูสิ่งที่เลือกทานและหลีกเลี่ยง
             </Button>
+            <FilePdfOutlined onClick={handleOpenPDF} className="ml-5 text-4xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110 active:!text-blue-600 active:scale-110"/>
           </div>
         </div>
       )}

@@ -13,9 +13,9 @@ export function getValidRule(): number | null {
       return null;
     }
 
-    // Extend expiry by 2 hours on access
-    const newExpiresAt = now + 2 * 60 * 60 * 1000;
-    localStorage.setItem("rule", JSON.stringify({ rule, expiresAt: newExpiresAt }));
+    // Extend expiry by 2 hours on access. On second thought, this is bothersome, let's not do it lol
+    // const newExpiresAt = now + 2 * 60 * 60 * 1000;
+    // localStorage.setItem("rule", JSON.stringify({ rule, expiresAt: newExpiresAt })); 
 
     return rule;
   } catch {

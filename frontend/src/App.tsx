@@ -19,6 +19,7 @@ import HomePage from "./pages/Home/HomePage";
 import NutritionInput from "./pages/Nutrition/NutritionInput";
 import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
 import ChooseAvoid from "./pages/Nutrition/ChooseAvoid";
+import PDFViewerPage from "./pages/Nutrition/PDFViewerPage";
 
 function App() {
   return (
@@ -43,9 +44,7 @@ function App() {
         <Route path="/assessment/diabeteslessassessmentpage" element={<DiabetesLessAssessmentPage />} />
         <Route path="/assessment/kidneyriskassessmentpage" element={<KidneyriskAssessmentPage />} />
         <Route path="/mealplanner" element={<MealPlannerApp />} />
-        
-
-
+        <Route path="/pdf-viewer" element={<PDFViewerPage />} />
       </Routes>
     </Router>
   );
