@@ -49,6 +49,7 @@ func SetupDatabase() {
 		&entity.NutritionRecommendation{},
 		&entity.PortionRecommendation{},
 		&entity.Rule{},
+		&entity.MenuTag{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
