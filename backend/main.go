@@ -22,7 +22,7 @@ func main() {
    r.Use(CORSMiddleware())
 
    router := r.Group("/")
-
+    r.POST("/signin", controller.SignIn)
    {
        router.Use(middlewares.Authorizes())
        r.GET("/menu", controller.GetAllMenu)
