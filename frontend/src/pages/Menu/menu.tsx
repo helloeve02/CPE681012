@@ -31,7 +31,10 @@ const Menu: React.FC = () => {
 
   // ฟังก์ชัน toggle checkbox tag
   const toggleTag = (tagID: number) => {
+    // debugger;
+  console.log("toggleTag called with id:", tagID);
     if (selectedTags.includes(tagID)) {
+      console.log(tagID)
       setSelectedTags(selectedTags.filter(id => id !== tagID));
     } else {
       setSelectedTags([...selectedTags, tagID]);
@@ -72,7 +75,7 @@ const Menu: React.FC = () => {
   const getAllTags = async () => {
     try {
       const res = await GetAllTag(); // สมมติว่ามี API นี้ดึงแท็กทั้งหมด
-      console.log(res?.data?.tag)
+      // console.log(res?.data?.tag)
       if (Array.isArray(res?.data?.tag)) {
         setTags(res.data.tag);
       } else {
@@ -153,10 +156,10 @@ const Menu: React.FC = () => {
                     <label key={tag.ID} className="inline-flex items-center space-x-2 cursor-pointer whitespace-nowrap">
                       <input
                         type="checkbox"
-                        checked={selectedTags.includes(tag.ID)}
-                        onChange={() => toggleTag(tag.ID)}
-                        className="form-checkbox h-5 w-5 text-blue-600"
+                        checked={selectedTags.includes(tag.ID)}  // หรือ tag.id ตามโครงสร้างข้อมูลจริง
+                        onChange={() => toggleTag(tag.ID)}       // หรือ tag.id ตามโครงสร้างข้อมูลจริง
                       />
+
                       <span>{tag.Name}</span>
                     </label>
                   ))}
