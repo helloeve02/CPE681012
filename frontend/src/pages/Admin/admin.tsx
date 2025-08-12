@@ -22,7 +22,7 @@ export default function AdminLoginForm() {
             if (res.status === 200 || res.status === 204) {
                 message.success("Sign-in successful");
                 setTimeout(() => {
-                    navigate("/menu");
+                    navigate("/admin-home");
                 }, 1500);
             } else {
                 message.error(res.data?.error || "An error occurred during sign-in");
