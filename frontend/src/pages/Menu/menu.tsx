@@ -1,20 +1,42 @@
 import type { MenuInterface } from "../../interfaces/Menu";
-import { GetAllMenu, GetAllIngredients } from "../../services/https";
+import { GetAllMenu, GetAllIngredients, GetAllTag } from "../../services/https";
 import React, { useEffect, useState } from "react";
 import { ChevronRight, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { IngredientsInterface } from "../../interfaces/Ingredients"
-
+import type { TagInterface } from "../../interfaces/Tag"
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [activeTab, setActiveTab] = useState<"food" | "ingredient">("food");
   const [ingredients, setIngredients] = useState<IngredientsInterface[]>([]);
+  const [tags, setTags] = useState<TagInterface[]>([]);
+  const [selectedTags, setSelectedTags] = useState<number[]>([]);
+  const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
 
-  const filteredItems = menu.filter(menu =>
-    (menu.Title?.toLowerCase() ?? '').includes(query.toLowerCase())
-  );
+  const filteredItems = menu.filter(menuItem => {
+    const matchQuery = (menuItem.Title?.toLowerCase() ?? '').includes(query.toLowerCase());
+
+    if (selectedTags.length === 0) {
+      return matchQuery;
+    } else {
+      const hasSelectedTag = menuItem.Tags?.some(
+        tag => tag.ID !== undefined && selectedTags.includes(tag.ID)
+      );
+      return matchQuery && Boolean(hasSelectedTag);
+    }
+
+  });
+
+  // ฟังก์ชัน toggle checkbox tag
+  const toggleTag = (tagID: number) => {
+    if (selectedTags.includes(tagID)) {
+      setSelectedTags(selectedTags.filter(id => id !== tagID));
+    } else {
+      setSelectedTags([...selectedTags, tagID]);
+    }
+  };
 
   const filteredIngre = ingredients.filter(ingredients =>
     (ingredients.Name?.toLowerCase() ?? '').includes(query.toLowerCase())
@@ -47,9 +69,24 @@ const Menu: React.FC = () => {
     }
   };
 
+  const getAllTags = async () => {
+    try {
+      const res = await GetAllTag(); // สมมติว่ามี API นี้ดึงแท็กทั้งหมด
+      console.log(res?.data?.tag)
+      if (Array.isArray(res?.data?.tag)) {
+        setTags(res.data.tag);
+      } else {
+        setError("Failed to load tags");
+      }
+    } catch (error) {
+      setError("Error fetching tags. Please try again later.");
+    }
+  };
+
   useEffect(() => {
     getAllMenu();
     getAllIngredients();
+    getAllTags();
   }, []);
 
   return (
@@ -85,15 +122,50 @@ const Menu: React.FC = () => {
 
 
       {/* Search Bar */}
-      <div className="relative max-w-md mx-auto mt-5">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#2E77F8]" size={20} />
-        <input
-          type="text"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder={`ค้นหา${activeTab === "food" ? "เมนูอาหาร" : "วัตถุดิบ"}...`}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-kanit"
-        />
+      {/* รวม search bar กับ dropdown tag ไว้ในบรรทัดเดียวกัน */}
+      <div className="max-w-md mx-auto mt-5 flex items-center space-x-4">
+        {/* Search Bar */}
+        <div className="relative flex-grow">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#2E77F8]" size={20} />
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder={`ค้นหา${activeTab === "food" ? "เมนูอาหาร" : "วัตถุดิบ"}...`}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-kanit"
+          />
+        </div>
+
+        {/* Dropdown Checkbox แสดงแท็ก เฉพาะ tab อาหาร */}
+        {activeTab === "food" && (
+          <div className=" border-gray-300 rounded-lg p-3 font-kanit relative max-w-xs min-w-[20px] ">
+            <p
+              className="font-xl mb-2 cursor-pointer select-none"
+              onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
+            >
+              กรองตามแท็กอาหาร <span>{isTagDropdownOpen ? "▲" : "▼"}</span>
+            </p>
+            {isTagDropdownOpen && (
+              <div className="flex flex-col gap-3 max-h-20 overflow-y-auto border-t border-gray-200 pt-2">
+                {tags
+                  .filter((tag): tag is TagInterface & { ID: number } => tag.ID !== undefined)
+                  .map(tag => (
+                    <label key={tag.ID} className="inline-flex items-center space-x-2 cursor-pointer whitespace-nowrap">
+                      <input
+                        type="checkbox"
+                        checked={selectedTags.includes(tag.ID)}
+                        onChange={() => toggleTag(tag.ID)}
+                        className="form-checkbox h-5 w-5 text-blue-600"
+                      />
+                      <span>{tag.Name}</span>
+                    </label>
+                  ))}
+              </div>
+            )}
+
+
+          </div>
+        )}
       </div>
 
       {/* Tab Content */}

@@ -36,6 +36,10 @@ func main() {
        r.GET("/calories/:ruleid", controller.GetCaloriesByRuleID)
        r.GET("/admin",controller.ListUsers)
        r.GET("/admin/:id",controller.GetUserByID)
+       r.GET("/tag",controller.GetAllTag)
+       r.GET("/tag/:id",controller.GetTagByID)
+       r.GET("/menu-tag",controller.GetAllMenuTag)
+       r.GET("/menu-tag/:id",controller.GetMenuTagByID)
    }
 
 
