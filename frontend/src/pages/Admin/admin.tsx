@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 export default function AdminLoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const onFinish = async (e: React.FormEvent) => {
         e.preventDefault(); // กันหน้ารีเฟรช
         const values: SignInInterface = {
@@ -21,7 +21,9 @@ export default function AdminLoginForm() {
             console.log("API Response:", res);
             if (res.status === 200 || res.status === 204) {
                 message.success("Sign-in successful");
-                navigate("/menu");
+                setTimeout(() => {
+                    navigate("/menu");
+                }, 1500);
             } else {
                 message.error(res.data?.error || "An error occurred during sign-in");
             }
