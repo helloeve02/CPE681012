@@ -14,4 +14,5 @@ type Menu struct {
 
 	// MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
 	MealMenus []MealMenu `gorm:"foreignKey:MenuID"`
+	Tag     []Tag  `gorm:"many2many:menu_tag"`
 }

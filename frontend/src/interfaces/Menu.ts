@@ -1,3 +1,5 @@
+import type { TagInterface } from "./Tag";
+
 export interface MenuInterface {
     /* toLowerCase(): unknown; */
     ID?: number;
@@ -7,4 +9,5 @@ export interface MenuInterface {
     Image?: string;
     AdminID?: number; //FK
     Credit?: string;
+    Tags: TagInterface[]; 
 }
