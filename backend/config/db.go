@@ -50,6 +50,8 @@ func SetupDatabase() {
 		&entity.PortionRecommendation{},
 		&entity.Rule{},
 		&entity.MenuTag{},
+		&entity.FoodFlag{},
+		&entity.FoodItem{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
@@ -2334,5 +2336,482 @@ func SetupDatabase() {
 		{MenuID: 41, TagID: 7},
 	}
 	db.Create(&MenuTag)
+
+	FoodFlag := []entity.FoodFlag{
+		{
+			Flag:   "ควรรับประทาน",
+			FoodGroupID: 1,
+		},
+		{
+			Flag:   "ควรรับประทาน",
+			FoodGroupID: 3,
+		},
+		{
+			Flag:   "ควรรับประทาน",
+			FoodGroupID: 4,
+		},
+		{
+			Flag:   "ควรรับประทาน",
+			FoodGroupID: 6,
+		},
+		{
+			Flag:   "ควรหลีกเลี่ยง",
+			FoodGroupID: 1,
+		},
+		{
+			Flag:   "ควรหลีกเลี่ยง",
+			FoodGroupID: 3,
+		},
+		{
+			Flag:   "ควรหลีกเลี่ยง",
+			FoodGroupID: 4,
+		},
+		{
+			Flag:   "ควรหลีกเลี่ยง",
+			FoodGroupID: 5,
+		},
+		{
+			Flag:   "ควรหลีกเลี่ยง",
+			FoodGroupID: 6,
+		},
+		
+	}
+
+	for _, flag := range FoodFlag {
+		db.FirstOrCreate(&flag, entity.FoodFlag{
+			Flag: flag.Flag,
+			FoodGroupID:flag.FoodGroupID,})
+	}
+
+	FoodItem := []entity.FoodItem{
+		{
+			Name:   "ข้าวสวย",
+			Image: "https://fit-d.com/image_webp/f?src=./uploads/food/a860b2d3f85d9ed0fb25289795345ecf.jpg",
+			Credit: "https://fit-d.com/food/view/NDI2/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B9%82%E0%B8%A0%E0%B8%8A%E0%B8%99%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A3%20%E0%B9%81%E0%B8%84%E0%B8%A5%E0%B8%AD%E0%B8%A3%E0%B8%B5%E0%B9%88%20%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%AA%E0%B8%A7%E0%B8%A2--%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B9%80%E0%B8%9B%E0%B8%A5%E0%B9%88%E0%B8%B2-steamed-rice#nutrition_fact_part",
+			FoodFlagID: 1,
+		},
+		{
+			Name:   "ข้าวเหนียว",
+			Image: "https://1376delivery.com/productimages/7036_-.jpg",
+			Credit: "https://1376delivery.com/7/lao-yuan/product/2586/sticky-rice",
+			FoodFlagID: 1,
+		},
+		{
+			Name:   "ข้าวต้ม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 1,
+		},
+		{
+			Name:   "วุ้นเส้น",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 1,
+		},
+		{
+			Name:   "เส้นเซี่ยงไฮ้",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 1,
+		},
+		{
+			Name:   "ถั่วแดงสุก",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 5,
+		},
+		{
+			Name:   "ขนมปัง",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 5,
+		},
+		{
+			Name:   "แครกเกอร์",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 5,
+		},
+		{
+			Name:   "ลูกเดือยสุก",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 5,
+		},
+		{
+			Name:   "มันเทศต้มสุก",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 5,
+		},
+		{
+			Name:   "ฟักทองสุก",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 5,
+		},
+		{
+			Name:   "ขนมจีน",
+			Image: "",
+			Credit: "",
+		},
+		{
+			Name:   "แอปเปิล",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "พุทรา",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "ส้มโอ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "มังคุด",
+			Image: "https://www.healthtodaythailand.in.th/wp-content/uploads/2017/12/Mangosteen001-e1518415885868.jpg",
+			Credit: "https://www.healthtodaythailand.in.th/%E0%B8%A1%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%94-%E0%B8%9C%E0%B8%A5%E0%B9%84%E0%B8%A1%E0%B9%89%E0%B8%A3%E0%B8%B1%E0%B8%81%E0%B8%A9%E0%B8%B2%E0%B9%82%E0%B8%A3%E0%B8%84-2/",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "เงาะ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "ชมพู่",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "แตงโม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "สัปปะรด",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "สาลี่",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 3,
+		},
+		{
+			Name:   "กล้วยหอม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ฝรั่ง",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "แก้วมังกร",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "มะม่วงสุก/ดิบ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ขนุน",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "มะขามหวาน",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ลองกอง",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ลำไย",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ส้ม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ทุเรียน",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ลูกยอ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 7,
+		},
+		{
+			Name:   "ผักกาดขาว",
+			Image: "https://medthai.com/wp-content/uploads/2013/07/Chinese-Cabbage-1.jpg",
+			Credit: "https://medthai.com/%E0%B8%9C%E0%B8%B1%E0%B8%81%E0%B8%81%E0%B8%B2%E0%B8%94%E0%B8%82%E0%B8%B2%E0%B8%A7/",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "บวบ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "ผักบุ้ง",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "หอมใหญ่",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "ฟักเขียว",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "ผักกาดหอม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "น้ำเต้า",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "ถั่วงอก",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "แตงกวา",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "มะเขือยาว",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "มะเขือเปราะ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 2,
+		},
+		{
+			Name:   "มะเขือเทศ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "แคร์รอต",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "สะเดา",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "มะตูมแขก",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "หน่อไม้",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "คะน้า",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "ฟักทอง",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "ใบยอ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "ยอด/เม็ดกระถิน",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "ผักติ้ว",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "ใบชะพลู",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "บรอกโคลี",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 6,
+		},
+		{
+			Name:   "เนื้อสัตว์แปรรูป)",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 8,
+		},
+		{
+			Name:   "ไข่แดง",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 8,
+		},
+		{
+			Name:   "นม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 8,
+		},
+		{
+			Name:   "ถั่วเมล็ดแห้ง",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 8,
+		},
+		{
+			Name:   "น้ำมันถั่วเหลือง",
+			Image: "https://medthai.com/%E0%B8%AD%E0%B8%B0%E0%B9%82%E0%B8%A7%E0%B8%84%E0%B8%B2%E0%B9%82%E0%B8%94/",
+			Credit: "https://medthai.com/%E0%B8%A1%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%94/",
+			FoodFlagID: 4,
+		},
+		{
+			Name:   "น้ำมันรำข้าว",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 4,
+		},
+		{
+			Name:   "น้ำมันคาโนลา",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 4,
+		},
+		{
+			Name:   "น้ำมันดอกทานตะวัน",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 4,
+		},
+		{
+			Name:   "น้ำมันงา",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 4,
+		},
+		{
+			Name:   "น้ำมันหมู",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 9,
+		},
+		{
+			Name:   "น้ำมันไก่",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 9,
+		},
+		{
+			Name:   "น้ำมันปาล์ม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 9,
+		},
+		{
+			Name:   "น้ำมันมะพร้าว",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 9,
+		},
+		{
+			Name:   "กะทิ",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 9,
+		},
+		{
+			Name:   "ครีมเทียม",
+			Image: "",
+			Credit: "",
+			FoodFlagID: 9,
+		},
+		
+	}
+
+	for _, item := range FoodItem {
+		db.FirstOrCreate(&item, entity.FoodItem{
+			Name: item.Name,
+			Image:item.Image,
+			Credit: item.Credit,
+			FoodFlagID:item.FoodFlagID,})
+	}
 	
 }
