@@ -3,11 +3,16 @@
 import { Button, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { NutritionData, PortionData } from "../../interfaces/Nutrition";
+import type {
+  NutritionData,
+  PortionData,
+  RuleData,
+} from "../../interfaces/Nutrition";
 import {
   GetCaloriesByRule,
   GetNutritionDataByRule,
   GetPortionDataByRule,
+  GetRuleDetailByRule,
 } from "../../services/https";
 import { getValidRule } from "../../services/https/ruleUtils";
 import { FilePdfOutlined } from "@ant-design/icons";
@@ -23,6 +28,7 @@ const NutritionSuggestion = () => {
       nutritionDatas,
       portionDatas,
       caloryDatas,
+      ruleDatas,
     };
     const encoded = encodeURIComponent(JSON.stringify(dataToSend));
     window.open(`/pdf-viewer?data=${encoded}`, "_blank");
@@ -31,6 +37,7 @@ const NutritionSuggestion = () => {
   const [nutritionDatas, setNutritionDatas] = useState<NutritionData[]>([]);
   const [portionDatas, setPortionDatas] = useState<PortionData[]>([]);
   const [caloryDatas, setCaloryDatas] = useState<number>();
+  const [ruleDatas, setRuleData] = useState<RuleData>();
 
   const getNutritionDatas = async (ruleNum: number) => {
     try {
@@ -94,6 +101,19 @@ const NutritionSuggestion = () => {
     }
   };
 
+  const getRuleDatas = async (ruleNum: number) => {
+    try {
+      const res = await GetRuleDetailByRule(ruleNum);
+      if (res?.data?.RuleDetail) {
+        setRuleData(res?.data?.RuleDetail);
+      } else {
+        console.log("Failed to load rule details.");
+      }
+    } catch (error) {
+      console.log("Error fetching rule details. Please try again later.");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const ruleNum = getValidRule();
@@ -101,13 +121,24 @@ const NutritionSuggestion = () => {
         navigate("/nutrition");
         return;
       }
-      getNutritionDatas(ruleNum);
-      getPortionDatas(ruleNum);
-      getCaloryDatas(ruleNum);
-      setTimeout(() => {
+      const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+      try {
+        // Run all API calls in parallel + ensure at least 500ms loading
+        await Promise.all([
+          getNutritionDatas(ruleNum),
+          getPortionDatas(ruleNum),
+          getCaloryDatas(ruleNum),
+          getRuleDatas(ruleNum),
+          delay(500),
+        ]);
+      } catch (err) {
+        console.error("Failed to fetch some data", err);
+      } finally {
         setLoading(false);
-      }, 500);
+      }
     };
+
     fetchData();
   }, []);
 
@@ -138,6 +169,28 @@ const NutritionSuggestion = () => {
               ปริมาณที่ควรทานต่อวัน
             </div>
           </div>
+          <div className="mx-4 sm:mx-6 md:mx-10 lg:mx-40 mt-3 max-w-full">
+            รายละเอียด: {ruleDatas?.DiseaseName}{" "}
+            {ruleDatas?.DiseaseStage &&
+              ruleDatas.DiseaseStage !== "-" &&
+              `${ruleDatas.DiseaseStage}`}
+            <br />
+            อายุ:{" "}
+            {ruleDatas?.AgeMin === 0
+              ? `ไม่เกิน ${ruleDatas.AgeMax} ปี`
+              : ruleDatas?.AgeMax === 200
+              ? `${ruleDatas?.AgeMin} ปี ขึ้นไป`
+              : `${ruleDatas?.AgeMin} - ${ruleDatas?.AgeMax} ปี`}{" "}
+            <br />
+            IBW:{" "}
+            {ruleDatas?.IBWMin === 0
+              ? `ไม่เกิน ${ruleDatas.IBWMax} kg.`
+              : ruleDatas?.IBWMax === 200
+              ? `${ruleDatas.IBWMin} kg. ขึ้นไป`
+              : `${ruleDatas?.IBWMin} - ${ruleDatas?.IBWMax} kg.`}<br />
+            <div className="text-gray-400 break-words text-sm">IBW (Ideal Body Weight) = น้ำหนักมาตรฐานตามส่วนสูง (ซม.) ลบ 105 สำหรับผู้หญิง หรือ 100 สำหรับผู้ชาย</div>
+          </div>
+
           {/* For small screen */}
           <div className="p-4 space-y-4 lg:hidden">
             <table className="min-w-full border-collapse border border-gray-500">
@@ -170,7 +223,9 @@ const NutritionSuggestion = () => {
                             key={`${foodGroupName}-${mealTime}`}
                             className="border border-gray-400 p-2 text-center whitespace-nowrap"
                           >
-                            {item && item.amount > 0 ? `${item.amount} ${item.unit}` : "-"}
+                            {item && item.amount > 0
+                              ? `${item.amount} ${item.unit}`
+                              : "-"}
                           </td>
                         );
                       })}
@@ -227,7 +282,9 @@ const NutritionSuggestion = () => {
                           key={mealTime}
                           className="w-30 border border-gray-400 p-2 text-center whitespace-nowrap"
                         >
-                          {item && item.amount > 0 ? `${item.amount} ${item.unit}` : "-"}
+                          {item && item.amount > 0
+                            ? `${item.amount} ${item.unit}`
+                            : "-"}
                         </td>
                       );
                     })}
@@ -244,7 +301,8 @@ const NutritionSuggestion = () => {
               <ul className="list-disc list-inside space-y-1 m-2 ml-8">
                 {nutritionDatas.map((item) => (
                   <li key={item.nutrition_group_name}>
-                    {item.nutrition_group_name} : {item.amount_in_grams} กรัม ({item.amount_in_percentage}%)
+                    {item.nutrition_group_name} : {item.amount_in_grams} กรัม (
+                    {item.amount_in_percentage}%)
                   </li>
                 ))}
               </ul>
@@ -259,7 +317,10 @@ const NutritionSuggestion = () => {
             >
               ดูสิ่งที่ควรเลือกทานและหลีกเลี่ยง
             </Button>
-            <FilePdfOutlined onClick={handleOpenPDF} className="ml-5 text-4xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110 active:!text-blue-600 active:scale-110"/>
+            <FilePdfOutlined
+              onClick={handleOpenPDF}
+              className="ml-5 text-4xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110 active:!text-blue-600 active:scale-110"
+            />
           </div>
         </div>
       )}

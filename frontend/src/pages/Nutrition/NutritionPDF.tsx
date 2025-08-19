@@ -7,13 +7,18 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
-import type { NutritionData, PortionData } from "../../interfaces/Nutrition";
+import type {
+  NutritionData,
+  PortionData,
+  RuleData,
+} from "../../interfaces/Nutrition";
 
 const styles = StyleSheet.create({
   page: {
     padding: 24,
     fontSize: 10,
     fontFamily: "Sarabun",
+    lineHeight: 1.5,
   },
   title: {
     fontSize: 18,
@@ -60,6 +65,7 @@ type Props = {
   nutritionDatas: NutritionData[];
   portionDatas: PortionData[];
   caloryDatas: number;
+  ruleDatas: RuleData;
 };
 
 Font.register({
@@ -78,6 +84,7 @@ const NutritionPDF: React.FC<Props> = ({
   nutritionDatas,
   portionDatas,
   caloryDatas,
+  ruleDatas,
 }) => {
   // Grouped by food group
   const groupedByFoodGroup = portionDatas.reduce((acc, item) => {
@@ -96,6 +103,35 @@ const NutritionPDF: React.FC<Props> = ({
         {/* Title */}
         <Text style={styles.title} wrap={false}>
           ปริมาณที่ควรทานต่อวัน
+        </Text>
+
+        {/* Rule Details */}
+        <Text>รายละเอียด:</Text>
+        <Text>
+          {ruleDatas?.DiseaseName}
+          {ruleDatas?.DiseaseStage && ruleDatas.DiseaseStage !== "-"
+            ? ` (${ruleDatas.DiseaseStage})`
+            : ""}
+          {"\u00A0\u00A0\u00A0"}
+          อายุ:{" "}
+          {ruleDatas?.AgeMin === 0
+            ? `ไม่เกิน ${ruleDatas.AgeMax} ปี`
+            : ruleDatas?.AgeMax === 200
+            ? `${ruleDatas.AgeMin} ปี ขึ้นไป`
+            : `${ruleDatas.AgeMin} - ${ruleDatas.AgeMax} ปี`}
+          {"\u00A0\u00A0\u00A0"}
+          IBW:{" "}
+          {ruleDatas?.IBWMin === 0
+            ? `ไม่เกิน ${ruleDatas.IBWMax} kg.`
+            : ruleDatas?.IBWMax === 200
+            ? `${ruleDatas.IBWMin} kg. ขึ้นไป`
+            : `${ruleDatas.IBWMin} - ${ruleDatas.IBWMax} kg.`}
+          {"\u00A0\u00A0\u00A0"}
+        </Text>
+
+        <Text style={{ color: 'gray' }}>
+          IBW (Ideal Body Weight) = น้ำหนักมาตรฐานตามส่วนสูง (ซม.){"\u200B"} ลบ
+          105 สำหรับผู้หญิง{"\u200B"} หรือ 100 สำหรับผู้ชาย.
         </Text>
 
         {/* Table Header */}
@@ -122,7 +158,9 @@ const NutritionPDF: React.FC<Props> = ({
               );
               return (
                 <Text key={group} style={styles.tableCell}>
-                  {item && item.amount > 0 ? `${item.amount} ${item.unit}` : "-"}
+                  {item && item.amount > 0
+                    ? `${item.amount} ${item.unit}`
+                    : "-"}
                 </Text>
               );
             })}

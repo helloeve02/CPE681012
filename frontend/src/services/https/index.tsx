@@ -34,6 +34,8 @@ async function GetAllMenuImage() {
     .catch((e) => e.response);
 }
 
+//==================================Nutrition START======================================⏬
+
 async function GetAllDisease() {
   return await axios
     .get(`${apiUrl}/diseases`, requestOptions)
@@ -71,6 +73,15 @@ async function GetCaloriesByRule(rule: number) {
     .then((res) => res)
     .catch((e) => e.response);
 }
+
+async function GetRuleDetailByRule(rule: number) {
+  return await axios
+    .get(`${apiUrl}/ruledetail/${rule}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+//==================================Nutrition END======================================⏬
 
 async function GetAllIngredients() {
   return await axios
@@ -185,6 +196,7 @@ export{
     GetNutritionDataByRule,
     GetPortionDataByRule,
     GetCaloriesByRule,
+    GetRuleDetailByRule,
     GetAllIngredients,
     GetIngredientsByID,
     SignIn,
