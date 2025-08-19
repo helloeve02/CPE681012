@@ -1278,13 +1278,14 @@ func SetupDatabase() {
 	}
 
 	FoodGroups := []entity.FoodGroup{
-		{Name: "ข้าว/แป้ง", Unit: "ทัพพี"},
-		{Name: "แป้งปลอดโปรตีน", Unit: "ทัพพี"},
-		{Name: "ผัก", Unit: "ทัพพี"},
-		{Name: "ผลไม้", Unit: "ส่วน"},
-		{Name: "เนื้อสัตว์", Unit: "ช้อนโต๊ะ"},
-		{Name: "ไขมัน", Unit: "ช้อนชา"},
-		{Name: "ซอสปรุงรส", Unit: "ช้อนชา"},
+		{Name: "ข้าว/แป้ง", Unit: "ทัพพี"},      //1
+		{Name: "แป้งปลอดโปรตีน", Unit: "ทัพพี"}, //2
+		{Name: "ผัก", Unit: "ทัพพี"},            //3
+		{Name: "ผลไม้", Unit: "ส่วน"},           //4
+		{Name: "เนื้อสัตว์", Unit: "ช้อนโต๊ะ"},  //5
+		{Name: "ไขมัน", Unit: "ช้อนชา"},         //6
+		{Name: "ซอสปรุงรส", Unit: "ช้อนชา"},     //7
+		{Name: "นม", Unit: "กล่อง"},             //8
 	}
 
 	for _, foodGroup := range FoodGroups {
@@ -1334,7 +1335,23 @@ func SetupDatabase() {
 			Name: nutritionGroup.Name,
 		})
 	}
-	/*ขาดข้อมูลผู้ป่วยไตที่อายุ 61 ปี ขึ้นไป*/
+
+	Diseases := []entity.Disease{
+		{Name: "โรคไต", Stage: "1-3a"},   //1
+		{Name: "โรคไต", Stage: "3b-5"},   //2
+		{Name: "โรคไต", Stage: "HD"},     //3
+		{Name: "โรคไต", Stage: "CAPD"},   //4
+		{Name: "โรคเบาหวาน", Stage: "-"}, //5
+	}
+
+	for _, disease := range Diseases {
+		db.FirstOrCreate(&disease, entity.Disease{
+			Name:  disease.Name,
+			Stage: disease.Stage,
+		})
+	}
+
+	/*ขาดข้อมูลผู้ป่วยไตที่อายุ 61 ปี ขึ้นไป*/ /*ีupdate 61 ปีขึ้นไปแล้ว*/
 	Rules := []entity.Rule{
 		{Calories: 1750, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 1}, //1
 		{Calories: 1925, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 1}, //2
@@ -1356,13 +1373,33 @@ func SetupDatabase() {
 		{Calories: 2100, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 4}, //15
 		{Calories: 2275, IbwRangeID: 4, AgeRangeID: 1, DiseaseID: 4}, //16
 
-		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 5}, //17
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 1, DiseaseID: 5}, //17 //เบาหวาน
 		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 1, DiseaseID: 5}, //18
 		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 1, DiseaseID: 5}, //19
 		{Calories: 1950, IbwRangeID: 5, AgeRangeID: 1, DiseaseID: 5}, //20
 		{Calories: 2100, IbwRangeID: 6, AgeRangeID: 1, DiseaseID: 5}, //21
 
 		{Calories: 1500, IbwRangeID: 7, AgeRangeID: 2, DiseaseID: 5}, //22
+
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 2, DiseaseID: 1}, //23 //ไต อายุ 61 ขึ้นไป
+		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 2, DiseaseID: 1}, //24
+		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 2, DiseaseID: 1}, //25
+		{Calories: 1950, IbwRangeID: 4, AgeRangeID: 2, DiseaseID: 1}, //26
+
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 2, DiseaseID: 2}, //27
+		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 2, DiseaseID: 2}, //28
+		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 2, DiseaseID: 2}, //29
+		{Calories: 1950, IbwRangeID: 4, AgeRangeID: 2, DiseaseID: 2}, //30
+
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 2, DiseaseID: 3}, //31
+		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 2, DiseaseID: 3}, //32
+		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 2, DiseaseID: 3}, //33
+		{Calories: 1950, IbwRangeID: 4, AgeRangeID: 2, DiseaseID: 3}, //34
+
+		{Calories: 1500, IbwRangeID: 1, AgeRangeID: 2, DiseaseID: 4}, //35
+		{Calories: 1650, IbwRangeID: 2, AgeRangeID: 2, DiseaseID: 4}, //36
+		{Calories: 1800, IbwRangeID: 3, AgeRangeID: 2, DiseaseID: 4}, //37
+		{Calories: 1950, IbwRangeID: 4, AgeRangeID: 2, DiseaseID: 4}, //38
 	}
 
 	for _, rule := range Rules {
@@ -1373,22 +1410,7 @@ func SetupDatabase() {
 			DiseaseID:  rule.DiseaseID,
 		})
 	}
-
-	Diseases := []entity.Disease{
-		{Name: "โรคไต", Stage: "1-3a"},
-		{Name: "โรคไต", Stage: "3b-5"},
-		{Name: "โรคไต", Stage: "HD"},
-		{Name: "โรคไต", Stage: "CAPD"},
-		{Name: "โรคเบาหวาน", Stage: "-"},
-	}
-
-	for _, disease := range Diseases {
-		db.FirstOrCreate(&disease, entity.Disease{
-			Name:  disease.Name,
-			Stage: disease.Stage,
-		})
-	}
-
+	
 	NutritionRecommendations := []entity.NutritionRecommendation{
 		{AmountInGrams: 240, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 1},
 		{AmountInGrams: 43, AmountInPercentage: 10, NutritionGroupID: 2, RuleID: 1},
@@ -1477,15 +1499,81 @@ func SetupDatabase() {
 		{AmountInGrams: 187.5, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 22},
 		{AmountInGrams: 75, AmountInPercentage: 20, NutritionGroupID: 2, RuleID: 22},
 		{AmountInGrams: 50, AmountInPercentage: 30, NutritionGroupID: 3, RuleID: 22},
+
+		{AmountInGrams: 206, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 23},
+		{AmountInGrams: 41, AmountInPercentage: 11, NutritionGroupID: 2, RuleID: 23},
+		{AmountInGrams: 57, AmountInPercentage: 34, NutritionGroupID: 3, RuleID: 23},
+
+		{AmountInGrams: 227, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 24},
+		{AmountInGrams: 50, AmountInPercentage: 12, NutritionGroupID: 2, RuleID: 24},
+		{AmountInGrams: 61, AmountInPercentage: 33, NutritionGroupID: 3, RuleID: 24},
+
+		{AmountInGrams: 248, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 25},
+		{AmountInGrams: 54, AmountInPercentage: 12, NutritionGroupID: 2, RuleID: 25},
+		{AmountInGrams: 66, AmountInPercentage: 33, NutritionGroupID: 3, RuleID: 25},
+
+		{AmountInGrams: 268, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 26},
+		{AmountInGrams: 59, AmountInPercentage: 12, NutritionGroupID: 2, RuleID: 26},
+		{AmountInGrams: 72, AmountInPercentage: 33, NutritionGroupID: 3, RuleID: 26},
+
+		{AmountInGrams: 214, AmountInPercentage: 57, NutritionGroupID: 1, RuleID: 27},
+		{AmountInGrams: 30, AmountInPercentage: 8, NutritionGroupID: 2, RuleID: 27},
+		{AmountInGrams: 58, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 27},
+
+		{AmountInGrams: 227, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 28},
+		{AmountInGrams: 41, AmountInPercentage: 10, NutritionGroupID: 2, RuleID: 28},
+		{AmountInGrams: 64, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 28},
+
+		{AmountInGrams: 248, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 29},
+		{AmountInGrams: 45, AmountInPercentage: 10, NutritionGroupID: 2, RuleID: 29},
+		{AmountInGrams: 70, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 29},
+
+		{AmountInGrams: 248, AmountInPercentage: 55, NutritionGroupID: 1, RuleID: 30},
+		{AmountInGrams: 45, AmountInPercentage: 10, NutritionGroupID: 2, RuleID: 30},
+		{AmountInGrams: 70, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 30},
+
+		{AmountInGrams: 191, AmountInPercentage: 51, NutritionGroupID: 1, RuleID: 31},
+		{AmountInGrams: 53, AmountInPercentage: 14, NutritionGroupID: 2, RuleID: 31},
+		{AmountInGrams: 58, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 31},
+
+		{AmountInGrams: 206, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 32},
+		{AmountInGrams: 62, AmountInPercentage: 15, NutritionGroupID: 2, RuleID: 32},
+		{AmountInGrams: 64, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 32},
+
+		{AmountInGrams: 225, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 33},
+		{AmountInGrams: 68, AmountInPercentage: 15, NutritionGroupID: 2, RuleID: 33},
+		{AmountInGrams: 70, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 33},
+
+		{AmountInGrams: 244, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 34},
+		{AmountInGrams: 73, AmountInPercentage: 15, NutritionGroupID: 2, RuleID: 34},
+		{AmountInGrams: 76, AmountInPercentage: 35, NutritionGroupID: 3, RuleID: 34},
+
+		{AmountInGrams: 188, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 35},
+		{AmountInGrams: 68, AmountInPercentage: 18, NutritionGroupID: 2, RuleID: 35},
+		{AmountInGrams: 53, AmountInPercentage: 32, NutritionGroupID: 3, RuleID: 35},
+
+		{AmountInGrams: 206, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 36},
+		{AmountInGrams: 74, AmountInPercentage: 18, NutritionGroupID: 2, RuleID: 36},
+		{AmountInGrams: 59, AmountInPercentage: 32, NutritionGroupID: 3, RuleID: 36},
+
+		{AmountInGrams: 225, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 37},
+		{AmountInGrams: 81, AmountInPercentage: 18, NutritionGroupID: 2, RuleID: 37},
+		{AmountInGrams: 64, AmountInPercentage: 32, NutritionGroupID: 3, RuleID: 37},
+
+		{AmountInGrams: 244, AmountInPercentage: 50, NutritionGroupID: 1, RuleID: 38},
+		{AmountInGrams: 88, AmountInPercentage: 18, NutritionGroupID: 2, RuleID: 38}, //ในข้อมูลเขียนว่า 288 เดาว่าtypo
+		{AmountInGrams: 69, AmountInPercentage: 32, NutritionGroupID: 3, RuleID: 38},
 	}
 
-	for _, nutritionRecommendation := range NutritionRecommendations {
-		db.FirstOrCreate(&nutritionRecommendation, entity.NutritionRecommendation{
-			AmountInGrams:      nutritionRecommendation.AmountInGrams,
-			AmountInPercentage: nutritionRecommendation.AmountInPercentage,
-			NutritionGroupID:   nutritionRecommendation.NutritionGroupID,
-			RuleID:             nutritionRecommendation.RuleID,
-		})
+	for _, rec := range NutritionRecommendations {
+		db.Where("rule_id = ? AND nutrition_group_id = ?", rec.RuleID, rec.NutritionGroupID).
+			Assign(entity.NutritionRecommendation{
+				AmountInGrams:      rec.AmountInGrams,
+				AmountInPercentage: rec.AmountInPercentage,
+				NutritionGroupID:   rec.NutritionGroupID,
+				RuleID:             rec.RuleID,
+			}).
+			FirstOrCreate(&rec)
 	}
 
 	PortionRecommendations := []entity.PortionRecommendation{
@@ -1847,21 +1935,21 @@ func SetupDatabase() {
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 17},
 		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 17},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 17},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 17},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 1, RuleID: 17},
 		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 17}, //กลางวัน
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 17},
 		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 17},
 		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 17},
 		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 17},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 17},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 17},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 2, RuleID: 17},
 		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 17}, //เย็น
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 17},
 		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 17},
 		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 17},
 		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 17},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 17},
-		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 17},
+		{Amount: 1, FoodGroupID: 8, MealTimeID: 3, RuleID: 17},
 
 		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 18}, //เช้า
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 18},
@@ -1869,21 +1957,21 @@ func SetupDatabase() {
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 18},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 18},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 18},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 18},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 1, RuleID: 18},
 		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 18}, //กลางวัน
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 18},
 		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 18},
 		{Amount: 0.5, FoodGroupID: 4, MealTimeID: 2, RuleID: 18},
 		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 18},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 18},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 18},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 2, RuleID: 18},
 		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 18}, //เย็น
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 18},
 		{Amount: 2.5, FoodGroupID: 3, MealTimeID: 3, RuleID: 18},
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 18},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 18},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 18},
-		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 18},
+		{Amount: 1, FoodGroupID: 8, MealTimeID: 3, RuleID: 18},
 
 		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 19}, //เช้า
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 19},
@@ -1891,21 +1979,21 @@ func SetupDatabase() {
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 19},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 19},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 19},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 19},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 1, RuleID: 19},
 		{Amount: 3, FoodGroupID: 1, MealTimeID: 2, RuleID: 19}, //กลางวัน
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 19},
 		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 19},
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 19},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 19},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 19},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 19},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 2, RuleID: 19},
 		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 19}, //เย็น
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 19},
 		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 19},
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 19},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 19},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 19},
-		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 19},
+		{Amount: 1, FoodGroupID: 8, MealTimeID: 3, RuleID: 19},
 
 		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 20}, //เช้า
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 20},
@@ -1913,21 +2001,21 @@ func SetupDatabase() {
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 20},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 20},
 		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 20},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 20},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 1, RuleID: 20},
 		{Amount: 3, FoodGroupID: 1, MealTimeID: 2, RuleID: 20}, //กลางวัน
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 20},
 		{Amount: 3, FoodGroupID: 3, MealTimeID: 2, RuleID: 20},
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 20},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 20},
 		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 20},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 20},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 2, RuleID: 20},
 		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 20}, //เย็น
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 20},
 		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 20},
 		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 20},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 20},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 20},
-		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 20},
+		{Amount: 1, FoodGroupID: 8, MealTimeID: 3, RuleID: 20},
 
 		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 21}, //เช้า
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 21},
@@ -1935,21 +2023,21 @@ func SetupDatabase() {
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 21},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 1, RuleID: 21},
 		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 21},
-		{Amount: 0.5, FoodGroupID: 7, MealTimeID: 1, RuleID: 21},
+		{Amount: 0.5, FoodGroupID: 8, MealTimeID: 1, RuleID: 21},
 		{Amount: 3, FoodGroupID: 1, MealTimeID: 2, RuleID: 21}, //กลางวัน
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 21},
 		{Amount: 3, FoodGroupID: 3, MealTimeID: 2, RuleID: 21},
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 21},
 		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 21},
 		{Amount: 1.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 21},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 21},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 2, RuleID: 21},
 		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 21}, //เย็น
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 21},
 		{Amount: 3.5, FoodGroupID: 3, MealTimeID: 3, RuleID: 21},
 		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 21},
 		{Amount: 6, FoodGroupID: 5, MealTimeID: 3, RuleID: 21},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 21},
-		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 21},
+		{Amount: 1, FoodGroupID: 8, MealTimeID: 3, RuleID: 21},
 
 		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 22}, //เช้า
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 22},
@@ -1957,30 +2045,384 @@ func SetupDatabase() {
 		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 22},
 		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 22},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 22},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 1, RuleID: 22},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 1, RuleID: 22},
 		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 22}, //กลางวัน
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 22},
 		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 22},
 		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 22},
 		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 22},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 22},
-		{Amount: 0, FoodGroupID: 7, MealTimeID: 2, RuleID: 22},
+		{Amount: 0, FoodGroupID: 8, MealTimeID: 2, RuleID: 22},
 		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 22}, //เย็น
 		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 22},
 		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 22},
 		{Amount: 0, FoodGroupID: 4, MealTimeID: 3, RuleID: 22},
 		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 22},
 		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 22},
-		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 22},
+		{Amount: 1, FoodGroupID: 8, MealTimeID: 3, RuleID: 22},
+
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 1, RuleID: 23}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 23},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 23},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 23},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 23},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 23},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 23},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 23}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 23},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 23},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 23},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 23},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 2, RuleID: 23},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 23},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 23}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 23},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 23},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 23},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 3, RuleID: 23},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 23},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 23},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 24}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 24},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 24},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 24},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 24},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 24},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 24},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 24}, //กลางวัน
+		{Amount: 2, FoodGroupID: 2, MealTimeID: 2, RuleID: 24},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 24},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 24},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 24},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 2, RuleID: 24},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 24},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 24}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 24},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 24},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 24},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 3, RuleID: 24},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 24},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 24},
+
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 1, RuleID: 25}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 25},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 25},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 25},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 25},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 25},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 25},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 2, RuleID: 25}, //กลางวัน
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 2, RuleID: 25},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 25},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 25},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 25},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 2, RuleID: 25},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 25},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 25}, //เย็น
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 3, RuleID: 25},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 25},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 25},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 25},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 25},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 25},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 26}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 26},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 26},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 26},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 26},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 26},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 26},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 26}, //กลางวัน
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 2, RuleID: 26},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 26},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 26},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 26},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 2, RuleID: 26},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 26},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 26}, //เย็น
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 3, RuleID: 26},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 26},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 26},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 26},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 26},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 26},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 27}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 27},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 27},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 27},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 1, RuleID: 27},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 27},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 27},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 27}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 27},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 27},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 27},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 2, RuleID: 27},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 2, RuleID: 27},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 27},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 27}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 27},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 27},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 27},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 3, RuleID: 27},
+		{Amount: 2.5, FoodGroupID: 6, MealTimeID: 3, RuleID: 27},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 27},
+
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 1, RuleID: 28}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 28},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 28},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 28},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 1, RuleID: 28},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 1, RuleID: 28},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 28},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 2, RuleID: 28}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 28},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 28},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 28},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 28},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 2, RuleID: 28},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 28},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 28}, //เย็น
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 3, RuleID: 28},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 28},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 28},
+		{Amount: 2, FoodGroupID: 5, MealTimeID: 3, RuleID: 28},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 28},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 28},
+
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 1, RuleID: 29}, //เช้า
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 1, RuleID: 29},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 29},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 29},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 29},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 1, RuleID: 29},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 29},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 2, RuleID: 29}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 29},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 29},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 29},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 29},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 2, RuleID: 29},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 29},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 29}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 29},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 29},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 29},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 3, RuleID: 29},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 29},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 29},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 30}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 30},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 30},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 30},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 30},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 1, RuleID: 30},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 30},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 30}, //กลางวัน
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 2, RuleID: 30},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 30},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 30},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 2, RuleID: 30},
+		{Amount: 3.5, FoodGroupID: 6, MealTimeID: 2, RuleID: 30},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 30},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 30}, //เย็น
+		{Amount: 0.5, FoodGroupID: 2, MealTimeID: 3, RuleID: 30},
+		{Amount: 3, FoodGroupID: 3, MealTimeID: 3, RuleID: 30},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 30},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 3, RuleID: 30},
+		{Amount: 3, FoodGroupID: 6, MealTimeID: 3, RuleID: 30},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 30},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 31}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 31},
+		{Amount: 1, FoodGroupID: 3, MealTimeID: 1, RuleID: 31},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 31},
+		{Amount: 3, FoodGroupID: 5, MealTimeID: 1, RuleID: 31},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 31},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 31},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 31}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 31},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 31},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 31},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 2, RuleID: 31},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 2, RuleID: 31},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 31},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 31}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 31},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 31},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 31},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 31},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 31},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 31},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 32}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 32},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 32},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 1, RuleID: 32},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 1, RuleID: 32},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 32},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 32},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 32}, //กลางวัน
+		{Amount: 2, FoodGroupID: 2, MealTimeID: 2, RuleID: 32},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 32},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 32},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 2, RuleID: 32},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 2, RuleID: 32},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 32},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 32}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 32},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 32},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 32},
+		{Amount: 4, FoodGroupID: 5, MealTimeID: 3, RuleID: 32},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 32},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 32},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 33}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 33},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 33},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 1, RuleID: 33},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 33},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 33},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 33},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 33}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 33},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 33},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 33},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 33},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 2, RuleID: 33},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 33},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 33}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 33},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 33},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 33},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 3, RuleID: 33},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 33},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 33},
+
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 1, RuleID: 34}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 34},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 34},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 34},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 34},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 1, RuleID: 34},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 34},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 34}, //กลางวัน
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 2, RuleID: 34},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 34},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 34},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 2, RuleID: 34},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 2, RuleID: 34},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 34},
+		{Amount: 3, FoodGroupID: 1, MealTimeID: 3, RuleID: 34}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 34},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 34},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 34},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 3, RuleID: 34},
+		{Amount: 2, FoodGroupID: 6, MealTimeID: 3, RuleID: 34},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 34},
+
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 1, RuleID: 35}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 35},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 35},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 35},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 35},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 35},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 35},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 2, RuleID: 35}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 35},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 35},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 35},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 35},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 35},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 35},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 3, RuleID: 35}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 35},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 35},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 35},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 3, RuleID: 35},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 35},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 35},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 36}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 36},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 36},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 36},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 36},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 36},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 36},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 2, RuleID: 36}, //กลางวัน
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 2, RuleID: 36},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 36},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 36},
+		{Amount: 5, FoodGroupID: 5, MealTimeID: 2, RuleID: 36},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 36},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 36},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 36}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 36},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 36},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 36},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 3, RuleID: 36},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 36},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 36},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 37}, //เช้า
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 1, RuleID: 37},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 37},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 1, RuleID: 37},
+		{Amount: 6, FoodGroupID: 5, MealTimeID: 1, RuleID: 37},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 37},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 37},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 2, RuleID: 37}, //กลางวัน
+		{Amount: 3.5, FoodGroupID: 2, MealTimeID: 2, RuleID: 37},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 37},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 2, RuleID: 37},
+		{Amount: 7, FoodGroupID: 5, MealTimeID: 2, RuleID: 37},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 37},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 37},
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 3, RuleID: 37}, //เย็น
+		{Amount: 0, FoodGroupID: 2, MealTimeID: 3, RuleID: 37},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 37},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 37},
+		{Amount: 7, FoodGroupID: 5, MealTimeID: 3, RuleID: 37},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 37},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 37},
+
+		{Amount: 2.5, FoodGroupID: 1, MealTimeID: 1, RuleID: 38}, //เช้า
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 1, RuleID: 38},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 1, RuleID: 38},
+		{Amount: 0, FoodGroupID: 4, MealTimeID: 1, RuleID: 38},
+		{Amount: 7, FoodGroupID: 5, MealTimeID: 1, RuleID: 38},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 1, RuleID: 38},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 1, RuleID: 38},
+		{Amount: 2, FoodGroupID: 1, MealTimeID: 2, RuleID: 38}, //กลางวัน
+		{Amount: 1, FoodGroupID: 2, MealTimeID: 2, RuleID: 38},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 2, RuleID: 38},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 2, RuleID: 38},
+		{Amount: 8, FoodGroupID: 5, MealTimeID: 2, RuleID: 38},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 2, RuleID: 38},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 2, RuleID: 38},
+		{Amount: 0, FoodGroupID: 1, MealTimeID: 3, RuleID: 38}, //เย็น
+		{Amount: 3, FoodGroupID: 2, MealTimeID: 3, RuleID: 38},
+		{Amount: 2, FoodGroupID: 3, MealTimeID: 3, RuleID: 38},
+		{Amount: 1, FoodGroupID: 4, MealTimeID: 3, RuleID: 38},
+		{Amount: 7, FoodGroupID: 5, MealTimeID: 3, RuleID: 38},
+		{Amount: 1, FoodGroupID: 6, MealTimeID: 3, RuleID: 38},
+		{Amount: 1, FoodGroupID: 7, MealTimeID: 3, RuleID: 38},
 	}
 
-	for _, portionRecommendation := range PortionRecommendations {
-		db.FirstOrCreate(&portionRecommendation, entity.PortionRecommendation{
-			Amount:      portionRecommendation.Amount,
-			FoodGroupID: portionRecommendation.FoodGroupID,
-			MealTimeID:  portionRecommendation.MealTimeID,
-			RuleID:      portionRecommendation.RuleID,
-		})
+	for _, rec := range PortionRecommendations {
+		db.Where("rule_id = ? AND food_group_id = ? AND meal_time_id = ?", rec.RuleID, rec.FoodGroupID, rec.MealTimeID).
+			Assign(entity.PortionRecommendation{
+				Amount:      rec.Amount,
+				FoodGroupID: rec.FoodGroupID,
+				MealTimeID:  rec.MealTimeID,
+				RuleID:      rec.RuleID,
+			}).
+			FirstOrCreate(&rec)
 	}
 
 	Ingredient := []entity.Ingredients{
@@ -2164,49 +2606,49 @@ func SetupDatabase() {
 			Image:  "https://medthai.com/wp-content/uploads/2013/07/Lychee-1.jpg",
 			Credit: "https://medthai.com/%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%99%E0%B8%88%E0%B8%B5%E0%B9%88/",
 		},
-		{ 
-			Name: "สตรอเบอร์รี่", 
-			Image: "https://medthai.com/wp-content/uploads/2013/07/รูปสตรอเบอร์รี่.jpg", 
-			Credit: "https://medthai.com/สตรอเบอร์รี่/" ,
+		{
+			Name:   "สตรอเบอร์รี่",
+			Image:  "https://medthai.com/wp-content/uploads/2013/07/รูปสตรอเบอร์รี่.jpg",
+			Credit: "https://medthai.com/สตรอเบอร์รี่/",
 		},
-  		{ 
-			Name: "ส้มโอ", 
-			Image: "https://medthai.com/wp-content/uploads/2013/07/Pomelo-1.jpg", 
+		{
+			Name:   "ส้มโอ",
+			Image:  "https://medthai.com/wp-content/uploads/2013/07/Pomelo-1.jpg",
 			Credit: "https://medthai.com/ส้มโอ/",
 		},
-  		{ 
-			Name: "สาลี่", 
-			Image: "https://medthai.com/wp-content/uploads/2013/07/Chinese-pear-1.jpg", 
+		{
+			Name:   "สาลี่",
+			Image:  "https://medthai.com/wp-content/uploads/2013/07/Chinese-pear-1.jpg",
 			Credit: "https://medthai.com/สาลี่/",
 		},
-  		{ 
-			Name: "ส้ม", 
-			Image: "https://medthai.com/wp-content/uploads/2013/07/Orange-1.jpg", 
-			Credit: "https://medthai.com/ส้ม/" ,
+		{
+			Name:   "ส้ม",
+			Image:  "https://medthai.com/wp-content/uploads/2013/07/Orange-1.jpg",
+			Credit: "https://medthai.com/ส้ม/",
 		},
-  		{ Name: "อัญชัน", Image: "https://medthai.com/wp-content/uploads/2013/07/Butterfly-pea-1.jpg", Credit: "https://medthai.com/อัญชัน/" },
-  		{ Name: "มะกรูด", Image: "https://medthai.com/wp-content/uploads/2013/07/Kaffir-lime-1.jpg", Credit: "https://medthai.com/มะกรูด/" },
-  		{ Name: "ตะไคร้", Image: "https://medthai.com/wp-content/uploads/2013/07/Lemongrass-1.jpg", Credit: "https://medthai.com/ตะไคร้/" },
-  		{ Name: "กระเทียม", Image: "https://medthai.com/wp-content/uploads/2013/07/Garlic-1.jpg", Credit: "https://medthai.com/กระเทียม/" },
-  		{ Name: "มะเขือเทศ", Image: "https://medthai.com/wp-content/uploads/2013/07/Tomato-1.jpg", Credit: "https://medthai.com/มะเขือเทศ/" },
-  		{ Name: "ฟักทอง", Image: "https://medthai.com/wp-content/uploads/2013/07/Pumpkin-1.jpg", Credit: "https://medthai.com/ฟักทอง/" },
-  		{ Name: "แครอท", Image: "https://medthai.com/wp-content/uploads/2013/07/Carrot-1.jpg", Credit: "https://medthai.com/แครอท/" },
-  		{ Name: "มะรุม", Image: "https://medthai.com/wp-content/uploads/2013/07/Moringa-1.jpg", Credit: "https://medthai.com/มะรุม/" },
-  		{ Name: "มะระขี้นก", Image: "https://medthai.com/wp-content/uploads/2013/07/Momordica-charantia-1.jpg", Credit: "https://medthai.com/มะระขี้นก/" },
-  		{ Name: "กะเพรา", Image: "https://medthai.com/wp-content/uploads/2013/07/Holy-basil-1.jpg", Credit: "https://medthai.com/กะเพรา/" },
-  		{ Name: "โหระพา", Image: "https://medthai.com/wp-content/uploads/2013/07/Sweet-Basil-1.jpg", Credit: "https://medthai.com/โหระพา/" },
-  		{ Name: "กระเจี๊ยบเขียว", Image: "https://medthai.com/wp-content/uploads/2013/09/กระเจี๊ยบเขียว.jpg", Credit: "https://medthai.com/กระเจี๊ยบเขียว/" },
-  		{ Name: "ตำลึง", Image: "https://medthai.com/wp-content/uploads/2013/07/Ivy-Gourd-1.jpg", Credit: "https://medthai.com/ตำลึง/" },
-  		{ Name: "สะตอ", Image: "https://medthai.com/wp-content/uploads/2013/07/สะตอ.jpg", Credit: "https://medthai.com/สะตอ/" },
-  		{ Name: "ผักบุ้ง", Image: "https://medthai.com/wp-content/uploads/2013/07/Swamp-cabbage-1.jpg", Credit: "https://medthai.com/ผักบุ้ง/" },
-  		{ Name: "แตงกวา", Image: "https://medthai.com/wp-content/uploads/2013/07/Cucumber-1.jpg", Credit: "https://medthai.com/แตงกวา/" },
-  		{ Name: "กะหล่ำปลี", Image: "https://medthai.com/wp-content/uploads/2013/07/Cabbage-1.jpg", Credit: "https://medthai.com/กะหล่ำปลี/" },
-  		{ Name: "กระชาย", Image: "https://medthai.com/wp-content/uploads/2013/08/ต้นกระชาย.jpg", Credit: "https://medthai.com/กระชาย/" },
-  		{ Name: "ขิง", Image: "https://medthai.com/wp-content/uploads/2013/07/Ginger-1.jpg", Credit: "https://medthai.com/ขิง/" },
-  		{ Name: "ผักคะน้า", Image: "https://medthai.com/wp-content/uploads/2013/07/Kai-Lan-1.jpg", Credit: "https://medthai.com/ผักคะน้า/" },
-  		{ Name: "ชะอม", Image: "https://medthai.com/wp-content/uploads/2013/07/Climbing-Wattle-1.jpg", Credit: "https://medthai.com/ชะอม/" },
-  		{ Name: "ถั่วงอก", Image: "https://medthai.com/wp-content/uploads/2013/07/Bean-Sprouts-1.jpg", Credit: "https://medthai.com/ถั่วงอก/" },
-  		{ Name: "ถั่วลันเตา", Image: "https://medthai.com/wp-content/uploads/2013/10/ถั่วลันเตา1.jpg", Credit: "https://medthai.com/ถั่วลันเตา/" },
+		{Name: "อัญชัน", Image: "https://medthai.com/wp-content/uploads/2013/07/Butterfly-pea-1.jpg", Credit: "https://medthai.com/อัญชัน/"},
+		{Name: "มะกรูด", Image: "https://medthai.com/wp-content/uploads/2013/07/Kaffir-lime-1.jpg", Credit: "https://medthai.com/มะกรูด/"},
+		{Name: "ตะไคร้", Image: "https://medthai.com/wp-content/uploads/2013/07/Lemongrass-1.jpg", Credit: "https://medthai.com/ตะไคร้/"},
+		{Name: "กระเทียม", Image: "https://medthai.com/wp-content/uploads/2013/07/Garlic-1.jpg", Credit: "https://medthai.com/กระเทียม/"},
+		{Name: "มะเขือเทศ", Image: "https://medthai.com/wp-content/uploads/2013/07/Tomato-1.jpg", Credit: "https://medthai.com/มะเขือเทศ/"},
+		{Name: "ฟักทอง", Image: "https://medthai.com/wp-content/uploads/2013/07/Pumpkin-1.jpg", Credit: "https://medthai.com/ฟักทอง/"},
+		{Name: "แครอท", Image: "https://medthai.com/wp-content/uploads/2013/07/Carrot-1.jpg", Credit: "https://medthai.com/แครอท/"},
+		{Name: "มะรุม", Image: "https://medthai.com/wp-content/uploads/2013/07/Moringa-1.jpg", Credit: "https://medthai.com/มะรุม/"},
+		{Name: "มะระขี้นก", Image: "https://medthai.com/wp-content/uploads/2013/07/Momordica-charantia-1.jpg", Credit: "https://medthai.com/มะระขี้นก/"},
+		{Name: "กะเพรา", Image: "https://medthai.com/wp-content/uploads/2013/07/Holy-basil-1.jpg", Credit: "https://medthai.com/กะเพรา/"},
+		{Name: "โหระพา", Image: "https://medthai.com/wp-content/uploads/2013/07/Sweet-Basil-1.jpg", Credit: "https://medthai.com/โหระพา/"},
+		{Name: "กระเจี๊ยบเขียว", Image: "https://medthai.com/wp-content/uploads/2013/09/กระเจี๊ยบเขียว.jpg", Credit: "https://medthai.com/กระเจี๊ยบเขียว/"},
+		{Name: "ตำลึง", Image: "https://medthai.com/wp-content/uploads/2013/07/Ivy-Gourd-1.jpg", Credit: "https://medthai.com/ตำลึง/"},
+		{Name: "สะตอ", Image: "https://medthai.com/wp-content/uploads/2013/07/สะตอ.jpg", Credit: "https://medthai.com/สะตอ/"},
+		{Name: "ผักบุ้ง", Image: "https://medthai.com/wp-content/uploads/2013/07/Swamp-cabbage-1.jpg", Credit: "https://medthai.com/ผักบุ้ง/"},
+		{Name: "แตงกวา", Image: "https://medthai.com/wp-content/uploads/2013/07/Cucumber-1.jpg", Credit: "https://medthai.com/แตงกวา/"},
+		{Name: "กะหล่ำปลี", Image: "https://medthai.com/wp-content/uploads/2013/07/Cabbage-1.jpg", Credit: "https://medthai.com/กะหล่ำปลี/"},
+		{Name: "กระชาย", Image: "https://medthai.com/wp-content/uploads/2013/08/ต้นกระชาย.jpg", Credit: "https://medthai.com/กระชาย/"},
+		{Name: "ขิง", Image: "https://medthai.com/wp-content/uploads/2013/07/Ginger-1.jpg", Credit: "https://medthai.com/ขิง/"},
+		{Name: "ผักคะน้า", Image: "https://medthai.com/wp-content/uploads/2013/07/Kai-Lan-1.jpg", Credit: "https://medthai.com/ผักคะน้า/"},
+		{Name: "ชะอม", Image: "https://medthai.com/wp-content/uploads/2013/07/Climbing-Wattle-1.jpg", Credit: "https://medthai.com/ชะอม/"},
+		{Name: "ถั่วงอก", Image: "https://medthai.com/wp-content/uploads/2013/07/Bean-Sprouts-1.jpg", Credit: "https://medthai.com/ถั่วงอก/"},
+		{Name: "ถั่วลันเตา", Image: "https://medthai.com/wp-content/uploads/2013/10/ถั่วลันเตา1.jpg", Credit: "https://medthai.com/ถั่วลันเตา/"},
 	}
 	for _, pkg := range Ingredient {
 		db.FirstOrCreate(&pkg, entity.Ingredients{Name: pkg.Name})
@@ -2216,7 +2658,7 @@ func SetupDatabase() {
 	users := []entity.Admin{
 		{FirstName: "Supaluck", LastName: "Tohthong", UserName: "Eveamare", Password: hashedPassword},
 	}
-	
+
 	for _, user := range users {
 		db.FirstOrCreate(&user, entity.Admin{FirstName: user.FirstName})
 	}

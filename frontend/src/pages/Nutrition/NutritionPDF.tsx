@@ -95,7 +95,7 @@ const NutritionPDF: React.FC<Props> = ({
       <Page size="A4" style={styles.page}>
         {/* Title */}
         <Text style={styles.title} wrap={false}>
-          ปริมาณอาหารที่เหมาะกับคุณ
+          ปริมาณที่ควรทานต่อวัน
         </Text>
 
         {/* Table Header */}
@@ -122,7 +122,7 @@ const NutritionPDF: React.FC<Props> = ({
               );
               return (
                 <Text key={group} style={styles.tableCell}>
-                  {item ? `${item.amount} ${item.unit}` : "-"}
+                  {item && item.amount > 0 ? `${item.amount} ${item.unit}` : "-"}
                 </Text>
               );
             })}

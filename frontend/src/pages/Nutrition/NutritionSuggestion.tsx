@@ -135,7 +135,7 @@ const NutritionSuggestion = () => {
         <div className="h-screen font-kanit">
           <div className="bg-[#2E77F8] p-5 md:p-8 flex items-center justify-center text-white">
             <div className="font-semibold text-2xl md:text-4xl">
-              ปริมาณอาหารที่เหมาะกับคุณ
+              ปริมาณที่ควรทานต่อวัน
             </div>
           </div>
           {/* For small screen */}
@@ -143,7 +143,7 @@ const NutritionSuggestion = () => {
             <table className="min-w-full border-collapse border border-gray-500">
               <thead>
                 <tr>
-                  <th className="border border-gray-400 p-2"></th>{" "}
+                  <th className="border border-gray-400 p-2 w-35"></th>{" "}
                   {mealTimes.map((mealTime) => (
                     <th
                       key={mealTime}
@@ -170,7 +170,7 @@ const NutritionSuggestion = () => {
                             key={`${foodGroupName}-${mealTime}`}
                             className="border border-gray-400 p-2 text-center whitespace-nowrap"
                           >
-                            {item ? `${item.amount} ${item.unit}` : "-"}
+                            {item && item.amount > 0 ? `${item.amount} ${item.unit}` : "-"}
                           </td>
                         );
                       })}
@@ -197,11 +197,11 @@ const NutritionSuggestion = () => {
           </div>
 
           {/* Medium and up: show this */}
-          <div className="hidden lg:block m-5 ml-15 mr-15">
-            <table className="min-w-full border-collapse border border-gray-500">
+          <div className="hidden lg:block m-5 ml-40 mr-50">
+            <table className="min-w-full border-collapse border border-gray-500 table-fixed">
               <thead>
                 <tr>
-                  <th className="border border-gray-400 p-2"></th>
+                  <th className="border border-gray-400 p-2 w-25"></th>
                   {Object.keys(groupedByFoodGroup).map((foodGroupName) => (
                     <th
                       key={foodGroupName}
@@ -215,7 +215,7 @@ const NutritionSuggestion = () => {
               <tbody>
                 {mealTimes.map((mealTime) => (
                   <tr key={mealTime}>
-                    <td className="max-w-16 border border-gray-400 p-2 pl-5 font-semibold whitespace-nowrap">
+                    <td className="min-w-25 border border-gray-400 p-2 pl-5 font-semibold whitespace-nowrap">
                       {mealTime}
                     </td>
                     {Object.values(groupedByFoodGroup).map((items) => {
@@ -225,9 +225,9 @@ const NutritionSuggestion = () => {
                       return (
                         <td
                           key={mealTime}
-                          className="border border-gray-400 p-2 text-center whitespace-nowrap"
+                          className="w-30 border border-gray-400 p-2 text-center whitespace-nowrap"
                         >
-                          {item ? `${item.amount} ${item.unit}` : "-"}
+                          {item && item.amount > 0 ? `${item.amount} ${item.unit}` : "-"}
                         </td>
                       );
                     })}
@@ -251,13 +251,13 @@ const NutritionSuggestion = () => {
             </div>
           </div>
 
-          <div className="flex p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
+          <div className="flex p-3 md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-50 lg:pr-60">
             <Button
               type="primary"
               className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
               onClick={handleNext}
             >
-              ดูสิ่งที่เลือกทานและหลีกเลี่ยง
+              ดูสิ่งที่ควรเลือกทานและหลีกเลี่ยง
             </Button>
             <FilePdfOutlined onClick={handleOpenPDF} className="ml-5 text-4xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110 active:!text-blue-600 active:scale-110"/>
           </div>
