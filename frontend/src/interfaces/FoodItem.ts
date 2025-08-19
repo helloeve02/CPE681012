@@ -1,4 +1,4 @@
-export interface MealplanInterface {
+export interface FoodItemInterface {
     ID?: number;
     Name?: string;
     Image?: string;
