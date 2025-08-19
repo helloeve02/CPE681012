@@ -1,63 +1,49 @@
-import React, { useState } from 'react';
-import { ChevronLeft, Download, FileText } from 'lucide-react';
-import type { MealdayInterface } from '../../interfaces/Mealday';
-import type { MealInterface } from '../../interfaces/Meal';
-import type { MealMenuInterface } from '../../interfaces/MealMenu';
-import type { MealplanInterface } from '../../interfaces/Mealplan';
-import type { DiseaseInterface } from '../../interfaces/Disease';
-import type { MenuInterface } from '../../interfaces/Menu';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, Download, FileText, RefreshCw, Shuffle } from 'lucide-react';
 
-/* // Interface definitions
+// Interface definitions
 interface DiseaseInterface {
   ID?: number;
   Name?: string;
   DiseaseStage?: string;
 }
-*/
-/* interface MenuInterface {
+
+interface MenuInterface {
   ID?: number;
   Title?: string;
   Description?: string;
   Region?: string;
   Image?: string;
-  AdminID?: number; // FK
-} */
-/*
+  AdminID?: number;
+  Credit?: string;
+  Tags: string[];
+}
+
 interface MealplanInterface {
   ID?: number;
   PlanName?: string;
-  AdminID?: number; // FK
-  DiseaseID?: number; // FK
+  AdminID?: number;
+  DiseaseID?: number;
 }
 
 interface MealdayInterface {
   ID?: number;
   DayofWeek?: string;
-  MealplanID?: number; // FK
+  MealplanID?: number;
 }
 
 interface MealInterface {
   ID?: number;
   MealType?: string;
-  MealdayID?: number; // FK
-}*/
+  MealdayID?: number;
+}
 
-/* interface MealMenuInterface {
+interface MealMenuInterface {
   ID?: number;
   MenuType?: string;
-  Portiontext?: string;
-  MealID?: number; // FK
-  MenuID?: number; // FK
-}  */
-
-// Extended interfaces for UI data
-interface MealPlanData {
-  mealplan: MealplanInterface;
-  disease: DiseaseInterface;
-  mealdays: MealdayInterface[];
-  meals: MealInterface[];
-  menus: MenuInterface[];
-  mealMenus: MealMenuInterface[];
+  PortionText?: string;
+  MealID?: number;
+  MenuID?: number;
 }
 
 interface RecommendationData {
@@ -72,10 +58,12 @@ interface RecommendationData {
 
 const MealPlannerApp = () => {
   const [selectedStage, setSelectedStage] = useState<'A1' | 'A2'>('A1');
-  const [currentWeek, setCurrentWeek] = useState(1);
   const [showRecommendations, setShowRecommendations] = useState(false);
+  const [currentMealPlan, setCurrentMealPlan] = useState<Record<string, Record<string, MealMenuInterface[]>>>({});
+  const [isRandomizing, setIsRandomizing] = useState(false);
+  const [lastRandomized, setLastRandomized] = useState<Date>(new Date());
 
-  // Sample data following the interface structure
+  // Sample data
   const diseases: DiseaseInterface[] = [
     { ID: 1, Name: "โรคไตเรื้อรัง", DiseaseStage: "A1" },
     { ID: 2, Name: "โรคไตเรื้อรัง", DiseaseStage: "A2" }
@@ -86,14 +74,35 @@ const MealPlannerApp = () => {
     { ID: 2, PlanName: "แผนอาหารโรคไตระยะที่ 2", AdminID: 1, DiseaseID: 2 }
   ];
 
-  const menus: MenuInterface[] = [
-    { ID: 1, Title: "ข้าวต้มปลา", Description: "ข้าวต้มปลาสดใส", Region: "ภาคกลาง", AdminID: 1 },
-    { ID: 2, Title: "ไข่ต้ม", Description: "ไข่ไก่ต้มสุก", Region: "ทั่วไป", AdminID: 1 },
-    { ID: 3, Title: "ข้าวผัดมะเขือเทศ", Description: "ข้าวผัดมะเขือเทศสดใส", Region: "ภาคกลาง", AdminID: 1 },
-    { ID: 4, Title: "ข้าวกล้องผัดผัก", Description: "ข้าวกล้องผัดผักรวม", Region: "ทั่วไป", AdminID: 1 }
-  ];
+  // ข้อมูลเมนูแยกตาม tags สำหรับการสุ่ม
+  const menuDatabase: Record<string, MenuInterface[]> = {
+    A1: [
+      { ID: 1, Title: "ข้าวต้มปลา", Description: "ข้าวต้มปลาสดใส", Region: "ภาคกลาง", AdminID: 1, Tags: ["เช้า", "A1", "โปรตีนต่ำ"] },
+      { ID: 2, Title: "ไข่ต้ม", Description: "ไข่ไก่ต้มสุก", Region: "ทั่วไป", AdminID: 1, Tags: ["เช้า", "A1", "โปรตีน"] },
+      { ID: 3, Title: "ข้าวผัดมะเขือเทศ", Description: "ข้าวผัดมะเขือเทศสดใส", Region: "ภาคกลาง", Tags: ["กลางวัน", "A1", "ผัก"] },
+      { ID: 4, Title: "ข้าวกล้องผัดผัก", Description: "ข้าวกล้องผัดผักรวม", Region: "ทั่วไป", Tags: ["เย็น", "A1", "ไฟเบอร์สูง"] },
+      { ID: 5, Title: "แกงจืดมะระ", Description: "แกงจืดมะระใส่หมูสับ", Region: "ทั่วไป", Tags: ["กลางวัน", "A1", "ต่ำโซเดียม"] },
+      { ID: 6, Title: "ปลาทอดกระเทียม", Description: "ปลาทอดกระเทียมกรอบ", Region: "ภาคกลาง", Tags: ["เย็น", "A1", "โปรตีน"] },
+      { ID: 7, Title: "ผัดผักบุ้งไฟแดง", Description: "ผัดผักบุ้งไฟแดงไม่เผ็ด", Region: "ทั่วไป", Tags: ["กลางวัน", "A1", "ผัก"] },
+      { ID: 8, Title: "โจ๊กไก่", Description: "โจ๊กไก่สดใส", Region: "ทั่วไป", Tags: ["เช้า", "A1", "ย่อยง่าย"] },
+      { ID: 9, Title: "ข้าวผัดไข่", Description: "ข้าวผัดไข่แบบง่ายๆ", Region: "ทั่วไป", Tags: ["เย็น", "A1", "โปรตีน"] },
+      { ID: 10, Title: "แกงจืดฟัก", Description: "แกงจืดฟักทองใส", Region: "ทั่วไป", Tags: ["กลางวัน", "A1", "ต่ำโซเดียม"] }
+    ],
+    A2: [
+      { ID: 11, Title: "ข้าวต้มไก่", Description: "ข้าวต้มไก่อ่อนๆ", Region: "ทั่วไป", AdminID: 1, Tags: ["เช้า", "A2", "โปรตีนจำกัด"] },
+      { ID: 12, Title: "ผัดผักกาดขาว", Description: "ผัดผักกาดขาวใสๆ", Region: "ทั่วไป", Tags: ["กลางวัน", "A2", "ผัก", "ต่ำโพแทสเซียม"] },
+      { ID: 13, Title: "ข้าวขาวผัดผัก", Description: "ข้าวขาวผัดผักรวม", Region: "ทั่วไป", Tags: ["เย็น", "A2", "คาร์โบไฮเดรต"] },
+      { ID: 14, Title: "แกงจืดมะระอ่อน", Description: "แกงจืดมะระอ่อนใสๆ", Region: "ทั่วไป", Tags: ["กลางวัน", "A2", "ต่ำโซเดียม"] },
+      { ID: 15, Title: "ไข่ขาวต้ม", Description: "ไข่ขาวต้มไม่ใส่แดง", Region: "ทั่วไป", Tags: ["เช้า", "A2", "โปรตีนจำกัด"] },
+      { ID: 16, Title: "ปลาน้ำจืดนึ่ง", Description: "ปลาน้ำจืดนึ่งมะนาว", Region: "ทั่วไป", Tags: ["เย็น", "A2", "โปรตีนคุณภาพ"] },
+      { ID: 17, Title: "ผัดกะหล่ำปลี", Description: "ผัดกะหล่ำปลีใสๆ", Region: "ทั่วไป", Tags: ["กลางวัน", "A2", "ผัก"] },
+      { ID: 18, Title: "โจ๊กข้าวขาว", Description: "โจ๊กข้าวขาวใสไม่ใส่เครื่อง", Region: "ทั่วไป", Tags: ["เช้า", "A2", "ย่อยง่าย"] },
+      { ID: 19, Title: "ข้าวผัดขาว", Description: "ข้าวผัดขาวธรรมดา", Region: "ทั่วไป", Tags: ["เย็น", "A2", "คาร์โบไฮเดรต"] },
+      { ID: 20, Title: "แกงจืดตำลึง", Description: "แกงจืดตำลึงใสๆ", Region: "ทั่วไป", Tags: ["กลางวัน", "A2", "ต่ำโซเดียม"] }
+    ]
+  };
 
-  // Recommendations data for each stage
+  // คำแนะนำสำหรับแต่ละระยะ
   const recommendations: Record<string, RecommendationData> = {
     A1: {
       title: "คำแนะนำสำหรับผู้ป่วยโรคไตระยะที่ 1",
@@ -155,204 +164,83 @@ const MealPlannerApp = () => {
     }
   };
 
-  // Meal plan data structure using interfaces
-  const mealPlans: Record<string, Record<string, Record<string, MealMenuInterface[]>>> = {
-    A1: {
-      วันจันทร์: {
-        เช้า: [
-          { ID: 1, MenuType: "เช้า", PortionText: "ข้าวต้มปลา", MealID: 1, MenuID: 1 },
-          { ID: 2, MenuType: "เช้า", PortionText: "ไข่ต้ม 1 ฟอง", MealID: 1, MenuID: 2 },
-          { ID: 3, MenuType: "เช้า", PortionText: "น้ำ 2 แก้ว", MealID: 1, MenuID: undefined },
-          { ID: 4, MenuType: "เช้า", PortionText: "ผัก 1/2 จาน", MealID: 1, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 5, MenuType: "กลางวัน", PortionText: "ข้าวผัดมะเขือเทศ/มะรืน", MealID: 2, MenuID: 3 },
-          { ID: 6, MenuType: "กลางวัน", PortionText: "ข้าว 1.5 ทัพพี", MealID: 2, MenuID: undefined },
-          { ID: 7, MenuType: "กลางวัน", PortionText: "น้ำมัตงา 4 ช้อน", MealID: 2, MenuID: undefined },
-          { ID: 8, MenuType: "กลางวัน", PortionText: "มะระน้อม 15 เม็ด", MealID: 2, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 9, MenuType: "เย็น", PortionText: "ข้าวกล้องผัดผัก", MealID: 3, MenuID: 4 },
-          { ID: 10, MenuType: "เย็น", PortionText: "ข้าว 1 ทัพพี", MealID: 3, MenuID: undefined },
-          { ID: 11, MenuType: "เย็น", PortionText: "เนื้อ 1/2 ก้อน", MealID: 3, MenuID: undefined },
-          { ID: 12, MenuType: "เย็น", PortionText: "น้ำ 2 แก้ว", MealID: 3, MenuID: undefined }
-        ]
-      },
-      วันอังคาร: {
-        เช้า: [
-          { ID: 13, MenuType: "เช้า", PortionText: "ข้าวต้มมูก", MealID: 4, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 14, MenuType: "กลางวัน", PortionText: "ข้าวกบซูป", MealID: 5, MenuID: undefined },
-          { ID: 15, MenuType: "กลางวัน", PortionText: "ข้าว 1.5 ทัพพี", MealID: 5, MenuID: undefined },
-          { ID: 16, MenuType: "กลางวัน", PortionText: "น้ำ 4 แก้ว", MealID: 5, MenuID: undefined },
-          { ID: 17, MenuType: "กลางวัน", PortionText: "มะระพร้าว 15 เม็ด", MealID: 5, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 18, MenuType: "เย็น", PortionText: "แกงจืด", MealID: 6, MenuID: undefined },
-          { ID: 19, MenuType: "เย็น", PortionText: "ข้าว 1/2 จาน", MealID: 6, MenuID: undefined }
-        ]
-      },
-      วันพุธ: {
-        เช้า: [
-          { ID: 20, MenuType: "เช้า", PortionText: "โจ๊ก", MealID: 7, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 21, MenuType: "กลางวัน", PortionText: "แกงจืด", MealID: 8, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 22, MenuType: "เย็น", PortionText: "ผัดผัก", MealID: 9, MenuID: undefined },
-          { ID: 23, MenuType: "เย็น", PortionText: "ข้าวรวด", MealID: 9, MenuID: undefined }
-        ]
-      },
-      วันพฤหัสบดี: {
-        เช้า: [
-          { ID: 24, MenuType: "เช้า", PortionText: "แซนด์วิช", MealID: 10, MenuID: undefined },
-          { ID: 25, MenuType: "เช้า", PortionText: "โยดส์", MealID: 10, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 26, MenuType: "กลางวัน", PortionText: "ปลาป่น", MealID: 11, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 27, MenuType: "เย็น", PortionText: "ต้มน้ำใส", MealID: 12, MenuID: undefined },
-          { ID: 28, MenuType: "เย็น", PortionText: "แอปเปิ้ล", MealID: 12, MenuID: undefined }
-        ]
-      },
-      วันศุกร์: {
-        เช้า: [
-          { ID: 29, MenuType: "เช้า", PortionText: "ไมล์อดกิล", MealID: 13, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 30, MenuType: "กลางวัน", PortionText: "แกงจืดพาซต้า", MealID: 14, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 31, MenuType: "เย็น", PortionText: "คมุมพอยเสาวรส", MealID: 15, MenuID: undefined }
-        ]
-      },
-      วันเสาร์: {
-        เช้า: [
-          { ID: 32, MenuType: "เช้า", PortionText: "ข้าวต้มไก่", MealID: 16, MenuID: undefined },
-          { ID: 33, MenuType: "เช้า", PortionText: "ผัก", MealID: 16, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 34, MenuType: "กลางวัน", PortionText: "ผัดไทย", MealID: 17, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 35, MenuType: "เย็น", PortionText: "ผัดเสาวรส", MealID: 18, MenuID: undefined },
-          { ID: 36, MenuType: "เย็น", PortionText: "ผัดเสาวรสน้ำใส", MealID: 18, MenuID: undefined }
-        ]
-      },
-      วันอาทิตย์: {
-        เช้า: [
-          { ID: 37, MenuType: "เช้า", PortionText: "แซนด์วิช", MealID: 19, MenuID: undefined },
-          { ID: 38, MenuType: "เช้า", PortionText: "นมสดโครงครั่ว", MealID: 19, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 39, MenuType: "กลางวัน", PortionText: "ปลาเสียง", MealID: 20, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 40, MenuType: "เย็น", PortionText: "ผัดเสาหู้ฟูเหมียว", MealID: 21, MenuID: undefined },
-          { ID: 41, MenuType: "เย็น", PortionText: "ขั้มเล้าอาหาร", MealID: 21, MenuID: undefined }
-        ]
-      }
-    },
-    A2: {
-      วันจันทร์: {
-        เช้า: [
-          { ID: 42, MenuType: "เช้า", PortionText: "ไมล์อดกิล", MealID: 22, MenuID: undefined },
-          { ID: 43, MenuType: "เช้า", PortionText: "ผัก 1/2 จาน", MealID: 22, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 44, MenuType: "กลางวัน", PortionText: "ข้าวผัดมะเขือเทศ/มะรืน", MealID: 23, MenuID: 3 },
-          { ID: 45, MenuType: "กลางวัน", PortionText: "ข้าว 1.5 ทัพพี", MealID: 23, MenuID: undefined },
-          { ID: 46, MenuType: "กลางวัน", PortionText: "น้ำมัตงา 4 ช้อน", MealID: 23, MenuID: undefined },
-          { ID: 47, MenuType: "กลางวัน", PortionText: "มะระน้อม 15 เม็ด", MealID: 23, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 48, MenuType: "เย็น", PortionText: "ผัดผัก", MealID: 24, MenuID: undefined }
-        ]
-      },
-      วันอังคาร: {
-        เช้า: [
-          { ID: 49, MenuType: "เช้า", PortionText: "ข้าวต้มมูก", MealID: 25, MenuID: undefined },
-          { ID: 50, MenuType: "เช้า", PortionText: "ข้าว 1/2 จาน", MealID: 25, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 51, MenuType: "กลางวัน", PortionText: "ข้าวกบซูป", MealID: 26, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 52, MenuType: "เย็น", PortionText: "ข้าวกล้องผัดผัก", MealID: 27, MenuID: 4 },
-          { ID: 53, MenuType: "เย็น", PortionText: "ข้าว 1 ทัพพี", MealID: 27, MenuID: undefined },
-          { ID: 54, MenuType: "เย็น", PortionText: "เนื้อ 1/2 ก้อน", MealID: 27, MenuID: undefined },
-          { ID: 55, MenuType: "เย็น", PortionText: "น้ำ 2 แก้วใส", MealID: 27, MenuID: undefined }
-        ]
-      },
-      วันพุธ: {
-        เช้า: [
-          { ID: 56, MenuType: "เช้า", PortionText: "โจ๊ก", MealID: 28, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 57, MenuType: "กลางวัน", PortionText: "แกงจืด", MealID: 29, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 58, MenuType: "เย็น", PortionText: "ผัดผัก", MealID: 30, MenuID: undefined },
-          { ID: 59, MenuType: "เย็น", PortionText: "ข้าวรวด", MealID: 30, MenuID: undefined }
-        ]
-      },
-      วันพฤหัสบดี: {
-        เช้า: [
-          { ID: 60, MenuType: "เช้า", PortionText: "แซนด์วิช", MealID: 31, MenuID: undefined },
-          { ID: 61, MenuType: "เช้า", PortionText: "โยดส์", MealID: 31, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 62, MenuType: "กลางวัน", PortionText: "ปลาป่น", MealID: 32, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 63, MenuType: "เย็น", PortionText: "ต้มน้ำใส", MealID: 33, MenuID: undefined },
-          { ID: 64, MenuType: "เย็น", PortionText: "แอปเปิ้ล", MealID: 33, MenuID: undefined }
-        ]
-      },
-      วันศุกร์: {
-        เช้า: [
-          { ID: 65, MenuType: "เช้า", PortionText: "ข้าวต้มปลา", MealID: 34, MenuID: 1 },
-          { ID: 66, MenuType: "เช้า", PortionText: "ข้าว 1 ทัพพี", MealID: 34, MenuID: undefined },
-          { ID: 67, MenuType: "เช้า", PortionText: "น้ำ 2 แก้วใส", MealID: 34, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 68, MenuType: "กลางวัน", PortionText: "แกงจืดพาซต้า", MealID: 35, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 69, MenuType: "เย็น", PortionText: "คมุมพอยเสาวรส", MealID: 36, MenuID: undefined }
-        ]
-      },
-      วันเสาร์: {
-        เช้า: [
-          { ID: 70, MenuType: "เช้า", PortionText: "ข้าวต้มไก่", MealID: 37, MenuID: undefined },
-          { ID: 71, MenuType: "เช้า", PortionText: "ผัก", MealID: 37, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 72, MenuType: "กลางวัน", PortionText: "ผัดไทย", MealID: 38, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 73, MenuType: "เย็น", PortionText: "ผัดเสาวรส", MealID: 39, MenuID: undefined },
-          { ID: 74, MenuType: "เย็น", PortionText: "ผัดเสาวรสน้ำใส", MealID: 39, MenuID: undefined }
-        ]
-      },
-      วันอาทิตย์: {
-        เช้า: [
-          { ID: 75, MenuType: "เช้า", PortionText: "แซนด์วิช", MealID: 40, MenuID: undefined },
-          { ID: 76, MenuType: "เช้า", PortionText: "นมสดโครงครั่ว", MealID: 40, MenuID: undefined }
-        ],
-        กลางวัน: [
-          { ID: 77, MenuType: "กลางวัน", PortionText: "ปลาเสียง", MealID: 41, MenuID: undefined }
-        ],
-        เย็น: [
-          { ID: 78, MenuType: "เย็น", PortionText: "ผัดเสาหู้ฟูเหมียว", MealID: 42, MenuID: undefined },
-          { ID: 79, MenuType: "เย็น", PortionText: "ขั้มเล้าอาหาร", MealID: 42, MenuID: undefined }
-        ]
-      }
+  // ฟังก์ชันสำหรับสุ่มเมนูตาม tag และมื้อ
+  const getRandomMenuByMealType = (stage: string, mealType: string): MealMenuInterface[] => {
+    const availableMenus = menuDatabase[stage]?.filter(menu => 
+      menu.Tags.includes(mealType) && menu.Tags.includes(stage)
+    ) || [];
+
+    if (availableMenus.length === 0) return [];
+
+    // สุ่มเมนู 2-4 รายการต่อมื้อ
+    const menuCount = Math.floor(Math.random() * 3) + 2; // 2-4 รายการ
+    const selectedMenus: MealMenuInterface[] = [];
+    
+    for (let i = 0; i < Math.min(menuCount, availableMenus.length); i++) {
+      const randomIndex = Math.floor(Math.random() * availableMenus.length);
+      const menu = availableMenus[randomIndex];
+      
+      selectedMenus.push({
+        ID: Math.random() * 1000,
+        MenuType: mealType,
+        PortionText: `${menu.Title} (${getRandomPortion()})`,
+        MealID: Math.random() * 1000,
+        MenuID: menu.ID
+      });
+      
+      // เอาเมนูที่เลือกแล้วออกเพื่อไม่ให้ซ้ำ
+      availableMenus.splice(randomIndex, 1);
     }
+
+    return selectedMenus;
   };
+
+  // ฟังก์ชันสำหรับสุ่มขนาดส่วน
+  const getRandomPortion = (): string => {
+    const portions = [
+      "1/2 จาน", "1 จาน", "1.5 จาน", 
+      "1 ทัพพี", "1.5 ทัพพี", "2 ทัพพี",
+      "1 ชิ้น", "2 ชิ้น", "3 ชิ้น",
+      "1 ฟอง", "2 ฟอง", "1/2 ถ้วย", "1 ถ้วย"
+    ];
+    return portions[Math.floor(Math.random() * portions.length)];
+  };
+
+  // ฟังก์ชันสำหรับสุ่มแผนอาหารใหม่ทั้งสัปดาห์
+  const generateRandomMealPlan = (stage: string) => {
+    const days = ["วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์", "วันอาทิตย์"];
+    const mealTypes = ["เช้า", "กลางวัน", "เย็น"];
+    
+    const newMealPlan: Record<string, Record<string, MealMenuInterface[]>> = {};
+
+    days.forEach(day => {
+      newMealPlan[day] = {};
+      mealTypes.forEach(mealType => {
+        newMealPlan[day][mealType] = getRandomMenuByMealType(stage, mealType);
+      });
+    });
+
+    return newMealPlan;
+  };
+
+  // ฟังก์ชันสำหรับสุ่มแผนใหม่
+  const handleRandomizePlan = async () => {
+    setIsRandomizing(true);
+    
+    // จำลองการโหลด
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    const newPlan = generateRandomMealPlan(selectedStage);
+    setCurrentMealPlan(newPlan);
+    setLastRandomized(new Date());
+    setIsRandomizing(false);
+  };
+
+  // สร้างแผนเริ่มต้นเมื่อ component mount หรือเปลี่ยนระยะ
+  useEffect(() => {
+    const initialPlan = generateRandomMealPlan(selectedStage);
+    setCurrentMealPlan(initialPlan);
+  }, [selectedStage]);
 
   const dayColors: Record<string, string> = {
     วันจันทร์: 'bg-yellow-100',
@@ -364,7 +252,6 @@ const MealPlannerApp = () => {
     วันอาทิตย์: 'bg-red-100'
   };
 
-  // Get current mealplan data
   const getCurrentMealplan = (): MealplanInterface | undefined => {
     return mealplans.find(plan => 
       plan.DiseaseID === diseases.find(d => d.DiseaseStage === selectedStage)?.ID
@@ -389,37 +276,41 @@ const MealPlannerApp = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      {/* <div className="bg-blue-500 text-white px-4 py-4">
-        <div className="flex items-center">
-          <ChevronLeft className="w-6 h-6 mr-3" />
-          <h1 className="text-lg font-medium">ความรู้ แผนอาหารแนะนำ</h1>
-        </div> */}
-      {/* </div> */}
-
-      {/* Content */}
       <div className="p-4">
-        {/* Stage Selector */}
-        <div className="flex justify-end mb-4">
-          <div className="bg-white border border-gray-300 rounded px-3 py-2">
-            <span className="text-sm text-gray-600">เลือกแผน:</span>
-            <select 
-              value={selectedStage} 
-              onChange={(e) => setSelectedStage(e.target.value as 'A1' | 'A2')}
-              className="ml-2 border-none outline-none bg-transparent"
-            >
-              <option value="A1">แผน A1</option>
-              <option value="A2">แผน A2</option>
-            </select>
-          </div>
+        {/* Header */}
+        <div className="text-center mb-4">
+          <h2 className="text-xl font-bold">
+            แผนมื้ออาหารประจำสัปดาห์ - ระยะ {selectedStage}
+          </h2>
         </div>
 
-        {/* Title */}
-        <h2 className="text-xl font-bold text-center mb-4">
-          {currentMealplan?.PlanName || `แผนมื้ออาหารประจำสัปดาห์ที่ ${currentWeek}`}
-        </h2>
+        {/* Randomize Button */}
+        <div className="flex justify-center mb-4">
+          <button 
+            onClick={handleRandomizePlan}
+            disabled={isRandomizing}
+            className="flex items-center gap-2 bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isRandomizing ? (
+              <>
+                <RefreshCw className="w-5 h-5 animate-spin" />
+                กำลังสุ่มแผนใหม่...
+              </>
+            ) : (
+              <>
+                <Shuffle className="w-5 h-5" />
+                สุ่มแผนอาหารใหม่
+              </>
+            )}
+          </button>
+        </div>
 
-        {/* Week Header */}
+        {/* Last Updated Info */}
+        <div className="text-center text-sm text-gray-600 mb-4">
+          สุ่มล่าสุด: {lastRandomized.toLocaleDateString('th-TH')} {lastRandomized.toLocaleTimeString('th-TH')}
+        </div>
+
+        {/* Disease Info Header */}
         <div className="bg-blue-600 text-white py-2 px-4 rounded-t-lg">
           <h3 className="font-medium">
             {currentDisease?.Name} {currentDisease?.DiseaseStage && `ระยะที่ ${selectedStage === 'A1' ? '1' : '2'}`}
@@ -431,14 +322,14 @@ const MealPlannerApp = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border border-gray-300 px-4 py-2 w-24">แผน {selectedStage}</th>
+                <th className="border border-gray-300 px-4 py-2 w-24">วัน/มื้อ</th>
                 <th className="border border-gray-300 px-4 py-2 bg-purple-200">เช้า</th>
                 <th className="border border-gray-300 px-4 py-2 bg-teal-200">กลางวัน</th>
                 <th className="border border-gray-300 px-4 py-2 bg-purple-200">เย็น</th>
               </tr>
             </thead>
             <tbody>
-              {Object.entries(mealPlans[selectedStage]).map(([day, meals]) => (
+              {Object.entries(currentMealPlan).map(([day, meals]) => (
                 <tr key={day}>
                   <td className={`border border-gray-300 px-4 py-4 font-medium ${dayColors[day]}`}>
                     {day}
@@ -547,7 +438,6 @@ const MealPlannerApp = () => {
 
             {/* Food Recommendations */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Recommended Foods */}
               <div>
                 <h4 className="text-lg font-semibold text-green-600 mb-3 flex items-center">
                   <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
@@ -565,7 +455,6 @@ const MealPlannerApp = () => {
                 </div>
               </div>
 
-              {/* Foods to Avoid */}
               <div>
                 <h4 className="text-lg font-semibold text-red-600 mb-3 flex items-center">
                   <span className="w-3 h-3 bg-red-500 rounded-full mr-2"></span>
@@ -602,4 +491,4 @@ const MealPlannerApp = () => {
   );
 };
 
-export default MealPlannerApp
+export default MealPlannerApp;
