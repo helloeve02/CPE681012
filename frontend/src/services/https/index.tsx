@@ -230,6 +230,22 @@ async function GetAllFoodItems() {
     .then((res) => res)
     .catch((e) => e.response);
 }
+//=======================================foodgroup==============================================//
+
+async function GetAllFoodGroups() {
+  return await axios
+    .get(`${apiUrl}/food-group`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetFoodGroupByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/food-group/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
 
 export{
     GetAllMenu,
@@ -256,4 +272,6 @@ export{
     GetMenuTagByID,
     GetAllFoodFlags,
     GetAllFoodItems,
+    GetFoodGroupByID,
+    GetAllFoodGroups,
 }

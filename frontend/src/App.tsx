@@ -4,8 +4,7 @@ import Menu from "./pages/Menu/menu";
 import NavBar from "./components/NavBar";
 import MenuDetail from "./pages/Menu/menudetails";
 import NewsCategoryPage from "./pages/KnowledgeNews/NewsCategoryPage";
-import MediaNewsPage from "./pages/KnowledgeNews/Multimedia";
-import InfographicNewsPage from "./pages/KnowledgeNews/Infographic";
+// import MediaNewsPage from "./pages/KnowledgeNews/Multimedia";
 import HealthAssessmentPage from "./pages/Assessment/AssessmentCategoryPage";
 import BMICalculator from "./pages/Assessment/BMI/BMI";
 import GeneralHealthIntroPage from "./pages/Assessment/BMI/InformationBMI";
@@ -16,7 +15,7 @@ import DiabetesLessAssessmentPage from "./pages/Assessment/Diabetes/Less";
 import KidneyriskAssessmentPage from "./pages/Assessment/Kidney/Kidney";
 import MealPlannerApp from "./pages/Plan/Mealplan";
 import FoodAdminPanel from "./pages/Admin/Fooditem";
-import HomePage from "./pages/home/HomePage";
+import HomePage from "./pages/Home/HomePage";
 import NutritionInput from "./pages/Nutrition/NutritionInput";
 import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
 import ChooseAvoid from "./pages/Nutrition/ChooseAvoid";
@@ -25,6 +24,12 @@ import AdminLoginForm from "./pages/Admin/admin"
 // import LoginSignupPage from "./pages/Admin/admin";
 // import ForgotPasswordPage from "./pages/Admin/forgorpass"
 import AdminDashboard from "./pages/Admin/homepageadmin"
+import NutritionInformation from "./pages/KnowledgeNews/NutritionInformation";
+import KidneyInformation from "./pages/KnowledgeNews/KidneyInformation";
+import ExerciseInformation from "./pages/KnowledgeNews/ExerciseInformation";
+import DiabetesInformation from "./pages/KnowledgeNews/DiabetesInformation";
+import VideoDetailPage from "./pages/KnowledgeNews/VideoPage";
+import VideoPage from "./pages/KnowledgeNews/VideoPage";
 import MenuAdminPanel from "./pages/Admin/Menuadmin";
 const AppContent = () => {
   const location = useLocation();
@@ -43,8 +48,13 @@ const AppContent = () => {
         <Route path="/menu" element={<Menu />} />
         <Route path="/menu/:id" element={<MenuDetail />} />
         <Route path="/selectnewscategorypage" element={<NewsCategoryPage />} />
-        <Route path="/medianewspage" element={<MediaNewsPage />} />
-        <Route path="/infographicnewspage" element={<InfographicNewsPage />} />
+        {/* <Route path="/medianewspage" element={<MediaNewsPage />} /> */}
+        <Route path="/KidneyInformation" element={<KidneyInformation />} />
+        <Route path="/NutritionInformation" element={<NutritionInformation />} />
+        <Route path="/DiabetesInformation" element={<DiabetesInformation />} />
+        <Route path="/ExerciseInformation" element={<ExerciseInformation />} />
+        <Route path="/VideoPage" element={<VideoPage />} />
+        <Route path="/video/:id" element={<VideoDetailPage />} />
         <Route path="/selectassessmentcategorypage" element={<HealthAssessmentPage />} />
         <Route path="/assessment/information/bmi" element={<GeneralHealthIntroPage />} />
         <Route path="/assessment/bmi" element={<BMICalculator />} />
