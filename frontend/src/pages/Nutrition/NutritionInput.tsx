@@ -44,7 +44,7 @@ const NutritionInput = () => {
       console.log(userData);
       if (rule?.data) {
         const now = Date.now();
-        const expiresAt = now + 4 * 60 * 60 * 1000; // 4 hours from now
+        const expiresAt = now + 12 * 60 * 60 * 1000; // 12 hours from now
 
         const ruleWithExpiry = {
           rule: rule.data,

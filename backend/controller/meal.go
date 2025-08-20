@@ -13,7 +13,7 @@ func GetMealsByMealday(c *gin.Context) {
 	db := config.DB()
 	var meals []entity.Meal
 
-	if err := db.Preload("MealItems.Menu").Where("mealday_id = ?", mealdayID).Find(&meals).Error; err != nil {
+	if err := db.Preload("MealMenus.Menu").Where("mealday_id = ?", mealdayID).Find(&meals).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูลมื้ออาหารได้"})
 		return
 	}

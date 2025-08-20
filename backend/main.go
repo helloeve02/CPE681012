@@ -33,7 +33,8 @@ func main() {
        r.POST("/rule", controller.FindRuleByUserInfo)
        r.GET("/nutritionrecommendation/:rule", controller.GetNutritionRecommendationByRule)
        r.GET("/portionrecommendation/:rule", controller.GetPortionRecommendationByRule)
-       r.GET("/calories/:ruleid", controller.GetCaloriesByRuleID)
+       r.GET("/ruledetail/:rule", controller.GetRuleDetailsByRuleID)
+       r.GET("/calories/:rule", controller.GetCaloriesByRuleID)
        r.GET("/admin",controller.ListUsers)
        r.GET("/admin/:id",controller.GetUserByID)
        r.GET("/tag",controller.GetAllTag)
@@ -41,6 +42,9 @@ func main() {
        r.GET("/menu-tag",controller.GetAllMenuTag)
        r.GET("/menu-tag/:id",controller.GetMenuTagByID)
     //    r.GET("/menu-tag/:id",controller.HandleGetMenus)
+       r.GET("/food-flag",controller.GetAllFoodFlags)
+       r.GET("/food-item",controller.GetAllFoodItems)
+    //    r.GET("/food-group",controller.GetAllFoodItems)
    }
 
 

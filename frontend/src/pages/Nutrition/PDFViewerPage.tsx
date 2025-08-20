@@ -12,6 +12,7 @@ const PDFViewerPage = () => {
     nutritionDatas: [],
     portionDatas: [],
     caloryDatas: 0,
+    ruleDatas: {},
   };
   return (
     <div className="fixed left-0 w-screen h-screen z-[9999] bg-white">

@@ -17,3 +17,13 @@ export interface PortionData {
   meal_time_name: string;
   amount: number;
 }
+
+export interface RuleData {
+  DiseaseName: string;
+  DiseaseStage: string;
+  AgeMin: number;
+  AgeMax: number;
+  IBWMin: number;
+  IBWMax: number;
+}
+
