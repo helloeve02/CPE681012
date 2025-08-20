@@ -125,7 +125,7 @@ func UpdateMealplan(c *gin.Context) {
 	// อัปเดตข้อมูล
 	mealplan.PlanName = input.PlanName
 	mealplan.AdminID = input.AdminID
-	mealplan.DiseaseID = input.DiseaseID
+	/* mealplan.DiseaseID = input.DiseaseID */
 
 	if err := db.Save(&mealplan).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "อัปเดตไม่สำเร็จ"})
