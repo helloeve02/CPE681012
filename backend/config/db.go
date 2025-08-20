@@ -2864,8 +2864,8 @@ func SetupDatabase() {
 		},
 		{
 			Name:   "ขนมปัง",
-			Image: "",
-			Credit: "",
+			Image: "https://janthai.com/wp-content/uploads/2012/07/%E0%B8%A7%E0%B8%B4%E0%B8%98%E0%B8%B5%E0%B9%80%E0%B8%A5%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B8%8B%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%82%E0%B8%99%E0%B8%A1%E0%B8%9B%E0%B8%B1%E0%B8%87.jpg",
+			Credit: "https://janthai.com/blog/%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%99%E0%B9%88%E0%B8%B2%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B9%80%E0%B8%81%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A7%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%82-2381.html",
 			FoodFlagID: 5,
 		},
 		{
@@ -2876,26 +2876,26 @@ func SetupDatabase() {
 		},
 		{
 			Name:   "ลูกเดือยสุก",
-			Image: "",
-			Credit: "",
+			Image: "https://tbcc-community.com/wp-content/uploads/2022/10/S__25124875.jpg",
+			Credit: "https://tbcc-community.com/articles/meabanchemo2022-10/",
 			FoodFlagID: 5,
 		},
 		{
 			Name:   "มันเทศต้มสุก",
-			Image: "",
-			Credit: "",
+			Image: "https://res.cloudinary.com/dk0z4ums3/image/upload/v1510041070/attached_image_th/%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8-%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%8A%E0%B8%99%E0%B9%8C%E0%B8%95%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2-pobpad.jpg",
+			Credit: "https://www.pobpad.com/%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8-%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B9%82%E0%B8%A2%E0%B8%8A%E0%B8%99%E0%B9%8C%E0%B8%95%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%A0%E0%B8%B2",
 			FoodFlagID: 5,
 		},
 		{
 			Name:   "ฟักทองสุก",
-			Image: "",
-			Credit: "",
+			Image: "https://img.thaicdn.net/u/2015/surauch/cook1/pumpklin-1.jpg",
+			Credit: "https://cooking.kapook.com/view130533.html",
 			FoodFlagID: 5,
 		},
 		{
 			Name:   "ขนมจีน",
-			Image: "",
-			Credit: "",
+			Image: "https://d3h1lg3ksw6i6b.cloudfront.net/media/image/2022/06/14/103df643b8e84d6a87e38289c33b8a26_Get_To_Know_How_Khanom_Chin_Conquered_Thailand_%2810%29.jpg",
+			Credit: "https://guide.michelin.com/th/th/article/features/get-to-know-how-khanom-chin-conquered-thailand",
 		},
 		{
 			Name:   "แอปเปิล",
