@@ -2,7 +2,7 @@
 import type { MenuInterface } from "./Menu"; */
 export interface MealMenuInterface {
     ID?: number;
-    MenuType?: string;
+    /* MenuType?: string; */
     PortionText?: string;
     MealID?: number; //FK
     MenuID?: number; //FK

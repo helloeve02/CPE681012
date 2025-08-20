@@ -1217,53 +1217,52 @@ func SetupDatabase() {
 	}
 
 	MealMenus := []entity.MealMenu{
-		{MealID: 1, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 2, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
-		{MealID: 3, MenuID: 6, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 4, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 5, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 6, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
-		{MealID: 7, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 8, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 9, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 10, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
-		{MealID: 11, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 12, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 13, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 14, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
-		{MealID: 15, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 16, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 17, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 18, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
-		{MealID: 19, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 20, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 21, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 22, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
-		{MealID: 23, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 24, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 25, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 26, MenuID: 1, MenuType: "ผลไม้", PortionText: ""},
-		{MealID: 27, MenuID: 30, MenuType: "เมนูหลัก", PortionText: ""},
-		{MealID: 28, MenuID: 1, MenuType: "เมนูหลัก", PortionText: ""},
+		{MealID: 1, MenuID: 1, PortionText: ""},
+		{MealID: 2, MenuID: 1, PortionText: ""},
+		{MealID: 3, MenuID: 6, PortionText: ""},
+		{MealID: 4, MenuID: 1, PortionText: ""},
+		{MealID: 5, MenuID: 1, PortionText: ""},
+		{MealID: 6, MenuID: 1, PortionText: ""},
+		{MealID: 7, MenuID: 1, PortionText: ""},
+		{MealID: 8, MenuID: 1, PortionText: ""},
+		{MealID: 9, MenuID: 1, PortionText: ""},
+		{MealID: 10, MenuID: 1, PortionText: ""},
+		{MealID: 11, MenuID: 1, PortionText: ""},
+		{MealID: 12, MenuID: 1, PortionText: ""},
+		{MealID: 13, MenuID: 1, PortionText: ""},
+		{MealID: 14, MenuID: 1, PortionText: ""},
+		{MealID: 15, MenuID: 1, PortionText: ""},
+		{MealID: 16, MenuID: 1, PortionText: ""},
+		{MealID: 17, MenuID: 1, PortionText: ""},
+		{MealID: 18, MenuID: 1, PortionText: ""},
+		{MealID: 19, MenuID: 1, PortionText: ""},
+		{MealID: 20, MenuID: 1, PortionText: ""},
+		{MealID: 21, MenuID: 1, PortionText: ""},
+		{MealID: 22, MenuID: 1, PortionText: ""},
+		{MealID: 23, MenuID: 1, PortionText: ""},
+		{MealID: 24, MenuID: 1, PortionText: ""},
+		{MealID: 25, MenuID: 1, PortionText: ""},
+		{MealID: 26, MenuID: 1, PortionText: ""},
+		{MealID: 27, MenuID: 30, PortionText: ""},
+		{MealID: 28, MenuID: 1, PortionText: ""},
 	}
 
 	for _, mealmenu := range MealMenus {
 		db.FirstOrCreate(&mealmenu, entity.MealMenu{
 			MealID:      mealmenu.MealID,
 			MenuID:      mealmenu.MenuID,
-			MenuType:    mealmenu.MenuType,
 			PortionText: mealmenu.PortionText,
 		})
 	}
 
 	Mealplans := []entity.Mealplan{
-		{AdminID: 1, DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+		{AdminID: 1/* , DiseaseID: 1 */, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไต"},
 	}
 
 	for _, mealplan := range Mealplans {
 		db.FirstOrCreate(&mealplan, entity.Mealplan{
 			AdminID:   mealplan.AdminID,
-			DiseaseID: mealplan.DiseaseID,
+			/* DiseaseID: mealplan.DiseaseID, */
 			PlanName:  mealplan.PlanName,
 		})
 	}
