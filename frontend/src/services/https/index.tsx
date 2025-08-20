@@ -217,6 +217,20 @@ async function GetMenuTagByID(id: string) {
 
 }
 
+async function GetAllFoodFlags() {
+  return await axios
+    .get(`${apiUrl}/food-flag`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetAllFoodItems() {
+  return await axios
+    .get(`${apiUrl}/food-item`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -240,4 +254,6 @@ export{
     GetTagByID,
     GetAllMenuTag,
     GetMenuTagByID,
+    GetAllFoodFlags,
+    GetAllFoodItems,
 }
