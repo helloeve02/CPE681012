@@ -147,7 +147,7 @@ func GetPortionRecommendationByRule(c *gin.Context) {
 }
 
 func GetCaloriesByRuleID(c *gin.Context) {
-    ruleID := c.Param("ruleid")
+    ruleID := c.Param("rule")
     var calories int
 
     db := config.DB()
@@ -163,4 +163,46 @@ func GetCaloriesByRuleID(c *gin.Context) {
     }
 
     c.JSON(http.StatusOK, gin.H{"calories": calories})
+}
+
+func GetRuleDetailsByRuleID(c *gin.Context) {
+	rule := c.Param("rule")
+
+	type RuleDetails struct {
+		DiseaseName  string  `gorm:"column:name"`
+		DiseaseStage string  `gorm:"column:stage"`
+		AgeMin       int32 `gorm:"column:age_min"`
+		AgeMax       int32 `gorm:"column:age_max"`
+		IBWMin       int32 `gorm:"column:ibw_min"`
+		IBWMax       int32 `gorm:"column:ibw_max"`
+	}
+
+	var ruleDetail RuleDetails
+
+	db := config.DB()
+
+	query := `
+		SELECT 
+    		diseases.name, 
+			diseases.stage,
+    		age_ranges.age_min, 
+    		age_ranges.age_max, 
+    		ibw_ranges.ibw_min, 
+    		ibw_ranges.ibw_max
+		FROM rules
+		JOIN diseases ON diseases.id = rules.disease_id
+		JOIN age_ranges ON age_ranges.id = rules.age_range_id
+		JOIN ibw_ranges ON ibw_ranges.id = rules.ibw_range_id
+		WHERE rules.id = ?;
+		`
+
+	err := db.Raw(query, rule).Scan(&ruleDetail).Error
+
+	if err != nil {
+		// Handle errors and return an appropriate response
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to fetch rule detail."})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"RuleDetail": ruleDetail})
 }
