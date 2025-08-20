@@ -15,6 +15,7 @@ import DiabetesMoreAssessmentPage from "./pages/Assessment/Diabetes/More";
 import DiabetesLessAssessmentPage from "./pages/Assessment/Diabetes/Less";
 import KidneyriskAssessmentPage from "./pages/Assessment/Kidney/Kidney";
 import MealPlannerApp from "./pages/Plan/Mealplan";
+import FoodAdminPanel from "./pages/Admin/Fooditem";
 import HomePage from "./pages/home/HomePage";
 import NutritionInput from "./pages/Nutrition/NutritionInput";
 import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
@@ -54,6 +55,7 @@ const AppContent = () => {
         <Route path="/mealplanner" element={<MealPlannerApp />} />
         <Route path="/pdf-viewer" element={<PDFViewerPage />} />
         <Route path="/admin" element={<AdminLoginForm />} />
+        <Route path="/fooditem" element={<FoodAdminPanel />} />
         {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
         <Route path="/admin-home" element={<AdminDashboard />} />
       </Routes>
