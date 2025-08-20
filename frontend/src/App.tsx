@@ -25,6 +25,7 @@ import AdminLoginForm from "./pages/Admin/admin"
 // import LoginSignupPage from "./pages/Admin/admin";
 // import ForgotPasswordPage from "./pages/Admin/forgorpass"
 import AdminDashboard from "./pages/Admin/homepageadmin"
+import MenuAdminPanel from "./pages/Admin/Menuadmin";
 const AppContent = () => {
   const location = useLocation();
 
@@ -55,7 +56,8 @@ const AppContent = () => {
         <Route path="/mealplanner" element={<MealPlannerApp />} />
         <Route path="/pdf-viewer" element={<PDFViewerPage />} />
         <Route path="/admin" element={<AdminLoginForm />} />
-        <Route path="/fooditem" element={<FoodAdminPanel />} />
+        <Route path="/admin/fooditem" element={<FoodAdminPanel />} />
+        <Route path="/admin/menu" element={<MenuAdminPanel />} />
         {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
         <Route path="/admin-home" element={<AdminDashboard />} />
       </Routes>

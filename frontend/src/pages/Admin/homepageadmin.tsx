@@ -38,7 +38,7 @@ export default function AdminDashboard() {
                             </div>
                         </div>
                         <Link to="/menu" className="text-gray-800 font-medium text-base flex-1 cursor-pointer">
-                            ข้าวสารและการใช้ความรู้
+                            ข่าวสารและการใช้ความรู้
                         </Link>
                     </div>
 
@@ -62,42 +62,8 @@ export default function AdminDashboard() {
                                 <div className="w-1 h-2 bg-green-600 rounded-full mx-auto -mt-1"></div>
                             </div>
                         </div>
-                        <Link to="/menu" className="text-gray-800 font-medium text-base flex-1">
-                            เมนูอาหารแนะนำ
-                        </Link>
-                    </div>
-                </div>
-
-                {/* Menu Item 3 - แผนมื้ออาหาร */}
-                <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-gray-200">
-                    <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center relative">
-                            {/* Calendar with apple */}
-                            <div className="w-12 h-12 bg-white border-2 border-gray-300 rounded-sm">
-                                {/* Calendar top with rings */}
-                                <div className="flex justify-between px-1 -mt-1">
-                                    <div className="w-1 h-3 bg-red-500 rounded-full"></div>
-                                    <div className="w-1 h-3 bg-red-500 rounded-full"></div>
-                                    <div className="w-1 h-3 bg-red-500 rounded-full"></div>
-                                    <div className="w-1 h-3 bg-red-500 rounded-full"></div>
-                                </div>
-                                {/* Calendar grid */}
-                                <div className="grid grid-cols-3 gap-0.5 p-1 mt-1">
-                                    <div className="w-2 h-2 bg-gray-300 rounded-sm"></div>
-                                    <div className="w-2 h-2 bg-green-400 rounded-sm"></div>
-                                    <div className="w-2 h-2 bg-gray-300 rounded-sm"></div>
-                                    <div className="w-2 h-2 bg-gray-300 rounded-sm"></div>
-                                    <div className="w-2 h-2 bg-gray-300 rounded-sm"></div>
-                                    <div className="w-2 h-2 bg-gray-300 rounded-sm"></div>
-                                </div>
-                            </div>
-                            {/* Red apple */}
-                            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-red-500 rounded-full">
-                                <div className="w-1 h-2 bg-green-600 rounded-full mx-auto -mt-1"></div>
-                            </div>
-                        </div>
-                        <Link to="/menu" className="text-gray-800 font-medium text-base flex-1">
-                            แผนมื้ออาหาร
+                        <Link to="/admin/menu" className="text-gray-800 font-medium text-base flex-1">
+                            จัดการเมนูอาหารแนะนำ
                         </Link>
                     </div>
                 </div>
@@ -124,8 +90,8 @@ export default function AdminDashboard() {
                                 <div className="absolute top-1 left-1 w-1.5 h-1.5 border border-white rounded-full"></div>
                             </div>
                         </div>
-                        <Link to="/fooditem" className="text-gray-800 font-medium text-base flex-1">
-                            เพิ่มรายการอาหารและวัตถุดิบ
+                        <Link to="/admin/fooditem" className="text-gray-800 font-medium text-base flex-1">
+                            จัดการรายการอาหารและวัตถุดิบ
                         </Link>
                     </div>
                 </div>
