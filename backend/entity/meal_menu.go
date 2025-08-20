@@ -6,7 +6,7 @@ import (
 
 type MealMenu struct {
 	gorm.Model
-	MenuType string
+	/* MenuType string */
 	PortionText string
 
 	// MealID ทำหน้าที่เป็น FK
