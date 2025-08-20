@@ -31,6 +31,9 @@ import DiabetesInformation from "./pages/KnowledgeNews/DiabetesInformation";
 import VideoDetailPage from "./pages/KnowledgeNews/VideoPage";
 import VideoPage from "./pages/KnowledgeNews/VideoPage";
 import MenuAdminPanel from "./pages/Admin/Menuadmin";
+import VideoInformation from "./pages/KnowledgeNews/VideoInformation";
+import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation";
+import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation";
 const AppContent = () => {
   const location = useLocation();
 
@@ -55,6 +58,9 @@ const AppContent = () => {
         <Route path="/ExerciseInformation" element={<ExerciseInformation />} />
         <Route path="/VideoPage" element={<VideoPage />} />
         <Route path="/video/:id" element={<VideoDetailPage />} />
+        <Route path="/VideoInformation" element={<VideoInformation />} />
+        <Route path="/InfographicInformation" element={<InfographicInformation />} />
+        <Route path="/ArticleInformation" element={<ArticleInformation />} />
         <Route path="/selectassessmentcategorypage" element={<HealthAssessmentPage />} />
         <Route path="/assessment/information/bmi" element={<GeneralHealthIntroPage />} />
         <Route path="/assessment/bmi" element={<BMICalculator />} />
