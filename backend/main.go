@@ -47,6 +47,8 @@ func main() {
        r.GET("/food-group",controller.GetAllFoodGroups)
        r.GET("/content",controller.GetAllContent)
        r.GET("/content-group",controller.GetAllGroupContent)
+       r.POST("/menu",controller.CreateMenu)
+       r.DELETE("/menu/:id",controller.DeleteMenu)
    }
 
 
