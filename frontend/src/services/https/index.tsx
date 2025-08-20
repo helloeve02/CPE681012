@@ -187,6 +187,36 @@ async function UpdateUser(data: AdminInterface) {
   return res;
 }
 
+async function GetAllTag() {
+  return await axios
+    .get(`${apiUrl}/tag`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetTagByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/tag/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
+async function GetAllMenuTag() {
+  return await axios
+    .get(`${apiUrl}/menu-tag`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetMenuTagByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/menu-tag/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -206,4 +236,8 @@ export{
     DeleteUserByID,
     UpdateUserByid,
     UpdateUser,
+    GetAllTag,
+    GetTagByID,
+    GetAllMenuTag,
+    GetMenuTagByID,
 }

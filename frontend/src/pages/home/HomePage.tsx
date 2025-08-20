@@ -4,15 +4,15 @@ import AssessmentSlider from "../../components/AssessmentSlider";
 
 const images = [
   {
-    src: "https://tse4.mm.bing.net/th/id/OIP.XWD1OnmEjX7ZtDUi0joMeQHaDt?rs=1&pid=ImgDetMain&o=7&rm=3",
+    src: "https://healthmedia.hss.moph.go.th/wp-content/uploads/2025/06/2025-06-13_13-42-56_717798.jpg",
     alt: "ข่าวสาร 1",
   },
   {
-    src: "https://www.zolitic.com/media/65794978496a6f314c434979496a6f7a4e546b334e7977694d7949364d5377694e5349364f4455774c434932496a6f314d546839.png",
+    src: "https://www.ddc.moph.go.th/uploads/publish/1727420250801113442.jpg",
     alt: "ข่าวสาร 2",
   },
   {
-    src: "https://www.rama.mahidol.ac.th/ramachannel/wp-content/uploads/elementor/thumbs/1_%E0%B9%84%E0%B8%95%E0%B8%A7%E0%B8%B2%E0%B8%A2%E0%B8%A3%E0%B8%B0%E0%B8%A2%E0%B8%B0%E0%B8%AA%E0%B8%B8%E0%B8%94%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%A2-%E0%B8%84%E0%B8%A7%E0%B8%A3%E0%B9%80%E0%B8%A5%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B8%A3%E0%B8%B1%E0%B8%81%E0%B8%A9%E0%B8%B2%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3_1-qdxmo2f93n6ht7aq0work68fw6ylo7gfjatdp6gt0g.jpg",
+    src: "https://thaincd.com/images/media/info/NCD/%E0%B9%80%E0%B8%9A%E0%B8%B2%E0%B8%AB%E0%B8%A7%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%A7%E0%B8%B1%E0%B8%93%E0%B9%82%E0%B8%A3%E0%B8%841.jpg",
     alt: "ข่าวสาร 3",
   },
 ];
@@ -28,7 +28,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="p-4 w-full max-w-7xl mx-auto bg-white rounded-xl shadow-md space-y-6">
+    <div className="p-6 w-full max-w-[1450px]  mx-auto bg-white rounded-xl shadow-md space-y-12">
       {/* Layout split for large screens */}
       <div className="space-y-6">
         {/* ข่าวสาร Section */}
@@ -43,7 +43,8 @@ const HomePage: React.FC = () => {
             <img
               src={images[current].src}
               alt={images[current].alt}
-              className="w-full h-40 sm:h-52 md:h-64 lg:h-80 object-cover rounded-lg transition-all duration-500"
+              className="w-full  h-[500px] sm:h-[500px] md:h-[600px] lg:h-[600px] object-cover object-top rounded-lg transition-all duration-500"
+
             />
             <div className="flex justify-center mt-2 space-x-2">
               {images.map((_, idx) => (

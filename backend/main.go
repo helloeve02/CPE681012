@@ -22,7 +22,7 @@ func main() {
    r.Use(CORSMiddleware())
 
    router := r.Group("/")
-
+    r.POST("/signin", controller.SignIn)
    {
        router.Use(middlewares.Authorizes())
        r.GET("/menu", controller.GetAllMenu)
@@ -37,6 +37,11 @@ func main() {
        r.GET("/calories/:rule", controller.GetCaloriesByRuleID)
        r.GET("/admin",controller.ListUsers)
        r.GET("/admin/:id",controller.GetUserByID)
+       r.GET("/tag",controller.GetAllTag)
+       r.GET("/tag/:id",controller.GetTagByID)
+       r.GET("/menu-tag",controller.GetAllMenuTag)
+       r.GET("/menu-tag/:id",controller.GetMenuTagByID)
+    //    r.GET("/menu-tag/:id",controller.HandleGetMenus)
    }
 
 

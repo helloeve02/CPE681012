@@ -20,14 +20,15 @@ import NutritionInput from "./pages/Nutrition/NutritionInput";
 import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
 import ChooseAvoid from "./pages/Nutrition/ChooseAvoid";
 import PDFViewerPage from "./pages/Nutrition/PDFViewerPage";
+import AdminLoginForm from "./pages/Admin/admin"
 // import LoginSignupPage from "./pages/Admin/admin";
 // import ForgotPasswordPage from "./pages/Admin/forgorpass"
-
+import AdminDashboard from "./pages/Admin/homepageadmin"
 const AppContent = () => {
   const location = useLocation();
 
   // เช็คว่าไม่ใช่หน้า admin ค่อยแสดง NavBar
-  const hideNavBar = ["/admin", "/pdf-viewer"].includes(location.pathname);
+  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home"].includes(location.pathname);
 
   return (
     <>
@@ -52,8 +53,9 @@ const AppContent = () => {
         <Route path="/assessment/kidneyriskassessmentpage" element={<KidneyriskAssessmentPage />} />
         <Route path="/mealplanner" element={<MealPlannerApp />} />
         <Route path="/pdf-viewer" element={<PDFViewerPage />} />
-        {/* <Route path="/admin" element={<LoginSignupPage />} />
-        <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
+        <Route path="/admin" element={<AdminLoginForm />} />
+        {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
+        <Route path="/admin-home" element={<AdminDashboard />} />
       </Routes>
     </>
   );

@@ -7,8 +7,33 @@ import (
 	"github.com/gin-gonic/gin"
 	"errors"  // เพิ่ม import สำหรับ package errors
 	"gorm.io/gorm" // เพิ่ม import สำหรับ gorm
+	"github.com/helloeve02/CPE681012/services"
+	"golang.org/x/crypto/bcrypt"
 )
+type (
+	Authen struct {
+		UserName string
+		Password string
+	}
 
+	signUp struct {
+		UserName string
+		Email    string
+		Password string
+	}
+
+	ResetPassword struct {
+		UserName string
+		Email    string
+		Password string
+	}
+
+	ChangePassword struct {
+		UserID  uint
+		Password string
+		NewPassword string
+	}
+)
 // POST /users
 func CreateUser(c *gin.Context) {
 	var user entity.Admin
@@ -93,7 +118,7 @@ func DeleteUser(c *gin.Context) {
 
 	id := c.Param("id")
 	db := config.DB()
-	if tx := db.Exec("DELETE FROM admin WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := db.Exec("DELETE FROM admins WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
@@ -174,3 +199,49 @@ func UpdateUserByid(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Updated successful"})
  
  }
+
+ func SignIn(c *gin.Context) {
+    var payload Authen
+    var user entity.Admin
+
+    if err := c.ShouldBindJSON(&payload); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    // ค้นหา user ด้วย Username ที่กรอก
+    if err := config.DB().Where("user_name = ?", payload.UserName).First(&user).Error; err != nil {
+        if errors.Is(err, gorm.ErrRecordNotFound) {
+            c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+        } else {
+            c.JSON(http.StatusInternalServerError, gin.H{"error": "Database query error"})
+        }
+        return
+    }
+
+    // ตรวจสอบรหัสผ่าน
+    err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(payload.Password))
+    if err != nil {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "Password is incorrect"})
+        return
+    }
+
+    // สร้าง JWT Token
+    jwtWrapper := services.JwtWrapper{
+        SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+        Issuer:          "AuthService",
+        ExpirationHours: 24,
+    }
+
+    signedToken, err := jwtWrapper.GenerateToken(user.UserName)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Error signing token"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "token_type": "Bearer",
+        "token":      signedToken,
+        "id":         user.ID,
+    })
+}

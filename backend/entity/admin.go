@@ -6,8 +6,8 @@ type Admin struct {
 	gorm.Model
 	FirstName string     
     LastName  string     
-    UserName  string    
-	Password  string
+	UserName string `json:"UserName"`
+    Password string `json:"Password"`
 	
 	Menu	[]Menu `gorm:"foreignKey:AdminID"`
 	EducationalContent	[]EducationalContent `gorm:"foreignKey:AdminID"`
