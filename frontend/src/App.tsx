@@ -31,9 +31,10 @@ import DiabetesInformation from "./pages/KnowledgeNews/DiabetesInformation";
 import VideoDetailPage from "./pages/KnowledgeNews/VideoPage";
 import VideoPage from "./pages/KnowledgeNews/VideoPage";
 import MenuAdminPanel from "./pages/Admin/Menuadmin";
+import EducationalAdminPanel from "./pages/Admin/Educationaladmin";
 import VideoInformation from "./pages/KnowledgeNews/VideoInformation";
 import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation";
-import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation";
+import ArticleInformation from "./pages/KnowledgeNews/ArticleInf
 const AppContent = () => {
   const location = useLocation();
 
@@ -74,6 +75,7 @@ const AppContent = () => {
         <Route path="/admin" element={<AdminLoginForm />} />
         <Route path="/admin/fooditem" element={<FoodAdminPanel />} />
         <Route path="/admin/menu" element={<MenuAdminPanel />} />
+        <Route path="/admin/educational" element={<EducationalAdminPanel />} />
         {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
         <Route path="/admin-home" element={<AdminDashboard />} />
       </Routes>
