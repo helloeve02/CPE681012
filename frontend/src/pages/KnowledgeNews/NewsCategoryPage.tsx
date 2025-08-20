@@ -111,7 +111,7 @@ const NewsCategoryPage: React.FC = () => {
         <div className="mt-10">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg font-semibold">วิดีโอล่าสุด</h3>
-            <a href="#" className="text-blue-500 hover:underline text-sm">
+            <a href="/VideoInformation" className="text-blue-500 hover:underline text-sm">
               ดูเพิ่มเติม &gt;
             </a>
           </div>
@@ -137,7 +137,7 @@ const NewsCategoryPage: React.FC = () => {
         <div className="mt-10">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg font-semibold">บทความ</h3>
-            <a href="#" className="text-blue-500 hover:underline text-sm">
+            <a href="/ArticleInformation" className="text-blue-500 hover:underline text-sm">
               ดูเพิ่มเติม &gt;
             </a>
           </div>
@@ -181,7 +181,7 @@ const Section: React.FC<SectionProps> = ({ title, items, type }) => (
   <div className="mt-10">
     <div className="flex justify-between items-center mb-6">
       <h3 className="text-lg font-semibold">{title}</h3>
-      <a href="#" className="text-blue-500 hover:underline text-sm">
+      <a href="/InfographicInformation" className="text-blue-500 hover:underline text-sm">
         ดูเพิ่มเติม &gt;
       </a>
     </div>
