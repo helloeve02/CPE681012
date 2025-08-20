@@ -3,7 +3,7 @@ import { Search, Plus, Edit, Trash2, Save, X, Filter } from 'lucide-react';
 import type { FoodFlagInterface } from '../../interfaces/FoodFlag';
 import type { FoodItemInterface } from '../../interfaces/FoodItem';
 import type { FoodGroupInterface } from '../../interfaces/FoodGroup';
-import { GetAllFoodFlags, GetAllFoodItems} from "../../services/https";
+import { GetAllFoodFlags, GetAllFoodItems, GetAllFoodGroups} from "../../services/https";
 
 const FoodAdminPanel = () => {
   // Sample data
@@ -24,7 +24,7 @@ const FoodAdminPanel = () => {
   const getAllFoodFlags = async () => {
     try {
       const res = await GetAllFoodFlags(); // สมมติว่ามี API นี้ดึงแท็กทั้งหมด
-      console.log(res?.data)
+      // console.log(res?.data)
       if (Array.isArray(res?.data?.foodflags)) {
         setfoodFlags(res.data.foodflags);
       } else {
@@ -38,7 +38,7 @@ const FoodAdminPanel = () => {
   const getAllFoodItems = async () => {
   try {
     const res = await GetAllFoodItems();
-    console.log(res?.data?.fooditems);
+    // console.log(res?.data?.fooditems);
 
     if (Array.isArray(res?.data?.fooditems)) {
       setFoodItems(res.data.fooditems);
@@ -50,10 +50,26 @@ const FoodAdminPanel = () => {
   }
 };
 
+  const getAllFoodGroups = async () => {
+  try {
+    const res = await GetAllFoodGroups();
+    console.log(res?.data?.foodgroups);
+
+    if (Array.isArray(res?.data?.foodgroups)) {
+      setfoodGroups(res.data.foodgroups);
+    } else {
+      setError("Failed to load Food Group");
+    }
+  } catch (error) {
+    setError("Error fetching Food Group. Please try again later.");
+  }
+};
+
 
   useEffect(() => {
     getAllFoodFlags();
     getAllFoodItems();
+    getAllFoodGroups();
     
   }, []);
 
