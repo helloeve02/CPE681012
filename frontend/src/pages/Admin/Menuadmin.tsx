@@ -50,7 +50,6 @@ const MenuAdminPanel = () => {
   }, []);
 
   // State management
-  const [selectedRegion, setSelectedRegion] = useState<string>('ทั้งหมด');
   const [selectedTag, setSelectedTag] = useState<string>('ทั้งหมด');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
@@ -70,12 +69,11 @@ const MenuAdminPanel = () => {
 
   // Filter menus
   const filteredItems = menus.filter(menu => {
-    const matchesRegion = selectedRegion === 'ทั้งหมด' || menu.Region === selectedRegion;
     const matchesTag = selectedTag === 'ทั้งหมด' || menu.Tags.some(tag => tag.Name === selectedTag);
     const matchesSearch = menu.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       menu.Description?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
 
-    return matchesRegion && matchesTag && matchesSearch;
+    return matchesTag && matchesSearch;
   });
 
   // Handle form submission
@@ -179,19 +177,6 @@ const MenuAdminPanel = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">ภูมิภาค</label>
-                <select
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                  value={selectedRegion}
-                  onChange={(e) => setSelectedRegion(e.target.value)}
-                >
-                  <option value="ทั้งหมด">ทั้งหมด</option>
-                  {regions.map(region => (
-                    <option key={region} value={region}>{region}</option>
-                  ))}
-                </select>
-              </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">แท็ก</label>
@@ -383,14 +368,8 @@ const MenuAdminPanel = () => {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-lg font-semibold text-gray-900 mb-2">{menu.Title}</h4>
-                        <p className="text-gray-600 mb-3 leading-relaxed">{menu.Description}</p>
-
-                        <div className="flex items-center gap-4 mb-3">
-                          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                            📍 {menu.Region}
-                          </span>
-                        </div>
+                        <h4 className="text-lg font-semibold text-gray-900 mb-2 mt-7">{menu.Title}</h4>
+                        {/* <p className="text-gray-600 mb-3 leading-relaxed">{menu.Description}</p> */}
 
                         {menu.Tags?.length > 0 && (
                           <div className="flex flex-wrap gap-2 mb-3">
@@ -403,12 +382,6 @@ const MenuAdminPanel = () => {
                           </div>
                         )}
 
-
-                        {menu.Credit && (
-                          <p className="text-sm text-gray-500">
-                            📸 แหล่งรูปภาพ: {menu.Credit}
-                          </p>
-                        )}
                       </div>
                     </div>
 
