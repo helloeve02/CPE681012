@@ -3,11 +3,16 @@
 import { Button, Spin } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { NutritionData, PortionData } from "../../interfaces/Nutrition";
+import type {
+  NutritionData,
+  PortionData,
+  RuleData,
+} from "../../interfaces/Nutrition";
 import {
   GetCaloriesByRule,
   GetNutritionDataByRule,
   GetPortionDataByRule,
+  GetRuleDetailByRule,
 } from "../../services/https";
 import { getValidRule } from "../../services/https/ruleUtils";
 import { FilePdfOutlined } from "@ant-design/icons";
@@ -23,6 +28,7 @@ const NutritionSuggestion = () => {
       nutritionDatas,
       portionDatas,
       caloryDatas,
+      ruleDatas,
     };
     const encoded = encodeURIComponent(JSON.stringify(dataToSend));
     window.open(`/pdf-viewer?data=${encoded}`, "_blank");
@@ -31,6 +37,7 @@ const NutritionSuggestion = () => {
   const [nutritionDatas, setNutritionDatas] = useState<NutritionData[]>([]);
   const [portionDatas, setPortionDatas] = useState<PortionData[]>([]);
   const [caloryDatas, setCaloryDatas] = useState<number>();
+  const [ruleDatas, setRuleData] = useState<RuleData>();
 
   const getNutritionDatas = async (ruleNum: number) => {
     try {
@@ -94,6 +101,19 @@ const NutritionSuggestion = () => {
     }
   };
 
+  const getRuleDatas = async (ruleNum: number) => {
+    try {
+      const res = await GetRuleDetailByRule(ruleNum);
+      if (res?.data?.RuleDetail) {
+        setRuleData(res?.data?.RuleDetail);
+      } else {
+        console.log("Failed to load rule details.");
+      }
+    } catch (error) {
+      console.log("Error fetching rule details. Please try again later.");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const ruleNum = getValidRule();
@@ -101,13 +121,24 @@ const NutritionSuggestion = () => {
         navigate("/nutrition");
         return;
       }
-      getNutritionDatas(ruleNum);
-      getPortionDatas(ruleNum);
-      getCaloryDatas(ruleNum);
-      setTimeout(() => {
+      const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+      try {
+        // Run all API calls in parallel + ensure at least 500ms loading
+        await Promise.all([
+          getNutritionDatas(ruleNum),
+          getPortionDatas(ruleNum),
+          getCaloryDatas(ruleNum),
+          getRuleDatas(ruleNum),
+          delay(500),
+        ]);
+      } catch (err) {
+        console.error("Failed to fetch some data", err);
+      } finally {
         setLoading(false);
-      }, 500);
+      }
     };
+
     fetchData();
   }, []);
 
@@ -135,15 +166,37 @@ const NutritionSuggestion = () => {
         <div className="h-screen font-kanit">
           <div className="bg-[#2E77F8] p-5 md:p-8 flex items-center justify-center text-white">
             <div className="font-semibold text-2xl md:text-4xl">
-              ปริมาณอาหารที่เหมาะกับคุณ
+              ปริมาณที่ควรทานต่อวัน
             </div>
           </div>
+          <div className="mx-4 sm:mx-6 md:mx-10 lg:mx-40 mt-3 max-w-full">
+            รายละเอียด: {ruleDatas?.DiseaseName}{" "}
+            {ruleDatas?.DiseaseStage &&
+              ruleDatas.DiseaseStage !== "-" &&
+              `${ruleDatas.DiseaseStage}`}
+            <br />
+            อายุ:{" "}
+            {ruleDatas?.AgeMin === 0
+              ? `ไม่เกิน ${ruleDatas.AgeMax} ปี`
+              : ruleDatas?.AgeMax === 200
+              ? `${ruleDatas?.AgeMin} ปี ขึ้นไป`
+              : `${ruleDatas?.AgeMin} - ${ruleDatas?.AgeMax} ปี`}{" "}
+            <br />
+            IBW:{" "}
+            {ruleDatas?.IBWMin === 0
+              ? `ไม่เกิน ${ruleDatas.IBWMax} kg.`
+              : ruleDatas?.IBWMax === 200
+              ? `${ruleDatas.IBWMin} kg. ขึ้นไป`
+              : `${ruleDatas?.IBWMin} - ${ruleDatas?.IBWMax} kg.`}<br />
+            <div className="text-gray-400 break-words text-sm">IBW (Ideal Body Weight) = น้ำหนักมาตรฐานตามส่วนสูง (ซม.) ลบ 105 สำหรับผู้หญิง หรือ 100 สำหรับผู้ชาย</div>
+          </div>
+
           {/* For small screen */}
           <div className="p-4 space-y-4 lg:hidden">
             <table className="min-w-full border-collapse border border-gray-500">
               <thead>
                 <tr>
-                  <th className="border border-gray-400 p-2"></th>{" "}
+                  <th className="border border-gray-400 p-2 w-35"></th>{" "}
                   {mealTimes.map((mealTime) => (
                     <th
                       key={mealTime}
@@ -170,7 +223,9 @@ const NutritionSuggestion = () => {
                             key={`${foodGroupName}-${mealTime}`}
                             className="border border-gray-400 p-2 text-center whitespace-nowrap"
                           >
-                            {item ? `${item.amount} ${item.unit}` : "-"}
+                            {item && item.amount > 0
+                              ? `${item.amount} ${item.unit}`
+                              : "-"}
                           </td>
                         );
                       })}
@@ -197,11 +252,11 @@ const NutritionSuggestion = () => {
           </div>
 
           {/* Medium and up: show this */}
-          <div className="hidden lg:block m-5 ml-15 mr-15">
-            <table className="min-w-full border-collapse border border-gray-500">
+          <div className="hidden lg:block m-5 ml-40 mr-50">
+            <table className="min-w-full border-collapse border border-gray-500 table-fixed">
               <thead>
                 <tr>
-                  <th className="border border-gray-400 p-2"></th>
+                  <th className="border border-gray-400 p-2 w-25"></th>
                   {Object.keys(groupedByFoodGroup).map((foodGroupName) => (
                     <th
                       key={foodGroupName}
@@ -215,7 +270,7 @@ const NutritionSuggestion = () => {
               <tbody>
                 {mealTimes.map((mealTime) => (
                   <tr key={mealTime}>
-                    <td className="max-w-16 border border-gray-400 p-2 pl-5 font-semibold whitespace-nowrap">
+                    <td className="min-w-25 border border-gray-400 p-2 pl-5 font-semibold whitespace-nowrap">
                       {mealTime}
                     </td>
                     {Object.values(groupedByFoodGroup).map((items) => {
@@ -225,9 +280,11 @@ const NutritionSuggestion = () => {
                       return (
                         <td
                           key={mealTime}
-                          className="border border-gray-400 p-2 text-center whitespace-nowrap"
+                          className="w-30 border border-gray-400 p-2 text-center whitespace-nowrap"
                         >
-                          {item ? `${item.amount} ${item.unit}` : "-"}
+                          {item && item.amount > 0
+                            ? `${item.amount} ${item.unit}`
+                            : "-"}
                         </td>
                       );
                     })}
@@ -244,22 +301,26 @@ const NutritionSuggestion = () => {
               <ul className="list-disc list-inside space-y-1 m-2 ml-8">
                 {nutritionDatas.map((item) => (
                   <li key={item.nutrition_group_name}>
-                    {item.nutrition_group_name} : {item.amount_in_grams} กรัม ({item.amount_in_percentage}%)
+                    {item.nutrition_group_name} : {item.amount_in_grams} กรัม (
+                    {item.amount_in_percentage}%)
                   </li>
                 ))}
               </ul>
             </div>
           </div>
 
-          <div className="flex p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
+          <div className="flex p-3 md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-50 lg:pr-60">
             <Button
               type="primary"
               className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
               onClick={handleNext}
             >
-              ดูสิ่งที่เลือกทานและหลีกเลี่ยง
+              ดูสิ่งที่ควรเลือกทานและหลีกเลี่ยง
             </Button>
-            <FilePdfOutlined onClick={handleOpenPDF} className="ml-5 text-4xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110 active:!text-blue-600 active:scale-110"/>
+            <FilePdfOutlined
+              onClick={handleOpenPDF}
+              className="ml-5 text-4xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110 active:!text-blue-600 active:scale-110"
+            />
           </div>
         </div>
       )}
