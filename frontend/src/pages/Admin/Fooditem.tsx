@@ -1,51 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Plus, Edit, Trash2, Save, X, Filter } from 'lucide-react';
 import type { FoodFlagInterface } from '../../interfaces/FoodFlag';
 import type { FoodItemInterface } from '../../interfaces/FoodItem';
 import type { FoodGroupInterface } from '../../interfaces/FoodGroup';
-
-/* // Interfaces
-interface FoodItem {
-  ID?: number;
-  Name?: string;
-  Image?: string;
-  Credit?: string;
-  FoodFlagID?: number;
-}
-
-interface FoodFlag {
-  ID?: number;
-  Flag?: string;
-  FoodGroupID?: number;
-}
-
-interface FoodGroup {
-  ID?: number;
-  Name?: string;
-  Unit?: string;
-} */
+import { GetAllFoodFlags, GetAllFoodItems} from "../../services/https";
 
 const FoodAdminPanel = () => {
   // Sample data
-  const [foodGroups] = useState<FoodGroupInterface[]>([
-    { ID: 1, Name: 'ผัก/ผลไม้', Unit: 'ชาม' },
-    { ID: 2, Name: 'โปรตีน', Unit: 'กรัม' },
-    { ID: 3, Name: 'คาร์โบไฮเดรต', Unit: 'ชาม' }
-  ]);
+  const [foodGroups, setfoodGroups] = useState<FoodGroupInterface[]>([]);
 
-  const [foodFlags] = useState<FoodFlagInterface[]>([
-    { ID: 1, Flag: 'ควรรับประทาน', FoodGroupID: 1 },
-    { ID: 2, Flag: 'ควรหลีกเลี่ยง', FoodGroupID: 1 },
-    { ID: 3, Flag: 'ควรรับประทาน', FoodGroupID: 2 },
-    { ID: 4, Flag: 'ควรหลีกเลี่ยง', FoodGroupID: 2 }
-  ]);
+  const [foodFlags, setfoodFlags] = useState<FoodFlagInterface[]>([]);
 
-  const [foodItems, setFoodItems] = useState<FoodItemInterface[]>([
-    { ID: 1, Name: 'แตงกวา', Image: '/api/placeholder/100/100', Credit: 'Unsplash', FoodFlagID: 1 },
-    { ID: 2, Name: 'มะเขือเทศ', Image: '/api/placeholder/100/100', Credit: 'Freepik', FoodFlagID: 2 },
-    { ID: 3, Name: 'ปลาแซลมอน', Image: '/api/placeholder/100/100', Credit: 'Getty Images', FoodFlagID: 3 },
-    { ID: 4, Name: 'ข้าวกล้อง', Image: '/api/placeholder/100/100', Credit: 'Shutterstock', FoodFlagID: 1 }
-  ]);
+  const [foodItems, setFoodItems] = useState<FoodItemInterface[]>([]);
 
   // State management
   const [selectedGroup, setSelectedGroup] = useState<string>('ทั้งหมด');
@@ -53,6 +19,43 @@ const FoodAdminPanel = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<FoodItemInterface | null>(null);
+  const [error, setError] = useState("");
+  
+  const getAllFoodFlags = async () => {
+    try {
+      const res = await GetAllFoodFlags(); // สมมติว่ามี API นี้ดึงแท็กทั้งหมด
+      console.log(res?.data)
+      if (Array.isArray(res?.data?.foodflags)) {
+        setfoodFlags(res.data.foodflags);
+      } else {
+        setError("Failed to load Food Flags");
+      }
+    } catch (error) {
+      setError("Error fetching Food Flags. Please try again later.");
+    }
+  };
+
+  const getAllFoodItems = async () => {
+  try {
+    const res = await GetAllFoodItems();
+    console.log(res?.data?.fooditems);
+
+    if (Array.isArray(res?.data?.fooditems)) {
+      setFoodItems(res.data.fooditems);
+    } else {
+      setError("Failed to load Food Items");
+    }
+  } catch (error) {
+    setError("Error fetching Food Items. Please try again later.");
+  }
+};
+
+
+  useEffect(() => {
+    getAllFoodFlags();
+    getAllFoodItems();
+    
+  }, []);
 
   // Form state
   const [formData, setFormData] = useState<FoodItemInterface>({
