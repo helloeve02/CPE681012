@@ -124,7 +124,7 @@ export default function AdminDashboard() {
                                 <div className="absolute top-1 left-1 w-1.5 h-1.5 border border-white rounded-full"></div>
                             </div>
                         </div>
-                        <Link to="/menu" className="text-gray-800 font-medium text-base flex-1">
+                        <Link to="/fooditem" className="text-gray-800 font-medium text-base flex-1">
                             เพิ่มรายการอาหารและวัตถุดิบ
                         </Link>
                     </div>
