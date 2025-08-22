@@ -37,8 +37,8 @@ export default function AdminDashboard() {
                                 <div className="absolute top-2 -right-2 text-red-500 text-sm">+</div>
                             </div>
                         </div>
-                        <Link to="/menu" className="text-gray-800 font-medium text-base flex-1 cursor-pointer">
-                            ข่าวสารและการใช้ความรู้
+                        <Link to="/admin/educational" className="text-gray-800 font-medium text-base flex-1 cursor-pointer">
+                            จัดการข่าวสารและการใช้ความรู้
                         </Link>
                     </div>
 
