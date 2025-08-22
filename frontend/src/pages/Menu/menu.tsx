@@ -162,14 +162,14 @@ const Menu: React.FC = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 px-25">
         {activeTab === "food" && (
           <>
             {filteredItems.length === 0 && (
-              <p className="text-center text-gray-500 font-kanit mt-4">ไม่พบเมนูที่คุณค้นหา</p>
+              <p className="text-center text-gray-500 font-kanit mt-4 ">ไม่พบเมนูที่คุณค้นหา</p>
             )}
             {filteredItems.map((item) => (
-              <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+              <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between px-15">
                 <div className="flex items-center space-x-4">
                   <div className="w-38 h-30 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                     <img src={item.Image} className="w-full h-full object-cover" />
