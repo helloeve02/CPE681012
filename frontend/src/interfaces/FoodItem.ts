@@ -3,5 +3,6 @@ export interface FoodItemInterface {
     Name?: string;
     Image?: string;
     Credit?: string;
+    Description?: string;
     FoodFlagID?: number; //FK          
 }
