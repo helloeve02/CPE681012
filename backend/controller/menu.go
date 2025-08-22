@@ -17,7 +17,7 @@ func GetAllMenu(c *gin.Context) {
 	db := config.DB()
 
 	// Query ดึงเมนูทั้งหมด พร้อม preload รูปภาพ
-	err := db.Preload("Tag").
+	err := db.Preload("Tags").
    Preload("Admin").
    Preload("MealMenus").Find(&menu).Error
 	if err != nil {
