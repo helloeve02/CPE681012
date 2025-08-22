@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Search, Plus, Edit, Trash2, Save, X, Filter, Hash } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Search, Plus, Edit, Trash2, Save, X, Filter, Hash, Eye } from 'lucide-react';
 import type { MenuInterface } from '../../interfaces/Menu';
 import type { TagInterface } from '../../interfaces/Tag';
 import { GetAllMenu, GetAllTag } from "../../services/https";
@@ -9,6 +9,9 @@ const MenuAdminPanel = () => {
   const [tags, setTags] = useState<TagInterface[]>([]);
   const [error, setError] = useState("");
   const [menus, setMenus] = useState<MenuInterface[]>([]);
+  const [viewingItem, setViewingItem] = useState<MenuInterface | null>(null);
+  const formRef = useRef<HTMLDivElement | null>(null);
+
 
   // Sample regions
   const regions = ['ภาคเหนือ', 'ภาคกลาง', 'ภาคอีสาน', 'ภาคใต้', 'สากล'];
@@ -123,6 +126,10 @@ const MenuAdminPanel = () => {
     setFormData(item);
     setSelectedFormTags(item.Tags.map(tag => tag.ID!).filter(id => id !== undefined));
     setShowAddForm(true);
+
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: "smooth" }); // 👈 scroll ไปฟอร์ม
+    }, 100);
   };
 
   // Handle delete
@@ -161,10 +168,12 @@ const MenuAdminPanel = () => {
     };
   };
 
+
+
   const stats = getStatistics();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 font-kanit">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -233,113 +242,115 @@ const MenuAdminPanel = () => {
 
         {/* Add/Edit Form */}
         {showAddForm && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-8">
-            <div className="p-6 border-b border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900">
-                {editingItem ? '✏️ แก้ไขเมนูอาหาร' : '➕ เพิ่มเมนูอาหารใหม่'}
-              </h3>
-            </div>
+          <div ref={formRef} className="bg-white rounded-xl shadow-sm border border-gray-100 mb-8">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-8">
+              <div className="p-6 border-b border-gray-100">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {editingItem ? '✏️ แก้ไขเมนูอาหาร' : '➕ เพิ่มเมนูอาหารใหม่'}
+                </h3>
+              </div>
 
-            <div className="p-6">
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6">
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        ชื่อเมนู <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                        placeholder="ระบุชื่อเมนู"
+                        value={formData.Title || ''}
+                        onChange={(e) => setFormData({ ...formData, Title: e.target.value })}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        ภูมิภาค <span className="text-red-500">*</span>
+                      </label>
+                      <select
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                        value={formData.Region || ''}
+                        onChange={(e) => setFormData({ ...formData, Region: e.target.value })}
+                      >
+                        <option value="">เลือกภูมิภาค</option>
+                        {regions.map(region => (
+                          <option key={region} value={region}>{region}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      ชื่อเมนู <span className="text-red-500">*</span>
+                      รายละเอียด <span className="text-red-500">*</span>
                     </label>
-                    <input
-                      type="text"
+                    <textarea
+                      rows={3}
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                      placeholder="ระบุชื่อเมนู"
-                      value={formData.Title || ''}
-                      onChange={(e) => setFormData({ ...formData, Title: e.target.value })}
+                      placeholder="อธิบายรายละเอียดของเมนู"
+                      value={formData.Description || ''}
+                      onChange={(e) => setFormData({ ...formData, Description: e.target.value })}
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      ภูมิภาค <span className="text-red-500">*</span>
-                    </label>
-                    <select
+                    <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ</label>
+                    <input
+                      type="url"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                      value={formData.Region || ''}
-                      onChange={(e) => setFormData({ ...formData, Region: e.target.value })}
-                    >
-                      <option value="">เลือกภูมิภาค</option>
-                      {regions.map(region => (
-                        <option key={region} value={region}>{region}</option>
+                      placeholder="https://example.com/image.jpg"
+                      value={formData.Image || ''}
+                      onChange={(e) => setFormData({ ...formData, Image: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">เครดิตรูปภาพ</label>
+                    <input
+                      type="text"
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                      placeholder="แหล่งที่มาของรูปภาพ"
+                      value={formData.Credit || ''}
+                      onChange={(e) => setFormData({ ...formData, Credit: e.target.value })}
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">แท็ก</label>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
+                      {tags.map(tag => (
+                        <label key={tag.ID} className="flex items-center space-x-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={selectedFormTags.includes(tag.ID!)}
+                            onChange={() => handleTagToggle(tag.ID!)}
+                            className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                          />
+                          <span className="text-sm text-gray-700">{tag.Name}</span>
+                        </label>
                       ))}
-                    </select>
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    รายละเอียด <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    rows={3}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                    placeholder="อธิบายรายละเอียดของเมนู"
-                    value={formData.Description || ''}
-                    onChange={(e) => setFormData({ ...formData, Description: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ</label>
-                  <input
-                    type="url"
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                    placeholder="https://example.com/image.jpg"
-                    value={formData.Image || ''}
-                    onChange={(e) => setFormData({ ...formData, Image: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">เครดิตรูปภาพ</label>
-                  <input
-                    type="text"
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                    placeholder="แหล่งที่มาของรูปภาพ"
-                    value={formData.Credit || ''}
-                    onChange={(e) => setFormData({ ...formData, Credit: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">แท็ก</label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
-                    {tags.map(tag => (
-                      <label key={tag.ID} className="flex items-center space-x-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={selectedFormTags.includes(tag.ID!)}
-                          onChange={() => handleTagToggle(tag.ID!)}
-                          className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
-                        />
-                        <span className="text-sm text-gray-700">{tag.Name}</span>
-                      </label>
-                    ))}
+                  <div className="flex gap-3 pt-4 border-t border-gray-100">
+                    <button
+                      onClick={handleSubmit}
+                      className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2.5 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 shadow-sm"
+                    >
+                      <Save className="w-4 h-4" />
+                      {editingItem ? 'บันทึกการแก้ไข' : 'เพิ่มเมนู'}
+                    </button>
+                    <button
+                      onClick={handleCancel}
+                      className="bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-200 transition-all duration-200 flex items-center gap-2"
+                    >
+                      <X className="w-4 h-4" />
+                      ยกเลิก
+                    </button>
                   </div>
-                </div>
-
-                <div className="flex gap-3 pt-4 border-t border-gray-100">
-                  <button
-                    onClick={handleSubmit}
-                    className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2.5 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 shadow-sm"
-                  >
-                    <Save className="w-4 h-4" />
-                    {editingItem ? 'บันทึกการแก้ไข' : 'เพิ่มเมนู'}
-                  </button>
-                  <button
-                    onClick={handleCancel}
-                    className="bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-200 transition-all duration-200 flex items-center gap-2"
-                  >
-                    <X className="w-4 h-4" />
-                    ยกเลิก
-                  </button>
                 </div>
               </div>
             </div>
@@ -398,6 +409,14 @@ const MenuAdminPanel = () => {
 
                     <div className="flex space-x-2 ml-4">
                       <button
+                        onClick={() => setViewingItem(menu)}
+                        className="p-2.5 bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors duration-200 shadow-sm"
+                        title="ดูรายละเอียด"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+
+                      <button
                         onClick={() => handleEdit(menu)}
                         className="p-2.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors duration-200 shadow-sm"
                         title="แก้ไข"
@@ -419,6 +438,41 @@ const MenuAdminPanel = () => {
           )}
         </div>
       </div>
+      {viewingItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-lg relative p-6 
+                    inline-block max-w-xl w-auto max-h-[90vh] overflow-y-auto">
+            {/* ปุ่มปิด */}
+            <button
+              onClick={() => setViewingItem(null)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* เนื้อหา */}
+            <h2 className="text-xl font-bold mb-4">{viewingItem.Title}</h2>
+            {viewingItem.Image && (
+              <img
+                src={viewingItem.Image}
+                alt={viewingItem.Title}
+                className="rounded-lg mb-4 w-full"
+              />
+            )}
+            {viewingItem.Description && (
+              <p className="text-gray-700 mb-2">{viewingItem.Description}</p>
+            )}
+            {viewingItem.Region && (
+              <p className="text-sm text-gray-500 mb-2">ภูมิภาค: {viewingItem.Region}</p>
+            )}
+            {viewingItem.Credit && (
+              <p className="text-sm text-gray-400">เครดิต: {viewingItem.Credit}</p>
+            )}
+          </div>
+        </div>
+      )}
+
+
     </div>
   );
 };
