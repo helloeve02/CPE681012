@@ -15,4 +15,7 @@ type Meal struct {
 	// 1 Meal เป็นเจ้าของได้หลาย MealMenu
 	MealMenus []MealMenu `gorm:"foreignKey:MealID"`
 
+	// 1 Meal เป็นเจ้าของได้หลาย MealFooditem
+	MealFooditems []MealFooditem `gorm:"foreignKey:MealID"`
+
 }
