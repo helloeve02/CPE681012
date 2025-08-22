@@ -1,4 +1,4 @@
-export interface MealMenuInterface {
+export interface MealFooditemInterface {
     ID?: number;
     PortionText?: string;
     MealID?: number; //FK
