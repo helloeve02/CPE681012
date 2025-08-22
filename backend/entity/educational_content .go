@@ -11,4 +11,7 @@ type EducationalContent  struct {
 
 	AdminID		uint
 	Admin		Admin
+	
+	EducationalGroupID uint
+	EducationalGroup EducationalGroup `gorm:"foreignKey:EducationalGroupID"`
 }
