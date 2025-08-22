@@ -34,6 +34,7 @@ import MenuAdminPanel from "./pages/Admin/Menuadmin";
 import EducationalAdminPanel from "./pages/Admin/Educationaladmin";
 import VideoInformation from "./pages/KnowledgeNews/VideoInformation";
 import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation";
+import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation";
 
 const AppContent = () => {
   const location = useLocation();
