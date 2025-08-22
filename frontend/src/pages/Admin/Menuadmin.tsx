@@ -68,13 +68,24 @@ const MenuAdminPanel = () => {
   const [selectedFormTags, setSelectedFormTags] = useState<number[]>([]);
 
   // Filter menus
-  const filteredItems = menus.filter(menu => {
-    const matchesTag = selectedTag === 'ทั้งหมด' || menu.Tags.some(tag => tag.Name === selectedTag);
-    const matchesSearch = menu.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      menu.Description?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
+const filteredItems = menus.filter(menu => {
+  console.log(menu.Tags, selectedTag);
+  
 
-    return matchesTag && matchesSearch;
-  });
+  const matchesTag =
+    selectedTag === 'ทั้งหมด' ||
+    menu.Tags?.some(tag => tag.Name?.toLowerCase().trim() === selectedTag.toLowerCase().trim());
+
+  const matchesSearch =
+    menu.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    menu.Description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    false;
+
+  return matchesTag && matchesSearch;
+});
+
+
+
 
   // Handle form submission
   const handleSubmit = () => {
