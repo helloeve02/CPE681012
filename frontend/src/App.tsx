@@ -36,6 +36,7 @@ import VideoInformation from "./pages/KnowledgeNews/VideoInformation";
 import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation";
 import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation"
 import SodiumCalculator from "./pages/Menu/menucal"
+import PrivateRoute from "./PrivateRoute";
 const AppContent = () => {
   const location = useLocation();
 
@@ -74,11 +75,11 @@ const AppContent = () => {
         <Route path="/mealplanner" element={<MealPlannerApp />} />
         <Route path="/pdf-viewer" element={<PDFViewerPage />} />
         <Route path="/admin" element={<AdminLoginForm />} />
-        <Route path="/admin/fooditem" element={<FoodAdminPanel />} />
-        <Route path="/admin/menu" element={<MenuAdminPanel />} />
-        <Route path="/admin/educational" element={<EducationalAdminPanel />} />
+        <Route path="/admin/fooditem" element={<PrivateRoute><FoodAdminPanel /></PrivateRoute>} />
+        <Route path="/admin/menu" element={<PrivateRoute><MenuAdminPanel /></PrivateRoute>} />
+        <Route path="/admin/educational" element={<PrivateRoute><EducationalAdminPanel /></PrivateRoute>} />
         {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
-        <Route path="/admin-home" element={<AdminDashboard />} />
+        <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
       </Routes>
     </>
