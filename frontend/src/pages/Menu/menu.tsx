@@ -2,9 +2,10 @@ import type { MenuInterface } from "../../interfaces/Menu";
 import { GetAllMenu, GetAllIngredients, GetAllTag } from "../../services/https";
 import React, { useEffect, useState } from "react";
 import { ChevronRight, Search } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import type { IngredientsInterface } from "../../interfaces/Ingredients"
 import type { TagInterface } from "../../interfaces/Tag"
+import { useNavigate } from "react-router-dom";
 
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
@@ -16,6 +17,7 @@ const Menu: React.FC = () => {
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
 
+  const navigate = useNavigate();
   // Filter เมนูตาม search + selectedTags
   const filteredItems = menu.filter(menuItem => {
     const matchQuery = (menuItem.Title?.toLowerCase() ?? '').includes(query.toLowerCase());
@@ -132,7 +134,7 @@ const Menu: React.FC = () => {
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-kanit"
           />
         </div>
-
+              
         {activeTab === "food" && (
           <div className="border-gray-300 rounded-lg p-3 font-kanit relative max-w-xs min-w-[20px]">
             <p
@@ -141,6 +143,7 @@ const Menu: React.FC = () => {
             >
               กรองตามแท็กอาหาร <span>{isTagDropdownOpen ? "▲" : "▼"}</span>
             </p>
+
             {isTagDropdownOpen && (
               <div className="flex flex-col gap-3 max-h-40 overflow-y-auto border-t border-gray-200 pt-2">
                 {tags
@@ -159,7 +162,30 @@ const Menu: React.FC = () => {
             )}
           </div>
         )}
+        
       </div>
+      <div className="flex justify-end px-25 mb-3 font-kanit">
+        <button
+          type="button"
+          onClick={() => navigate("/menucal")} // ✅ ใช้ navigate ฟังก์ชัน border-blue-600
+          className="inline-flex items-center gap-2 rounded-2xl px-5 py-2.5
+                   bg-sky-600 text-white shadow-sm hover:bg-sky-500
+                   focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400
+                   active:scale-[0.99] transition"
+          aria-label="คำนวณปริมาณโซเดียม"
+        >
+          {/* ไอคอนเครื่องคิดเลขเล็ก ๆ (ไม่บังคับ) */}
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+            fill="currentColor" className="h-5 w-5">
+            <path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 
+                   2 0 0 1-2-2V4a2 2 0 0 1 2-2zm2 3v4h8V5H8zm0 
+                   6v2h2v-2H8zm4 0v2h2v-2h-2zm4 0v2h2v-2h-2zM8 
+                   15v2h2v-2H8zm4 0v2h2v-2h-2zm4 0v2h2v-2h-2z"/>
+          </svg>
+          คำนวณปริมาณโซเดียม
+        </button>
+      </div>
+
 
       {/* Tab Content */}
       <div className="p-4 space-y-4 px-25">
