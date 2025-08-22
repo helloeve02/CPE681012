@@ -10,8 +10,11 @@ type Disease struct {
 	DiseaseTag	[]DiseaseTag `gorm:"foreignKey:DiseaseID"`
 	
 	// 1 Disease เป็นเจ้าของได้หลาย Mealplan
-	/* Mealplans []Mealplan `gorm:"foreignKey:DiseaseID"` */
+	Mealplans []Mealplan `gorm:"foreignKey:DiseaseID"`
 
 	// 1 Disease เป็นเจ้าของได้หลาย Rule
 	Rules []Rule `gorm:"foreignKey:DiseaseID"`
+
+	// 1 Disease เป็นเจ้าของได้หลาย FoodchoiceDisease
+	FoodchoiceDiseases []FoodchoiceDisease `gorm:"foreignKey:DiseaseID"`
 }
