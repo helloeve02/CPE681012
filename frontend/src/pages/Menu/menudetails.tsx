@@ -79,20 +79,12 @@ const FoodDetail = () => {
           </h2>
         </div>
 
-
-        {/* Category Badge */}
-        <div className="flex items-center space-x-2 mb-4">
-          <span className="text-yellow-500 text-sm">⭐</span>
-          <span className="text-xl text-gray-600 font-kanit">{menu.Region}</span>
-
-        </div>
-
-        <h3 className="text-2xl font-bold font-kanit text-gray-800 ">ส่วนประกอบ</h3>
-        <h3 className="text-l font-kanit text-gray-800 ">**ปริมาณสารอาหารอาจแตกต่างกันไปตามแต่ละบุคคล**</h3>
+        <h3 className="px-15 text-2xl font-bold font-kanit text-gray-800 ">ส่วนประกอบ</h3>
+        <h3 className="px-15 text-l font-kanit text-gray-800 ">**ปริมาณสารอาหารอาจแตกต่างกันไปตามแต่ละบุคคล**</h3>
       </div>
 
       {/* Ingredients Table */}
-      <div className="px-4 mb-6  font-kanit">
+      <div className="px-50 mb-6  font-kanit">
         <div className="bg-gray-50 rounded-lg overflow-hidden">
           <div className="grid grid-cols-3 bg-gray-100 p-3 text-sm font-medium text-gray-700 ">
             <div  className= "font-kanit">ส่วนประกอบ</div>

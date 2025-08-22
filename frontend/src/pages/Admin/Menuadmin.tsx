@@ -68,21 +68,21 @@ const MenuAdminPanel = () => {
   const [selectedFormTags, setSelectedFormTags] = useState<number[]>([]);
 
   // Filter menus
-const filteredItems = menus.filter(menu => {
-  console.log(menu.Tags, selectedTag);
-  
+  const filteredItems = menus.filter(menu => {
+    console.log(menu.Tags, selectedTag);
 
-  const matchesTag =
-    selectedTag === 'ทั้งหมด' ||
-    menu.Tags?.some(tag => tag.Name?.toLowerCase().trim() === selectedTag.toLowerCase().trim());
 
-  const matchesSearch =
-    menu.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    menu.Description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    false;
+    const matchesTag =
+      selectedTag === 'ทั้งหมด' ||
+      menu.Tags?.some(tag => tag.Name?.toLowerCase().trim() === selectedTag.toLowerCase().trim());
 
-  return matchesTag && matchesSearch;
-});
+    const matchesSearch =
+      menu.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      menu.Description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      false;
+
+    return matchesTag && matchesSearch;
+  });
 
 
 

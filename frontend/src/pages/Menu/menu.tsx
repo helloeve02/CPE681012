@@ -5,6 +5,7 @@ import { ChevronRight, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { IngredientsInterface } from "../../interfaces/Ingredients"
 import type { TagInterface } from "../../interfaces/Tag"
+
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
   const [error, setError] = useState("");
@@ -15,36 +16,34 @@ const Menu: React.FC = () => {
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
 
+  // Filter เมนูตาม search + selectedTags
   const filteredItems = menu.filter(menuItem => {
     const matchQuery = (menuItem.Title?.toLowerCase() ?? '').includes(query.toLowerCase());
 
-    if (selectedTags.length === 0) {
-      return matchQuery;
-    } else {
-      const hasSelectedTag = menuItem.Tags?.some(
-        tag => tag.ID !== undefined && selectedTags.includes(tag.ID)
-      );
-      return matchQuery && Boolean(hasSelectedTag);
-    }
+    if (selectedTags.length === 0) return matchQuery;
 
+    const hasSelectedTag = menuItem.Tags
+      ?.filter((tag): tag is { ID: number } => tag.ID !== undefined)
+      .some(tag => selectedTags.includes(tag.ID));
+
+    return matchQuery && Boolean(hasSelectedTag);
   });
 
-  // ฟังก์ชัน toggle checkbox tag
+  // Filter วัตถุดิบตาม search
+  const filteredIngre = ingredients.filter(ingredients =>
+    (ingredients.Name?.toLowerCase() ?? '').includes(query.toLowerCase())
+  );
+
+  // Toggle checkbox tag
   const toggleTag = (tagID: number) => {
-    // debugger;
-  console.log("toggleTag called with id:", tagID);
     if (selectedTags.includes(tagID)) {
-      console.log(tagID)
       setSelectedTags(selectedTags.filter(id => id !== tagID));
     } else {
       setSelectedTags([...selectedTags, tagID]);
     }
   };
 
-  const filteredIngre = ingredients.filter(ingredients =>
-    (ingredients.Name?.toLowerCase() ?? '').includes(query.toLowerCase())
-  );
-
+  // API Call
   const getAllMenu = async () => {
     try {
       const res = await GetAllMenu();
@@ -53,7 +52,7 @@ const Menu: React.FC = () => {
       } else {
         setError("Failed to load menu items");
       }
-    } catch (error) {
+    } catch {
       setError("Error fetching menu items. Please try again later.");
     }
   };
@@ -61,27 +60,25 @@ const Menu: React.FC = () => {
   const getAllIngredients = async () => {
     try {
       const res = await GetAllIngredients();
-      // console.log(res?.data?.ingredients)
       if (Array.isArray(res?.data?.ingredients)) {
         setIngredients(res.data.ingredients);
       } else {
         setError("Failed to load ingredients items");
       }
-    } catch (error) {
+    } catch {
       setError("Error fetching ingredients items. Please try again later.");
     }
   };
 
   const getAllTags = async () => {
     try {
-      const res = await GetAllTag(); // สมมติว่ามี API นี้ดึงแท็กทั้งหมด
-      // console.log(res?.data?.tag)
+      const res = await GetAllTag();
       if (Array.isArray(res?.data?.tag)) {
         setTags(res.data.tag);
       } else {
         setError("Failed to load tags");
       }
-    } catch (error) {
+    } catch {
       setError("Error fetching tags. Please try again later.");
     }
   };
@@ -99,7 +96,7 @@ const Menu: React.FC = () => {
         <h2 className="font-semibold text-4xl text-center font-kanit">เมนูอาหารแนะนำ</h2>
       </div>
 
-      {/* 🆕 Tabs Style */}
+      {/* Tabs */}
       <div className="border-b border-gray-300 mt-4">
         <ul className="flex justify-around font-kanit text-lg">
           <li
@@ -123,11 +120,8 @@ const Menu: React.FC = () => {
         </ul>
       </div>
 
-
-      {/* Search Bar */}
-      {/* รวม search bar กับ dropdown tag ไว้ในบรรทัดเดียวกัน */}
+      {/* Search + Tag Dropdown */}
       <div className="max-w-md mx-auto mt-5 flex items-center space-x-4">
-        {/* Search Bar */}
         <div className="relative flex-grow">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#2E77F8]" size={20} />
           <input
@@ -139,9 +133,8 @@ const Menu: React.FC = () => {
           />
         </div>
 
-        {/* Dropdown Checkbox แสดงแท็ก เฉพาะ tab อาหาร */}
         {activeTab === "food" && (
-          <div className=" border-gray-300 rounded-lg p-3 font-kanit relative max-w-xs min-w-[20px] ">
+          <div className="border-gray-300 rounded-lg p-3 font-kanit relative max-w-xs min-w-[20px]">
             <p
               className="font-xl mb-2 cursor-pointer select-none"
               onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
@@ -149,24 +142,21 @@ const Menu: React.FC = () => {
               กรองตามแท็กอาหาร <span>{isTagDropdownOpen ? "▲" : "▼"}</span>
             </p>
             {isTagDropdownOpen && (
-              <div className="flex flex-col gap-3 max-h-20 overflow-y-auto border-t border-gray-200 pt-2">
+              <div className="flex flex-col gap-3 max-h-40 overflow-y-auto border-t border-gray-200 pt-2">
                 {tags
                   .filter((tag): tag is TagInterface & { ID: number } => tag.ID !== undefined)
                   .map(tag => (
-                    <label key={tag.ID} className="inline-flex items-center space-x-2 cursor-pointer whitespace-nowrap">
+                    <label key={tag.ID} className="inline-flex items-center space-x-2 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={selectedTags.includes(tag.ID)}  // หรือ tag.id ตามโครงสร้างข้อมูลจริง
-                        onChange={() => toggleTag(tag.ID)}       // หรือ tag.id ตามโครงสร้างข้อมูลจริง
+                        checked={selectedTags.includes(tag.ID)}
+                        onChange={() => toggleTag(tag.ID)}
                       />
-
                       <span>{tag.Name}</span>
                     </label>
                   ))}
               </div>
             )}
-
-
           </div>
         )}
       </div>
@@ -175,10 +165,10 @@ const Menu: React.FC = () => {
       <div className="p-4 space-y-4">
         {activeTab === "food" && (
           <>
-            {query && filteredItems.length === 0 && (
+            {filteredItems.length === 0 && (
               <p className="text-center text-gray-500 font-kanit mt-4">ไม่พบเมนูที่คุณค้นหา</p>
             )}
-            {(query ? filteredItems : menu).map((item) => (
+            {filteredItems.map((item) => (
               <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className="w-38 h-30 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
@@ -187,10 +177,20 @@ const Menu: React.FC = () => {
                   <div>
                     <div className="flex items-center space-x-2 mb-4">
                       <span className="text-yellow-500 text-xl">⭐</span>
-                      <span className="text-sm sm:text-base font-kanit text-yellow-600 w-full max-w-xs sm:max-w-sm truncate">
-                        {item.Region}
-                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {item.Tags
+                          ?.filter((tag): tag is { ID: number; Name: string } => tag.ID !== undefined)
+                          .map(tag => (
+                            <span
+                              key={tag.ID}
+                              className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md text-xs font-medium"
+                            >
+                              {tag.Name}
+                            </span>
+                          ))}
+                      </div>
                     </div>
+
                     <h3 className="text-lg sm:text-xl font-kanit text-gray-800 ml-3">
                       {item.Title}
                     </h3>
@@ -209,10 +209,10 @@ const Menu: React.FC = () => {
 
         {activeTab === "ingredient" && (
           <>
-            {query && filteredIngre.length === 0 && (
+            {filteredIngre.length === 0 && (
               <p className="text-center text-gray-500 font-kanit mt-4">ไม่พบผลไม้และวัตถุดิบที่คุณค้นหา</p>
             )}
-            {(query ? filteredIngre : ingredients).map((item) => (
+            {filteredIngre.map((item) => (
               <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className="w-38 h-30 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
