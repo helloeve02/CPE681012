@@ -34,8 +34,8 @@ import MenuAdminPanel from "./pages/Admin/Menuadmin";
 import EducationalAdminPanel from "./pages/Admin/Educationaladmin";
 import VideoInformation from "./pages/KnowledgeNews/VideoInformation";
 import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation";
-import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation";
-
+import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation"
+import SodiumCalculator from "./pages/Menu/menucal"
 const AppContent = () => {
   const location = useLocation();
 
@@ -79,6 +79,7 @@ const AppContent = () => {
         <Route path="/admin/educational" element={<EducationalAdminPanel />} />
         {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
         <Route path="/admin-home" element={<AdminDashboard />} />
+        <Route path="/menucal" element={<SodiumCalculator />} />
       </Routes>
     </>
   );
