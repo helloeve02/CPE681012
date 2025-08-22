@@ -78,6 +78,7 @@ const FoodAdminPanel = () => {
     Name: '',
     Image: '',
     Credit: '',
+    Description: '',
     FoodFlagID: undefined
   });
 
@@ -115,7 +116,7 @@ const FoodAdminPanel = () => {
       setFoodItems(items => [...items, newItem]);
     }
     
-    setFormData({ Name: '', Image: '', Credit: '', FoodFlagID: undefined });
+    setFormData({ Name: '', Image: '', Credit: '', Description: '', FoodFlagID: undefined });
     setShowAddForm(false);
   };
 
@@ -137,7 +138,7 @@ const FoodAdminPanel = () => {
   const handleCancel = () => {
     setShowAddForm(false);
     setEditingItem(null);
-    setFormData({ Name: '', Image: '', Credit: '', FoodFlagID: undefined });
+    setFormData({ Name: '', Image: '', Credit: '', Description: '', FoodFlagID: undefined });
   };
 
   const getFlagDisplayText = (flagId?: number) => {
@@ -280,6 +281,17 @@ const FoodAdminPanel = () => {
                 </div>
 
                 <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">คำอธิบาย</label>
+                  <textarea
+                    rows={3}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                    placeholder="คำอธิบายเกี่ยวกับอาหารชนิดนี้"
+                    value={formData.Description || ''}
+                    onChange={(e) => setFormData({...formData, Description: e.target.value})}
+                  />
+                </div>
+
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ</label>
                   <input
                     type="url"
@@ -356,6 +368,10 @@ const FoodAdminPanel = () => {
                       
                       <div className="flex-1 min-w-0">
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">{item.Name}</h4>
+                        
+                        {item.Description && (
+                          <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.Description}</p>
+                        )}
                         
                         <div className="flex items-center gap-4 mb-3">
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
