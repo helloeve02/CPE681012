@@ -55,3 +55,26 @@ func DeleteContent(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Deleted successfully"})
 }
+
+
+func CreateContent(c *gin.Context) {
+    var menu entity.EducationalContent  // รับข้อมูลเป็น array ของ OrderItems
+    db := config.DB()
+
+    // รับข้อมูล JSON จาก client
+    if err := c.ShouldBindJSON(&menu); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        return
+    }
+
+    // ใช้ GORM สร้างหลายรายการคำสั่งซื้อ
+    if err := db.Create(&menu).Error; err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        return
+    }
+
+    c.JSON(http.StatusCreated, gin.H{
+        "message": "menu created successfully",
+        "menu": menu,  // ส่งคืนรายการคำสั่งซื้อที่ถูกสร้าง
+    })
+}
