@@ -52,6 +52,7 @@ func main() {
        r.GET("/content-cat/:id", controller.GetContentCatByID)
        r.POST("/food-item",controller.CreateFoodItem)
        r.POST("/content",controller.CreateContent)
+       r.PATCH("/menu/:id",controller.UpdateMenu)
    }
 
 

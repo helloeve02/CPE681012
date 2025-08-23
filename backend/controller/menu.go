@@ -1,13 +1,13 @@
 package controller
 
 import (
-	"errors"
+	// "errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/helloeve02/CPE681012/config"
 	"github.com/helloeve02/CPE681012/entity"
-	"gorm.io/gorm"
+	// "gorm.io/gorm"
 )
 
 func GetAllMenu(c *gin.Context) {
@@ -83,23 +83,46 @@ func CreateMenu(c *gin.Context) {
     })
 }
 
-func PatchMenu(db *gorm.DB, id uint, updates map[string]interface{}) (*entity.Menu, error) {
+// func UpdateMenu(db *gorm.DB, id uint, updates map[string]interface{}) (*entity.Menu, error) {
+// 	var menu entity.Menu
+
+// 	// หา record ที่ต้องการ
+// 	if err := db.First(&menu, id).Error; err != nil {
+// 		return nil, errors.New("menu not found")
+// 	}
+
+// 	// อัปเดตเฉพาะ field ที่ส่งมา
+// 	if err := db.Model(&menu).Updates(updates).Error; err != nil {
+// 		return nil, err
+// 	}
+
+// 	// โหลดข้อมูลใหม่หลังอัปเดต
+// 	if err := db.First(&menu, id).Error; err != nil {
+// 		return nil, err
+// 	}
+
+// 	return &menu, nil
+// }
+
+func UpdateMenu(c *gin.Context) {
+	id := c.Param("id")
+
 	var menu entity.Menu
-
-	// หา record ที่ต้องการ
-	if err := db.First(&menu, id).Error; err != nil {
-		return nil, errors.New("menu not found")
+	db := config.DB()
+	if err := db.First(&menu, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "ไม่พบข้อมูลอาหาร"})
+		return
 	}
 
-	// อัปเดตเฉพาะ field ที่ส่งมา
-	if err := db.Model(&menu).Updates(updates).Error; err != nil {
-		return nil, err
+	if err := c.ShouldBindJSON(&menu); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
-	// โหลดข้อมูลใหม่หลังอัปเดต
-	if err := db.First(&menu, id).Error; err != nil {
-		return nil, err
+	if err := db.Save(&menu).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถแก้ไขข้อมูลอาหารได้"})
+		return
 	}
 
-	return &menu, nil
+	c.JSON(http.StatusOK, gin.H{"message": "แก้ไขข้อมูลอาหารสำเร็จ", "fooditem": menu})
 }

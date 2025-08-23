@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Edit, Trash2, Save, X, Filter, Hash, Eye } from 'lucide-react';
 import type { MenuInterface } from '../../interfaces/Menu';
 import type { TagInterface } from '../../interfaces/Tag';
-import { GetAllMenu, GetAllTag } from "../../services/https";
+import { GetAllMenu, GetAllTag, CreateMenu, UpdateMenu } from "../../services/https";
 
 const MenuAdminPanel = () => {
   // Sample tags data
@@ -91,16 +91,19 @@ const MenuAdminPanel = () => {
 
 
   // Handle form submission
-  const handleSubmit = () => {
-    if (!formData.Title || !formData.Description || !formData.Region) {
-      alert('กรุณากรอกข้อมูลที่จำเป็น');
-      return;
-    }
+const handleSubmit = async () => {
+  if (!formData.Title || !formData.Description) {
+    alert('กรุณากรอกข้อมูลที่จำเป็น');
+    return;
+  }
 
-    const selectedTags = tags.filter(tag => selectedFormTags.includes(tag.ID!));
-    const menuData = { ...formData, Tags: selectedTags };
+  const selectedTags = tags.filter(tag => selectedFormTags.includes(tag.ID!));
+  const menuData = { ...formData, Tags: selectedTags };
 
+  try {
     if (editingItem) {
+      await UpdateMenu(editingItem.ID!, { ...menuData, ID: editingItem.ID });
+
       setMenus(items =>
         items.map(item =>
           item.ID === editingItem.ID ? { ...menuData, ID: editingItem.ID } : item
@@ -108,17 +111,30 @@ const MenuAdminPanel = () => {
       );
       setEditingItem(null);
     } else {
-      const newItem: MenuInterface = {
-        ...menuData,
-        ID: Math.max(...menus.map(i => i.ID || 0)) + 1
-      };
+      const response = await CreateMenu(menuData);
+      const newItem: MenuInterface = response.data;
       setMenus(items => [...items, newItem]);
     }
 
-    setFormData({ Title: '', Description: '', Region: '', Image: '', Credit: '', Tags: [] });
+    setFormData({ Title: '', Description: '', Image: '', Credit: '', Tags: [] });
     setSelectedFormTags([]);
     setShowAddForm(false);
-  };
+
+    // แสดงข้อความสำเร็จ
+    alert("บันทึกข้อมูลสำเร็จ");
+
+    // รีเฟรชหน้า
+    window.location.reload();
+
+  } catch (error) {
+    console.error("Error saving menu:", error);
+    alert("บันทึกข้อมูลไม่สำเร็จ");
+  }
+};
+
+
+
+
 
   // Handle edit
   const handleEdit = (item: MenuInterface) => {
@@ -173,7 +189,7 @@ const MenuAdminPanel = () => {
   const stats = getStatistics();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 font-kanit">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 ">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -264,22 +280,6 @@ const MenuAdminPanel = () => {
                         value={formData.Title || ''}
                         onChange={(e) => setFormData({ ...formData, Title: e.target.value })}
                       />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        ภูมิภาค <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                        value={formData.Region || ''}
-                        onChange={(e) => setFormData({ ...formData, Region: e.target.value })}
-                      >
-                        <option value="">เลือกภูมิภาค</option>
-                        {regions.map(region => (
-                          <option key={region} value={region}>{region}</option>
-                        ))}
-                      </select>
                     </div>
                   </div>
 
