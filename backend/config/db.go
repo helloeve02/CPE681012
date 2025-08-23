@@ -53,6 +53,8 @@ func SetupDatabase() {
 		&entity.FoodFlag{},
 		&entity.FoodItem{},
 		&entity.EducationalGroup{},
+		&entity.FoodChoice{},
+		&entity.FoodchoiceDisease{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
@@ -3983,5 +3985,153 @@ func SetupDatabase() {
 			Link:        content.Link,
 			Description: content.Description,
 		})
+	}
+
+	FoodChoice := []entity.FoodChoice{
+		{
+			FoodName:        "นม และผลิตภัณฑ์นมไขมันต่ำหรือไร้ไขมัน",
+		},
+		{
+			FoodName:        "เนื้อสัตว์ไม่ติดหนัง ไม่ติดมัน เนื้อหมู เนื้อไก่ เนื้อวัว อาหารทะเล ไข่ ไข่ขาว เต้าหู้ โปรตีนเกษตร",
+		},
+		{
+			FoodName:        "ธัญพืชและผลิตภัณฑ์: ข้าว แป้ง ก๋วยเตี๋ยว ขนมจีน ขนมปัง ข้าวโพด ข้าวฟ่าง ข้าวโอ๊ต ทั้งขัดสี และไม่ขัดสี",
+		},
+		{
+			FoodName:        "ถั่ว: ถั่วเหลือง ถั่วเหลือง ถั่วเขียว ถั่วแดง ถั่วดำ ถั่วลิสง เม็ดมะม่วงหิมพานต์ อัลมอลด์ ",
+		},
+		{
+			FoodName:        "น้ำมันชนิดดี: น้ำมันพืช น้ำมันรำข้าว น้ำมันมะกอก น้ำมันถั่วเหลือง",
+		},
+		{
+			FoodName:        "ไขมันอิ่มตัว ไขมันทรานส์",
+		},
+		{
+			FoodName:        "สมุนไพร และเครื่องเทศ",
+		},
+		{
+			FoodName:        "้เกลือ น้ำปลา ซีอิ้ว เครื่องปรุงรสที่มีโซเดียม",
+		},
+		{
+			FoodName:        "ขนมหวาน น้ำตาล เครื่องดื่มที่ใส่น้ำตาล",
+		},
+		{
+			FoodName:        "อาหารที่มีฟอสฟอรัสแอบซ่อน",
+		},
+	}
+
+	for _, foodchoice := range FoodChoice {
+		db.FirstOrCreate(&foodchoice, entity.FoodChoice{
+			FoodName:        foodchoice.FoodName,})
+	}
+
+		FoodchoiceDisease := []entity.FoodchoiceDisease{
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        1,
+			Description:        "รับประทานในปริมาณที่เหมาะสม",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        2,
+			Description:        "รับประทานในปริมาณที่เหมาะสม",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        3,
+			Description:        "รับประทานให้หลากหลายในปริมาณที่เหมาะสม",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        4,
+			Description:        "รับประทานในปริมาณที่เหมาะสม",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        5,
+			Description:        "รับประทานในปริมาณที่เหมาะสม",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        6,
+			Description:        "หลีกเลี่ยง",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        7,
+			Description:        "ใช้ได้",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        8,
+			Description:        "จำกัดการรับประทาน",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        9,
+			Description:        "จำกัดการรับประทาน",
+		},
+		{
+			DiseaseID:        1, //1-3a
+			FoodChoiceID:        10,
+			Description:        "หลีกเลี่ยงเด็ดขาด",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        1,
+			Description:        "มีโปรตีน มีโพแทสเซียม และฟอสฟอรัสสูง",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        2,
+			Description:        "จำกัดปริมาณและ ระวังโพแทสเซียมและฟอสฟอรัสในอาหารบางชนิด",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        3,
+			Description:        "ธัญพืชและผลิตภัณฑ์ที่ไม่ขัดสีมีโพแทสเซียมและฟอสฟอรัสสูง",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        4,
+			Description:        "มีทั้งโพแทสเซียมและฟอสฟอรัสสูง",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        5,
+			Description:        "รับประทานในปริมาณที่เหมาะสม",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        6,
+			Description:        "หลีกเลี่ยง",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        7,
+			Description:        "ใช้ได้",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        8,
+			Description:        "จำกัดการรับประทาน",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        9,
+			Description:        "จำกัดการรับประทาน",
+		},
+		{
+			DiseaseID:        2, //3b-5
+			FoodChoiceID:        10,
+			Description:        "หลีกเลี่ยงเด็ดขาด",
+		},
+	}
+
+	for _, foodchoicedisease := range FoodchoiceDisease {
+		db.FirstOrCreate(&foodchoicedisease, entity.FoodchoiceDisease{
+			DiseaseID:       foodchoicedisease.DiseaseID,
+			FoodChoiceID:     foodchoicedisease.FoodChoiceID,
+			Description:     foodchoicedisease.Description,})
 	}
 }
