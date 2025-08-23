@@ -41,7 +41,7 @@ func main() {
        r.GET("/tag/:id",controller.GetTagByID)
        r.GET("/menu-tag",controller.GetAllMenuTag)
        r.GET("/menu-tag/:id",controller.GetMenuTagByID)
-    //    r.GET("/menu-tag/:id",controller.HandleGetMenus)
+    //    r.GET("/menu-tag/:id",controller.HandleGetMenus) 
        r.GET("/food-flag",controller.GetAllFoodFlags)
        r.GET("/food-item",controller.GetAllFoodItems)
        r.GET("/food-group",controller.GetAllFoodGroups)
@@ -50,6 +50,8 @@ func main() {
        r.POST("/menu",controller.CreateMenu)
        r.DELETE("/menu/:id",controller.DeleteMenu)
        r.GET("/foods/flags", controller.GetFoodItemsByFlags)
+       r.GET("/content-cat", controller.GetAllCategory)
+       r.GET("/content-cat/:id", controller.GetContentCatByID)
    }
 
 
