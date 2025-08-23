@@ -18,7 +18,7 @@ import {
 const data = [
     { name: "บะหมี่กึ่งสำเร็จรูป", sodium: 1400 },
     { name: "บะหมี่น้ำหมูแดง", sodium: 1777 },
-    { name: "ไส้กรอกทอดพอด", sodium: 1000 },
+    { name: "ไส้กรอกคอคเทล", sodium: 1000 },
     { name: "ข้าวผัดหมู", sodium: 755 },
     { name: "ชีสบอร์เกอร์", sodium: 750 },
     { name: "เส้นเล็กน้ำหมู", sodium: 700 },
@@ -119,7 +119,7 @@ export default function SodiumCharts() {
                     <ul className="list-disc list-inside text-sm text-red-600">
                         <li>บะหมี่น้ำหมูแดง — 1,777 mg</li>
                         <li>บะหมี่กึ่งสำเร็จรูป — 1,400 mg</li>
-                        <li>ไส้กรอกทอดพอด — 1,000 mg</li>
+                        <li>ไส้กรอกคอคเทล — 1,000 mg</li>
                     </ul>
                 </div>
 
