@@ -89,3 +89,20 @@ func DeleteFoodItem(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "ลบข้อมูลรายการอาหารสำเร็จ"})
 }
+
+// ดึง FoodItem ที่มี FoodFlagID = 2 หรือ 3
+func GetFoodItemsByFlags(c *gin.Context) {
+	var fooditems []entity.FoodItem
+
+	db := config.DB()
+	if err := db.Preload("FoodFlag").
+		Where("food_flag_id IN ?", []int{2, 3}).
+		Find(&fooditems).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูลรายการอาหารตาม Flag ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"fooditems": fooditems})
+}
+
+

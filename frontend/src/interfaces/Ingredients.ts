@@ -1,4 +1,5 @@
 export interface IngredientsInterface {
+    Description: string;
     ID?: number;
     Name?: string;
     Image?: string;
