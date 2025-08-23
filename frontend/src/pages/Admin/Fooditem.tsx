@@ -435,11 +435,6 @@ const FoodAdminPanel = () => {
                           </span>
                         </div>
                         
-                        {item.Credit && (
-                          <p className="text-sm text-gray-500">
-                            📸 แหล่งรูปภาพ: {item.Credit}
-                          </p>
-                        )}
                       </div>
                     </div>
                     
