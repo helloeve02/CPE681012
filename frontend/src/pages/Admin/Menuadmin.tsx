@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Edit, Trash2, Save, X, Filter, Hash, Eye } from 'lucide-react';
 import type { MenuInterface } from '../../interfaces/Menu';
 import type { TagInterface } from '../../interfaces/Tag';
-import { GetAllMenu, GetAllTag, CreateMenu, UpdateMenu } from "../../services/https";
-
+import { GetAllMenu, GetAllTag, CreateMenu, UpdateMenu, DeleteMenu } from "../../services/https";
+import { message } from "antd";
 const MenuAdminPanel = () => {
   // Sample tags data
   const [tags, setTags] = useState<TagInterface[]>([]);
@@ -92,8 +92,9 @@ const MenuAdminPanel = () => {
 
   // Handle form submission
   const handleSubmit = async () => {
-    if (!formData.Title || !formData.Description) {
-      alert('กรุณากรอกข้อมูลที่จำเป็น');
+    if (!formData.Title || !formData.Description || !formData.Image?.trim() ||
+    !formData.Credit?.trim() || !formData.Tags) {
+      message.warning('กรุณากรอกข้อมูลที่จำเป็น');
       return;
     }
 
@@ -123,14 +124,16 @@ const MenuAdminPanel = () => {
       setShowAddForm(false);
 
       // แสดงข้อความสำเร็จ
-      alert("บันทึกข้อมูลสำเร็จ");
+      message.success("บันทึกข้อมูลสำเร็จ");
 
-      // รีเฟรชหน้า
-      window.location.reload();
+      // ให้ popup แสดงก่อน reload
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000); // 1 วินาที
 
     } catch (error) {
       console.error("Error saving menu:", error);
-      alert("บันทึกข้อมูลไม่สำเร็จ");
+      message.error("บันทึกข้อมูลไม่สำเร็จ");
     }
   };
 
@@ -151,11 +154,27 @@ const MenuAdminPanel = () => {
   };
 
   // Handle delete
-  const handleDelete = (id: number) => {
-    if (window.confirm('คุณแน่ใจหรือไม่ที่จะลบเมนูนี้?')) {
-      setMenus(items => items.filter(item => item.ID !== id));
+  const handleDelete = async (id: number) => {
+    if (!window.confirm('คุณแน่ใจหรือไม่ที่จะลบเมนูนี้?')) return;
+
+    try {
+      // เรียก API ลบเมนู
+      const response = await DeleteMenu(id);
+
+      if (response.status === 200 || response.status === 204) {
+        // ลบจาก state หลังจากลบสำเร็จ
+        setMenus(items => items.filter(item => item.ID !== id));
+        message.success('ลบเมนูสำเร็จ');
+      } else {
+        console.error('DeleteMenu response:', response);
+        message.error('ไม่สามารถลบเมนูได้');
+      }
+    } catch (error) {
+      console.error('Error deleting menu:', error);
+      message.error('เกิดข้อผิดพลาดในการลบเมนู');
     }
   };
+
 
   // Cancel form
   const handleCancel = () => {
@@ -299,7 +318,7 @@ const MenuAdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ <span className="text-red-500">*</span></label> 
                     <input
                       type="url"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
@@ -310,7 +329,7 @@ const MenuAdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">เครดิตรูปภาพ</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">เครดิตรูปภาพ <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
@@ -321,7 +340,7 @@ const MenuAdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">แท็ก</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">แท็ก <span className="text-red-500">*</span></label>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
                       {tags.map(tag => (
                         <label key={tag.ID} className="flex items-center space-x-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">

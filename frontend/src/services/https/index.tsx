@@ -272,6 +272,12 @@ async function UpdateMenu(id: number, data: MenuInterface) {
     .catch(e => e.response);
 }
 
+async function DeleteMenu(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/menu/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
 
 export{
     GetAllMenu,
@@ -303,4 +309,6 @@ export{
     GetFoodItemsByFlags,
     CreateMenu,
     UpdateMenu,
+    DeleteMenu,
+  
 }
