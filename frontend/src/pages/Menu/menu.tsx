@@ -1,8 +1,8 @@
 import type { MenuInterface } from "../../interfaces/Menu";
-import { GetAllMenu, GetAllIngredients, GetAllTag } from "../../services/https";
+import { GetAllMenu, GetFoodItemsByFlags, GetAllTag } from "../../services/https";
 import React, { useEffect, useState } from "react";
-import { ChevronRight, Search } from 'lucide-react';
-import { Link, Navigate } from 'react-router-dom';
+import { ChevronRight, Search, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import type { IngredientsInterface } from "../../interfaces/Ingredients"
 import type { TagInterface } from "../../interfaces/Tag"
 import { useNavigate } from "react-router-dom";
@@ -16,8 +16,10 @@ const Menu: React.FC = () => {
   const [tags, setTags] = useState<TagInterface[]>([]);
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
+  const [viewingItem, setViewingItem] = useState<IngredientsInterface | null>(null); // ✅ สำหรับ popup
 
   const navigate = useNavigate();
+
   // Filter เมนูตาม search + selectedTags
   const filteredItems = menu.filter(menuItem => {
     const matchQuery = (menuItem.Title?.toLowerCase() ?? '').includes(query.toLowerCase());
@@ -59,11 +61,11 @@ const Menu: React.FC = () => {
     }
   };
 
-  const getAllIngredients = async () => {
+  const getFoodItemsByFlags = async () => {
     try {
-      const res = await GetAllIngredients();
-      if (Array.isArray(res?.data?.ingredients)) {
-        setIngredients(res.data.ingredients);
+      const res = await GetFoodItemsByFlags();
+      if (Array.isArray(res?.data?.fooditems)) {
+        setIngredients(res.data.fooditems);
       } else {
         setError("Failed to load ingredients items");
       }
@@ -87,7 +89,7 @@ const Menu: React.FC = () => {
 
   useEffect(() => {
     getAllMenu();
-    getAllIngredients();
+    getFoodItemsByFlags();
     getAllTags();
   }, []);
 
@@ -134,7 +136,7 @@ const Menu: React.FC = () => {
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 font-kanit"
           />
         </div>
-              
+
         {activeTab === "food" && (
           <div className="border-gray-300 rounded-lg p-3 font-kanit relative max-w-xs min-w-[20px]">
             <p
@@ -162,19 +164,19 @@ const Menu: React.FC = () => {
             )}
           </div>
         )}
-        
+
       </div>
+
       <div className="flex justify-end px-25 mb-3 font-kanit">
         <button
           type="button"
-          onClick={() => navigate("/menucal")} // ✅ ใช้ navigate ฟังก์ชัน border-blue-600
+          onClick={() => navigate("/menucal")}
           className="inline-flex items-center gap-2 rounded-2xl px-5 py-2.5
                    bg-sky-600 text-white shadow-sm hover:bg-sky-500
                    focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400
                    active:scale-[0.99] transition"
           aria-label="คำนวณปริมาณโซเดียม"
         >
-          {/* ไอคอนเครื่องคิดเลขเล็ก ๆ (ไม่บังคับ) */}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
             fill="currentColor" className="h-5 w-5">
             <path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 
@@ -239,7 +241,7 @@ const Menu: React.FC = () => {
               <p className="text-center text-gray-500 font-kanit mt-4">ไม่พบผลไม้และวัตถุดิบที่คุณค้นหา</p>
             )}
             {filteredIngre.map((item) => (
-              <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between">
+              <div key={item.ID} className="bg-gray-50 rounded-lg p-4 flex items-center justify-between px-17">
                 <div className="flex items-center space-x-4">
                   <div className="w-38 h-30 bg-gray-200 rounded-lg overflow-hidden flex-shrink-0">
                     <img src={item.Image} className="w-full h-full object-cover" />
@@ -255,11 +257,57 @@ const Menu: React.FC = () => {
                     </h3>
                   </div>
                 </div>
+
+
+                <button
+                  onClick={() => setViewingItem(item)}
+                  className="w-40 max-w-sm bg-blue-500 hover:bg-blue-600 transition text-white px-4 py-2 rounded-full flex items-center justify-center space-x-1 text-sm sm:text-base font-kanit shadow"
+                >
+                  <Eye size={18} />
+                  ดูรายละเอียด
+                </button>
+
               </div>
             ))}
           </>
         )}
       </div>
+
+      {/* Popup Modal สำหรับ ingredient */}
+      {viewingItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-lg max-w-lg w-full p-6 relative">
+            <button
+              onClick={() => setViewingItem(null)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
+            >
+              ✖
+            </button>
+
+            <img
+              src={viewingItem.Image}
+              alt={viewingItem.Name}
+              className="w-full h-64 object-cover rounded-lg mb-4"
+            />
+
+            <h2 className="text-2xl font-kanit font-bold text-gray-900 mb-2">
+              {viewingItem.Name}
+            </h2>
+            <p className="text-gray-700 font-kanit mb-4">
+              {viewingItem.Description || "ยังไม่มีรายละเอียดเพิ่มเติม"}
+            </p>
+
+            <a
+              href={viewingItem.Credit}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 underline"
+            >
+              ขอบคุณภาพจาก
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

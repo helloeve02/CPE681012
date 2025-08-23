@@ -247,6 +247,13 @@ async function GetFoodGroupByID(id: string) {
 
 }
 
+async function GetFoodItemsByFlags() {
+  return await axios
+    .get(`${apiUrl}/foods/flags`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -274,4 +281,5 @@ export{
     GetAllFoodItems,
     GetFoodGroupByID,
     GetAllFoodGroups,
+    GetFoodItemsByFlags,
 }
