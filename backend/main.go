@@ -27,8 +27,6 @@ func main() {
        router.Use(middlewares.Authorizes())
        r.GET("/menu", controller.GetAllMenu)
        r.GET("/menu/:id", controller.GetMenuByID)
-       r.GET("/ingredients", controller.GetAllIngredients)
-       r.GET("/ingredients/:id", controller.GetIngredientsByID)
        r.GET("/diseases", controller.GetAllDisease)
        r.POST("/rule", controller.FindRuleByUserInfo)
        r.GET("/nutritionrecommendation/:rule", controller.GetNutritionRecommendationByRule)
@@ -52,6 +50,8 @@ func main() {
        r.GET("/foods/flags", controller.GetFoodItemsByFlags)
        r.GET("/content-cat", controller.GetAllCategory)
        r.GET("/content-cat/:id", controller.GetContentCatByID)
+       r.POST("/food-item",controller.CreateFoodItem)
+       r.POST("/content",controller.CreateContent)
    }
 
 
