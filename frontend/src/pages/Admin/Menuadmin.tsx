@@ -72,7 +72,7 @@ const MenuAdminPanel = () => {
 
   // Filter menus
   const filteredItems = menus.filter(menu => {
-    console.log(menu.Tags, selectedTag);
+    // console.log(menu.Tags, selectedTag);
 
 
     const matchesTag =
@@ -91,46 +91,48 @@ const MenuAdminPanel = () => {
 
 
   // Handle form submission
-const handleSubmit = async () => {
-  if (!formData.Title || !formData.Description) {
-    alert('กรุณากรอกข้อมูลที่จำเป็น');
-    return;
-  }
-
-  const selectedTags = tags.filter(tag => selectedFormTags.includes(tag.ID!));
-  const menuData = { ...formData, Tags: selectedTags };
-
-  try {
-    if (editingItem) {
-      await UpdateMenu(editingItem.ID!, { ...menuData, ID: editingItem.ID });
-
-      setMenus(items =>
-        items.map(item =>
-          item.ID === editingItem.ID ? { ...menuData, ID: editingItem.ID } : item
-        )
-      );
-      setEditingItem(null);
-    } else {
-      const response = await CreateMenu(menuData);
-      const newItem: MenuInterface = response.data;
-      setMenus(items => [...items, newItem]);
+  const handleSubmit = async () => {
+    if (!formData.Title || !formData.Description) {
+      alert('กรุณากรอกข้อมูลที่จำเป็น');
+      return;
     }
 
-    setFormData({ Title: '', Description: '', Image: '', Credit: '', Tags: [] });
-    setSelectedFormTags([]);
-    setShowAddForm(false);
+    const selectedTags = tags.filter(tag => selectedFormTags.includes(tag.ID!));
+    const menuData = { ...formData, Tags: selectedTags };
 
-    // แสดงข้อความสำเร็จ
-    alert("บันทึกข้อมูลสำเร็จ");
+    try {
+      if (editingItem) {
+        console.log("Updating menu with ID:", editingItem.ID, menuData);
+        const res = await UpdateMenu(editingItem.ID!, { ...menuData, ID: editingItem.ID });
+        console.log("UpdateMenu response:", res);
 
-    // รีเฟรชหน้า
-    window.location.reload();
+        setMenus(items =>
+          items.map(item =>
+            item.ID === editingItem.ID ? { ...menuData, ID: editingItem.ID } : item
+          )
+        );
+        setEditingItem(null);
+      } else {
+        const response = await CreateMenu(menuData);
+        const newItem: MenuInterface = response.data;
+        setMenus(items => [...items, newItem]);
+      }
 
-  } catch (error) {
-    console.error("Error saving menu:", error);
-    alert("บันทึกข้อมูลไม่สำเร็จ");
-  }
-};
+      setFormData({ Title: '', Description: '', Image: '', Credit: '', Tags: [] });
+      setSelectedFormTags([]);
+      setShowAddForm(false);
+
+      // แสดงข้อความสำเร็จ
+      alert("บันทึกข้อมูลสำเร็จ");
+
+      // รีเฟรชหน้า
+      window.location.reload();
+
+    } catch (error) {
+      console.error("Error saving menu:", error);
+      alert("บันทึกข้อมูลไม่สำเร็จ");
+    }
+  };
 
 
 
