@@ -267,13 +267,11 @@ async function CreateMenu(menuInfo: MenuInterface) {
 
 async function UpdateMenu(id: number, data: MenuInterface) {
   return await axios
-
-    .put(`${apiUrl}/menu/${id}`, data, requestOptions)
-
-    .then((res) => res)
-
-    .catch((e) => e.response);
+    .patch(`${apiUrl}/menu/${id}`, data)
+    .then(res => res)
+    .catch(e => e.response);
 }
+
 
 export{
     GetAllMenu,
