@@ -8,7 +8,7 @@ import (
 )
 
 func GetAllCategory(c *gin.Context) {
-	var menu []entity.EducationalGroup
+	var menu []entity.ContentCategory
 
 	// เรียกใช้งาน DB จาก config
 	db := config.DB()
@@ -23,12 +23,12 @@ func GetAllCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"menu": menu})
 }
 
-func GetGroupContentByID(c *gin.Context) {
+func GetContentCatByID(c *gin.Context) {
 	// รับค่า menuID จากพารามิเตอร์ใน URL
 	menuID := c.Param("id")
 
 	// กำหนด struct สำหรับเก็บผลลัพธ์ที่จะ return
-	var menu entity.EducationalGroup
+	var menu entity.ContentCategory
 
 	// Get the database connection
 	db := config.DB()
@@ -46,10 +46,10 @@ func GetGroupContentByID(c *gin.Context) {
 }
 
 
-func DeleteGroupContent(c *gin.Context) {
+func DeleteContentCat(c *gin.Context) {
 	id := c.Param("id")
 	db := config.DB()
-	if tx := db.Exec("DELETE FROM educational_group WHERE educational_group_id = ?", id); tx.RowsAffected == 0 {
+	if tx := db.Exec("DELETE FROM content_category WHERE content_category_id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
