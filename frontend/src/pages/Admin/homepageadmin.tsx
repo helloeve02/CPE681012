@@ -1,19 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+// import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function AdminDashboard() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("isLogin"); // ลบสถานะ login
+        navigate("/admin"); // กลับไปหน้า login
+    };
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600">
-            {/* Navigation Bar */}
             <nav className="bg-white shadow-md border-b-2 border-gray-200">
-                <div className="max-w-7xl mx-auto px-6 py-4">
-                    <div className="flex items-center justify-between">
-                        <span className="text-gray-600 text-sm">ยินดีต้อนรับ</span>
+                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+                    <span className="text-gray-600 text-sm">ยินดีต้อนรับ</span>
+                    <div className="flex items-center space-x-4">
                         <span className="text-gray-800 font-medium text-lg">admin</span>
+                        <button
+                            onClick={handleLogout}
+                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+                        >
+                            Logout
+                        </button>
                     </div>
                 </div>
             </nav>
+            
 
             <div className="max-w-sm mx-auto space-y-3 pt-8 p-4">
 

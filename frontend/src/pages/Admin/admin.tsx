@@ -20,10 +20,13 @@ export default function AdminLoginForm() {
             let res = await SignIn(values);
             console.log("API Response:", res);
             if (res.status === 200 || res.status === 204) {
+                localStorage.setItem("isLogin", "true");  // <-- เพิ่มตรงนี้
                 message.success("Sign-in successful");
                 setTimeout(() => {
                     navigate("/admin-home");
                 }, 1500);
+
+
             } else {
                 message.error(res.data?.error || "An error occurred during sign-in");
             }
