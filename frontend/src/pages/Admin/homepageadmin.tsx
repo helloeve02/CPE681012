@@ -7,6 +7,7 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("isLogin"); // ลบสถานะ login
+    localStorage.removeItem("role");
     navigate("/admin"); // กลับไปหน้า login
   };
 

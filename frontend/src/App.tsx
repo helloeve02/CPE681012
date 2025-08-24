@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Menu from "./pages/Menu/menu";
 import NavBar from "./components/NavBar";
@@ -89,6 +89,13 @@ const AppContent = () => {
 };
 
 function App() {
+  useEffect(() => {
+    // ถ้าไม่มีค่า isLogin ให้ตั้งค่าเป็น false
+    if (localStorage.getItem("isLogin") === null) {
+      localStorage.setItem("isLogin", "false");
+    }
+  }, []);
+
   return (
     <Router>
       <AppContent />
