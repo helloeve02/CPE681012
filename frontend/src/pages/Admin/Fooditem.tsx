@@ -3,7 +3,7 @@ import { Search, Plus, Edit, Trash2, Save, X, Filter,Eye } from 'lucide-react';
 import type { FoodFlagInterface } from '../../interfaces/FoodFlag';
 import type { FoodItemInterface } from '../../interfaces/FoodItem';
 import type { FoodGroupInterface } from '../../interfaces/FoodGroup';
-import { GetAllFoodFlags, GetAllFoodItems, GetAllFoodGroups} from "../../services/https";
+import { GetAllFoodFlags, GetAllFoodItems, GetAllFoodGroups, CreateFoodItem} from "../../services/https";
 
 const FoodAdminPanel = () => {
   // Sample data
@@ -98,30 +98,51 @@ const FoodAdminPanel = () => {
   });
 
   // Handle form submission
-  const handleSubmit = () => {
-    if (!formData.Name || !formData.FoodFlagID) {
-      alert('กรุณากรอกข้อมูลที่จำเป็น');
-      return;
-    }
-    
+
+const handleSubmit = async () => {
+  if (!formData.Name || !formData.FoodFlagID) {
+    alert("กรุณากรอกข้อมูลที่จำเป็น");
+    return;
+  }
+
+  try {
     if (editingItem) {
-      setFoodItems(items => 
-        items.map(item => 
-          item.ID === editingItem.ID ? { ...formData, ID: editingItem.ID } : item
+      // ✅ เรียก API update
+      const updatedItem = { ...formData, ID: editingItem.ID };
+      // await UpdateFoodItem(editingItem.ID, updatedItem);
+
+      setFoodItems(items =>
+        items.map(item =>
+          item.ID === editingItem.ID ? updatedItem : item
         )
       );
+
       setEditingItem(null);
+      alert("แก้ไขข้อมูลสำเร็จ");
     } else {
-      const newItem: FoodItemInterface = {
-        ...formData,
-        ID: Math.max(...foodItems.map(i => i.ID || 0)) + 1
-      };
+      // ✅ เรียก API create
+      const res = await CreateFoodItem(formData);
+
+      // backend น่าจะส่ง object ที่มี ID กลับมา
+      const newItem: FoodItemInterface = res;
+
       setFoodItems(items => [...items, newItem]);
+      alert("เพิ่มข้อมูลสำเร็จ");
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 100); // 1 วินาที
     }
-    
-    setFormData({ Name: '', Image: '', Credit: '', Description: '', FoodFlagID: undefined });
+
+    // reset form
+    setFormData({ Name: "", Image: "", Credit: "", Description: "", FoodFlagID: undefined });
     setShowAddForm(false);
-  };
+  } catch (error) {
+    console.error("Error:", error);
+    alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
+  }
+};
+
 
    // ปรับปรุงฟังก์ชัน handleEdit ให้ scroll ได้ดีขึ้น
   const handleEdit = (item: FoodItemInterface) => {
