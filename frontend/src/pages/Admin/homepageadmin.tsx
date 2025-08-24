@@ -1,113 +1,78 @@
-import React from 'react';
-// import { Link } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
+// import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Newspaper, Utensils, ClipboardList } from "lucide-react"; // ไอคอนสวยๆ
 
 export default function AdminDashboard() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem("isLogin"); // ลบสถานะ login
-        navigate("/admin"); // กลับไปหน้า login
-    };
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600">
-            <nav className="bg-white shadow-md border-b-2 border-gray-200">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <span className="text-gray-600 text-sm">ยินดีต้อนรับ</span>
-                    <div className="flex items-center space-x-4">
-                        <span className="text-gray-800 font-medium text-lg">admin</span>
-                        <button
-                            onClick={handleLogout}
-                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                </div>
-            </nav>
-            
+  const handleLogout = () => {
+    localStorage.removeItem("isLogin"); // ลบสถานะ login
+    localStorage.removeItem("role");
+    navigate("/admin"); // กลับไปหน้า login
+  };
 
-            <div className="max-w-sm mx-auto space-y-3 pt-8 p-4">
+  const menuItems = [
+    {
+      title: "จัดการข่าวสารและการใช้ความรู้",
+      link: "/admin/educational",
+      icon: <Newspaper className="w-8 h-8 text-blue-600" />,
+      bg: "from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200",
+    },
+    {
+      title: "จัดการเมนูอาหารแนะนำ",
+      link: "/admin/menu",
+      icon: <Utensils className="w-8 h-8 text-green-600" />,
+      bg: "from-green-50 to-green-100 hover:from-green-100 hover:to-green-200",
+    },
+    {
+      title: "จัดการรายการอาหารและวัตถุดิบ",
+      link: "/admin/fooditem",
+      icon: <ClipboardList className="w-8 h-8 text-orange-600" />,
+      bg: "from-orange-50 to-orange-100 hover:from-orange-100 hover:to-orange-200",
+    },
+  ];
 
-                {/* Menu Item 1 - ข้าวสารและการใช้ความรู้ */}
-                <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-gray-200">
-                    <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center relative">
-                            {/* Icon */}
-                            <div className="w-12 h-14 bg-white border-2 border-gray-300 rounded-sm relative">
-                                <div className="w-full h-3 bg-red-400 rounded-t-sm"></div>
-                                <div className="p-1">
-                                    <div className="w-full h-1 bg-blue-400 mb-1 rounded"></div>
-                                    <div className="w-3/4 h-1 bg-gray-300 mb-1 rounded"></div>
-                                    <div className="w-full h-1 bg-gray-300 mb-1 rounded"></div>
-                                    <div className="w-2/3 h-1 bg-gray-300 rounded"></div>
-                                </div>
-                                {/* Symbols */}
-                                <div className="absolute -top-1 -left-1 text-xs text-gray-400">×</div>
-                                <div className="absolute -top-1 -right-1 text-xs text-gray-400">+</div>
-                                <div className="absolute -bottom-1 -left-1 text-xs text-gray-400">√</div>
-                                <div className="absolute top-2 -right-2 text-red-500 text-sm">+</div>
-                            </div>
-                        </div>
-                        <Link to="/admin/educational" className="text-gray-800 font-medium text-base flex-1 cursor-pointer">
-                            จัดการข่าวสารและการใช้ความรู้
-                        </Link>
-                    </div>
-
-                </div>
-
-                {/* Menu Item 2 - เมนูอาหารแนะนำ (Active) */}
-                <div className="bg-blue-50 rounded-3xl p-6 shadow-md border-2 border-blue-300">
-                    <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center relative shadow-sm">
-                            {/* Clipboard with apple */}
-                            <div className="w-10 h-12 bg-white border-2 border-gray-300 rounded-sm relative">
-                                <div className="w-6 h-2 bg-gray-300 rounded-full mx-auto mt-1"></div>
-                                <div className="p-1 mt-1">
-                                    <div className="w-full h-1 bg-blue-400 mb-1 rounded"></div>
-                                    <div className="w-3/4 h-1 bg-orange-400 mb-1 rounded"></div>
-                                    <div className="w-full h-1 bg-gray-300 rounded"></div>
-                                </div>
-                            </div>
-                            {/* Red apple */}
-                            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-red-500 rounded-full">
-                                <div className="w-1 h-2 bg-green-600 rounded-full mx-auto -mt-1"></div>
-                            </div>
-                        </div>
-                        <Link to="/admin/menu" className="text-gray-800 font-medium text-base flex-1">
-                            จัดการเมนูอาหารแนะนำ
-                        </Link>
-                    </div>
-                </div>
-
-                {/* Menu Item 4 - เพิ่มรายการอาหารและแบบฟ */}
-                <div className="bg-white rounded-3xl p-6 shadow-md border-2 border-gray-200">
-                    <div className="flex items-center space-x-4">
-                        <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center relative">
-                            {/* Document with medical cross and magnifying glass */}
-                            <div className="w-10 h-12 bg-white border-2 border-gray-300 rounded-sm relative">
-                                <div className="absolute top-1 left-1 w-2 h-2">
-                                    <div className="w-full h-0.5 bg-red-500 absolute top-1"></div>
-                                    <div className="h-full w-0.5 bg-red-500 absolute left-1"></div>
-                                </div>
-                                <div className="p-1 mt-3">
-                                    <div className="w-full h-1 bg-gray-300 mb-1 rounded"></div>
-                                    <div className="w-3/4 h-1 bg-gray-300 mb-1 rounded"></div>
-                                    <div className="w-full h-1 bg-gray-300 rounded"></div>
-                                </div>
-                            </div>
-                            {/* Magnifying glass */}
-                            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-500 rounded-full border-2 border-blue-600">
-                                <div className="absolute -bottom-1 -right-1 w-2 h-0.5 bg-orange-400 rounded-full transform rotate-45"></div>
-                                <div className="absolute top-1 left-1 w-1.5 h-1.5 border border-white rounded-full"></div>
-                            </div>
-                        </div>
-                        <Link to="/admin/fooditem" className="text-gray-800 font-medium text-base flex-1">
-                            จัดการรายการอาหารและวัตถุดิบ
-                        </Link>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 flex flex-col font-kanit">
+      {/* Navbar */}
+      <nav className="bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <span className="text-gray-600 text-sm">ยินดีต้อนรับ</span>
+          <div className="flex items-center space-x-4">
+            <span className="text-gray-800 font-medium text-lg">Admin</span>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-4 py-2 rounded-xl shadow hover:bg-red-600 transition-all"
+            >
+              Logout
+            </button>
+          </div>
         </div>
-    );
+      </nav>
+
+      {/* Content */}
+      <main className="flex-1 max-w-5xl mx-auto w-full p-8">
+        <h1 className="text-3xl font-bold text-white mb-8 text-center">
+          แผงควบคุมผู้ดูแลระบบ
+        </h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {menuItems.map((item, index) => (
+            <Link
+              key={index}
+              to={item.link}
+              className={`rounded-3xl shadow-lg bg-gradient-to-br ${item.bg} p-6 flex flex-col items-center justify-center text-center transform hover:scale-105 transition-all duration-300`}
+            >
+              <div className="bg-white rounded-2xl w-16 h-16 flex items-center justify-center shadow-md mb-4">
+                {item.icon}
+              </div>
+              <h2 className="text-gray-800 font-semibold text-lg">
+                {item.title}
+              </h2>
+            </Link>
+          ))}
+        </div>
+      </main>
+    </div>
+  );
 }

@@ -53,6 +53,7 @@ func main() {
        r.POST("/food-item",controller.CreateFoodItem)
        r.POST("/content",controller.CreateContent)
        r.PATCH("/menu/:id",controller.UpdateMenu)
+       r.DELETE("/food-item/:id",controller.DeleteFoodItem)
    }
 
 
@@ -83,7 +84,7 @@ func CORSMiddleware() gin.HandlerFunc {
 
        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 
-       c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+       c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE, PATCH")
 
 
        if c.Request.Method == "OPTIONS" {

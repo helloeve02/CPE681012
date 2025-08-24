@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Search, Plus, Edit, Trash2, Save, X, Filter,Eye } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Search, Plus, Edit, Trash2, Save, X, Filter, Eye } from 'lucide-react';
 import type { FoodFlagInterface } from '../../interfaces/FoodFlag';
 import type { FoodItemInterface } from '../../interfaces/FoodItem';
 import type { FoodGroupInterface } from '../../interfaces/FoodGroup';
-import { GetAllFoodFlags, GetAllFoodItems, GetAllFoodGroups} from "../../services/https";
+import { GetAllFoodFlags, GetAllFoodItems, GetAllFoodGroups, CreateFoodItem, DeleteFoodItem } from "../../services/https";
 
 const FoodAdminPanel = () => {
   // Sample data
@@ -20,7 +20,9 @@ const FoodAdminPanel = () => {
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<FoodItemInterface | null>(null);
   const [viewingItem, setViewingItem] = useState<FoodItemInterface | null>(null);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
+  const [deleteId, setDeleteId] = useState<number | null>(null); // เก็บ ID ที่จะลบ
+  const [isDeleting, setIsDeleting] = useState(false);
   // Ref for form section
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -31,49 +33,49 @@ const FoodAdminPanel = () => {
       if (Array.isArray(res?.data?.foodflags)) {
         setfoodFlags(res.data.foodflags);
       } else {
-        setError("Failed to load Food Flags");
+        // setError("Failed to load Food Flags");
       }
     } catch (error) {
-      setError("Error fetching Food Flags. Please try again later.");
+      // setError("Error fetching Food Flags. Please try again later.");
     }
   };
 
   const getAllFoodItems = async () => {
-  try {
-    const res = await GetAllFoodItems();
-    // console.log(res?.data?.fooditems);
+    try {
+      const res = await GetAllFoodItems();
+      // console.log(res?.data?.fooditems);
 
-    if (Array.isArray(res?.data?.fooditems)) {
-      setFoodItems(res.data.fooditems);
-    } else {
-      setError("Failed to load Food Items");
+      if (Array.isArray(res?.data?.fooditems)) {
+        setFoodItems(res.data.fooditems);
+      } else {
+        // setError("Failed to load Food Items");
+      }
+    } catch (error) {
+      // setError("Error fetching Food Items. Please try again later.");
     }
-  } catch (error) {
-    setError("Error fetching Food Items. Please try again later.");
-  }
-};
+  };
 
   const getAllFoodGroups = async () => {
-  try {
-    const res = await GetAllFoodGroups();
-    console.log(res?.data?.foodgroups);
+    try {
+      const res = await GetAllFoodGroups();
+      console.log(res?.data?.foodgroups);
 
-    if (Array.isArray(res?.data?.foodgroups)) {
-      setfoodGroups(res.data.foodgroups);
-    } else {
-      setError("Failed to load Food Group");
+      if (Array.isArray(res?.data?.foodgroups)) {
+        setfoodGroups(res.data.foodgroups);
+      } else {
+        // setError("Failed to load Food Group");
+      }
+    } catch (error) {
+      // setError("Error fetching Food Group. Please try again later.");
     }
-  } catch (error) {
-    setError("Error fetching Food Group. Please try again later.");
-  }
-};
+  };
 
 
   useEffect(() => {
     getAllFoodFlags();
     getAllFoodItems();
     getAllFoodGroups();
-    
+
   }, []);
 
   // Form state
@@ -89,56 +91,77 @@ const FoodAdminPanel = () => {
   const filteredItems = foodItems.filter(item => {
     const flag = foodFlags.find(f => f.ID === item.FoodFlagID);
     const group = foodGroups.find(g => g.ID === flag?.FoodGroupID);
-    
+
     const matchesGroup = selectedGroup === 'ทั้งหมด' || group?.Name === selectedGroup;
     const matchesFlag = selectedFlag === 'ทั้งหมด' || flag?.Flag === selectedFlag;
     const matchesSearch = item.Name?.toLowerCase().includes(searchTerm.toLowerCase()) || false;
-    
+
     return matchesGroup && matchesFlag && matchesSearch;
   });
 
   // Handle form submission
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     if (!formData.Name || !formData.FoodFlagID) {
-      alert('กรุณากรอกข้อมูลที่จำเป็น');
+      alert("กรุณากรอกข้อมูลที่จำเป็น");
       return;
     }
-    
-    if (editingItem) {
-      setFoodItems(items => 
-        items.map(item => 
-          item.ID === editingItem.ID ? { ...formData, ID: editingItem.ID } : item
-        )
-      );
-      setEditingItem(null);
-    } else {
-      const newItem: FoodItemInterface = {
-        ...formData,
-        ID: Math.max(...foodItems.map(i => i.ID || 0)) + 1
-      };
-      setFoodItems(items => [...items, newItem]);
+
+    try {
+      if (editingItem) {
+        // ✅ เรียก API update
+        const updatedItem = { ...formData, ID: editingItem.ID };
+        // await UpdateFoodItem(editingItem.ID, updatedItem);
+
+        setFoodItems(items =>
+          items.map(item =>
+            item.ID === editingItem.ID ? updatedItem : item
+          )
+        );
+
+        setEditingItem(null);
+        alert("แก้ไขข้อมูลสำเร็จ");
+      } else {
+        // ✅ เรียก API create
+        const res = await CreateFoodItem(formData);
+
+        // backend น่าจะส่ง object ที่มี ID กลับมา
+        const newItem: FoodItemInterface = res;
+
+        setFoodItems(items => [...items, newItem]);
+        alert("เพิ่มข้อมูลสำเร็จ");
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 100); // 1 วินาที
+      }
+
+      // reset form
+      setFormData({ Name: "", Image: "", Credit: "", Description: "", FoodFlagID: undefined });
+      setShowAddForm(false);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
     }
-    
-    setFormData({ Name: '', Image: '', Credit: '', Description: '', FoodFlagID: undefined });
-    setShowAddForm(false);
   };
 
-   // ปรับปรุงฟังก์ชัน handleEdit ให้ scroll ได้ดีขึ้น
+
+  // ปรับปรุงฟังก์ชัน handleEdit ให้ scroll ได้ดีขึ้น
   const handleEdit = (item: FoodItemInterface) => {
     setEditingItem(item);
     setFormData(item);
     setShowAddForm(true);
-    
+
     // ใช้ setTimeout เพื่อให้แน่ใจว่าฟอร์มถูก render แล้ว
     // และเพิ่มเวลาเป็น 300ms เพื่อให้เห็นการเปลี่ยนแปลงชัดเจน
     setTimeout(() => {
       if (formRef.current) {
-        formRef.current.scrollIntoView({ 
-          behavior: 'smooth', 
+        formRef.current.scrollIntoView({
+          behavior: 'smooth',
           block: 'start',
           inline: 'nearest'
         });
-        
+
         // เพิ่มการ focus ไปที่ input แรกด้วย
         const firstInput = formRef.current.querySelector('input[type="text"]') as HTMLInputElement;
         if (firstInput) {
@@ -149,39 +172,60 @@ const FoodAdminPanel = () => {
   };
 
   // ปรับปรุงฟังก์ชันเพิ่มรายการใหม่ให้ scroll ด้วย
-  const handleAddNew = () => {
-    setShowAddForm(true);
-    setEditingItem(null);
-    setFormData({ Name: '', Image: '', Credit: '', Description: '', FoodFlagID: undefined });
-    
-    setTimeout(() => {
-      if (formRef.current) {
-        formRef.current.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest'
-        });
-        
-        const firstInput = formRef.current.querySelector('input[type="text"]') as HTMLInputElement;
-        if (firstInput) {
-          firstInput.focus();
-        }
-      }
-    }, 100);
-  };
+  // const handleAddNew = () => {
+  //   setShowAddForm(true);
+  //   setEditingItem(null);
+  //   setFormData({ Name: '', Image: '', Credit: '', Description: '', FoodFlagID: undefined });
+
+  //   setTimeout(() => {
+  //     if (formRef.current) {
+  //       formRef.current.scrollIntoView({ 
+  //         behavior: 'smooth', 
+  //         block: 'start',
+  //         inline: 'nearest'
+  //       });
+
+  //       const firstInput = formRef.current.querySelector('input[type="text"]') as HTMLInputElement;
+  //       if (firstInput) {
+  //         firstInput.focus();
+  //       }
+  //     }
+  //   }, 100);
+  // };
 
 
-   // Handle view details
+  // Handle view details
   const handleViewDetails = (item: FoodItemInterface) => {
     setViewingItem(item);
   };
-  
+
   // Handle delete
-  const handleDelete = (id: number) => {
-    if (window.confirm('คุณแน่ใจหรือไม่ที่จะลบรายการนี้?')) {
-      setFoodItems(items => items.filter(item => item.ID !== id));
+  // ฟังก์ชันลบใน frontend
+
+
+
+  const handleConfirmDelete = async () => {
+    if (deleteId === null) return;
+    setIsDeleting(true);
+    try {
+      const res = await DeleteFoodItem(deleteId);
+      if (res.status === 200) {
+        setFoodItems(items => items.filter(item => item.ID !== deleteId));
+      } else {
+        console.error("ไม่สามารถลบได้:", res.data?.message);
+      }
+    } catch (error) {
+      console.error("เกิดข้อผิดพลาดในการลบ:", error);
+    } finally {
+      setIsDeleting(false);
+      setDeleteId(null); // ปิด modal
     }
   };
+
+  // const handleCancelDelete = () => {
+  //   setDeleteId(null); // ปิด modal
+  // };
+
 
   // Cancel form
   const handleCancel = () => {
@@ -201,14 +245,14 @@ const FoodAdminPanel = () => {
     return group?.Name || '';
   };
 
-  const getStatistics = () => {
-    const recommended = filteredItems.filter(item => getFlagDisplayText(item.FoodFlagID) === 'ควรรับประทาน').length;
-    const avoid = filteredItems.filter(item => getFlagDisplayText(item.FoodFlagID) === 'ควรหลีกเลี่ยง').length;
-    return { recommended, avoid, total: filteredItems.length };
-  };
+  // const getStatistics = () => {
+  //   const recommended = filteredItems.filter(item => getFlagDisplayText(item.FoodFlagID) === 'ควรรับประทาน').length;
+  //   const avoid = filteredItems.filter(item => getFlagDisplayText(item.FoodFlagID) === 'ควรหลีกเลี่ยง').length;
+  //   return { recommended, avoid, total: filteredItems.length };
+  // };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-kanit">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -225,11 +269,11 @@ const FoodAdminPanel = () => {
               <Filter className="w-5 h-5 text-gray-600" />
               <h3 className="text-lg font-semibold text-gray-900">ตัวกรองและค้นหา</h3>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">หมวดหมู่</label>
-                <select 
+                <select
                   className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   value={selectedGroup}
                   onChange={(e) => setSelectedGroup(e.target.value)}
@@ -243,7 +287,7 @@ const FoodAdminPanel = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">คำแนะนำ</label>
-                <select 
+                <select
                   className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   value={selectedFlag}
                   onChange={(e) => setSelectedFlag(e.target.value)}
@@ -290,7 +334,7 @@ const FoodAdminPanel = () => {
                 {editingItem ? '✏️ แก้ไขรายการอาหาร' : '➕ เพิ่มรายการอาหารใหม่'}
               </h3>
             </div>
-            
+
             <div className="p-6">
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -303,7 +347,7 @@ const FoodAdminPanel = () => {
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="ระบุชื่ออาหาร"
                       value={formData.Name || ''}
-                      onChange={(e) => setFormData({...formData, Name: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, Name: e.target.value })}
                     />
                   </div>
 
@@ -314,7 +358,7 @@ const FoodAdminPanel = () => {
                     <select
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       value={formData.FoodFlagID || ''}
-                      onChange={(e) => setFormData({...formData, FoodFlagID: Number(e.target.value)})}
+                      onChange={(e) => setFormData({ ...formData, FoodFlagID: Number(e.target.value) })}
                     >
                       <option value="">เลือกประเภท</option>
                       {foodFlags.map(flag => {
@@ -336,7 +380,7 @@ const FoodAdminPanel = () => {
                     className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
                     placeholder="คำอธิบายเกี่ยวกับอาหารชนิดนี้"
                     value={formData.Description || ''}
-                    onChange={(e) => setFormData({...formData, Description: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, Description: e.target.value })}
                   />
                 </div>
 
@@ -347,7 +391,7 @@ const FoodAdminPanel = () => {
                     className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="https://example.com/image.jpg"
                     value={formData.Image || ''}
-                    onChange={(e) => setFormData({...formData, Image: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, Image: e.target.value })}
                   />
                 </div>
 
@@ -358,7 +402,7 @@ const FoodAdminPanel = () => {
                     className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="แหล่งที่มาของรูปภาพ"
                     value={formData.Credit || ''}
-                    onChange={(e) => setFormData({...formData, Credit: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, Credit: e.target.value })}
                   />
                 </div>
 
@@ -405,8 +449,8 @@ const FoodAdminPanel = () => {
                     <div className="flex items-start space-x-4 flex-1">
                       <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden shadow-sm">
                         {item.Image ? (
-                          <img 
-                            src={item.Image} 
+                          <img
+                            src={item.Image}
                             alt={item.Name}
                             className="w-full h-full object-cover"
                           />
@@ -414,35 +458,29 @@ const FoodAdminPanel = () => {
                           <div className="text-gray-400 text-xs text-center">📸</div>
                         )}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">{item.Name}</h4>
-                        
+
                         {item.Description && (
                           <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.Description}</p>
                         )}
-                        
+
                         <div className="flex items-center gap-4 mb-3">
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                             {getGroupDisplayText(item.FoodFlagID)}
                           </span>
-                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                            getFlagDisplayText(item.FoodFlagID) === 'ควรรับประทาน' 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-red-100 text-red-800'
-                          }`}>
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getFlagDisplayText(item.FoodFlagID) === 'ควรรับประทาน'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                            }`}>
                             {getFlagDisplayText(item.FoodFlagID) === 'ควรรับประทาน' ? '✓' : '✗'} {getFlagDisplayText(item.FoodFlagID)}
                           </span>
                         </div>
-                        
-                        {item.Credit && (
-                          <p className="text-sm text-gray-500">
-                            📸 แหล่งรูปภาพ: {item.Credit}
-                          </p>
-                        )}
+
                       </div>
                     </div>
-                    
+
                     <div className="flex space-x-2 ml-4">
                       <button
                         onClick={() => handleViewDetails(item)}
@@ -459,12 +497,40 @@ const FoodAdminPanel = () => {
                         <Edit className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => handleDelete(item.ID!)}
+                        onClick={() => setDeleteId(item.ID!)} // เปิด modal แทนเรียก handleDelete โดยตรง
                         className="p-2.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors duration-200 shadow-sm"
                         title="ลบ"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
+
+                      {/* Modal confirm */}
+                      {/* Modal confirm */}
+                      {deleteId !== null && (
+                        <div className="fixed inset-0 flex justify-center items-center z-50 backdrop-blur-xs font-kanit">
+                          <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+                            <p className="text-gray-800">คุณแน่ใจหรือไม่ที่จะลบรายการนี้?</p>
+                            <div className="mt-4 flex justify-end gap-2">
+                              <button
+                                onClick={() => setDeleteId(null)}
+                                className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+                                disabled={isDeleting}
+                              >
+                                ยกเลิก
+                              </button>
+                              <button
+                                onClick={handleConfirmDelete}
+                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                disabled={isDeleting}
+                              >
+                                {isDeleting ? "กำลังลบ..." : "ลบ"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+
                     </div>
                   </div>
                 </div>
@@ -488,15 +554,15 @@ const FoodAdminPanel = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="p-6">
               <div className="space-y-6">
                 {/* Image */}
                 <div className="text-center">
                   <div className="w-48 h-48 mx-auto bg-gray-100 rounded-xl overflow-hidden shadow-sm">
                     {viewingItem.Image ? (
-                      <img 
-                        src={viewingItem.Image} 
+                      <img
+                        src={viewingItem.Image}
                         alt={viewingItem.Name}
                         className="w-full h-full object-cover"
                       />
@@ -530,11 +596,10 @@ const FoodAdminPanel = () => {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">คำแนะนำ</label>
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                        getFlagDisplayText(viewingItem.FoodFlagID) === 'ควรรับประทาน' 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-red-100 text-red-800'
-                      }`}>
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getFlagDisplayText(viewingItem.FoodFlagID) === 'ควรรับประทาน'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                        }`}>
                         {getFlagDisplayText(viewingItem.FoodFlagID) === 'ควรรับประทาน' ? '✓' : '✗'} {getFlagDisplayText(viewingItem.FoodFlagID)}
                       </span>
                     </div>

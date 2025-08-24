@@ -83,26 +83,6 @@ func CreateMenu(c *gin.Context) {
     })
 }
 
-// func UpdateMenu(db *gorm.DB, id uint, updates map[string]interface{}) (*entity.Menu, error) {
-// 	var menu entity.Menu
-
-// 	// หา record ที่ต้องการ
-// 	if err := db.First(&menu, id).Error; err != nil {
-// 		return nil, errors.New("menu not found")
-// 	}
-
-// 	// อัปเดตเฉพาะ field ที่ส่งมา
-// 	if err := db.Model(&menu).Updates(updates).Error; err != nil {
-// 		return nil, err
-// 	}
-
-// 	// โหลดข้อมูลใหม่หลังอัปเดต
-// 	if err := db.First(&menu, id).Error; err != nil {
-// 		return nil, err
-// 	}
-
-// 	return &menu, nil
-// }
 
 func UpdateMenu(c *gin.Context) {
 	id := c.Param("id")

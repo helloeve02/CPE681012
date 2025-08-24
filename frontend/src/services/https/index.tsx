@@ -5,6 +5,7 @@ import axios from "axios";
 import type { UserInfo } from "../../interfaces/Nutrition";
 import type { AdminInterface } from "../../interfaces/Admin";
 import type { MenuInterface } from "../../interfaces/Menu";
+import type { FoodItemInterface } from "../../interfaces/FoodItem";
 const requestOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -267,11 +268,32 @@ async function CreateMenu(menuInfo: MenuInterface) {
 
 async function UpdateMenu(id: number, data: MenuInterface) {
   return await axios
+    .patch(`${apiUrl}/menu/${id}`, data)
+    .then(res => res)
+    .catch(e => e.response);
+}
 
-    .put(`${apiUrl}/menu/${id}`, data, requestOptions)
-
+async function DeleteMenu(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/menu/${id}`, requestOptions)
     .then((res) => res)
+    .catch((e) => e.response);
+}
 
+async function CreateFoodItem(data: FoodItemInterface) {
+  return await axios
+    .post(`${apiUrl}/food-item`, data)
+    .then((res) => res.data) 
+    .catch((e) => {
+      console.error("Error fetching food item:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function DeleteFoodItem(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/food-item/${id}`, requestOptions)
+    .then((res) => res)
     .catch((e) => e.response);
 }
 
@@ -336,4 +358,7 @@ export{
     GenerateWeeklyMealPlan,
     GetAllFoodChoices,
     GetFoodChoicesByDisease,
+    DeleteMenu,
+    CreateFoodItem,
+    DeleteFoodItem,
 }

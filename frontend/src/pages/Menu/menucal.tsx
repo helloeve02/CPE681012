@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 // --- Data (รวมทั้งสองตาราง) ---
 const ITEMS = [
   { id: "salt", name: "เกลือ", unit: "ช้อนชา", mgPerUnit: 2000 },
@@ -32,7 +32,7 @@ function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n));
 }
 
-function Badge({ tone = "gray", children }: { tone?: "green"|"yellow"|"red"|"gray"; children: React.ReactNode }) {
+function Badge({ tone = "gray", children }: { tone?: "green" | "yellow" | "red" | "gray"; children: React.ReactNode }) {
   const map = {
     green: "bg-green-100 text-green-700 ring-green-200",
     yellow: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -48,7 +48,7 @@ function Badge({ tone = "gray", children }: { tone?: "green"|"yellow"|"red"|"gra
 
 function Progress({ value, max, label }: { value: number; max: number; label?: string }) {
   const pct = clamp((value / max) * 100, 0, 100);
-  let tone: "green"|"yellow"|"red" = "green";
+  let tone: "green" | "yellow" | "red" = "green";
   if (pct >= 100 || value > max) tone = "red"; else if (pct >= 70) tone = "yellow"; else tone = "green";
   const barTone = {
     green: "bg-green-500",
@@ -85,7 +85,7 @@ function QuickQty({ onPick, unit }: { onPick: (v: number) => void; unit: string 
 
 export default function SodiumCalculator() {
   const [meals, setMeals] = useState([{ id: Date.now(), qty: {} as Record<string, number> }]);
-
+  const navigate = useNavigate();
   const addMeal = () => setMeals((ms) => [...ms, { id: Date.now(), qty: {} }]);
   const removeMeal = (id: number) => setMeals((ms) => ms.filter((m) => m.id !== id));
 
@@ -104,6 +104,17 @@ export default function SodiumCalculator() {
           </div>
           <Badge tone="gray">≤ {MEAL_LIMIT} มก./มื้อ • ≤ {DAY_LIMIT} มก./วัน</Badge>
         </header>
+        <div className="flex justify-end mt-6">
+          <button
+            onClick={() => navigate("/menusodium")}
+            className="px-6 py-3 bg-red-600 text-white text-sm
+               rounded-2xl shadow-md hover:bg-red-700 
+               focus:outline-none focus:ring-2 focus:ring-red-400 
+               transition-all duration-300"
+          >
+            <p>การเปรียบเทียบโซเดียมในเมนูอาหาร</p>
+          </button>
+        </div>
 
         {/* รวมทั้งวัน */}
         <div className="p-4 rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
@@ -152,7 +163,7 @@ export default function SodiumCalculator() {
                 {ITEMS.map((item) => {
                   const q = meal.qty[item.id] ?? 0;
                   const mg = q * item.mgPerUnit;
-                  const tone: "green"|"yellow"|"red" = mg === 0 ? "green" : mg <= 200 ? "green" : mg <= 400 ? "yellow" : "red";
+                  const tone: "green" | "yellow" | "red" = mg === 0 ? "green" : mg <= 200 ? "green" : mg <= 400 ? "yellow" : "red";
 
                   return (
                     <div key={item.id} className="p-4 rounded-2xl bg-white shadow-sm ring-1 ring-gray-200">
