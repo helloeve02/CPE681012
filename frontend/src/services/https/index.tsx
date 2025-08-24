@@ -297,6 +297,34 @@ async function DeleteFoodItem(id: number | undefined) {
     .catch((e) => e.response);
 }
 
+//=======================================MealPlan==============================================//
+// Generate weekly meal plan (POST)
+async function GenerateWeeklyMealPlan(data: { diseaseID: number, tagIDs: number[] }) {
+  return await axios
+    .post(`${apiUrl}/weekly-mealplan/generate`, data, requestOptions)
+    .then((res) => res.data)
+    .catch((e) => {
+      console.error("Error generating meal plan:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+// ดึงคำแนะนำทั้งหมด
+async function GetAllFoodChoices() {
+  return await axios
+    .get(`${apiUrl}/foodchoices`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+// ดึงคำแนะนำตามโรค
+async function GetFoodChoicesByDisease(diseaseID: number) {
+  return await axios
+    .get(`${apiUrl}/foodchoices/disease/${diseaseID}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -327,6 +355,9 @@ export{
     GetFoodItemsByFlags,
     CreateMenu,
     UpdateMenu,
+    GenerateWeeklyMealPlan,
+    GetAllFoodChoices,
+    GetFoodChoicesByDisease,
     DeleteMenu,
     CreateFoodItem,
     DeleteFoodItem,
