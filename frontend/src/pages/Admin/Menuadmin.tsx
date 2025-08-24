@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Edit, Trash2, Save, X, Filter, Hash, Eye } from 'lucide-react';
 import type { MenuInterface } from '../../interfaces/Menu';
 import type { TagInterface } from '../../interfaces/Tag';
-import { GetAllMenu, GetAllTag } from "../../services/https";
-
+import { GetAllMenu, GetAllTag, CreateMenu, UpdateMenu, DeleteMenu } from "../../services/https";
+import { message } from "antd";
 const MenuAdminPanel = () => {
   // Sample tags data
   const [tags, setTags] = useState<TagInterface[]>([]);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [menus, setMenus] = useState<MenuInterface[]>([]);
   const [viewingItem, setViewingItem] = useState<MenuInterface | null>(null);
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -27,10 +27,10 @@ const MenuAdminPanel = () => {
       if (Array.isArray(res?.data?.tag)) {
         setTags(res.data.tag);
       } else {
-        setError("Failed to load tags");
+        // setError("Failed to load tags");
       }
     } catch (error) {
-      setError("Error fetching tags. Please try again later.");
+      // setError("Error fetching tags. Please try again later.");
     }
   };
 
@@ -40,10 +40,10 @@ const MenuAdminPanel = () => {
       if (Array.isArray(res?.data?.menu)) {
         setMenus(res.data.menu);
       } else {
-        setError("Failed to load menu items");
+        // setError("Failed to load menu items");
       }
     } catch (error) {
-      setError("Error fetching menu items. Please try again later.");
+      // setError("Error fetching menu items. Please try again later.");
     }
   };
 
@@ -72,7 +72,7 @@ const MenuAdminPanel = () => {
 
   // Filter menus
   const filteredItems = menus.filter(menu => {
-    console.log(menu.Tags, selectedTag);
+    // console.log(menu.Tags, selectedTag);
 
 
     const matchesTag =
@@ -91,34 +91,55 @@ const MenuAdminPanel = () => {
 
 
   // Handle form submission
-  const handleSubmit = () => {
-    if (!formData.Title || !formData.Description || !formData.Region) {
-      alert('กรุณากรอกข้อมูลที่จำเป็น');
+  const handleSubmit = async () => {
+    if (!formData.Title || !formData.Description || !formData.Image?.trim() ||
+    !formData.Credit?.trim() || !formData.Tags) {
+      message.warning('กรุณากรอกข้อมูลที่จำเป็น');
       return;
     }
 
     const selectedTags = tags.filter(tag => selectedFormTags.includes(tag.ID!));
     const menuData = { ...formData, Tags: selectedTags };
 
-    if (editingItem) {
-      setMenus(items =>
-        items.map(item =>
-          item.ID === editingItem.ID ? { ...menuData, ID: editingItem.ID } : item
-        )
-      );
-      setEditingItem(null);
-    } else {
-      const newItem: MenuInterface = {
-        ...menuData,
-        ID: Math.max(...menus.map(i => i.ID || 0)) + 1
-      };
-      setMenus(items => [...items, newItem]);
-    }
+    try {
+      if (editingItem) {
+        console.log("Updating menu with ID:", editingItem.ID, menuData);
+        const res = await UpdateMenu(editingItem.ID!, { ...menuData, ID: editingItem.ID });
+        console.log("UpdateMenu response:", res);
 
-    setFormData({ Title: '', Description: '', Region: '', Image: '', Credit: '', Tags: [] });
-    setSelectedFormTags([]);
-    setShowAddForm(false);
+        setMenus(items =>
+          items.map(item =>
+            item.ID === editingItem.ID ? { ...menuData, ID: editingItem.ID } : item
+          )
+        );
+        setEditingItem(null);
+      } else {
+        const response = await CreateMenu(menuData);
+        const newItem: MenuInterface = response.data;
+        setMenus(items => [...items, newItem]);
+      }
+
+      setFormData({ Title: '', Description: '', Image: '', Credit: '', Tags: [] });
+      setSelectedFormTags([]);
+      setShowAddForm(false);
+
+      // แสดงข้อความสำเร็จ
+      message.success("บันทึกข้อมูลสำเร็จ");
+
+      // ให้ popup แสดงก่อน reload
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000); // 1 วินาที
+
+    } catch (error) {
+      console.error("Error saving menu:", error);
+      message.error("บันทึกข้อมูลไม่สำเร็จ");
+    }
   };
+
+
+
+
 
   // Handle edit
   const handleEdit = (item: MenuInterface) => {
@@ -133,11 +154,27 @@ const MenuAdminPanel = () => {
   };
 
   // Handle delete
-  const handleDelete = (id: number) => {
-    if (window.confirm('คุณแน่ใจหรือไม่ที่จะลบเมนูนี้?')) {
-      setMenus(items => items.filter(item => item.ID !== id));
+  const handleDelete = async (id: number) => {
+    if (!window.confirm('คุณแน่ใจหรือไม่ที่จะลบเมนูนี้?')) return;
+
+    try {
+      // เรียก API ลบเมนู
+      const response = await DeleteMenu(id);
+
+      if (response.status === 200 || response.status === 204) {
+        // ลบจาก state หลังจากลบสำเร็จ
+        setMenus(items => items.filter(item => item.ID !== id));
+        message.success('ลบเมนูสำเร็จ');
+      } else {
+        console.error('DeleteMenu response:', response);
+        message.error('ไม่สามารถลบเมนูได้');
+      }
+    } catch (error) {
+      console.error('Error deleting menu:', error);
+      message.error('เกิดข้อผิดพลาดในการลบเมนู');
     }
   };
+
 
   // Cancel form
   const handleCancel = () => {
@@ -173,7 +210,7 @@ const MenuAdminPanel = () => {
   const stats = getStatistics();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 font-kanit">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 ">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -265,22 +302,6 @@ const MenuAdminPanel = () => {
                         onChange={(e) => setFormData({ ...formData, Title: e.target.value })}
                       />
                     </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        ภูมิภาค <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                        value={formData.Region || ''}
-                        onChange={(e) => setFormData({ ...formData, Region: e.target.value })}
-                      >
-                        <option value="">เลือกภูมิภาค</option>
-                        {regions.map(region => (
-                          <option key={region} value={region}>{region}</option>
-                        ))}
-                      </select>
-                    </div>
                   </div>
 
                   <div>
@@ -297,7 +318,7 @@ const MenuAdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ <span className="text-red-500">*</span></label> 
                     <input
                       type="url"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
@@ -308,7 +329,7 @@ const MenuAdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">เครดิตรูปภาพ</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">เครดิตรูปภาพ <span className="text-red-500">*</span></label>
                     <input
                       type="text"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
@@ -319,7 +340,7 @@ const MenuAdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">แท็ก</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">แท็ก <span className="text-red-500">*</span></label>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
                       {tags.map(tag => (
                         <label key={tag.ID} className="flex items-center space-x-2 p-2 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">

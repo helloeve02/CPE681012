@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Menu from "./pages/Menu/menu";
 import NavBar from "./components/NavBar";
@@ -37,6 +37,7 @@ import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation
 import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation"
 import SodiumCalculator from "./pages/Menu/menucal"
 import PrivateRoute from "./PrivateRoute";
+import SodiumBubbleChart from "./pages/Menu/menusodiu"
 const AppContent = () => {
   const location = useLocation();
 
@@ -81,12 +82,20 @@ const AppContent = () => {
         {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
         <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
+        <Route path="/menusodium" element={<SodiumBubbleChart />} />
       </Routes>
     </>
   );
 };
 
 function App() {
+  useEffect(() => {
+    // ถ้าไม่มีค่า isLogin ให้ตั้งค่าเป็น false
+    if (localStorage.getItem("isLogin") === null) {
+      localStorage.setItem("isLogin", "false");
+    }
+  }, []);
+
   return (
     <Router>
       <AppContent />
