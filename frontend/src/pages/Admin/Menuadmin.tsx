@@ -7,7 +7,7 @@ import { message } from "antd";
 const MenuAdminPanel = () => {
   // Sample tags data
   const [tags, setTags] = useState<TagInterface[]>([]);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [menus, setMenus] = useState<MenuInterface[]>([]);
   const [viewingItem, setViewingItem] = useState<MenuInterface | null>(null);
   const formRef = useRef<HTMLDivElement | null>(null);
@@ -27,10 +27,10 @@ const MenuAdminPanel = () => {
       if (Array.isArray(res?.data?.tag)) {
         setTags(res.data.tag);
       } else {
-        setError("Failed to load tags");
+        // setError("Failed to load tags");
       }
     } catch (error) {
-      setError("Error fetching tags. Please try again later.");
+      // setError("Error fetching tags. Please try again later.");
     }
   };
 
@@ -40,10 +40,10 @@ const MenuAdminPanel = () => {
       if (Array.isArray(res?.data?.menu)) {
         setMenus(res.data.menu);
       } else {
-        setError("Failed to load menu items");
+        // setError("Failed to load menu items");
       }
     } catch (error) {
-      setError("Error fetching menu items. Please try again later.");
+      // setError("Error fetching menu items. Please try again later.");
     }
   };
 

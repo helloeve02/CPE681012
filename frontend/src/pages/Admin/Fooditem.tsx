@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Edit, Trash2, Save, X, Filter, Eye } from 'lucide-react';
 import type { FoodFlagInterface } from '../../interfaces/FoodFlag';
 import type { FoodItemInterface } from '../../interfaces/FoodItem';
@@ -20,7 +20,7 @@ const FoodAdminPanel = () => {
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<FoodItemInterface | null>(null);
   const [viewingItem, setViewingItem] = useState<FoodItemInterface | null>(null);
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null); // เก็บ ID ที่จะลบ
   const [isDeleting, setIsDeleting] = useState(false);
   // Ref for form section
@@ -33,10 +33,10 @@ const FoodAdminPanel = () => {
       if (Array.isArray(res?.data?.foodflags)) {
         setfoodFlags(res.data.foodflags);
       } else {
-        setError("Failed to load Food Flags");
+        // setError("Failed to load Food Flags");
       }
     } catch (error) {
-      setError("Error fetching Food Flags. Please try again later.");
+      // setError("Error fetching Food Flags. Please try again later.");
     }
   };
 
@@ -48,10 +48,10 @@ const FoodAdminPanel = () => {
       if (Array.isArray(res?.data?.fooditems)) {
         setFoodItems(res.data.fooditems);
       } else {
-        setError("Failed to load Food Items");
+        // setError("Failed to load Food Items");
       }
     } catch (error) {
-      setError("Error fetching Food Items. Please try again later.");
+      // setError("Error fetching Food Items. Please try again later.");
     }
   };
 
@@ -63,10 +63,10 @@ const FoodAdminPanel = () => {
       if (Array.isArray(res?.data?.foodgroups)) {
         setfoodGroups(res.data.foodgroups);
       } else {
-        setError("Failed to load Food Group");
+        // setError("Failed to load Food Group");
       }
     } catch (error) {
-      setError("Error fetching Food Group. Please try again later.");
+      // setError("Error fetching Food Group. Please try again later.");
     }
   };
 
