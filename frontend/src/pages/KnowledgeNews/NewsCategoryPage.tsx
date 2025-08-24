@@ -65,12 +65,12 @@ const NewsCategoryPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-500 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-blue-500 to-blue-300 py-8">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg p-6">
         
         {/* หัวข้อหลัก */}
         <h1 className="text-center text-3xl font-bold text-blue-600 mb-8 border-b pb-4">
-          ข่าวสาร
+          สาระความรู้
         </h1>
 
         {/* ส่วนหมวดหมู่ */}

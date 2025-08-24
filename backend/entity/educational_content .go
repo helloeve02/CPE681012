@@ -8,6 +8,7 @@ type EducationalContent  struct {
 	PictureIn 		string
 	PictureOut 		string
 	Link			string
+	Credit			string
 	Description		string
 
 	AdminID		uint
