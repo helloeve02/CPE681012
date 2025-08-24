@@ -37,6 +37,7 @@ import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation
 import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation"
 import SodiumCalculator from "./pages/Menu/menucal"
 import PrivateRoute from "./PrivateRoute";
+import MaintenanceFluid from "./pages/Plan/FluidCalculation";
 const AppContent = () => {
   const location = useLocation();
 
@@ -81,6 +82,7 @@ const AppContent = () => {
         {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
         <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
+        <Route path="/maintenancefluid" element={<MaintenanceFluid />} />
       </Routes>
     </>
   );
