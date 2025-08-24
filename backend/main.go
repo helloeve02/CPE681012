@@ -53,7 +53,7 @@ func main() {
        r.POST("/food-item",controller.CreateFoodItem)
        r.POST("/content",controller.CreateContent)
        r.PATCH("/menu/:id",controller.UpdateMenu)
-    //    r.DELETE("/menu/:id",controller.DeleteMenu)
+       r.DELETE("/food-item/:id",controller.DeleteFoodItem)
    }
 
 

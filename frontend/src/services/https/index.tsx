@@ -290,6 +290,13 @@ async function CreateFoodItem(data: FoodItemInterface) {
     });
 }
 
+async function DeleteFoodItem(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/food-item/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -322,5 +329,5 @@ export{
     UpdateMenu,
     DeleteMenu,
     CreateFoodItem,
-  
+    DeleteFoodItem,
 }
