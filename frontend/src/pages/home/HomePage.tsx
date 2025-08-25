@@ -34,7 +34,7 @@ const HomePage: React.FC = () => {
         {/* ข่าวสาร Section */}
         <section >
           <div className="flex justify-between items-center">
-            <h2 className="text-base sm:text-lg font-semibold">ข่าวสาร</h2>
+            <h2 className="text-base sm:text-lg font-semibold">สาระความรู้</h2>
             <Link to="selectnewscategorypage" className="text-blue-500 text-sm hover:underline">
               ดูทั้งหมด
             </Link>

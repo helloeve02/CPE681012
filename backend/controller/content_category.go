@@ -49,7 +49,7 @@ func GetContentCatByID(c *gin.Context) {
 func DeleteContentCat(c *gin.Context) {
 	id := c.Param("id")
 	db := config.DB()
-	if tx := db.Exec("DELETE FROM content_category WHERE content_category_id = ?", id); tx.RowsAffected == 0 {
+	if tx := db.Exec("DELETE FROM content_categories WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}

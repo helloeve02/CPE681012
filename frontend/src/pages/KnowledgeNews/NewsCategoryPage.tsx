@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
+import { GetContentByArticle, GetContentByInfographics, GetContentByVideo } from "../../services/https";
 
 const NewsCategoryPage: React.FC = () => {
+  const [infographics, setInfographics] = useState<EducationalContentInterface[]>([]);
+  const [video, setVideo] = useState<EducationalContentInterface[]>([]);
+  const [article, setArticle] = useState<EducationalContentInterface[]>([]);
+
   const categories = [
     { label: "โรคไต", path: "/KidneyInformation" },
     { label: "โรคเบาหวาน", path: "/DiabetesInformation" },
@@ -9,68 +15,114 @@ const NewsCategoryPage: React.FC = () => {
     { label: "โภชนาการ", path: "/NutritionInformation" },
   ];
 
-  const infographics = [
-    { img: "https://via.placeholder.com/200x300", title: "4 วิธีสำรองน้ำ รับมือหน้าฝน" },
-    { img: "https://via.placeholder.com/200x300", title: "กรมอนามัย ขอเสนอแนวทาง การจัดการขยะ กรณีบ้านถูกน้ำท่วม" },
-    { img: "https://via.placeholder.com/200x300", title: "DING DONG นี่อย่าทำเองนะ...คุณผู้ชาย" },
-    { img: "https://via.placeholder.com/200x300", title: "10 วิธีดูแลพระสงฆ์ / พระภิกษุในช่วงน้ำท่วม" },
-  ];
+  // const infographics = [
+  //   { img: "https://via.placeholder.com/200x300", title: "4 วิธีสำรองน้ำ รับมือหน้าฝน" },
+  //   { img: "https://via.placeholder.com/200x300", title: "กรมอนามัย ขอเสนอแนวทาง การจัดการขยะ กรณีบ้านถูกน้ำท่วม" },
+  //   { img: "https://via.placeholder.com/200x300", title: "DING DONG นี่อย่าทำเองนะ...คุณผู้ชาย" },
+  //   { img: "https://via.placeholder.com/200x300", title: "10 วิธีดูแลพระสงฆ์ / พระภิกษุในช่วงน้ำท่วม" },
+  // ];
 
-  const videos = [
-    {
-      id: "1",
-      img: "https://via.placeholder.com/300x180",
-      title: "การรื้อล้างทำความสะอาดห้องปลอดฝุ่น",
-      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    },
-    {
-      id: "2",
-      img: "https://via.placeholder.com/300x180",
-      title: "6 ขั้นต้องรู้ ดูแลตนเองให้ห่างไกลโรค",
-      videoUrl: "https://www.youtube.com/embed/ScMzIvxBSi4",
-    },
-    {
-      id: "3",
-      img: "https://via.placeholder.com/300x180",
-      title: "5 ข้อปฏิบัติ ป้องกันโรค",
-      videoUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
-    },
-  ];
+  // const videos = [
+  //   {
+  //     id: "1",
+  //     img: "https://via.placeholder.com/300x180",
+  //     title: "การรื้อล้างทำความสะอาดห้องปลอดฝุ่น",
+  //     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+  //   },
+  //   {
+  //     id: "2",
+  //     img: "https://via.placeholder.com/300x180",
+  //     title: "6 ขั้นต้องรู้ ดูแลตนเองให้ห่างไกลโรค",
+  //     videoUrl: "https://www.youtube.com/embed/ScMzIvxBSi4",
+  //   },
+  //   {
+  //     id: "3",
+  //     img: "https://via.placeholder.com/300x180",
+  //     title: "5 ข้อปฏิบัติ ป้องกันโรค",
+  //     videoUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
+  //   },
+  // ];
 
-  const articles = [
-    {
-      img: "https://via.placeholder.com/400x300",
-      category: "สาระสุขภาพ",
-      title: "ตัวอย่างเมนูสุขภาพ สำหรับตักบาตร (วันศุกร์)",
-      description: "เนื่องในสัปดาห์หน้า เป็นสัปดาห์แห่ง วิสาขบูชา กรมอนามัย อยากชวนมาทำบุญด้วยการตักบาตร...",
-    },
-    {
-      img: "https://via.placeholder.com/400x300",
-      category: "อินโฟกราฟฟิก",
-      title: "4 วิธีสำรองน้ำ รับมือหน้าฝน",
-      description: "เรียนรู้วิธีการสำรองน้ำอย่างปลอดภัย เพื่อรับมือกับฤดูฝน...",
-    },
-    {
-      img: "https://via.placeholder.com/400x300",
-      category: "อินโฟกราฟฟิก",
-      title: "กรมอนามัย ขอเสนอแนวทาง การจัดการขยะ กรณีบ้านถูกน้ำท่วม",
-      description: "ข้อแนะนำการจัดการขยะและสุขาภิบาล หลังเหตุการณ์น้ำท่วม...",
-    },
-    {
-      img: "https://via.placeholder.com/400x300",
-      category: "อินโฟกราฟฟิก",
-      title: "DING DONG นี่อย่าทำเองนะ...คุณผู้ชาย",
-      description: "ข้อมูลความปลอดภัยสำหรับคุณผู้ชายในสถานการณ์ฉุกเฉิน...",
-    },
-  ];
+  // const articles = [
+  //   {
+  //     img: "https://via.placeholder.com/400x300",
+  //     category: "สาระสุขภาพ",
+  //     title: "ตัวอย่างเมนูสุขภาพ สำหรับตักบาตร (วันศุกร์)",
+  //     description: "เนื่องในสัปดาห์หน้า เป็นสัปดาห์แห่ง วิสาขบูชา กรมอนามัย อยากชวนมาทำบุญด้วยการตักบาตร...",
+  //   },
+  //   {
+  //     img: "https://via.placeholder.com/400x300",
+  //     category: "อินโฟกราฟฟิก",
+  //     title: "4 วิธีสำรองน้ำ รับมือหน้าฝน",
+  //     description: "เรียนรู้วิธีการสำรองน้ำอย่างปลอดภัย เพื่อรับมือกับฤดูฝน...",
+  //   },
+  //   {
+  //     img: "https://via.placeholder.com/400x300",
+  //     category: "อินโฟกราฟฟิก",
+  //     title: "กรมอนามัย ขอเสนอแนวทาง การจัดการขยะ กรณีบ้านถูกน้ำท่วม",
+  //     description: "ข้อแนะนำการจัดการขยะและสุขาภิบาล หลังเหตุการณ์น้ำท่วม...",
+  //   },
+  //   {
+  //     img: "https://via.placeholder.com/400x300",
+  //     category: "อินโฟกราฟฟิก",
+  //     title: "DING DONG นี่อย่าทำเองนะ...คุณผู้ชาย",
+  //     description: "ข้อมูลความปลอดภัยสำหรับคุณผู้ชายในสถานการณ์ฉุกเฉิน...",
+  //   },
+  // ];
+  const getContentByInfographics = async () => {
+    try {
+      const res = await GetContentByInfographics();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setInfographics(res.data.educationalContents);
+      } else {
+        // setError("Failed to load menu items");
+      }
+    } catch {
+      // setError("Error fetching menu items. Please try again later.");
+    }
+  };
+
+  const getContentByVideo = async () => {
+    try {
+      const res = await GetContentByVideo();
+      console.log(res?.data?.educationalContents)
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setVideo(res.data.educationalContents);
+      } else {
+        // setError("Failed to load menu items");
+      }
+    } catch {
+      // setError("Error fetching menu items. Please try again later.");
+    }
+  };
+  const getContentByArticle = async () => {
+    try {
+      const res = await GetContentByArticle();
+      console.log(res?.data?.educationalContents)
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setArticle(res.data.educationalContents);
+      } else {
+        // setError("Failed to load menu items");
+      }
+    } catch {
+      // setError("Error fetching menu items. Please try again later.");
+    }
+  };
+
+  useEffect(() => {
+    getContentByInfographics();
+    getContentByVideo();
+    getContentByArticle();
+
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-500 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-blue-500 to-blue-300 py-8">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg p-6">
-        
+
         {/* หัวข้อหลัก */}
         <h1 className="text-center text-3xl font-bold text-blue-600 mb-8 border-b pb-4">
-          ข่าวสาร
+          สาระความรู้
         </h1>
 
         {/* ส่วนหมวดหมู่ */}
@@ -105,7 +157,16 @@ const NewsCategoryPage: React.FC = () => {
         </div>
 
         {/* อินโฟกราฟฟิก */}
-        <Section title="อินโฟกราฟฟิก" items={infographics} type="card" />
+        <Section
+          title="อินโฟกราฟฟิก"
+          items={infographics.map(item => ({
+            img: item.PictureIn ?? "",  // ถ้า undefined ให้เป็น string ว่าง
+            title: item.Title ?? ""     // ถ้า undefined ให้เป็น string ว่าง
+          }))}
+          type="card"
+        />
+
+
 
         {/* วิดีโอล่าสุด */}
         <div className="mt-10">
@@ -116,18 +177,18 @@ const NewsCategoryPage: React.FC = () => {
             </a>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-            {videos.map((video) => (
+            {video.map((video) => (
               <Link
-                key={video.id}
-                to={`/video/${video.id}`}
+                key={video.ID}
+                to={`/video/${video.ID}`}
                 className="w-64 bg-white rounded-lg shadow hover:shadow-md hover:scale-105 transition flex-shrink-0 overflow-hidden"
               >
                 <img
-                  src={video.img}
-                  alt={video.title}
+                  src={video.PictureOut}
+                  alt={video.Title}
                   className="h-40 w-full object-cover"
                 />
-                <p className="text-sm p-2 line-clamp-2">{video.title}</p>
+                <p className="text-sm p-2 line-clamp-2">{video.Title}</p>
               </Link>
             ))}
           </div>
@@ -142,23 +203,22 @@ const NewsCategoryPage: React.FC = () => {
             </a>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {articles.map((item, idx) => (
+            {article.map((item, idx) => (
               <div
                 key={idx}
                 className="bg-white rounded-lg shadow hover:shadow-lg hover:scale-105 transition transform overflow-hidden"
               >
                 <img
-                  src={item.img}
-                  alt={item.title}
+                  src={item.PictureOut}
+                  alt={item.Title}
                   className="w-full h-40 object-cover"
                 />
                 <div className="p-3">
-                  <p className="text-xs font-bold text-gray-500">{item.category}</p>
                   <h3 className="text-sm font-bold mt-1 leading-snug">
-                    {item.title}
+                    {item.Title}
                   </h3>
                   <p className="text-xs text-gray-600 mt-1 line-clamp-3">
-                    {item.description}
+                    {item.Description}
                   </p>
                 </div>
               </div>
@@ -189,9 +249,8 @@ const Section: React.FC<SectionProps> = ({ title, items, type }) => (
       {items.map((item, idx) => (
         <div
           key={idx}
-          className={`${
-            type === "video" ? "w-64 cursor-pointer" : "w-48"
-          } bg-white rounded-lg shadow hover:shadow-md hover:scale-105 transition flex-shrink-0 overflow-hidden`}
+          className={`${type === "video" ? "w-64 cursor-pointer" : "w-48"
+            } bg-white rounded-lg shadow hover:shadow-md hover:scale-105 transition flex-shrink-0 overflow-hidden`}
         >
           <img
             src={item.img}
