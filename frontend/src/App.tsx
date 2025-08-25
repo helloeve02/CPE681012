@@ -39,12 +39,13 @@ import SodiumCalculator from "./pages/Menu/menucal"
 import PrivateRoute from "./PrivateRoute";
 import SodiumBubbleChart from "./pages/Menu/menusodiu";
 import MaintenanceFluid from "./pages/Plan/FluidCalculation";
+import PasswordResetForm from "./pages/Admin/forgorpass";
 
 const AppContent = () => {
   const location = useLocation();
 
   // เช็คว่าไม่ใช่หน้า admin ค่อยแสดง NavBar
-  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem"].includes(location.pathname);
+  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem", "/forgot-pass"].includes(location.pathname);
 
   return (
     <>
@@ -81,7 +82,7 @@ const AppContent = () => {
         <Route path="/admin/fooditem" element={<PrivateRoute><FoodAdminPanel /></PrivateRoute>} />
         <Route path="/admin/menu" element={<PrivateRoute><MenuAdminPanel /></PrivateRoute>} />
         <Route path="/admin/educational" element={<PrivateRoute><EducationalAdminPanel /></PrivateRoute>} />
-        {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
+        <Route path="/forgot-pass" element={<PasswordResetForm />} />
         <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
         <Route path="/menusodium" element={<SodiumBubbleChart />} />
