@@ -36,7 +36,7 @@ export default function AdminLoginForm() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-500 to-purple-600 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-b from-blue-500 to-purple-600 flex items-center justify-center p-4 font-kanit">
             <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-sm">
                 {/* Header */}
                 <div className="text-center mb-8">
