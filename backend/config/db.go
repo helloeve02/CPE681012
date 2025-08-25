@@ -1202,6 +1202,22 @@ func SetupDatabase() {
 		})
 	}
 
+	Mealplans := []entity.Mealplan{
+		{AdminID: 1 , DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+		{AdminID: 1 , DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
+		{AdminID: 1 , DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
+		{AdminID: 1 , DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
+		{AdminID: 1 , DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
+	}
+
+	for _, mealplan := range Mealplans {
+		db.FirstOrCreate(&mealplan, entity.Mealplan{
+			AdminID: mealplan.AdminID,
+			DiseaseID: mealplan.DiseaseID,
+			PlanName: mealplan.PlanName,
+		})
+	}
+
 	Mealdays := []entity.Mealday{
 		{MealplanID: 1, DayofWeek: "วันจันทร์"},
 		{MealplanID: 1, DayofWeek: "วันอังคาร"},
@@ -1258,7 +1274,7 @@ func SetupDatabase() {
 		})
 	}
 
-	Mealplans := []entity.Mealplan{
+	Mealplans = []entity.Mealplan{
 		{AdminID: 1, DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
 		{AdminID: 1, DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
 		{AdminID: 1, DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
@@ -1273,6 +1289,7 @@ func SetupDatabase() {
 			PlanName:  mealplan.PlanName,
 		})
 	}
+
 
 	AgeRanges := []entity.AgeRange{
 		{AgeMin: 0, AgeMax: 60},
@@ -2795,7 +2812,7 @@ func SetupDatabase() {
 			FoodGroupID: 3,
 		},
 		{
-			Flag:        "ควรรับประทาน",
+			Flag:        "ควรรับประทาน", //ผลไม้
 			FoodGroupID: 4,
 		},
 		{

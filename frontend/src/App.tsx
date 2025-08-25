@@ -37,7 +37,9 @@ import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation
 import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation"
 import SodiumCalculator from "./pages/Menu/menucal"
 import PrivateRoute from "./PrivateRoute";
-import SodiumBubbleChart from "./pages/Menu/menusodiu"
+import SodiumBubbleChart from "./pages/Menu/menusodiu";
+import MaintenanceFluid from "./pages/Plan/FluidCalculation";
+
 const AppContent = () => {
   const location = useLocation();
 
@@ -83,6 +85,7 @@ const AppContent = () => {
         <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
         <Route path="/menusodium" element={<SodiumBubbleChart />} />
+        <Route path="/maintenancefluid" element={<MaintenanceFluid />} />
       </Routes>
     </>
   );

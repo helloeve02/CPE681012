@@ -105,4 +105,18 @@ func GetFoodItemsByFlags(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"fooditems": fooditems})
 }
 
+//ดึงผลไม้ที่ควรรับประทาน
+func GetFoodItemsByFlag3(c *gin.Context) {
+	var fooditems []entity.FoodItem
+
+	db := config.DB()
+	if err := db.Preload("FoodFlag").
+		Where("food_flag_id = ?", 3).
+		Find(&fooditems).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูลรายการอาหารที่มี FoodFlagID = 3 ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"fooditems": fooditems})
+}
 
