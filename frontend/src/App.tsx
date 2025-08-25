@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Menu from "./pages/Menu/menu";
 import NavBar from "./components/NavBar";
@@ -37,12 +37,15 @@ import InfographicInformation from "./pages/KnowledgeNews/InfographicInformation
 import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation"
 import SodiumCalculator from "./pages/Menu/menucal"
 import PrivateRoute from "./PrivateRoute";
+import SodiumBubbleChart from "./pages/Menu/menusodiu";
+import MaintenanceFluid from "./pages/Plan/FluidCalculation";
+import PasswordResetForm from "./pages/Admin/forgorpass";
 import ImportanceOfNutrition from "./pages/Nutrition/ImportanceOfNutrition";
 const AppContent = () => {
   const location = useLocation();
 
   // เช็คว่าไม่ใช่หน้า admin ค่อยแสดง NavBar
-  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem"].includes(location.pathname);
+  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem", "/forgot-pass"].includes(location.pathname);
 
   return (
     <>
@@ -79,16 +82,25 @@ const AppContent = () => {
         <Route path="/admin/fooditem" element={<PrivateRoute><FoodAdminPanel /></PrivateRoute>} />
         <Route path="/admin/menu" element={<PrivateRoute><MenuAdminPanel /></PrivateRoute>} />
         <Route path="/admin/educational" element={<PrivateRoute><EducationalAdminPanel /></PrivateRoute>} />
-        {/* <Route path="/forgot-pass" element={<ForgotPasswordPage />} /> */}
+        <Route path="/forgot-pass" element={<PasswordResetForm />} />
         <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
         <Route path="/importance-of-nutrition" element={<ImportanceOfNutrition />} />
+        <Route path="/menusodium" element={<SodiumBubbleChart />} />
+        <Route path="/maintenancefluid" element={<MaintenanceFluid />} />
       </Routes>
     </>
   );
 };
 
 function App() {
+  useEffect(() => {
+    // ถ้าไม่มีค่า isLogin ให้ตั้งค่าเป็น false
+    if (localStorage.getItem("isLogin") === null) {
+      localStorage.setItem("isLogin", "false");
+    }
+  }, []);
+
   return (
     <Router>
       <AppContent />

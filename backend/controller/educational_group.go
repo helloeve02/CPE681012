@@ -49,7 +49,7 @@ func GetGroupContentByID(c *gin.Context) {
 func DeleteGroupContent(c *gin.Context) {
 	id := c.Param("id")
 	db := config.DB()
-	if tx := db.Exec("DELETE FROM educational_group WHERE educational_group_id = ?", id); tx.RowsAffected == 0 {
+	if tx := db.Exec("DELETE FROM educational_groups WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}

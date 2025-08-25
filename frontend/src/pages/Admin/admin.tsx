@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Lock, Key } from 'lucide-react';
+import { User, Lock, Key, Eye, EyeOff } from 'lucide-react';
 import type { SignInInterface } from "../../interfaces/SignIn";
 import { SignIn } from "../../services/https/index";
 import { message } from "antd";
@@ -8,9 +8,11 @@ import { useNavigate } from 'react-router-dom';
 export default function AdminLoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // <-- state ควบคุมการมองเห็น password
     const navigate = useNavigate();
+
     const onFinish = async (e: React.FormEvent) => {
-        e.preventDefault(); // กันหน้ารีเฟรช
+        e.preventDefault();
         const values: SignInInterface = {
             UserName: username,
             Password: password
@@ -20,13 +22,11 @@ export default function AdminLoginForm() {
             let res = await SignIn(values);
             console.log("API Response:", res);
             if (res.status === 200 || res.status === 204) {
-                localStorage.setItem("isLogin", "true");  // <-- เพิ่มตรงนี้
+                localStorage.setItem("isLogin", "true");
                 message.success("Sign-in successful");
                 setTimeout(() => {
                     navigate("/admin-home");
                 }, 1500);
-
-
             } else {
                 message.error(res.data?.error || "An error occurred during sign-in");
             }
@@ -73,23 +73,41 @@ export default function AdminLoginForm() {
                     </div>
 
                     {/* Password Field */}
+                    {/* Password Field */}
                     <div className="relative">
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full bg-gray-100 rounded-full py-4 px-6 pr-12 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-colors"
+                            className="w-full bg-gray-100 rounded-full py-4 px-6 pr-16 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-colors"
                             required
                         />
-                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+
+                        {/* Eye Button */}
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-10 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-blue-500"
+                        >
+                            {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                        </button>
+
+                        {/* Lock Icon */}
+                        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                             <Lock className="w-5 h-5 text-blue-500" />
                         </div>
                     </div>
 
+
+
                     {/* Forgot Password */}
                     <div className="flex items-center justify-center pt-2">
-                        <button type="button" className="text-blue-500 text-sm hover:underline">
+                        <button
+                            type="button"
+                            onClick={() => navigate("/forgot-pass")}
+                            className="text-blue-500 text-sm hover:underline"
+                        >
                             Forgot Password?
                         </button>
                     </div>

@@ -4,6 +4,8 @@ const Bearer = localStorage.getItem("token_type");
 import axios from "axios";
 import type { UserInfo } from "../../interfaces/Nutrition";
 import type { AdminInterface } from "../../interfaces/Admin";
+import type { MenuInterface } from "../../interfaces/Menu";
+import type { FoodItemInterface } from "../../interfaces/FoodItem";
 const requestOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -254,6 +256,173 @@ async function GetFoodItemsByFlags() {
     .catch((e) => e.response);
 }
 
+async function CreateMenu(menuInfo: MenuInterface) {
+  return await axios
+    .post(`${apiUrl}/menu`, menuInfo)
+    .then((res) => res.data) 
+    .catch((e) => {
+      console.error("Error fetching menu:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function UpdateMenu(id: number, data: MenuInterface) {
+  return await axios
+    .patch(`${apiUrl}/menu/${id}`, data)
+    .then(res => res)
+    .catch(e => e.response);
+}
+
+async function DeleteMenu(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/menu/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function CreateFoodItem(data: FoodItemInterface) {
+  return await axios
+    .post(`${apiUrl}/food-item`, data)
+    .then((res) => res.data) 
+    .catch((e) => {
+      console.error("Error fetching food item:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function DeleteFoodItem(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/food-item/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+//=======================================MealPlan==============================================//
+// Generate weekly meal plan (POST)
+async function GenerateWeeklyMealPlan(data: { diseaseID: number, tagIDs: number[] }) {
+  return await axios
+    .post(`${apiUrl}/weekly-mealplan/generate`, data, requestOptions)
+    .then((res) => res.data)
+    .catch((e) => {
+      console.error("Error generating meal plan:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+// ดึงคำแนะนำทั้งหมด
+async function GetAllFoodChoices() {
+  return await axios
+    .get(`${apiUrl}/foodchoices`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+// ดึงคำแนะนำตามโรค
+async function GetFoodChoicesByDisease(diseaseID: number) {
+  return await axios
+    .get(`${apiUrl}/foodchoices/disease/${diseaseID}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+//=======================================Content==============================================//
+
+async function GetAllContent() {
+  return await axios
+    .get(`${apiUrl}/content`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/content/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
+async function DeleteContent(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/content/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function CreateContent(data: FoodItemInterface) {
+  return await axios
+    .post(`${apiUrl}/content`, data)
+    .then((res) => res.data) 
+    .catch((e) => {
+      console.error("Error fetching food item:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function GetAllCategory() {
+  return await axios
+    .get(`${apiUrl}/content-cat`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentCatByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/content-cat/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
+async function DeleteContentCat(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/content-cat/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+async function GetAllGroupContent() {
+  return await axios
+    .get(`${apiUrl}/content-group`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetGroupContentByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/content-group/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
+async function DeleteGroupContent(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/content-group/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByInfographics() {
+  return await axios
+    .get(`${apiUrl}/content-infographics`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByVideo() {
+  return await axios
+    .get(`${apiUrl}/content-video`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByArticle() {
+  return await axios
+    .get(`${apiUrl}/content-article`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -282,4 +451,25 @@ export{
     GetFoodGroupByID,
     GetAllFoodGroups,
     GetFoodItemsByFlags,
+    CreateMenu,
+    UpdateMenu,
+    GenerateWeeklyMealPlan,
+    GetAllFoodChoices,
+    GetFoodChoicesByDisease,
+    DeleteMenu,
+    CreateFoodItem,
+    DeleteFoodItem,
+    GetAllContent,
+    GetContentByID,
+    DeleteContent,
+    CreateContent,
+    GetAllCategory,
+    GetContentCatByID,
+    DeleteContentCat,
+    GetAllGroupContent,
+    GetGroupContentByID,
+    DeleteGroupContent,
+    GetContentByInfographics,
+    GetContentByVideo,
+    GetContentByArticle,
 }
