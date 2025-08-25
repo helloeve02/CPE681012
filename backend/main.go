@@ -55,9 +55,9 @@ func main() {
 		r.DELETE("/content-cat/:id", controller.DeleteContentCat)
 		r.GET("/content-group/:id", controller.GetGroupContentByID)
 		r.DELETE("/content-group/:id", controller.DeleteGroupContent)
-      r.GET("/content-infographics", controller.GetContentByInfographics)
-      r.GET("/content-video", controller.GetContentByVideo)
-      r.GET("/content-article", controller.GetContentByArticle)
+		r.GET("/content-infographics", controller.GetContentByInfographics)
+		r.GET("/content-video", controller.GetContentByVideo)
+		r.GET("/content-article", controller.GetContentByArticle)
 	}
 
 	r.GET("/", func(c *gin.Context) {

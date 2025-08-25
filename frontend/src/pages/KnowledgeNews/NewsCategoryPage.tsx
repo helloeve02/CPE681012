@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import type { EducationalContentInterface } from "../../interfaces/EducationalContent";
+import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
 import {
   GetContentByArticle,
   GetContentByInfographics,
