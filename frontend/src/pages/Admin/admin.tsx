@@ -103,7 +103,11 @@ export default function AdminLoginForm() {
 
                     {/* Forgot Password */}
                     <div className="flex items-center justify-center pt-2">
-                        <button type="button" className="text-blue-500 text-sm hover:underline">
+                        <button
+                            type="button"
+                            onClick={() => navigate("/forgot-pass")}
+                            className="text-blue-500 text-sm hover:underline"
+                        >
                             Forgot Password?
                         </button>
                     </div>
