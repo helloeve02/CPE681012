@@ -3386,8 +3386,8 @@ func SetupDatabase() {
 		},
 		{
 			Title:              "ดับร้อน ด้วย ไอศกรีม รู้ก่อนเลือกกิน",
-			PictureIn:          "heath_me_32_sweet_1-768x767.jpg",
-			PictureOut:         "heath_me_32_sweet_1-400x210.jpg",
+			PictureIn:          "https://multimedia.anamai.moph.go.th/oawoocha/2024/04/heath_me_32_sweet_1-768x767.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2024/04/heath_me_32_sweet_1-400x210.jpg",
 			Link:               "",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "ไอศกรีม” เป็นของหวานที่ช่วยสร้างความสดชื่นในช่วงหน้าร้อนได้เป็นอย่างดี มีส่วนประกอบหลักคือ ครีม นมผง หางนม โยเกิร์ต นมเปรี้ยว และส่วนผสมของสารให้รสหวาน ซึ่งนอกจากน้ำตาลแล้วยังมีกลูโคสไซรัป ฟรุกโตส น้ำผึ้ง หรืออาจมีไขมันพืช ไข่ กะทิ เพิ่มด้วย ส่วนประกอบเหล่านี้ล้วนแต่เพิ่มน้ำหนักให้ผู้บริโภคทั้งสิ้น จึงควรเลือกชนิดของไอศกรีมที่เหมาะสมหรือหลีกเลี่ยงไอศกรีมชนิดไขมันสูง เพราะไอศกรีมบางประเภทโฆษณาว่ามีไขมัน 0% แต่กลับมีน้ำตาลสูง ถึง 3.5 – 6.5 ช้อนชา จึงควรกินในปริมาณที่พอเหมาะ โดยเฉพาะผู้ที่มีระดับคอเลสเตอรอลสูง ควรเลือกไอศกรีมที่มีส่วนผสมของไขมันน้อย หรือไอศกรีมที่ไม่มีไขมันเลย เช่น ไอศกรีมเชอร์เบท หรือไอศกรีมหวานเย็น สำหรับผู้ที่มีไขมันไตรกลีเซอไรด์ ควรกินไอศกรีมเป็นครั้งคราวและจำกัดปริมาณไอศกรีมทุกชนิด เนื่องจากส่วนผสมของไขมันและน้ำตาลที่มีอยู่ในปริมาณมาก มีผลทำให้ระดับไขมันไตรกลีเซอไรด์ในเลือดสูงขึ้นได้ ผู้ที่ต้องการควบคุมน้ำหนัก ควรหลีกเลี่ยงไอศกรีมที่มีไขมันสูง หรือไอศกรีมที่มีน้ำตาลสูง",
@@ -3398,7 +3398,7 @@ func SetupDatabase() {
 		{
 			Title:              "กินอาหารให้ตรงเวลาครบทุกมื้อ โดยเฉพาะมื้อเช้า",
 			PictureIn:          "",
-			PictureOut:         "heath_me_6_eat_2-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2024/04/heath_me_6_eat_2-400x210.jpg",
 			Link:               "",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "เลี่ยงการกินจุบจิบระหว่างการทำงานหรือเลือกกินผลไม้หวานน้อย",
@@ -3409,7 +3409,7 @@ func SetupDatabase() {
 		{
 			Title:              "เลี่ยงการกินจุบจิบระหว่างการทำงานหรือเลือกกินผลไม้หวานน้อย",
 			PictureIn:          "",
-			PictureOut:         "heath_me_5_eat_1-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2024/04/heath_me_5_eat_1-400x210.jpg",
 			Link:               "",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "เลี่ยงการกินจุบจิบระหว่างการทำงานหรือเลือกกินผลไม้หวานน้อย",
@@ -3420,7 +3420,7 @@ func SetupDatabase() {
 		{
 			Title:              "ระวังภัยมืด ในกระเช้าของขวัญ",
 			PictureIn:          "",
-			PictureOut:         "Gift-Baskets-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2019/10/Gift-Baskets-400x210.jpg",
 			Link:               "",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "การมอบกระเช้าของขวัญถือเป็นการซึ่งกรมอนามัยมีวิธีการสังเกตและเลือกซื้อกระเช้ามอบความสุขให้แก่กันและกันปีใหม่ที่ปลอดภัยมาฝากค่ะ\n\nแต่กระเช้าของขวัญที่จำหน่ายนั้น  (ซึ่งส่วนใหญ่เป็นเครื่องกระป๋อง)หากไม่สังเกตให้ดีอาจจะได้กระเช้าที่ไม่มีคุณภาพ กระป๋องบุบบู้บี้ เมื่อบริโภคเข้าไปจะเป็นอันตรายต่อสุขภาพเพราะเครื่องกระป๋องที่มีการปนเปื้อนเชื้อจุลินทรีย์จะส่งผลให้เกิดการเปลี่ยนแปลงทางด้านสี  กลิ่น  รสและคุณค่าของอาหาร  โดยเฉพาะเชื้อโบทูลินัมซึ่งเป็นพิษต่อระบบประสาทอย่างรุนแรง เมื่อมีการกินเข้าไปพิษจะแสดงอาการให้เห็นภายใน  2-4  ชั่วโมงทำให้มีอาการคลื่นไส้อาเจียน  มีการอัมพาตของกล้ามเนื้อต่างๆสายตาเริ่มพร่ามองเห็นเป็นภาพซ้อน  ซึม  ง่วง  กลืนอาหารไม่สะดวกลิ้นและคอเริ่มอักเสบเพราะไม่สามารถกลืนน้ำลายได้กล้ามเนื้อต้นคออ่อนแรงจนยกหัวไหล่ไม่ขึ้นผู้ที่ได้รับเชื้อจุลินทรีย์ประเภทนี้มักเสียชีวิตด้วยระบบหายใจล้มเหลว  และหัวใจหยุดเต้นฉับพลันภายใน 3-6 วัน หลังจากรับเชื้อเข้าสู่ร่างกาย\n\nการป้องกันจึงควรให้ความใส่ใจสังเกตให้ดีก่อนจะตัดสินใจซื้อกระเช้าประเภทดังกล่าวสิ่งแรกที่ต้องสังเกต  คือ  ต้องดูฉลากเลขทะเบียนตำรับอาหาร  ชื่อ  และที่ตั้งสถานที่ผลิตและหมดอายุแล้ววัน  เดือน  ปี  ที่ผลิต  ชื่อปริมาณวัตถุเจือปนในอาหาร  น้ำหนักสุทธิ  สินค้าที่อยู่ในกระเช้ารวมทั้งลักษณะของเครื่องกระป๋อง  ต้องไม่บวมไม่บุบบู้บี้ไม่เป็นสนิม  รวมถึงตะเข็บกระป๋องต้องไม่มีรอยรั่วเพราะอาจทำให้เกิดเชื้อจุลินทรีย์ขึ้นภายในกระป๋องได้  ที่สำคัญคือ  ฉลากต้องระบุเครื่องหมายอย.  มีเลขสารบบอาหารและที่อยู่ของผู้ผลิตที่ชัดเจน",
@@ -3464,7 +3464,7 @@ func SetupDatabase() {
 		{
 			Title:              "รู้ทัน…น้ำส้มสายชู",
 			PictureIn:          "",
-			PictureOut:         "lime-400x210.jpg (400×210)",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2019/09/lime-400x210.jpg",
 			Link:               "",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "“น้ำส้มสายชู” ตัวชูรสที่สร้างความเปรี้ยวให้ อาหารหลากหลายชนิด เช่น อาหารประเภท ก๋วยเตี๋ยวและราดหน้า น้ำส้มสายชูที่ขายในตลาดนั้นมีหลาย ประเภท แต่ละประเภทมีคุณสมบัติ และ กระบวนการผลิตแตกต่างกัน โดยทั่วไปจะ แบ่งเป็น 3 ประเภท คือ น้ำส้มสายชูหมัก น้ำส้มสายชูที่ได้จากการหมัก ธัญพืช ผลไม้หรือน้ำตาล น้ำส้ม สายชูชนิดนี้มีรสชาติกลมกล่อม กลิ่นหอม และมีเกลือแร่ที่จำเป็นต่อร่างกายเเต่ราคาค่อนข้างสูง น้ำส้มสายชูกลั่น น้ำส้มสายชูที่ได้จากการ หมักแอลกอฮอล์กลั่นเจือจางกับ เชื้อน้ำส้มสายชู จากนั้นนำไป กลั่นอีกครั้ง หรือนำน้ำส้มสายชู หมักมากลั่นนั่นเอง น้ำส้มสายชูเทียม น้ำส้มสายชูที่นำกรดน้ำส้ม (Acetic Acid) กรดอินทรีย์มี ฤทธิ์กรดอ่อน ความเข้มข้น 95% มาเจือจางจนได้ปริมาณกรด 4-7% ผู้บริโภคควรใส่ใจเลือกซื้อ",
@@ -3486,7 +3486,7 @@ func SetupDatabase() {
 		{
 			Title:              "ความเชื่อผิดๆ เกี่ยวกับการกินไข่",
 			PictureIn:          "",
-			PictureOut:         "video_egg_1-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/10/video_egg_1-400x210.jpg",
 			Link:               "https://youtu.be/b6s-jiRlw-s?si=fSOLQusugL4hqhQt",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3497,7 +3497,7 @@ func SetupDatabase() {
 		{
 			Title:              "รู้จักกับแพลตฟอร์มสุขภาพ “สาสุข อุ่นใจ”",
 			PictureIn:          "",
-			PictureOut:         "video_appication_2-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/09/video_appication_2-400x210.jpg",
 			Link:               "https://youtu.be/omAY_EPNGIU?si=AIgPWK7miopgKAmn",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3508,7 +3508,7 @@ func SetupDatabase() {
 		{
 			Title:              "เพราะเราไม่ได้คู่กัน อาหารที่ไม่ควรกินคู่กัน",
 			PictureIn:          "",
-			PictureOut:         "video_food_1-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/09/video_food_1-400x210.jpg",
 			Link:               "https://youtu.be/9QmtWk8v4I4?si=Vr9BM2ismT0AHZhN",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3519,7 +3519,7 @@ func SetupDatabase() {
 		{
 			Title:              "นมจืด (รสธรรมธาติ) แต่ละชนิดคุณค่าทางโภชนาการแตกต่างกันอย่างไร?",
 			PictureIn:          "",
-			PictureOut:         "นมจืด-รสธรรมธาติ-แต่ละชนิดคุณค่าทางโภชนาการแตกต่างกันอย่างไร-400x210.png",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/08/%E0%B8%99%E0%B8%A1%E0%B8%88%E0%B8%B7%E0%B8%94-%E0%B8%A3%E0%B8%AA%E0%B8%98%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%98%E0%B8%B2%E0%B8%95%E0%B8%B4-%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%A5%E0%B8%B0%E0%B8%8A%E0%B8%99%E0%B8%B4%E0%B8%94%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%84%E0%B9%88%E0%B8%B2%E0%B8%97%E0%B8%B2%E0%B8%87%E0%B9%82%E0%B8%A0%E0%B8%8A%E0%B8%99%E0%B8%B2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B9%81%E0%B8%95%E0%B8%81%E0%B8%95%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3-400x210.png",
 			Link:               "https://youtube.com/shorts/5FsOcsruVuM?si=eIUIFSO2zU4ZFh8a",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3530,7 +3530,7 @@ func SetupDatabase() {
 		{
 			Title:              "ไอโอดีน ตอนแม่ขอโทษ",
 			PictureIn:          "",
-			PictureOut:         "video_Iodine_2-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/08/video_Iodine_2-400x210.jpg",
 			Link:               "",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "การที่ได้รับไอโอดีนไม่เพียงพอต่อวัน ทำให้ง่วงซึม อ่อนเพลีย ศักยภาพในการทำงานต่ำลง ผู้ใหญ่ เด็ก และผู้สูงอายุ ควรได้รับสารไอโอดีนต่อร่างกายในปริมาณที่พอเหมาะ ใช้เกลือไอโอดีนในการปรุงอาหาร รับประทานอาหารให้ครบ 5 หมู่ เน้นผักใบเขียว ปรุงอาหารด้วยเกลือไอโอดีน 1 ช้อนชา / วัน",
@@ -3541,7 +3541,7 @@ func SetupDatabase() {
 		{
 			Title:              "ไอโอดีน ตอนขาดไม่ได้",
 			PictureIn:          "",
-			PictureOut:         "video_iodine_1-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/08/video_iodine_1-400x210.jpg",
 			Link:               "https://youtu.be/7q0She_GekY?si=OvD64QsroICoqSwN",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3552,7 +3552,7 @@ func SetupDatabase() {
 		{
 			Title:              "ไอโอดีน ตอนสำนึกผิด (หญิงตั้งครรภ์ที่ขาดสารไอโอดีน ส่งผลต่อทารกในครรภ์)",
 			PictureIn:          "",
-			PictureOut:         "video_iodine_3-400x210.jpg",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/07/video_iodine_3-400x210.jpg",
 			Link:               "https://youtu.be/DUn7EH_Y7E0?si=-blnLw7F01qd-XGq",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3563,7 +3563,7 @@ func SetupDatabase() {
 		{
 			Title:              "ของขวัญปีใหม่ผู้สูงวัย",
 			PictureIn:          "",
-			PictureOut:         "Screenshot--400x210.png",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2023/01/Screenshot--400x210.png",
 			Link:               "https://youtu.be/LZJvjxEthRI?si=2pFlwWmffv4h8jj1",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3574,7 +3574,7 @@ func SetupDatabase() {
 		{
 			Title:              "กระเช้าสุขภาพ",
 			PictureIn:          "",
-			PictureOut:         "gift-basket-400x210.png",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2022/12/gift-basket-400x210.png",
 			Link:               "https://youtu.be/1cgfoVWLyxw?si=EHdjFMMi9_KDtFd1",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",
@@ -3585,7 +3585,7 @@ func SetupDatabase() {
 		{
 			Title:              "กัญชาในอาหาร",
 			PictureIn:          "",
-			PictureOut:         "marijuana-400x210.png",
+			PictureOut:         "https://multimedia.anamai.moph.go.th/oawoocha/2022/12/marijuana-400x210.png",
 			Link:               "https://youtu.be/lONIolv2unE?si=YTKj0RXj0bSxzUT4",
 			Credit:             "https://multimedia.anamai.moph.go.th/",
 			Description:        "",

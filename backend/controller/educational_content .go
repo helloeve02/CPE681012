@@ -49,7 +49,7 @@ func GetContentByID(c *gin.Context) {
 func DeleteContent(c *gin.Context) {
 	id := c.Param("id")
 	db := config.DB()
-	if tx := db.Exec("DELETE FROM educational_content WHERE educational_content_id = ?", id); tx.RowsAffected == 0 {
+	if tx := db.Exec("DELETE FROM educational_contents WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
@@ -78,3 +78,54 @@ func CreateContent(c *gin.Context) {
         "menu": menu,  // ส่งคืนรายการคำสั่งซื้อที่ถูกสร้าง
     })
 }
+
+func GetContentByInfographics(c *gin.Context) {
+	var educationalContent []entity.EducationalContent
+
+	db := config.DB()
+
+	// ถ้าต้องการดึง ID = 3 อย่างเดียว
+	if err := db.Preload("ContentCategory").
+		Where("content_category_id = ?", 3).
+		Find(&educationalContent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
+}
+
+func GetContentByVideo(c *gin.Context) {
+	var educationalContent []entity.EducationalContent
+
+	db := config.DB()
+
+	// ถ้าต้องการดึง ID = 2 อย่างเดียว
+	if err := db.Preload("ContentCategory").
+		Where("content_category_id = ?", 2).
+		Find(&educationalContent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
+}
+
+func GetContentByArticle(c *gin.Context) {
+	var educationalContent []entity.EducationalContent
+
+	db := config.DB()
+
+	// ถ้าต้องการดึง ID = 1 อย่างเดียว
+	if err := db.Preload("ContentCategory").
+		Where("content_category_id = ?", 1).
+		Find(&educationalContent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
+}
+
+
+

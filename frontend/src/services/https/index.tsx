@@ -296,7 +296,103 @@ async function DeleteFoodItem(id: number | undefined) {
     .then((res) => res)
     .catch((e) => e.response);
 }
+//=======================================Content==============================================//
 
+async function GetAllContent() {
+  return await axios
+    .get(`${apiUrl}/content`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/content/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
+async function DeleteContent(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/content/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function CreateContent(data: FoodItemInterface) {
+  return await axios
+    .post(`${apiUrl}/content`, data)
+    .then((res) => res.data) 
+    .catch((e) => {
+      console.error("Error fetching food item:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function GetAllCategory() {
+  return await axios
+    .get(`${apiUrl}/content-cat`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentCatByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/content-cat/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
+async function DeleteContentCat(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/content-cat/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+async function GetAllGroupContent() {
+  return await axios
+    .get(`${apiUrl}/content-group`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetGroupContentByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/content-group/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
+async function DeleteGroupContent(id: number | undefined) {
+  return await axios
+    .delete(`${apiUrl}/content-group/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByInfographics() {
+  return await axios
+    .get(`${apiUrl}/content-infographics`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByVideo() {
+  return await axios
+    .get(`${apiUrl}/content-video`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentByArticle() {
+  return await axios
+    .get(`${apiUrl}/content-article`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
 export{
     GetAllMenu,
     GetMenuById,
@@ -330,4 +426,17 @@ export{
     DeleteMenu,
     CreateFoodItem,
     DeleteFoodItem,
+    GetAllContent,
+    GetContentByID,
+    DeleteContent,
+    CreateContent,
+    GetAllCategory,
+    GetContentCatByID,
+    DeleteContentCat,
+    GetAllGroupContent,
+    GetGroupContentByID,
+    DeleteGroupContent,
+    GetContentByInfographics,
+    GetContentByVideo,
+    GetContentByArticle,
 }
