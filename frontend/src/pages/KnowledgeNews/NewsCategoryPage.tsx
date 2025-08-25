@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
-import { GetContentByArticle, GetContentByInfographics, GetContentByVideo } from "../../services/https";
+import type { EducationalContentInterface } from "../../interfaces/EducationalContent";
+import {
+  GetContentByArticle,
+  GetContentByInfographics,
+  GetContentByVideo,
+} from "../../services/https";
 
 const NewsCategoryPage: React.FC = () => {
   const [infographics, setInfographics] = useState<EducationalContentInterface[]>([]);
@@ -15,97 +19,36 @@ const NewsCategoryPage: React.FC = () => {
     { label: "โภชนาการ", path: "/NutritionInformation" },
   ];
 
-  // const infographics = [
-  //   { img: "https://via.placeholder.com/200x300", title: "4 วิธีสำรองน้ำ รับมือหน้าฝน" },
-  //   { img: "https://via.placeholder.com/200x300", title: "กรมอนามัย ขอเสนอแนวทาง การจัดการขยะ กรณีบ้านถูกน้ำท่วม" },
-  //   { img: "https://via.placeholder.com/200x300", title: "DING DONG นี่อย่าทำเองนะ...คุณผู้ชาย" },
-  //   { img: "https://via.placeholder.com/200x300", title: "10 วิธีดูแลพระสงฆ์ / พระภิกษุในช่วงน้ำท่วม" },
-  // ];
-
-  // const videos = [
-  //   {
-  //     id: "1",
-  //     img: "https://via.placeholder.com/300x180",
-  //     title: "การรื้อล้างทำความสะอาดห้องปลอดฝุ่น",
-  //     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  //   },
-  //   {
-  //     id: "2",
-  //     img: "https://via.placeholder.com/300x180",
-  //     title: "6 ขั้นต้องรู้ ดูแลตนเองให้ห่างไกลโรค",
-  //     videoUrl: "https://www.youtube.com/embed/ScMzIvxBSi4",
-  //   },
-  //   {
-  //     id: "3",
-  //     img: "https://via.placeholder.com/300x180",
-  //     title: "5 ข้อปฏิบัติ ป้องกันโรค",
-  //     videoUrl: "https://www.youtube.com/embed/tgbNymZ7vqY",
-  //   },
-  // ];
-
-  // const articles = [
-  //   {
-  //     img: "https://via.placeholder.com/400x300",
-  //     category: "สาระสุขภาพ",
-  //     title: "ตัวอย่างเมนูสุขภาพ สำหรับตักบาตร (วันศุกร์)",
-  //     description: "เนื่องในสัปดาห์หน้า เป็นสัปดาห์แห่ง วิสาขบูชา กรมอนามัย อยากชวนมาทำบุญด้วยการตักบาตร...",
-  //   },
-  //   {
-  //     img: "https://via.placeholder.com/400x300",
-  //     category: "อินโฟกราฟฟิก",
-  //     title: "4 วิธีสำรองน้ำ รับมือหน้าฝน",
-  //     description: "เรียนรู้วิธีการสำรองน้ำอย่างปลอดภัย เพื่อรับมือกับฤดูฝน...",
-  //   },
-  //   {
-  //     img: "https://via.placeholder.com/400x300",
-  //     category: "อินโฟกราฟฟิก",
-  //     title: "กรมอนามัย ขอเสนอแนวทาง การจัดการขยะ กรณีบ้านถูกน้ำท่วม",
-  //     description: "ข้อแนะนำการจัดการขยะและสุขาภิบาล หลังเหตุการณ์น้ำท่วม...",
-  //   },
-  //   {
-  //     img: "https://via.placeholder.com/400x300",
-  //     category: "อินโฟกราฟฟิก",
-  //     title: "DING DONG นี่อย่าทำเองนะ...คุณผู้ชาย",
-  //     description: "ข้อมูลความปลอดภัยสำหรับคุณผู้ชายในสถานการณ์ฉุกเฉิน...",
-  //   },
-  // ];
   const getContentByInfographics = async () => {
     try {
       const res = await GetContentByInfographics();
       if (Array.isArray(res?.data?.educationalContents)) {
         setInfographics(res.data.educationalContents);
-      } else {
-        // setError("Failed to load menu items");
       }
-    } catch {
-      // setError("Error fetching menu items. Please try again later.");
+    } catch (error) {
+      console.error("Error fetching infographics:", error);
     }
   };
 
   const getContentByVideo = async () => {
     try {
       const res = await GetContentByVideo();
-      console.log(res?.data?.educationalContents)
       if (Array.isArray(res?.data?.educationalContents)) {
         setVideo(res.data.educationalContents);
-      } else {
-        // setError("Failed to load menu items");
       }
-    } catch {
-      // setError("Error fetching menu items. Please try again later.");
+    } catch (error) {
+      console.error("Error fetching videos:", error);
     }
   };
+
   const getContentByArticle = async () => {
     try {
       const res = await GetContentByArticle();
-      console.log(res?.data?.educationalContents)
       if (Array.isArray(res?.data?.educationalContents)) {
         setArticle(res.data.educationalContents);
-      } else {
-        // setError("Failed to load menu items");
       }
-    } catch {
-      // setError("Error fetching menu items. Please try again later.");
+    } catch (error) {
+      console.error("Error fetching articles:", error);
     }
   };
 
@@ -113,13 +56,11 @@ const NewsCategoryPage: React.FC = () => {
     getContentByInfographics();
     getContentByVideo();
     getContentByArticle();
-
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-500 to-blue-300 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-blue-500 to-blue-300 py-8 font-kanit">
       <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-lg p-6">
-
         {/* หัวข้อหลัก */}
         <h1 className="text-center text-3xl font-bold text-blue-600 mb-8 border-b pb-4">
           สาระความรู้
@@ -128,12 +69,8 @@ const NewsCategoryPage: React.FC = () => {
         {/* ส่วนหมวดหมู่ */}
         <div className="flex flex-col md:flex-row gap-6 items-start mb-10">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold mb-2">
-              สาระความรู้ สำหรับผู้ป่วยและผู้ใช้ทั่วไป
-            </h2>
-            <p className="text-gray-600 mb-4">
-              อัพเดทสาระความรู้ที่ทันสมัย ให้คุณเข้าใจได้ง่าย ไม่ตกเทรนด์
-            </p>
+            <h2 className="text-2xl font-bold mb-2">สาระความรู้ สำหรับผู้ป่วยและผู้ใช้ทั่วไป</h2>
+            <p className="text-gray-600 mb-4">อัพเดทสาระความรู้ที่ทันสมัย ให้คุณเข้าใจได้ง่าย ไม่ตกเทรนด์</p>
             <p className="font-medium mb-2">หมวดหมู่</p>
             <div className="flex flex-wrap gap-3">
               {categories.map((item, idx) => (
@@ -159,14 +96,12 @@ const NewsCategoryPage: React.FC = () => {
         {/* อินโฟกราฟฟิก */}
         <Section
           title="อินโฟกราฟฟิก"
-          items={infographics.map(item => ({
-            img: item.PictureIn ?? "",  // ถ้า undefined ให้เป็น string ว่าง
-            title: item.Title ?? ""     // ถ้า undefined ให้เป็น string ว่าง
+          items={infographics.map((item) => ({
+            img: item.PictureIn ?? "",
+            title: item.Title ?? "",
           }))}
           type="card"
         />
-
-
 
         {/* วิดีโอล่าสุด */}
         <div className="mt-10">
@@ -184,8 +119,8 @@ const NewsCategoryPage: React.FC = () => {
                 className="w-64 bg-white rounded-lg shadow hover:shadow-md hover:scale-105 transition flex-shrink-0 overflow-hidden"
               >
                 <img
-                  src={video.PictureOut}
-                  alt={video.Title}
+                  src={video.PictureOut ?? ""}
+                  alt={video.Title ?? ""}
                   className="h-40 w-full object-cover"
                 />
                 <p className="text-sm p-2 line-clamp-2">{video.Title}</p>
@@ -209,23 +144,18 @@ const NewsCategoryPage: React.FC = () => {
                 className="bg-white rounded-lg shadow hover:shadow-lg hover:scale-105 transition transform overflow-hidden"
               >
                 <img
-                  src={item.PictureOut}
-                  alt={item.Title}
+                  src={item.PictureOut ?? ""}
+                  alt={item.Title ?? ""}
                   className="w-full h-40 object-cover"
                 />
                 <div className="p-3">
-                  <h3 className="text-sm font-bold mt-1 leading-snug">
-                    {item.Title}
-                  </h3>
-                  <p className="text-xs text-gray-600 mt-1 line-clamp-3">
-                    {item.Description}
-                  </p>
+                  <h3 className="text-sm font-bold mt-1 leading-snug">{item.Title}</h3>
+                  <p className="text-xs text-gray-600 mt-1 line-clamp-3">{item.Description}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -249,8 +179,7 @@ const Section: React.FC<SectionProps> = ({ title, items, type }) => (
       {items.map((item, idx) => (
         <div
           key={idx}
-          className={`${type === "video" ? "w-64 cursor-pointer" : "w-48"
-            } bg-white rounded-lg shadow hover:shadow-md hover:scale-105 transition flex-shrink-0 overflow-hidden`}
+          className={`${type === "video" ? "w-64 cursor-pointer" : "w-48"} bg-white rounded-lg shadow hover:shadow-md hover:scale-105 transition flex-shrink-0 overflow-hidden`}
         >
           <img
             src={item.img}
