@@ -112,9 +112,9 @@ const NavBar = () => {
             onClick={toggleMenu}
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center">
-              <div className={`w-5 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1'}`}></div>
-              <div className={`w-5 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'mb-1'}`}></div>
-              <div className={`w-5 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></div>
+              <div className={`w-5 h-0.5 bg-blue-500 transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'mb-1'}`}></div>
+              <div className={`w-5 h-0.5 bg-blue-500 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'mb-1'}`}></div>
+              <div className={`w-5 h-0.5 bg-blue-500 transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></div>
             </div>
           </button>
         </div>
