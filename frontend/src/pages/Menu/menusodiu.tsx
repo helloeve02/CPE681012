@@ -52,7 +52,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function SodiumCharts() {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 font-kanit">
             {/* Header Section */}
             <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-700 text-white">
                 <div className="absolute inset-0 bg-black/20"></div>
