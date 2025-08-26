@@ -5,6 +5,7 @@ import type { FoodItem } from "../../interfaces/FoodItem";
 import FoodPopup from "./FoodPopup";
 import { FilePdfOutlined } from "@ant-design/icons";
 import { useLocation, useNavigate } from "react-router-dom";
+import PDFDownloadButton from "../../components/PDFDownloadButton";
 
 const ChooseAvoid = () => {
   const [selectedItem, setSelectedItem] = useState<FoodItem | null>(null);
@@ -12,6 +13,9 @@ const ChooseAvoid = () => {
   const [foodGroups, setFoodGroups] = useState<FoodGroupData[]>([]);
   const location = useLocation();
   const navigate = useNavigate();
+  const handleOpenPDF = () => {
+    navigate("/pdf-viewer");
+  };
   const handleNext = () => {
     navigate("/mealplanner");
   };
@@ -193,9 +197,8 @@ const ChooseAvoid = () => {
             >
               ดูแผนอาหารแนะนำ
             </Button>
-            <div className="flex flex-col items-center justify-center ml-5 text-xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110">
-              <FilePdfOutlined />
-              PDF
+            <div className="flex">
+              <PDFDownloadButton />
             </div>
           </div>
         </div>

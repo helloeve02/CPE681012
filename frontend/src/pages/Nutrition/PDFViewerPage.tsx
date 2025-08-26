@@ -23,85 +23,17 @@ export type FoodGroupData = {
   avoided: FoodItem[];
 };
 
-const PDFViewerPage = () => {
-  const navigate = useNavigate();
+// At the top of the file, below your imports
 
-  const [nutritionDatas, setNutritionDatas] = useState<NutritionData[]>([]);
-  const [portionDatas, setPortionDatas] = useState<PortionData[]>([]);
-  const [caloryDatas, setCaloryDatas] = useState<number>(0);
-  const [ruleDatas, setRuleDatas] = useState<RuleData | null>(null);
-  const [isLoading, setLoading] = useState(true);
-  const [foodGroups, setFoodGroups] = useState<FoodGroupData[]>([]);
+export async function fetchNutritionPdfData() {
+  const ruleNum = getValidRule();
+  if (!ruleNum) {
+    throw new Error("No valid rule found");
+  }
 
-  const getNutritionDatas = async (ruleNum: number) => {
-    try {
-      const res = await GetNutritionDataByRule(ruleNum);
-      if (Array.isArray(res?.data?.nutritionRecommendations)) {
-        const mapped = res.data.nutritionRecommendations.map((item: any) => ({
-          nutrition_group_name: item.NutritionGroupName,
-          amount_in_grams: item.AmountInGrams,
-          amount_in_percentage: item.AmountInPercentage,
-        }));
-        setNutritionDatas(mapped);
-      } else {
-        console.warn("Failed to load nutrition recommendation.");
-      }
-    } catch (err) {
-      console.error("Error fetching nutrition data", err);
-    }
-  };
-
-  const getPortionDatas = async (ruleNum: number) => {
-    try {
-      const res = await GetPortionDataByRule(ruleNum);
-      if (Array.isArray(res?.data?.portionRecommendations)) {
-        const mapped = res.data.portionRecommendations.map((item: any) => ({
-          food_group_name: item.FoodGroupName,
-          unit: item.Unit,
-          meal_time_name: item.MealTimeName,
-          amount: item.Amount,
-        }));
-        setPortionDatas(mapped);
-      } else {
-        console.warn("Failed to load portion recommendation.");
-      }
-    } catch (err) {
-      console.error("Error fetching portion data", err);
-    }
-  };
-
-  const getCaloryDatas = async (ruleNum: number) => {
-    try {
-      const res = await GetCaloriesByRule(ruleNum);
-      if (res?.data?.calories) {
-        setCaloryDatas(res.data.calories);
-      } else {
-        console.warn("Failed to load calory data.");
-      }
-    } catch (err) {
-      console.error("Error fetching calory data", err);
-    }
-  };
-
-  const getRuleDatas = async (ruleNum: number) => {
-    try {
-      const res = await GetRuleDetailByRule(ruleNum);
-      if (res?.data?.RuleDetail) {
-        setRuleDatas(res.data.RuleDetail);
-      } else {
-        console.warn("Failed to load rule details.");
-      }
-    } catch (err) {
-      console.error("Error fetching rule data", err);
-    }
-  };
-
+  // Helper: transform food items (copied from your function)
   function transformFoodItems(foodItems: FoodItem[]): FoodGroupData[] {
-    // Map of group name to recommended/avoided foods
-    const groupMap: Record<
-      string,
-      { recommended: FoodItem[]; avoided: FoodItem[] }
-    > = {};
+    const groupMap: Record<string, { recommended: FoodItem[]; avoided: FoodItem[] }> = {};
 
     foodItems.forEach((item) => {
       const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
@@ -118,7 +50,6 @@ const PDFViewerPage = () => {
       }
     });
 
-    // Convert map to array for rendering
     return Object.entries(groupMap).map(([topic, data]) => ({
       topic,
       recommended: data.recommended,
@@ -126,43 +57,89 @@ const PDFViewerPage = () => {
     }));
   }
 
+  // Fetch all in parallel
+  const [
+    nutritionRes,
+    portionRes,
+    caloryRes,
+    ruleRes,
+    chooseAvoidRes,
+  ] = await Promise.all([
+    GetNutritionDataByRule(ruleNum),
+    GetPortionDataByRule(ruleNum),
+    GetCaloriesByRule(ruleNum),
+    GetRuleDetailByRule(ruleNum),
+    GetAllChooseAvoid(),
+  ]);
+
+  // Map responses to your data format
+  const nutritionDatas =
+    Array.isArray(nutritionRes?.data?.nutritionRecommendations) ?
+      nutritionRes.data.nutritionRecommendations.map((item: any) => ({
+        nutrition_group_name: item.NutritionGroupName,
+        amount_in_grams: item.AmountInGrams,
+        amount_in_percentage: item.AmountInPercentage,
+      })) : [];
+
+  const portionDatas =
+    Array.isArray(portionRes?.data?.portionRecommendations) ?
+      portionRes.data.portionRecommendations.map((item: any) => ({
+        food_group_name: item.FoodGroupName,
+        unit: item.Unit,
+        meal_time_name: item.MealTimeName,
+        amount: item.Amount,
+      })) : [];
+
+  const caloryDatas = caloryRes?.data?.calories ?? 0;
+  const ruleDatas = ruleRes?.data?.RuleDetail ?? null;
+
+  if (!ruleDatas) {
+    throw new Error("Failed to fetch rule details");
+  }
+
+  const foodGroups = chooseAvoidRes?.data?.fooditems
+    ? transformFoodItems(chooseAvoidRes.data.fooditems)
+    : [];
+
+  return {
+    nutritionDatas,
+    portionDatas,
+    caloryDatas,
+    ruleDatas,
+    foodGroups,
+  };
+}
+
+
+const PDFViewerPage = () => {
+  const navigate = useNavigate();
+
+  const [nutritionDatas, setNutritionDatas] = useState<NutritionData[]>([]);
+  const [portionDatas, setPortionDatas] = useState<PortionData[]>([]);
+  const [caloryDatas, setCaloryDatas] = useState<number>(0);
+  const [ruleDatas, setRuleDatas] = useState<RuleData | null>(null);
+  const [isLoading, setLoading] = useState(true);
+  const [foodGroups, setFoodGroups] = useState<FoodGroupData[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
-      const ruleNum = getValidRule();
-      if (!ruleNum) {
-        navigate("/nutrition");
-        return;
-      }
-
-      const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
       try {
-        // First: Run the "void" API calls in parallel
-        await Promise.all([
-          getNutritionDatas(ruleNum),
-          getPortionDatas(ruleNum),
-          getCaloryDatas(ruleNum),
-          getRuleDatas(ruleNum),
-        ]);
-
-        // Then get data from GetAllChooseAvoid separately
-        const res = await GetAllChooseAvoid();
-
-        if (res && res.data?.fooditems) {
-          setFoodGroups(transformFoodItems(res.data.fooditems));
-        }
-
-        // Run delay separately or combine with others if needed
-        await delay(300);
+        const data = await fetchNutritionPdfData();
+        setNutritionDatas(data.nutritionDatas);
+        setPortionDatas(data.portionDatas);
+        setCaloryDatas(data.caloryDatas);
+        setRuleDatas(data.ruleDatas);
+        setFoodGroups(data.foodGroups);
       } catch (err) {
-        console.error("Failed to fetch one or more data sets", err);
+        console.error(err);
+        navigate("/nutrition"); // fallback on error or missing ruleNum
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   if (isLoading || !ruleDatas) {
     return (
@@ -186,4 +163,5 @@ const PDFViewerPage = () => {
     </div>
   );
 };
+
 export default PDFViewerPage;
