@@ -12,6 +12,7 @@ import type {
   PortionData,
   RuleData,
 } from "../../interfaces/Nutrition";
+import type { FoodGroupData } from "./PDFViewerPage";
 
 const styles = StyleSheet.create({
   page: {
@@ -21,11 +22,11 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
   },
   title: {
-    fontSize: 18,
-    marginBottom: 10,
+    fontSize: 15,
+    marginBottom: 15,
     width: "100%",
     textAlign: "center",
-    lineHeight: 1.3,
+    lineHeight: 0.5,
   },
   tableRow: {
     flexDirection: "row",
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: "#ccc",
     textAlign: "center",
-    fontSize: 11,
   },
   headerCell: {
     backgroundColor: "#eee",
@@ -49,8 +49,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
   },
   calories: {
-    marginTop: 20,
-    fontSize: 12,
+    marginTop: 5,
   },
   nutritionList: {
     marginTop: 5,
@@ -66,6 +65,7 @@ type Props = {
   portionDatas: PortionData[];
   caloryDatas: number;
   ruleDatas: RuleData;
+  foodGroups: FoodGroupData[];
 };
 
 Font.register({
@@ -85,6 +85,7 @@ const NutritionPDF: React.FC<Props> = ({
   portionDatas,
   caloryDatas,
   ruleDatas,
+  foodGroups,
 }) => {
   // Grouped by food group
   const groupedByFoodGroup = portionDatas.reduce((acc, item) => {
@@ -129,7 +130,7 @@ const NutritionPDF: React.FC<Props> = ({
           {"\u00A0\u00A0\u00A0"}
         </Text>
 
-        <Text style={{ color: 'gray' }}>
+        <Text style={{ color: "gray" }}>
           IBW (Ideal Body Weight) = น้ำหนักมาตรฐานตามส่วนสูง (ซม.){"\u200B"} ลบ
           105 สำหรับผู้หญิง{"\u200B"} หรือ 100 สำหรับผู้ชาย.
         </Text>
@@ -179,6 +180,31 @@ const NutritionPDF: React.FC<Props> = ({
             </Text>
           ))}
         </View>
+
+        {/* ChooseAvoid */}
+        <Text style={[styles.title]}>อาหารที่ควรเลี่ยง</Text>
+        
+        {foodGroups.map((group) => (
+          <View key={group.topic} wrap={false} style={{ marginBottom: 10 }}>
+            <Text style={{ fontWeight: "bold", fontSize: 12, marginBottom: 4 }}>
+              {group.topic}
+            </Text>
+            <Text style={{ marginBottom: 2 }}>
+              ควรทาน:{" "}
+              {group.recommended.length > 0
+                ? group.recommended
+                    .map((item) => item.Name + "\u200B")
+                    .join(", ")
+                : "- "}
+            </Text>
+            <Text>
+              ควรเลี่ยง:{" "}
+              {group.avoided.length > 0
+                ? group.avoided.map((item) => item.Name + "\u200B").join(", ")
+                : "- "}
+            </Text>
+          </View>
+        ))}
       </Page>
     </Document>
   );

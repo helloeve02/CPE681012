@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PDFViewer } from "@react-pdf/renderer";
 import NutritionPDF from "./NutritionPDF";
 import {
+  GetAllChooseAvoid,
   GetCaloriesByRule,
   GetNutritionDataByRule,
   GetPortionDataByRule,
@@ -15,6 +16,12 @@ import type {
   RuleData,
 } from "../../interfaces/Nutrition";
 import { Spin } from "antd";
+import type { FoodItem } from "../../interfaces/FoodItem";
+export type FoodGroupData = {
+  topic: string; // FoodGroup.Name
+  recommended: FoodItem[];
+  avoided: FoodItem[];
+};
 
 const PDFViewerPage = () => {
   const navigate = useNavigate();
@@ -24,6 +31,7 @@ const PDFViewerPage = () => {
   const [caloryDatas, setCaloryDatas] = useState<number>(0);
   const [ruleDatas, setRuleDatas] = useState<RuleData | null>(null);
   const [isLoading, setLoading] = useState(true);
+  const [foodGroups, setFoodGroups] = useState<FoodGroupData[]>([]);
 
   const getNutritionDatas = async (ruleNum: number) => {
     try {
@@ -88,6 +96,36 @@ const PDFViewerPage = () => {
     }
   };
 
+  function transformFoodItems(foodItems: FoodItem[]): FoodGroupData[] {
+    // Map of group name to recommended/avoided foods
+    const groupMap: Record<
+      string,
+      { recommended: FoodItem[]; avoided: FoodItem[] }
+    > = {};
+
+    foodItems.forEach((item) => {
+      const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
+      const flag = item.FoodFlag.Flag;
+
+      if (!groupMap[groupName]) {
+        groupMap[groupName] = { recommended: [], avoided: [] };
+      }
+
+      if (flag === "ควรรับประทาน") {
+        groupMap[groupName].recommended.push(item);
+      } else if (flag === "ควรหลีกเลี่ยง") {
+        groupMap[groupName].avoided.push(item);
+      }
+    });
+
+    // Convert map to array for rendering
+    return Object.entries(groupMap).map(([topic, data]) => ({
+      topic,
+      recommended: data.recommended,
+      avoided: data.avoided,
+    }));
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const ruleNum = getValidRule();
@@ -99,13 +137,23 @@ const PDFViewerPage = () => {
       const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
       try {
+        // First: Run the "void" API calls in parallel
         await Promise.all([
-          getNutritionDatas(ruleNum!),
-          getPortionDatas(ruleNum!),
-          getCaloryDatas(ruleNum!),
-          getRuleDatas(ruleNum!),
-          delay(300), // Fake delay to ensure loading UX if needed
+          getNutritionDatas(ruleNum),
+          getPortionDatas(ruleNum),
+          getCaloryDatas(ruleNum),
+          getRuleDatas(ruleNum),
         ]);
+
+        // Then get data from GetAllChooseAvoid separately
+        const res = await GetAllChooseAvoid();
+
+        if (res && res.data?.fooditems) {
+          setFoodGroups(transformFoodItems(res.data.fooditems));
+        }
+
+        // Run delay separately or combine with others if needed
+        await delay(300);
       } catch (err) {
         console.error("Failed to fetch one or more data sets", err);
       } finally {
@@ -131,7 +179,8 @@ const PDFViewerPage = () => {
           nutritionDatas={nutritionDatas}
           portionDatas={portionDatas}
           caloryDatas={caloryDatas}
-          ruleDatas={ruleDatas} // ruleDatas is RuleData, no null
+          ruleDatas={ruleDatas}
+          foodGroups={foodGroups}
         />
       </PDFViewer>
     </div>
