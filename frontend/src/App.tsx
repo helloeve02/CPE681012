@@ -38,7 +38,7 @@ import ArticleInformation from "./pages/KnowledgeNews/ArticleInformation"
 import SodiumCalculator from "./pages/Menu/menucal"
 import PrivateRoute from "./PrivateRoute";
 import SodiumBubbleChart from "./pages/Menu/menusodiu";
-import MaintenanceFluid from "./pages/Plan/FluidCalculation";
+import FluidCalculator from "./pages/Plan/FluidCalculator";
 import PasswordResetForm from "./pages/Admin/forgorpass";
 import CleaningMethodCards from "./pages/Menu/menucleaningre"
 
@@ -87,7 +87,7 @@ const AppContent = () => {
         <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
         <Route path="/menusodium" element={<SodiumBubbleChart />} />
-        <Route path="/maintenancefluid" element={<MaintenanceFluid />} />
+        <Route path="/fluidcalculator" element={<FluidCalculator />} />
         <Route path="/cleaningre" element={<CleaningMethodCards />} />
       </Routes>
     </>
