@@ -49,7 +49,7 @@ const FoodPopup: React.FC<FoodPopupProps> = ({ item, onClose }) => {
           href={item.Credit}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 text-sm mt-3 inline-block"
+          className="text-blue-600 hover:text-blue-900 transition-colors duration-200 text-sm mt-3 inline-block"
         >
           เครดิตรูปภาพ
         </a>

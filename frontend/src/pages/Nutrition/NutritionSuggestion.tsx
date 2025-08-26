@@ -23,6 +23,9 @@ const NutritionSuggestion = () => {
   const handleNext = () => {
     navigate("/choose-avoid");
   };
+  const handlePortion = () => {
+    navigate("/importance-of-nutrition");
+  };
   const handleOpenPDF = () => {
     const dataToSend = {
       nutritionDatas,
@@ -130,7 +133,7 @@ const NutritionSuggestion = () => {
           getPortionDatas(ruleNum),
           getCaloryDatas(ruleNum),
           getRuleDatas(ruleNum),
-          delay(500),
+          delay(300),
         ]);
       } catch (err) {
         console.error("Failed to fetch some data", err);
@@ -187,8 +190,12 @@ const NutritionSuggestion = () => {
               ? `ไม่เกิน ${ruleDatas.IBWMax} kg.`
               : ruleDatas?.IBWMax === 200
               ? `${ruleDatas.IBWMin} kg. ขึ้นไป`
-              : `${ruleDatas?.IBWMin} - ${ruleDatas?.IBWMax} kg.`}<br />
-            <div className="text-gray-400 break-words text-sm">IBW (Ideal Body Weight) = น้ำหนักมาตรฐานตามส่วนสูง (ซม.) ลบ 105 สำหรับผู้หญิง หรือ 100 สำหรับผู้ชาย</div>
+              : `${ruleDatas?.IBWMin} - ${ruleDatas?.IBWMax} kg.`}
+            <br />
+            <div className="text-gray-400 break-words text-sm">
+              IBW (Ideal Body Weight) = น้ำหนักมาตรฐานตามส่วนสูง (ซม.) ลบ 105
+              สำหรับผู้หญิง หรือ 100 สำหรับผู้ชาย
+            </div>
           </div>
 
           {/* For small screen */}
@@ -234,6 +241,16 @@ const NutritionSuggestion = () => {
                 )}
               </tbody>
             </table>
+
+            <div className="text-sm mt-3 text-right">
+              <span
+                className="cursor-pointer inline-block text-blue-600"
+                onClick={handlePortion}
+              >
+                ความสำคัญของโภชนาการ
+              </span>
+            </div>
+
             <div className="border border-gray-500 p-3 rounded shadow-sm">
               <div className="font-semibold mb-2">
                 พลังงาน {caloryDatas} กิโลแคลอรี่
@@ -293,6 +310,15 @@ const NutritionSuggestion = () => {
               </tbody>
             </table>
 
+            <div className="text-sm mt-3 text-right">
+              <span
+                className="cursor-pointer inline-block px-1 py-0.5 rounded hover:bg-blue-100 text-blue-600 hover:text-blue-800 transition-colors duration-200"
+                onClick={handlePortion}
+              >
+                ความสำคัญของโภชนาการ
+              </span>
+            </div>
+
             <div className="mt-5 border border-gray-500 p- rounded shadow-sm hidden lg:block">
               <div className="m-2 ml-5 text-xl font-semibold mb-2">
                 พลังงาน {caloryDatas} กิโลแคลอรี่
@@ -317,10 +343,10 @@ const NutritionSuggestion = () => {
             >
               ดูสิ่งที่ควรเลือกทานและหลีกเลี่ยง
             </Button>
-            <FilePdfOutlined
-              onClick={handleOpenPDF}
-              className="ml-5 text-4xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110 active:!text-blue-600 active:scale-110"
-            />
+            <div className="flex flex-col items-center justify-center ml-5 text-xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110">
+              <FilePdfOutlined onClick={handleOpenPDF} />
+              PDF
+            </div>
           </div>
         </div>
       )}

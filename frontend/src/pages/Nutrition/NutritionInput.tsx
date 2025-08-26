@@ -88,7 +88,7 @@ const NutritionInput = () => {
       await getAllDisease();
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 300);
     };
 
     fetchData();
