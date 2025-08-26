@@ -136,7 +136,7 @@ const MealPlannerApp = () => {
   ]);
   const navigate = useNavigate();
   const handleGoToFluidCalc = () => {
-    navigate('/maintenancefluid');
+    navigate('/fluidcalculator');
     console.log('Navigating to Maintenance Fluid page...');
   };
 
