@@ -120,3 +120,15 @@ func GetFoodItemsByFlag3(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"fooditems": fooditems})
 }
 
+func GetAllFoodItemsWithData(c *gin.Context) {
+	var fooditems []entity.FoodItem
+
+	db := config.DB()
+	// Preload FoodFlag and its nested FoodGroup
+	if err := db.Preload("FoodFlag.FoodGroup").Find(&fooditems).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูลรายการอาหารทั้งหมดได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"fooditems": fooditems})
+}

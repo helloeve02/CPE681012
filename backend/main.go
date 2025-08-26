@@ -38,6 +38,7 @@ func main() {
 		//    r.GET("/menu-tag/:id",controller.HandleGetMenus)
 		r.GET("/food-flag", controller.GetAllFoodFlags)
 		r.GET("/food-item", controller.GetAllFoodItems)
+		r.GET("/food-item-with-data", controller.GetAllFoodItemsWithData)
 		r.GET("/food-group", controller.GetAllFoodGroups)
 		r.GET("/content", controller.GetAllContent)
 		r.GET("/content-group", controller.GetAllGroupContent)

@@ -83,6 +83,14 @@ async function GetRuleDetailByRule(rule: number) {
     .catch((e) => e.response);
 }
 
+async function GetAllChooseAvoid() {
+  return await axios
+    .get(`${apiUrl}/food-item-with-data`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+
 //==================================Nutrition END======================================⏬
 
 async function GetAllIngredients() {
@@ -472,4 +480,5 @@ export{
     GetContentByInfographics,
     GetContentByVideo,
     GetContentByArticle,
+    GetAllChooseAvoid,
 }
