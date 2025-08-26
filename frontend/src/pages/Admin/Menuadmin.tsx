@@ -210,7 +210,7 @@ const MenuAdminPanel = () => {
   const stats = getStatistics();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 ">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 font-kanit">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">

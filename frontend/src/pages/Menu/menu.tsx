@@ -1,7 +1,7 @@
 import type { MenuInterface } from "../../interfaces/Menu";
 import { GetAllMenu, GetFoodItemsByFlags, GetAllTag } from "../../services/https";
 import React, { useEffect, useState } from "react";
-import { ChevronRight, Search, Eye, Filter, Calculator, Sparkles } from 'lucide-react';
+import { ChevronRight, Search, Eye, Filter, Calculator, Sparkles, Leaf } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { IngredientsInterface } from "../../interfaces/Ingredients"
 import type { TagInterface } from "../../interfaces/Tag"
@@ -124,21 +124,19 @@ const Menu: React.FC = () => {
             <div className="inline-flex bg-gray-100 p-1 rounded-xl mt-6 mb-4">
               <button
                 onClick={() => setActiveTab("food")}
-                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${
-                  activeTab === "food"
+                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${activeTab === "food"
                     ? "bg-white text-blue-600 shadow-md transform scale-105"
                     : "text-gray-600 hover:text-blue-500 hover:bg-white/50"
-                }`}
+                  }`}
               >
                 🍽️ อาหาร
               </button>
               <button
                 onClick={() => setActiveTab("ingredient")}
-                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${
-                  activeTab === "ingredient"
+                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${activeTab === "ingredient"
                     ? "bg-white text-blue-600 shadow-md transform scale-105"
                     : "text-gray-600 hover:text-blue-500 hover:bg-white/50"
-                }`}
+                  }`}
               >
                 🥬 วัตถุดิบ
               </button>
@@ -221,6 +219,17 @@ const Menu: React.FC = () => {
             <Calculator size={22} />
             คำนวณปริมาณโซเดียม
           </button>
+
+          <button
+            onClick={() => navigate("/cleaningre")}
+            className="flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-600 
+                     hover:from-emerald-600 hover:to-teal-700 text-white px-8 py-4 
+                     rounded-2xl font-kanit text-lg font-medium shadow-lg 
+                     hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
+            <Leaf size={22} />
+            วิธีการล้างผัก
+          </button>
         </div>
 
         {/* Selected Tags Display */}
@@ -257,7 +266,7 @@ const Menu: React.FC = () => {
                 <p className="text-gray-400 font-kanit mt-2">ลองเปลี่ยนคำค้นหาหรือแท็กดูนะครับ</p>
               </div>
             )}
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {filteredItems.map((item) => (
                 <div key={item.ID} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl 
@@ -270,7 +279,7 @@ const Menu: React.FC = () => {
                         <img src={item.Image} className="w-full h-full object-cover 
                                                        group-hover:scale-110 transition-transform duration-500" />
                       </div>
-                      
+
                       <div className="flex-grow">
                         <div className="flex items-center gap-2 mb-4">
                           <div className="text-2xl">⭐</div>
@@ -294,7 +303,7 @@ const Menu: React.FC = () => {
                                      group-hover:text-blue-600 transition-colors">
                           {item.Title}
                         </h3>
-                        
+
                         <Link to={`/menu/${item.ID}`}>
                           <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 
                                            hover:from-blue-600 hover:to-blue-700 text-white 
@@ -324,7 +333,7 @@ const Menu: React.FC = () => {
                 <p className="text-gray-400 font-kanit mt-2">ลองเปลี่ยนคำค้นหาดูนะครับ</p>
               </div>
             )}
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {filteredIngre.map((item) => (
                 <div key={item.ID} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl 
@@ -337,17 +346,17 @@ const Menu: React.FC = () => {
                         <img src={item.Image} className="w-full h-full object-cover 
                                                        group-hover:scale-110 transition-transform duration-500" />
                       </div>
-                      
+
                       <div className="flex-grow flex flex-col justify-between">
                         <div>
                           <h3 className="text-xl font-kanit font-bold text-gray-800 mb-3 
                                        group-hover:text-blue-600 transition-colors">
                             {item.Name}
                           </h3>
-                          
+
                           <div className="mb-4">
                             <a href={item.Credit} target="_blank" rel="noopener noreferrer"
-                               className="text-sm font-kanit text-blue-500 hover:text-blue-600 
+                              className="text-sm font-kanit text-blue-500 hover:text-blue-600 
                                         underline decoration-dotted">
                               📷 ขอบคุณภาพจาก
                             </a>
@@ -403,7 +412,7 @@ const Menu: React.FC = () => {
                 <h2 className="text-3xl font-kanit font-bold text-gray-900 mb-4">
                   {viewingItem.Name}
                 </h2>
-                
+
                 <div className="bg-blue-50 rounded-2xl p-6 mb-6">
                   <p className="text-gray-700 font-kanit text-lg leading-relaxed">
                     {viewingItem.Description || "ยังไม่มีรายละเอียดเพิ่มเติมในขณะนี้"}
@@ -420,7 +429,7 @@ const Menu: React.FC = () => {
                   >
                     📷 ขอบคุณภาพจาก
                   </a>
-                  
+
                   <button
                     onClick={() => setViewingItem(null)}
                     className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 

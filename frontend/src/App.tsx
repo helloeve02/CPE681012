@@ -40,7 +40,9 @@ import PrivateRoute from "./PrivateRoute";
 import SodiumBubbleChart from "./pages/Menu/menusodiu";
 import MaintenanceFluid from "./pages/Plan/FluidCalculation";
 import PasswordResetForm from "./pages/Admin/forgorpass";
+import CleaningMethodCards from "./pages/Menu/menucleaningre"
 import ImportanceOfNutrition from "./pages/Nutrition/ImportanceOfNutrition";
+
 const AppContent = () => {
   const location = useLocation();
 
@@ -88,6 +90,7 @@ const AppContent = () => {
         <Route path="/importance-of-nutrition" element={<ImportanceOfNutrition />} />
         <Route path="/menusodium" element={<SodiumBubbleChart />} />
         <Route path="/maintenancefluid" element={<MaintenanceFluid />} />
+        <Route path="/cleaningre" element={<CleaningMethodCards />} />
       </Routes>
     </>
   );
