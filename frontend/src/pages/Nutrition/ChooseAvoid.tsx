@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { GetAllChooseAvoid } from "../../services/https";
 import { Image } from "antd";
-import type { FoodGroupInterface } from "../../interfaces/FoodGroup";
-
-type FoodFlagType = {
-  ID: number;
-  Flag: string;
-  FoodGroup: FoodGroupInterface;
-};
-
-type FoodItem = {
-  ID: number;
-  Name: string;
-  Image: string;
-  Credit: string;
-  Description: string;
-  FoodFlag: FoodFlagType;
-};
+import type { FoodItem } from "../../interfaces/FoodItem";
+import FoodPopup from "./FoodPopup";
 
 const ChooseAvoid = () => {
+  const [selectedItem, setSelectedItem] = useState<FoodItem | null>(null);
+
   type FoodGroupData = {
     topic: string; // FoodGroup.Name
     recommended: FoodItem[];
@@ -81,12 +69,13 @@ const ChooseAvoid = () => {
               <div className="flex gap-2">
                 {/* Recommended */}
                 <div className="flex-1">
-                  <strong>ควรทาน</strong>
+                  <strong className="text-green-600">ควรทาน</strong>
                   <ul className="grid gap-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {group.recommended.map((item) => (
                       <li
                         key={item.ID}
-                        className="flex flex-col items-start md:text-sm transition-colors duration-200 hover:bg-gray-300 md:p-2 rounded"
+                        onClick={() => setSelectedItem(item)}
+                        className="cursor-pointer flex flex-col items-start md:text-sm transition-colors duration-200 hover:bg-gray-300 md:p-2 rounded"
                       >
                         <span>• {item.Name}</span>
                         <Image
@@ -105,12 +94,13 @@ const ChooseAvoid = () => {
 
                 {/* Avoided */}
                 <div className="flex-1">
-                  <strong>ควรเลี่ยง</strong>
+                  <strong className="text-red-500">ควรเลี่ยง</strong>
                   <ul className="grid gap-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     {group.avoided.map((item) => (
                       <li
                         key={item.ID}
-                        className="flex flex-col items-start md:text-sm transition-colors duration-200 hover:bg-gray-300 md:p-2 rounded"
+                        onClick={() => setSelectedItem(item)}
+                        className="cursor-pointer flex flex-col items-start md:text-sm transition-colors duration-200 hover:bg-gray-300 md:p-2 rounded"
                       >
                         <span>• {item.Name}</span>
                         <Image
@@ -122,6 +112,11 @@ const ChooseAvoid = () => {
                         />
                       </li>
                     ))}
+                    {/* Popup component */}
+                    <FoodPopup
+                      item={selectedItem}
+                      onClose={() => setSelectedItem(null)}
+                    />
                   </ul>
                 </div>
               </div>
