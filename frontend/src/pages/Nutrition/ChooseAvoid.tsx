@@ -1,184 +1,132 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { GetAllChooseAvoid } from "../../services/https";
+import { Image } from "antd";
+import type { FoodGroupInterface } from "../../interfaces/FoodGroup";
+
+type FoodFlagType = {
+  ID: number;
+  Flag: string;
+  FoodGroup: FoodGroupInterface;
+};
+
+type FoodItem = {
+  ID: number;
+  Name: string;
+  Image: string;
+  Credit: string;
+  Description: string;
+  FoodFlag: FoodFlagType;
+};
 
 const ChooseAvoid = () => {
-  type Food = {
-    name: string;
-    image: string;
+  type FoodGroupData = {
+    topic: string; // FoodGroup.Name
+    recommended: FoodItem[];
+    avoided: FoodItem[];
   };
-  type FoodItem = {
-    topic: string;
-    items: Food[];
-  };
-  const recommendedFoods: FoodItem[] = [
-    {
-      topic: "ข้าว/แป้ง",
-      items: [
-        {
-          name: "ข้าวสวย",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "ข้าวจ้าว",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-      ],
-    },
-    {
-      topic: "เนื้อ",
-      items: [
-        {
-          name: "เนื้อหมู",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "เนื้อไก่",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-      ],
-    },
-    {
-      topic: "ผัก",
-      items: [
-        {
-          name: "ข้าวเหนียว",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "ขนมปังขาว",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-      ],
-    },
-  ];
 
-  const avoidedFoods: FoodItem[] = [
-    {
-      topic: "ข้าว/แป้ง",
-      items: [
-        {
-          name: "ข้าวเหนียว",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "ขนมปังขาว",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-      ],
-    },
-    {
-      topic: "เนื้อ",
-      items: [
-        {
-          name: "เนื้อทอด",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "เบคอน",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "เนื้อทอด",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "เบคอน",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-      ],
-    },
-    {
-      topic: "ผัก",
-      items: [
-        {
-          name: "เนื้อทอด",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "เบคอน",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "เนื้อทอด",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-        {
-          name: "เบคอน",
-          image:
-            "https://blog.wu.ac.th/wp-content/uploads/2023/01/8-768x768.jpg",
-        },
-      ],
-    },
-  ];
-  const allTopics = Array.from(
-    new Set([...recommendedFoods, ...avoidedFoods].map((d) => d.topic))
-  );
+  function transformFoodItems(foodItems: FoodItem[]): FoodGroupData[] {
+    // Map of group name to recommended/avoided foods
+    const groupMap: Record<
+      string,
+      { recommended: FoodItem[]; avoided: FoodItem[] }
+    > = {};
+
+    foodItems.forEach((item) => {
+      const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
+      const flag = item.FoodFlag.Flag;
+
+      if (!groupMap[groupName]) {
+        groupMap[groupName] = { recommended: [], avoided: [] };
+      }
+
+      if (flag === "ควรรับประทาน") {
+        groupMap[groupName].recommended.push(item);
+      } else if (flag === "ควรหลีกเลี่ยง") {
+        groupMap[groupName].avoided.push(item);
+      }
+    });
+
+    // Convert map to array for rendering
+    return Object.entries(groupMap).map(([topic, data]) => ({
+      topic,
+      recommended: data.recommended,
+      avoided: data.avoided,
+    }));
+  }
+  const [foodGroups, setFoodGroups] = useState<FoodGroupData[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await GetAllChooseAvoid();
+      if (res && res.data?.fooditems) {
+        setFoodGroups(transformFoodItems(res.data.fooditems));
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className="font-kanit">
-        <div className="bg-[#2E77F8] p-5 md:p-8 flex items-center justify-center text-white">
+      <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 p-5 md:p-8 flex items-center justify-center text-white">
         <div className="font-semibold text-2xl md:text-4xl">
-          เลือกทานและหลีกเลี่ยง
+          อาหารที่ควรเลี่ยง
         </div>
       </div>
-      <div className="p-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {allTopics.map((topic) => {
-            const rec = recommendedFoods.find((f) => f.topic === topic);
-            const avoid = avoidedFoods.find((f) => f.topic === topic);
+      <div className="p-8 md:pr-30 md:pl-30 lg:pr-80 lg:pl-80">
+        <div className="grid grid-cols-1 gap-4">
+          {foodGroups.map((group) => (
+            <div key={group.topic} className="border p-4 rounded shadow">
+              <div className="text-xl font-semibold mb-2">{group.topic}</div>
+              <div className="flex gap-2">
+                {/* Recommended */}
+                <div className="flex-1">
+                  <strong>ควรทาน</strong>
+                  <ul className="grid gap-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {group.recommended.map((item) => (
+                      <li
+                        key={item.ID}
+                        className="flex flex-col items-start md:text-sm transition-colors duration-200 hover:bg-gray-300 md:p-2 rounded"
+                      >
+                        <span>• {item.Name}</span>
+                        <Image
+                          src={item.Image}
+                          fallback="https://img.icons8.com/?size=100&id=j1UxMbqzPi7n&format=png&color=000000"
+                          alt={item.Name}
+                          preview={false}
+                          className="w-full aspect-square object-cover rounded mt-1"
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-            return (
-              <div key={topic} className="border p-4 rounded shadow">
-                <div className="text-xl font-semibold mb-2">{topic}</div>
-                <div className="flex gap-2">
-                  <div className="flex-1">
-                    <strong>ควรทาน</strong>
-                     <ul className="grid gap-1 grid-cols-[repeat(auto-fit,minmax(60px,1fr))]">
-                      {rec?.items.map((item, i) => (
-                        <li key={i} className="flex flex-col items-start md:text-sm">
-                          <span>{item.name}</span>
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="hidden md:inline-block w-20 h-20 object-cover rounded mt-1"
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="w-px bg-black m-2"></div>
-                  <div className="flex-1">
-                    <strong>ควรเลี่ยง</strong>
-                    <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(40px,1fr))]">
-                      {avoid?.items.map((item, i) => (
-                        <li key={i} className="flex flex-col items-start md:text-sm">
-                          <span>{item.name}</span>
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="hidden md:inline-block w-20 h-20 object-cover rounded mt-1"
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="w-px bg-black m-2"></div>
+
+                {/* Avoided */}
+                <div className="flex-1">
+                  <strong>ควรเลี่ยง</strong>
+                  <ul className="grid gap-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                    {group.avoided.map((item) => (
+                      <li
+                        key={item.ID}
+                        className="flex flex-col items-start md:text-sm transition-colors duration-200 hover:bg-gray-300 md:p-2 rounded"
+                      >
+                        <span>• {item.Name}</span>
+                        <Image
+                          src={item.Image}
+                          fallback="https://img.icons8.com/?size=100&id=j1UxMbqzPi7n&format=png&color=000000"
+                          alt={item.Name}
+                          preview={false}
+                          className="w-full aspect-square object-cover rounded mt-1"
+                        />
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </div>

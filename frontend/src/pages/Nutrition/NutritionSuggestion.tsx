@@ -164,7 +164,7 @@ const NutritionSuggestion = () => {
         </div>
       ) : (
         <div className="h-screen font-kanit">
-          <div className="bg-[#2E77F8] p-5 md:p-8 flex items-center justify-center text-white">
+          <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 p-5 md:p-8 flex items-center justify-center text-white">
             <div className="font-semibold text-2xl md:text-4xl">
               ปริมาณที่ควรทานต่อวัน
             </div>

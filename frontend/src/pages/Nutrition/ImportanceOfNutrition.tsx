@@ -39,13 +39,13 @@ const data = [
 
 const ImportanceOfNutrition = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#2E77F8] to-purple-600 font-kanit flex flex-col items-center py-8">
-      <h1 className="text-white text-2xl md:text-4xl font-semibold text-center mb-8">
+    <div className="min-h-screen bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 font-kanit flex flex-col items-center py-8">
+      <h1 className="text-white text-xl md:text-2xl font-semibold text-center mb-8">
         ความสำคัญของโภชนาการ
       </h1>
 
       <div className="px-10 sm:px-10">
-        <div className="bg-white rounded-2xl sm:p-8 md:p-10 w-full max-w-[700px] mx-auto">
+        <div className="bg-white rounded-2xl sm:p-8 md:p-5 w-full max-w-[700px] mx-auto">
           {data.map((item, index) => (
             <div
               key={index}
@@ -55,22 +55,22 @@ const ImportanceOfNutrition = () => {
                 {item.icon}
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                <h3 className="text-md font-semibold text-black mb-1">
                   {item.title}
                 </h3>
-                <p className="text-sm text-gray-500 mb-1">
+                <p className="text-sm text-gray-600 mb-1">
                   <span className="font-medium">หน้าที่:</span>{" "}
                   {item.duty}
                 </p>
-                <p className="text-sm text-gray-500 mb-1">
+                <p className="text-sm text-gray-600 mb-1">
                   <span className="font-medium">แหล่งอาหาร:</span>{" "}
                   {item.source}
                 </p>
-                <p className="text-sm text-gray-500 mb-1">
+                <p className="text-sm text-gray-600 mb-1">
                   <span className="font-medium">หากทานไม่เพียงพอ:</span>{" "}
                   {item.insufficient}
                 </p>
-                <p className="text-sm text-gray-500 mb-1">
+                <p className="text-sm text-gray-600 mb-1">
                   <span className="font-medium">เกลือแร่ที่มีมาก:</span>{" "}
                   {item.minerals}
                 </p>
