@@ -16,6 +16,7 @@ import {
 } from "../../services/https";
 import { getValidRule } from "../../services/https/ruleUtils";
 import { FilePdfOutlined } from "@ant-design/icons";
+import PDFDownloadButton from "../../components/PDFDownloadButton";
 
 const NutritionSuggestion = () => {
   const navigate = useNavigate();
@@ -27,14 +28,7 @@ const NutritionSuggestion = () => {
     navigate("/importance-of-nutrition");
   };
   const handleOpenPDF = () => {
-    const dataToSend = {
-      nutritionDatas,
-      portionDatas,
-      caloryDatas,
-      ruleDatas,
-    };
-    const encoded = encodeURIComponent(JSON.stringify(dataToSend));
-    window.open(`/pdf-viewer?data=${encoded}`, "_blank");
+    navigate("/pdf-viewer");
   };
 
   const [nutritionDatas, setNutritionDatas] = useState<NutritionData[]>([]);
@@ -343,9 +337,8 @@ const NutritionSuggestion = () => {
             >
               ดูสิ่งที่ควรเลือกทานและหลีกเลี่ยง
             </Button>
-            <div className="flex flex-col items-center justify-center ml-5 text-xl cursor-pointer !text-gray-800 hover:!text-blue-600 transition-colors transform hover:scale-110">
-              <FilePdfOutlined onClick={handleOpenPDF} />
-              PDF
+            <div className="flex">
+              <PDFDownloadButton />
             </div>
           </div>
         </div>
