@@ -8,9 +8,9 @@ type Mealplan struct {
 	gorm.Model
 	PlanName string
 
-	// AdminID ทำหน้าที่เป็น FK
+	/* // AdminID ทำหน้าที่เป็น FK
 	AdminID uint
-	Admin Admin `gorm:"foreignKey:AdminID"`
+	Admin Admin `gorm:"foreignKey:AdminID"` */
 
 	// DiseaseID ทำหน้าที่เป็น FK
 	DiseaseID uint

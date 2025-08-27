@@ -15,7 +15,7 @@ func GetAllMealplans(c *gin.Context) {
 	db := config.DB()
 
 	// preload: Admin, Disease, Mealdays
-	err := db.Preload("Admin").
+	err := db./* Preload("Admin"). */
 		Preload("Disease").
 		Preload("Mealdays").
 		Find(&mealplans).Error
@@ -43,7 +43,7 @@ func GetMealplanByID(c *gin.Context) {
 	db := config.DB()
 
 	// หา Mealplan ที่มี id ตรงกัน
-	err := db.Preload("Admin").
+	err := db./* Preload("Admin"). */
 		Preload("Disease").
 		Preload("Mealdays").
 		First(&mealplan, id).Error
@@ -68,7 +68,7 @@ func GetMealplansByDisease(c *gin.Context) {
 
 	// ค้นหา MealPlan ที่มี DiseaseID ตรงกัน
 	err := db.Where("disease_id = ?", diseaseID).
-		Preload("Admin").
+		/* Preload("Admin"). */
 		Preload("Disease").
 		Preload("Mealdays").
 		Find(&mealplans).Error
@@ -84,6 +84,35 @@ func GetMealplansByDisease(c *gin.Context) {
 		"mealplans": mealplans,
 	})
 }
+
+// ดึง Mealplans ตามโรค
+/* func GetMealplansByDisease(c *gin.Context) {
+	diseaseIDStr := c.Param("id")
+	diseaseID, err := strconv.ParseUint(diseaseIDStr, 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   "Disease ID ไม่ถูกต้อง",
+		})
+		return
+	}
+
+	var mealplans []entity.Mealplan
+	db := config.DB()
+
+	err = db.Where("disease_id = ?", diseaseID).
+		Preload("Disease").
+		Preload("Mealdays").
+		Find(&mealplans).Error
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"error":   "ไม่สามารถดึง Mealplan ตาม Disease ได้: " + err.Error(),
+		})
+		return
+	}
+} */
 
 // POST /mealplans
 func CreateMealplan(c *gin.Context) {
@@ -124,8 +153,8 @@ func UpdateMealplan(c *gin.Context) {
 
 	// อัปเดตข้อมูล
 	mealplan.PlanName = input.PlanName
-	mealplan.AdminID = input.AdminID
-	/* mealplan.DiseaseID = input.DiseaseID */
+	/* mealplan.AdminID = input.AdminID */
+	mealplan.DiseaseID = input.DiseaseID
 
 	if err := db.Save(&mealplan).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "อัปเดตไม่สำเร็จ"})
