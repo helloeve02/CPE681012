@@ -34,7 +34,6 @@ func SetupDatabase() {
 		&entity.DiseaseTag{},
 		&entity.Disease{},
 		&entity.EducationalContent{},
-		&entity.FiveFoodGroups{},
 		&entity.Ingredients{},
 		&entity.Tag{},
 		&entity.MealMenu{},
@@ -2822,6 +2821,10 @@ func SetupDatabase() {
 			Flag:        "ควรหลีกเลี่ยง",
 			FoodGroupID: 6,
 		},
+		{
+			Flag:        "ควรรับประทาน", //เนื้อสัตว์
+			FoodGroupID: 5,
+		},
 	}
 
 	for _, flag := range FoodFlag {
@@ -2854,8 +2857,8 @@ func SetupDatabase() {
 		},
 		{
 			Name:        "วุ้นเส้น",
-			Image:       "https://www.cpbrandsite.com/contents/tips_tricks/fbpi6pbgedvmu1lafhx3ruilk8n7se5d6ngop6y0.png",
-			Credit:      "https://www.cpbrandsite.com/tips-tricks/%E0%B8%9C%E0%B8%B1%E0%B8%94%E0%B8%A7%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B9%80%E0%B8%AA%E0%B9%89%E0%B8%99%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B8%99%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B9%80%E0%B8%AA%E0%B9%89%E0%B8%99%E0%B8%81%E0%B8%AD%E0%B8%94%E0%B8%81%E0%B8%B1%E0%B8%99",
+			Image:       "https://s.isanook.com/he/0/ud/4/23017/vermicelli.jpg?ip/crop/w1200h700/q80/webp",
+			Credit:      "https://www.sanook.com/health/23017/",
 			Description: "ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
 			FoodFlagID:  1,
 		},
@@ -3217,9 +3220,44 @@ func SetupDatabase() {
 			FoodFlagID:  6,
 		},
 		{
+			Name:        "เนื้อหมูไม่ติดมัน",
+			Image:       "https://img.thaicdn.net/u/2017/wanchalerm/Health_01_60/pork.jpg",
+			Credit:      "https://health.kapook.com/view166661.html",
+			Description: "โปรตีนคุณภาพดี",
+			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
+		},
+			{
+			Name:        "เนื้อไก่ไม่มีหนัง/อกไก่/สันในไก่",
+			Image:       "https://img.thaicdn.net/u/2017/wanchalerm/Health_01_60/chic.jpg",
+			Credit:      "https://health.kapook.com/view166661.html",
+			Description: "โปรตีนคุณภาพดี",
+			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
+		},
+			{
+			Name:        "เนื้อกุ้งสุก",
+			Image:       "https://cheewajit.com/app/uploads/2018/07/588f7f8017000025002d93f4.jpeg",
+			Credit:      "https://cheewajit.com/healthy-food/recipe/103077.html",
+			Description: "โปรตีนคุณภาพดี",
+			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
+		},
+			{
+			Name:        "เนื้อปลาสุก",
+			Image:       "https://api2.krua.co/wp-content/uploads/2023/02/BannerMobile_960x633-16.jpg",
+			Credit:      "https://api2.krua.co/cooking_post/cooked-fish-tips/",
+			Description: "โปรตีนคุณภาพดี",
+			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
+		},
+			{
+			Name:        "ไข่ขาวต้ม",
+			Image:       "https://th-test-11.slatic.net/p/f43ff1cbdca2e92da80ed6377ad72bbb.jpg",
+			Credit:      "https://www.lazada.co.th/products/100-500-i4835057710.html",
+			Description: "ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
+		},
+		{
 			Name:        "เนื้อสัตว์แปรรูป",
-			Image:       "https://www.cpfworldwide.com/storage/news/thumb72589_1606298080.jpg",
-			Credit:      "https://www.cpfworldwide.com/th/media-center/healthyfood-1494",
+			Image:       "https://www.matichon.co.th/wp-content/uploads/2020/11/01-209.jpg",
+			Credit:      "https://www.matichon.co.th/publicize/news_2455470",
 			Description: "โซเดียมสูง",
 			FoodFlagID:  8,
 		},

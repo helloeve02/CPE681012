@@ -16,7 +16,7 @@ export default function PasswordResetForm() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-blue-500 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-blue-500 flex items-center justify-center p-4 font-kanit">
             {/* Background decorative elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-20 left-10 w-16 h-16 bg-white/10 rounded-lg rotate-12"></div>
