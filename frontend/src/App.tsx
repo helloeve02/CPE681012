@@ -40,6 +40,8 @@ import PrivateRoute from "./PrivateRoute";
 import SodiumBubbleChart from "./pages/Menu/menusodiu";
 import MaintenanceFluid from "./pages/Plan/FluidCalculation";
 import PasswordResetForm from "./pages/Admin/forgorpass";
+import InfographicDetailPage from "./pages/KnowledgeNews/InfographicPage";
+import ArticleDetailPage from "./pages/KnowledgeNews/ArticlePage";
 
 const AppContent = () => {
   const location = useLocation();
@@ -65,6 +67,8 @@ const AppContent = () => {
         <Route path="/ExerciseInformation" element={<ExerciseInformation />} />
         <Route path="/VideoPage" element={<VideoPage />} />
         <Route path="/video/:id" element={<VideoDetailPage />} />
+        <Route path="/infographic/:id" element={<InfographicDetailPage/>} />
+        <Route path="/article/:id" element={<ArticleDetailPage />} />
         <Route path="/VideoInformation" element={<VideoInformation />} />
         <Route path="/InfographicInformation" element={<InfographicInformation />} />
         <Route path="/ArticleInformation" element={<ArticleInformation />} />

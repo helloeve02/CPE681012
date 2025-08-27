@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
-import { GetContentByID } from "../../services/https";
+import { GetContentByID, GetContentByVideo } from "../../services/https";
 
 const VideoDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [contentByID, setContentByID] = useState<EducationalContentInterface | null>(null);
+  const [video, setVideo] = useState<EducationalContentInterface[]>([]);
+
+  const getContentByVideo = async () => {
+    try {
+      const res = await GetContentByVideo();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setVideo(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching videos:", error);
+    }
+  };
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -13,13 +25,17 @@ const VideoDetailPage: React.FC = () => {
       try {
         const res = await GetContentByID(id);
         // สมมติ API ส่ง object เดียว
-        setContentByID(res.data.menu ?? res.data); 
+        setContentByID(res.data.menu ?? res.data);
       } catch (err) {
         console.error("Error fetching content:", err);
       }
     };
     fetchContent();
   }, [id]);
+  useEffect(() => {
+    getContentByVideo();
+
+  }, []);
 
   if (!contentByID) return <div>Loading...</div>;
 
@@ -29,7 +45,7 @@ const VideoDetailPage: React.FC = () => {
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-8 px-4">
-        
+
         {/* MAIN CONTENT */}
         <div className="lg:col-span-3 bg-white p-6 rounded-xl shadow-lg">
           {/* Title */}
@@ -52,45 +68,35 @@ const VideoDetailPage: React.FC = () => {
           </div>
         </div>
 
+        
         {/* SIDEBAR */}
         <aside className="space-y-4">
           <h2 className="text-lg font-semibold border-b pb-2">วิดีโอที่เกี่ยวข้อง</h2>
 
           <div className="grid gap-4">
-            {[ // ตัวอย่างวิดีโอที่เกี่ยวข้อง
-              {
-                title: "6 ขั้นตอนต้องรู้ ดูแลตนเอง ให้ช่วงที่เมืองมีฝุ่น PM2.5",
-                date: "29 มกราคม 2568",
-                img: "https://via.placeholder.com/120x80"
-              },
-              {
-                title: "5 ข้อ ป้องกันฝุ่น PM2.5",
-                date: "29 มกราคม 2568",
-                img: "https://via.placeholder.com/120x80"
-              },
-              {
-                title: "วิธีเลือกหน้ากากอนามัย ป้องกันฝุ่น PM2.5",
-                date: "17 เมษายน 2567",
-                img: "https://via.placeholder.com/120x80"
-              }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-3 bg-white p-2 rounded-lg shadow hover:shadow-md transition"
-              >
-                <img
-                  src={item.img}
-                  alt="thumbnail"
-                  className="w-24 h-16 object-cover rounded"
-                />
-                <div className="flex-1">
-                  <p className="text-sm font-semibold">{item.title}</p>
-                  <span className="text-xs text-gray-500">{item.date}</span>
+            {video.length > 0 ? (
+              video.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex items-start gap-3 bg-white p-2 rounded-lg shadow hover:shadow-md transition cursor-pointer"
+                  onClick={() => window.location.href = `/video/${item.ID}`} // หรือใช้ navigate()
+                >
+                  <img
+                    src={item.PictureOut || "https://via.placeholder.com/120x80"}
+                    alt="thumbnail"
+                    className="w-24 h-16 object-cover rounded"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-semibold line-clamp-2">{item.Title}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="text-gray-500 text-sm">ไม่มีวิดีโอที่เกี่ยวข้อง</p>
+            )}
           </div>
         </aside>
+
       </div>
     </div>
   );
