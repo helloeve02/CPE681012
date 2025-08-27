@@ -2903,6 +2903,10 @@ func SetupDatabase() {
 			Flag:        "ควรรับประทาน", //เนื้อสัตว์
 			FoodGroupID: 5,
 		},
+		{
+			Flag:        "ควรรับประทาน", //แป้งปลอดโปรตีน //11
+			FoodGroupID: 2,
+		},
 	}
 
 	for _, flag := range FoodFlag {
@@ -2937,15 +2941,36 @@ func SetupDatabase() {
 			Name:        "วุ้นเส้น",
 			Image:       "https://s.isanook.com/he/0/ud/4/23017/vermicelli.jpg?ip/crop/w1200h700/q80/webp",
 			Credit:      "https://www.sanook.com/health/23017/",
-			Description: "ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
-			FoodFlagID:  1,
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
 		},
 		{
 			Name:        "เส้นเซี่ยงไฮ้",
 			Image:       "https://www.bloggang.com/data/m/mai-mee/picture/1244199848.jpg",
 			Credit:      "https://www.bloggang.com/viewdiary.php?id=mai-mee&month=06-2009&date=05&group=1&gblog=238",
-			Description: "ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
-			FoodFlagID:  1,
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
+		},
+		{
+			Name:        "แป้งมัน",
+			Image:       "https://cm.lnwfile.com/_/cm/_raw/pv/ke/oq.png",
+			Credit:      "https://www.cmbakermart.biz/product/1016/%E0%B9%81%E0%B8%9B%E0%B9%89%E0%B8%87%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%9B%E0%B8%B0%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87-%E0%B8%95%E0%B8%A3%E0%B8%B2%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-thai-fish-tapioca-starch-500-g-01-0100",
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
+		},
+		{
+			Name:        "แป้งเท้ายายม่อม",
+			Image:       "https://missflour.com/wp-content/uploads/2020/03/%E0%B9%81%E0%B8%9B%E0%B9%89%E0%B8%87%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%A7-%E0%B8%95%E0%B8%A3%E0%B8%B2%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B9%81%E0%B8%9F%E0%B8%99%E0%B8%8B%E0%B8%B5%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%9F-Coarse-Tapioca-Starch-missflour_front.png",
+			Credit:      "https://missflour.com/product/coarse_tapioca_starch_th/",
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
+		},
+		{
+			Name:        "สาคู",
+			Image:       "https://s359.kapook.com/pagebuilder/44eb9ad3-94e6-4134-a195-bd7a64f5e480.jpg",
+			Credit:      "https://cooking.kapook.com/view263591.html",
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
 		},
 		{
 			Name:        "ถั่วแดงสุก",
