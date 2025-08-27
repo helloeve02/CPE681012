@@ -317,6 +317,24 @@ async function GenerateWeeklyMealPlan(data: { diseaseID: number, tagIDs: number[
     });
 }
 
+async function GetMealplansByDisease(diseaseID: number) {
+  return await axios
+    .get(`${apiUrl}/mealplans/by-disease/${diseaseID}`, requestOptions)
+    .then((res) => res.data)
+    .catch((e) => {
+      console.error("Error fetching mealplans by disease:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function GetFoodItemByID(id: string) {
+  return await axios
+    .get(`${apiUrl}/fooditem/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+
+}
+
 // ดึงคำแนะนำทั้งหมด
 async function GetAllFoodChoices() {
   return await axios
@@ -333,6 +351,59 @@ async function GetFoodChoicesByDisease(diseaseID: number) {
     .catch((e) => e.response);
 }
 
+// ดึงเมนูมื้อหลักตาม Tag IDs (POST)
+async function GetMenusByTagIDs(tagIDs: number[]) {
+  return await axios
+    .post(`${apiUrl}/menus/by-tags`, { tagIDs }, requestOptions)
+    .then((res) => res.data.menus)
+    .catch((e) => {
+      console.error("Error fetching menus by tags:", e.response?.data || e.message);
+      return [];
+    });
+}
+
+// ดึงผลไม้ที่ควรรับประทาน (GET)
+/* async function GetFruits() {
+  return await axios
+    .get(`${apiUrl}/fooditems/flag3`, requestOptions)
+    .then((res) => res.data.fooditems)
+    .catch((e) => {
+      console.error("Error fetching fruits:", e.response?.data || e.message);
+      return [];
+    });
+}
+ */
+
+async function GetFruits() {
+  return await axios
+    .get(`${apiUrl}/fruits`, requestOptions)
+    .then((res) => res.data.fooditems)
+    .catch((e) => {
+      console.error("Error fetching fruits:", e.response?.data || e.message);
+      return [];
+    });
+}
+// ดึงของหวานทั่วไป (GET)
+async function GetDesserts() {
+  return await axios
+    .get(`${apiUrl}/desserts`, requestOptions)
+    .then((res) => res.data.desserts)
+    .catch((e) => {
+      console.error("Error fetching desserts:", e.response?.data || e.message);
+      return [];
+    });
+}
+
+// ดึงของหวานสำหรับโรคเบาหวาน (GET)
+async function GetDiabeticDesserts() {
+  return await axios
+    .get(`${apiUrl}/desserts/diabetic`, requestOptions)
+    .then((res) => res.data.diabeticDesserts)
+    .catch((e) => {
+      console.error("Error fetching diabetic desserts:", e.response?.data || e.message);
+      return [];
+    });
+}
 //=======================================Content==============================================//
 
 async function GetAllContent() {
@@ -462,8 +533,14 @@ export{
     CreateMenu,
     UpdateMenu,
     GenerateWeeklyMealPlan,
+    GetMealplansByDisease,
+    GetFoodItemByID,
     GetAllFoodChoices,
     GetFoodChoicesByDisease,
+    GetMenusByTagIDs, //ดึงตามtagที่ผู้ใช้เลือก
+    GetFruits,
+    GetDesserts,
+    GetDiabeticDesserts, //ดึงของหวานโรคเบหวาน
     DeleteMenu,
     CreateFoodItem,
     DeleteFoodItem,

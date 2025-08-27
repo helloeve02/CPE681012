@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"math/rand"
 	// "time"
 	// "log"
 	"github.com/helloeve02/CPE681012/entity"
@@ -1163,6 +1164,114 @@ func SetupDatabase() {
 		db.FirstOrCreate(&pkg, entity.Menu{Title: pkg.Title})
 	}
 
+	// 1️⃣ สร้าง Mealplans
+    mealplans := []entity.Mealplan{
+        {DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+        {DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
+        {DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
+        {DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
+        {DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
+    }
+
+    for i := range mealplans {
+        db.FirstOrCreate(&mealplans[i], map[string]interface{}{
+            "disease_id": mealplans[i].DiseaseID,
+            "plan_name":  mealplans[i].PlanName,
+        })
+    }
+
+    // 2️⃣ สร้าง Mealdays (1 แผนอาหาร = 7 วัน)
+    mealdays := []entity.Mealday{}
+    daysOfWeek := []string{"วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์", "วันอาทิตย์"}
+
+    for _, plan := range mealplans {
+        for _, day := range daysOfWeek {
+            mealdays = append(mealdays, entity.Mealday{
+                MealplanID: plan.ID,
+                DayofWeek:  day,
+            })
+        }
+    }
+
+    for i := range mealdays {
+        db.FirstOrCreate(&mealdays[i], map[string]interface{}{
+            "mealplan_id": mealdays[i].MealplanID,
+            "dayof_week":  mealdays[i].DayofWeek,
+        })
+    }
+
+    // 3️⃣ สร้าง Meals (เช้า, ว่าง, กลางวัน, เย็น)
+    mealTypes := []string{"มื้อเช้า", "มื้อว่าง", "มื้อกลางวัน", "มื้อเย็น"}
+    meals := []entity.Meal{}
+
+    for _, day := range mealdays {
+        for _, mType := range mealTypes {
+            meals = append(meals, entity.Meal{
+                MealdayID: day.ID,
+                MealType:  mType,
+            })
+        }
+    }
+
+    for i := range meals {
+        db.FirstOrCreate(&meals[i], map[string]interface{}{
+            "mealday_id": meals[i].MealdayID,
+            "meal_type":  meals[i].MealType,
+        })
+    }
+
+    // 4️⃣ สร้าง MealMenus แบบสุ่ม (ตัวอย่าง MenuID สมมติเป็น 1-30)
+    mealMenus := []entity.MealMenu{}
+    for _, meal := range meals {
+        menuID := uint(rand.Intn(30) + 1) // 1-30
+        mealMenus = append(mealMenus, entity.MealMenu{
+            MealID:      meal.ID,
+            MenuID:      menuID,
+            PortionText: "",
+        })
+    }
+
+    for i := range mealMenus {
+        db.FirstOrCreate(&mealMenus[i], map[string]interface{}{
+            "meal_id":      mealMenus[i].MealID,
+            "menu_id":      mealMenus[i].MenuID,
+            "portion_text": mealMenus[i].PortionText,
+        })
+    }
+
+	/* Mealplans := []entity.Mealplan{
+		{AdminID: 1 , DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+		{AdminID: 1 , DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
+		{AdminID: 1 , DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
+		{AdminID: 1 , DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
+		{AdminID: 1 , DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
+	}
+
+	for _, mealplan := range Mealplans {
+		db.FirstOrCreate(&mealplan, entity.Mealplan{
+			AdminID: mealplan.AdminID,
+			DiseaseID: mealplan.DiseaseID,
+			PlanName: mealplan.PlanName,
+		})
+	}
+
+	Mealdays := []entity.Mealday{
+		{MealplanID: 1, DayofWeek: "วันจันทร์"},
+		{MealplanID: 1, DayofWeek: "วันอังคาร"},
+		{MealplanID: 1, DayofWeek: "วันพุธ"},
+		{MealplanID: 1, DayofWeek: "วันพฤหัสบดี"},
+		{MealplanID: 1, DayofWeek: "วันศุกร์"},
+		{MealplanID: 1, DayofWeek: "วันเสาร์"},
+		{MealplanID: 1, DayofWeek: "วันอาทิตย์"},
+	}
+
+	for _, day := range Mealdays {
+		db.FirstOrCreate(&day, entity.Mealday{
+			MealplanID: day.MealplanID,
+			DayofWeek:  day.DayofWeek,
+		})
+	}
+
 	Meals := []entity.Meal{
 		{MealdayID: 1, MealType: "มื้อเช้า"},
 		{MealdayID: 1, MealType: "มื้อว่าง"},
@@ -1198,39 +1307,6 @@ func SetupDatabase() {
 		db.FirstOrCreate(&mealtype, entity.Meal{
 			MealdayID: mealtype.MealdayID,
 			MealType:  mealtype.MealType,
-		})
-	}
-
-	Mealplans := []entity.Mealplan{
-		{AdminID: 1 , DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
-		{AdminID: 1 , DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
-		{AdminID: 1 , DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
-		{AdminID: 1 , DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
-		{AdminID: 1 , DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
-	}
-
-	for _, mealplan := range Mealplans {
-		db.FirstOrCreate(&mealplan, entity.Mealplan{
-			AdminID: mealplan.AdminID,
-			DiseaseID: mealplan.DiseaseID,
-			PlanName: mealplan.PlanName,
-		})
-	}
-
-	Mealdays := []entity.Mealday{
-		{MealplanID: 1, DayofWeek: "วันจันทร์"},
-		{MealplanID: 1, DayofWeek: "วันอังคาร"},
-		{MealplanID: 1, DayofWeek: "วันพุธ"},
-		{MealplanID: 1, DayofWeek: "วันพฤหัสบดี"},
-		{MealplanID: 1, DayofWeek: "วันศุกร์"},
-		{MealplanID: 1, DayofWeek: "วันเสาร์"},
-		{MealplanID: 1, DayofWeek: "วันอาทิตย์"},
-	}
-
-	for _, day := range Mealdays {
-		db.FirstOrCreate(&day, entity.Mealday{
-			MealplanID: day.MealplanID,
-			DayofWeek:  day.DayofWeek,
 		})
 	}
 
@@ -1271,7 +1347,7 @@ func SetupDatabase() {
 			MenuID:      mealmenu.MenuID,
 			PortionText: mealmenu.PortionText,
 		})
-	}
+	} */
 
 	AgeRanges := []entity.AgeRange{
 		{AgeMin: 0, AgeMax: 60},
@@ -2686,6 +2762,8 @@ func SetupDatabase() {
 		{Name: "ทอด"},
 		{Name: "นึ่ง"},
 		{Name: "ส้มตำ"},
+		{Name: "อาหารหวาน"},
+		{Name: "อาหารหวานสำหรับผู้ป่วยโรคเบาหวาน"},
 	}
 
 	for _, Tag := range Tag {
