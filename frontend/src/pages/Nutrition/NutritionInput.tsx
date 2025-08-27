@@ -4,6 +4,7 @@ import { Button, Input, Radio, Select, Spin } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { GetAllDisease, FindRuleByUserInfo } from "../../services/https";
 import type { DiseasesInterface } from "../../interfaces/Disease";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 const NutritionInput = () => {
   const [disease, setDisease] = useState<number | null>(null);
@@ -105,108 +106,123 @@ const NutritionInput = () => {
   return (
     <>
       {isLoading ? (
-        <div className="fixed top-1/5 left-1/2 ">
-          <Spin />
+        <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+          <Spin size="large" />
         </div>
       ) : (
-        <div className="h-screen font-kanit">
-          <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 p-5 md:p-8 flex items-center justify-center text-white">
-            <div className="font-semibold text-2xl md:text-4xl">
-              โภชนาการที่เหมาะกับคุณ
+        <div className="font-kanit min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+          {/* Header */}
+          <div className="relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-600/90 via-purple-600/90 to-indigo-700/90"></div>
+            <div className="relative p-8 md:p-12 text-center text-white">
+              <h1 className="font-bold text-3xl md:text-5xl lg:text-6xl mb-2 animate-in slide-in-from-top-4 fade-in duration-1000">
+                โภชนาการที่เหมาะกับคุณ
+              </h1>
+              <p className="text-blue-100 text-lg md:text-xl opacity-90 animate-in slide-in-from-top-8 fade-in duration-1000 delay-300">
+                โปรดกรอกข้อมูลส่วนตัวเพื่อรับคำแนะนำ
+              </p>
             </div>
           </div>
-          <div className="md:ml-40 md:mr-40">
-            <div className="text-xl flex justify-center pt-5 md:text-2xl">
-              บอกเราเกี่ยวกับคุณ
-            </div>
 
-            <div className="text-sm grid gap-[3vh] pl-10 pr-10 md:text-xl md:pl-20 md:pr-20 lg:grid-cols-2">
-              {/* เพศ */}
-              <div className="flex flex-col gap-1">
-                <label className="">เพศ</label>
-                <Select
-                  showSearch
-                  placeholder="เลือกเพศ"
-                  optionFilterProp="label"
-                  value={gender ?? undefined}
-                  onChange={(value) => setGender(value)}
-                  onSearch={onSearch}
-                  options={[
-                    { value: "male", label: "ชาย" },
-                    { value: "female", label: "หญิง" },
-                  ]}
-                  className="!font-kanit"
-                  dropdownClassName="!font-kanit"
-                />
+          {/* Input Form */}
+          <div className="max-w-5xl mx-auto px-6 md:px-12 pt-10 pb-16">
+            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-10 shadow-xl border border-white/30 animate-in slide-in-from-bottom-4 fade-in duration-700">
+              <div className="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                <InfoCircleOutlined className="text-blue-600 mr-3" />
+                บอกเราเกี่ยวกับคุณ
               </div>
 
-              {/* อายุ */}
-              <div className="flex flex-col gap-1">
-                <label>อายุ</label>
-                <Input
-                  value={age ?? ""}
-                  onChange={(e) => setAge(Number(e.target.value))}
-                  type="number"
-                  placeholder="อายุ"
-                  className="!font-kanit"
-                />
+              <div className="grid gap-6 md:grid-cols-2 text-sm md:text-base">
+                {/* เพศ */}
+                <div className="flex flex-col gap-2">
+                  <label className="font-medium text-gray-700">เพศ</label>
+                  <Select
+                    showSearch
+                    placeholder="เลือกเพศ"
+                    optionFilterProp="label"
+                    value={gender ?? undefined}
+                    onChange={setGender}
+                    options={[
+                      { value: "male", label: "ชาย" },
+                      { value: "female", label: "หญิง" },
+                    ]}
+                    className="!font-kanit"
+                    dropdownClassName="!font-kanit"
+                  />
+                </div>
+
+                {/* อายุ */}
+                <div className="flex flex-col gap-2">
+                  <label className="font-medium text-gray-700">อายุ</label>
+                  <Input
+                    value={age ?? ""}
+                    onChange={(e) => setAge(Number(e.target.value))}
+                    type="number"
+                    placeholder="อายุ"
+                    className="!font-kanit"
+                  />
+                </div>
+
+                {/* ส่วนสูง */}
+                <div className="flex flex-col gap-2">
+                  <label className="font-medium text-gray-700">ส่วนสูง</label>
+                  <Input
+                    value={height ?? ""}
+                    onChange={(e) => setHeight(Number(e.target.value))}
+                    type="number"
+                    placeholder="ส่วนสูง"
+                    className="!font-kanit"
+                  />
+                </div>
+
+                {/* โรค */}
+                <div className="flex flex-col gap-2">
+                  <label className="font-medium text-gray-700">โรคของคุณ</label>
+                  <Radio.Group
+                    onChange={(e) => setDisease(e.target.value)}
+                    value={disease}
+                    className="flex gap-8"
+                  >
+                    <Radio value={1} className="!font-kanit text-gray-700">เบาหวาน</Radio>
+                    <Radio value={2} className="!font-kanit text-gray-700">ไต</Radio>
+                  </Radio.Group>
+
+                  {disease === 2 && (
+                    <div className="mt-2 flex flex-col gap-2">
+                      <label className="text-sm text-gray-600">เลือกระยะไต</label>
+                      <Select
+                        showSearch
+                        placeholder="เลือกระยะ"
+                        optionFilterProp="label"
+                        value={diseaseStage ?? undefined}
+                        onChange={(value) => setDiseaseStage(value)}
+                        options={kidneyStages}
+                        className="!font-kanit mt-1"
+                        dropdownClassName="!font-kanit"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {/* ส่วนสูง */}
-              <div className="flex flex-col gap-1">
-                <label>ส่วนสูง</label>
-                <Input
-                  value={height ?? ""}
-                  onChange={(e) => setHeight(Number(e.target.value))}
-                  type="number"
-                  placeholder="ส่วนสูง"
-                  className="!font-kanit"
-                />
-              </div>
-
-              {/* โรคของคุณ */}
-              <div className="flex flex-col gap-2">
-                <label>โรคของคุณ</label>
-                <Radio.Group
-                  onChange={onDiseaseChange}
-                  value={disease}
-                  className="flex items-center justify-center lg:justify-start lg:gap-50"
+              {/* Confirm Button */}
+              <div className="mt-10">
+                <Button
+                  type="primary"
+                  className="
+                    w-full !h-14 !text-lg md:!text-xl !font-kanit font-semibold
+                    !bg-gradient-to-r !from-blue-600 !to-indigo-700
+                    !border-0 !rounded-2xl !shadow-xl
+                    hover:!from-blue-700 hover:!to-indigo-800
+                    hover:!shadow-2xl hover:!scale-105
+                    transition-all duration-300
+                  "
+                  onClick={handleConfirm}
                 >
-                  <Radio value={1} className="text-sm md:text-xl !font-kanit">
-                    เบาหวาน
-                  </Radio>
-                  <Radio value={2} className="text-sm md:text-xl !font-kanit">
-                    ไต
-                  </Radio>
-                </Radio.Group>
-
-                {/* Show kidney stage dropdown if ไต is selected */}
-                {disease === 2 && (
-                  <div className="mt-2 flex flex-col gap-y-3">
-                    <label className="font-normal">เลือกไตระยะ</label>
-                    <Select
-                      showSearch
-                      placeholder="เลือกระยะไต"
-                      optionFilterProp="label"
-                      value={diseaseStage ?? undefined}
-                      onChange={(value) => setDiseaseStage(value)}
-                      onSearch={onSearch}
-                      options={kidneyStages}
-                      className="!font-kanit"
-                      dropdownClassName="!font-kanit"
-                    />
-                  </div>
-                )}
+                  ยืนยันข้อมูล
+                </Button>
               </div>
-            </div>
-            <div className="p-[4vh] md:pl-20 md:pr-20 lg:p-[6vh] lg:pl-30 lg:pr-30">
-              <Button
-                type="primary"
-                className="w-full !p-4 !text-lg md:!p-5 md:!text-xl !font-kanit"
-                onClick={handleConfirm}
-              >
-                ยืนยัน
-              </Button>
             </div>
           </div>
         </div>
