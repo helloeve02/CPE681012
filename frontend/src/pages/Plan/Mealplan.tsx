@@ -7,7 +7,8 @@ import type { MealMenuInterface } from '../../interfaces/MealMenu';
 import type { DiseasesInterface } from '../../interfaces/Disease';
 import type { SlotConfigInterface } from '../../interfaces/SlotConfig';
 import { useNavigate } from 'react-router-dom';
-import { GenerateWeeklyMealPlan, GetMealplansByDisease, GetFoodChoicesByDisease, GetAllDisease, GetAllTag, GetMenusByTagIDs, GetFruits, GetDesserts, GetDiabeticDesserts, } from "../../services/https/index";
+import { GenerateWeeklyMealPlan, GetMealplansByDisease, GetFoodChoicesByDisease, GetAllDisease, GetAllTag, GetMenusByTagIDs, GetFruits, GetDesserts, GetDiabeticDesserts, GetAllMenu } from "../../services/https/index";
+import type { MenuInterface } from '../../interfaces/Menu';
 
 // type สำหรับแต่ละมื้อในวัน
 interface DailyMeals {
@@ -72,6 +73,7 @@ const MealPlannerApp = () => {
   const [fruits, setFruits] = useState([]);
   const [desserts, setDesserts] = useState([]);
   const [diabeticDesserts, setDiabeticDesserts] = useState([]);
+  const [menu, setMenu] = useState<MenuInterface[]>([]);
   const loadAdditionalData = async () => {
     try {
       const [fruitsRes, dessertsRes, diabeticDessertsRes] = await Promise.all([
@@ -109,24 +111,21 @@ const MealPlannerApp = () => {
     try {
       // Load diseases
       const diseasesResponse = await GetAllDisease();
-      if (diseasesResponse?.data && Array.isArray(diseasesResponse.data)) {
-        setDiseases(diseasesResponse.data);
-        if (diseasesResponse.data.length > 0) {
-          setSelectedDisease(diseasesResponse.data[0]);
+      console.log(diseasesResponse);
+
+      if (Array.isArray(diseasesResponse?.data?.diseases)) {
+        // set เฉพาะ array โรค
+        setDiseases(diseasesResponse.data.diseases);
+
+        if (diseasesResponse.data.diseases.length > 0) {
+          setSelectedDisease(diseasesResponse.data.diseases[0]);
         }
       } else {
-        // Fallback with mock data if API fails
+        // fallback mock data
         console.warn("API failed, using mock diseases data");
-        const mockDiseases = [
-          { ID: 1, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ 1-3a" },
-          { ID: 2, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ 3b-5" },
-          { ID: 2, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ HD" },
-          { ID: 2, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ CAPD" },
-          { ID: 2, Name: "โรคเบาหวาน", Stage: "-" }
-        ];
-        setDiseases(mockDiseases);
-        setSelectedDisease(mockDiseases[0]);
+
       }
+
 
       // Load tags
       const tagsResponse = await GetAllTag();
@@ -135,36 +134,11 @@ const MealPlannerApp = () => {
       } else {
         // Fallback with mock tags if API fails
         console.warn("API failed, using mock tags data");
-        const mockTags = [
-          { ID: 1, Name: "มังสวิรัติ" },
-          { ID: 2, Name: "ไม่มีแป้ง" },
-          { ID: 3, Name: "โซเดียมต่ำ" },
-          { ID: 4, Name: "โปรตีนต่ำ" },
-          { ID: 5, Name: "โพแทสเซียมต่ำ" }
-        ];
-        setAllTags(mockTags);
       }
     } catch (error) {
       console.error("Error loading initial data:", error);
       setError("ไม่สามารถโหลดข้อมูลเริ่มต้นได้ กรุณาลองใหม่อีกครั้ง");
       // Set fallback data when API completely fails
-      const mockDiseases = [
-        { ID: 1, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ 1-3a" },
-        { ID: 2, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ 3b-5" },
-        { ID: 2, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ HD" },
-        { ID: 2, Name: "โรคไตเรื้อรัง", Stage: "ระยะที่ CAPD" },
-        { ID: 2, Name: "โรคเบาหวาน", Stage: "-" }
-      ];
-      const mockTags = [
-        { ID: 1, Name: "มังสวิรัติ" },
-        { ID: 2, Name: "ไม่มีแป้ง" },
-        { ID: 3, Name: "โซเดียมต่ำ" },
-        { ID: 4, Name: "โปรตีนต่ำ" },
-        { ID: 5, Name: "โพแทสเซียมต่ำ" }
-      ];
-      setDiseases(mockDiseases);
-      setAllTags(mockTags);
-      setSelectedDisease(mockDiseases[0]);
     } finally {
       setIsLoading(false);
     }
@@ -182,6 +156,19 @@ const MealPlannerApp = () => {
     } catch (error) {
       console.error("Error loading food choices:", error);
       setFoodChoiceDiseases([]);
+    }
+  };
+
+    const getAllMenu = async () => {
+    try {
+      const res = await GetAllMenu();
+      if (Array.isArray(res?.data?.menu)) {
+        setMenu(res.data.menu);
+      } else {
+        setError("Failed to load menu items");
+      }
+    } catch {
+      setError("Error fetching menu items. Please try again later.");
     }
   };
 
@@ -358,11 +345,6 @@ const MealPlannerApp = () => {
     const days = ["วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์", "วันอาทิตย์"];
     const mealTypes: (keyof DailyMeals)[] = ["เช้า", "ว่างเช้า", "กลางวัน", "ว่างบ่าย", "เย็น"];
 
-    const mockMenus = ["ข้าวต้มปลา", "ไข่ต้ม", "ข้าวผัดมะเขือเทศ", "ผัดผักกาดขาว"];
-    const mockFruits = ["แอปเปิ้ล", "สับปะรด", "มะละกอ", "องุ่น"]; // FoodItems
-    const mockDesserts = ["วุ้นมะพร้าว", "ขนมหวานแครอท", "เต้าหู้นุ่มน้ำตาล"]; // Menus
-    const mockDiabeticDesserts = ["วุ้นไม่มีน้ำตาล", "ขนมหวานแครอทไม่มีน้ำตาล"]; // Menus สำหรับเบาหวาน
-
     const newMealPlan: MealPlan = {};
     const isDiabetic = selectedDisease.ID === 5; // โรคเบาหวาน
 
@@ -382,7 +364,7 @@ const MealPlannerApp = () => {
 
           if (isFreuit) {
             // เลือกผลไม้ (FoodItem)
-            const randomFruit = mockFruits[Math.floor(Math.random() * mockFruits.length)];
+            const randomFruit = fruits[Math.floor(Math.random() * fruits.length)];
             dailyMeals[mealType] = [{
               ID: Math.random() * 1000,
               PortionText: randomFruit,
@@ -396,10 +378,10 @@ const MealPlannerApp = () => {
             let isSpecialDessert = false;
 
             if (isDiabetic) {
-              selectedDessert = mockDiabeticDesserts[Math.floor(Math.random() * mockDiabeticDesserts.length)];
+              selectedDessert = diabeticDesserts[Math.floor(Math.random() * diabeticDesserts.length)];
               isSpecialDessert = true;
             } else {
-              selectedDessert = mockDesserts[Math.floor(Math.random() * mockDesserts.length)];
+              selectedDessert = desserts[Math.floor(Math.random() * desserts.length)];
             }
 
             dailyMeals[mealType] = [{
@@ -412,10 +394,10 @@ const MealPlannerApp = () => {
           }
         } else {
           // มื้อหลัก (เช้า, กลางวัน, เย็น) ใช้ Menu ปกติ
-          const randomMenu = mockMenus[Math.floor(Math.random() * mockMenus.length)];
+          const randomMenu = menu[Math.floor(Math.random() * menu.length)];
           dailyMeals[mealType] = [{
             ID: Math.random() * 1000,
-            PortionText: randomMenu,
+            // PortionText: randomMenu,
             MenuID: Math.random() * 1000,
             isFoodItem: false,
             isSpecialDessert: false
