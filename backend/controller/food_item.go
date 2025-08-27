@@ -106,7 +106,7 @@ func GetFoodItemsByFlags(c *gin.Context) {
 }
 
 //ดึงผลไม้ที่ควรรับประทาน
-func GetFoodItemsByFlag3(c *gin.Context) {
+/* func GetFoodItemsByFlag3(c *gin.Context) {
 	var fooditems []entity.FoodItem
 
 	db := config.DB()
@@ -118,7 +118,7 @@ func GetFoodItemsByFlag3(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"fooditems": fooditems})
-}
+} */
 
 func GetAllFoodItemsWithData(c *gin.Context) {
 	var fooditems []entity.FoodItem

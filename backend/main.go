@@ -59,6 +59,16 @@ func main() {
 		r.GET("/content-infographics", controller.GetContentByInfographics)
 		r.GET("/content-video", controller.GetContentByVideo)
 		r.GET("/content-article", controller.GetContentByArticle)
+		r.POST("/weekly-mealplan/generate", controller.GenerateWeeklyMealPlan)
+		r.GET("/foodchoices",controller.GetAllFoodChoices)
+		r.GET("/foodchoices/disease/:diseaseID",controller.GetFoodChoicesByDisease)
+		r.POST("/menus/by-tags", controller.GetMenusByTagIDs)
+		r.GET("/fruits", controller.GetFruits)
+		r.GET("/desserts", controller.GetDesserts)
+		r.GET("/desserts/diabetic", controller.GetDiabeticDesserts)
+		r.GET("/mealplans/by-disease/:id", controller.GetMealplansByDisease) 
+		r.GET("/fooditem/:id", controller.GetFoodItemByID,
+)
 	}
 
 	r.GET("/", func(c *gin.Context) {

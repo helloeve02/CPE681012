@@ -6,6 +6,8 @@ export interface MealMenuInterface {
     PortionText?: string;
     MealID?: number; //FK
     MenuID?: number; //FK
+    isFoodItem?: boolean; // เพื่อแยกว่าเป็น FoodItem หรือ Menu
+    isSpecialDessert?: boolean; // สำหรับของหวานพิเศษของโรคเบาหวาน
     /* Menus?: MenuInterface[];  */
     /* Menu?: MenuInterface; 
     Meals?: MealInterface[];  */               
