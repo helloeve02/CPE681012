@@ -1159,7 +1159,32 @@ func SetupDatabase() {
 			Image:  "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.jpg",
 			Credit: "https://siamfishing.com/m/content/m.view.php?cat=recipe&nid=150703",
 		},
+		{
+			Title: "ซาหริ่ม",
+			Description: `ส่วนประกอบ 
+		- แป้งถั่วเขียว: 1 ถ้วย 
+		- น้ำเปล่า: 2 ถ้วย
+		- สีผสมอาหาร (สีเขียวจากใบเตย, สีชมพู, สีฟ้า)
+		- กะทิสด: 500 มิลลิลิตร
+		- น้ำตาลทราย: 1 ถ้วย
+		- เกลือป่น: 1/4 ช้อนชา
+		- น้ำเชื่อมสำหรับเสิร์ฟ
+
+		วิธีทำเส้นซ่าหริ่ม
+		1.ผสมแป้งถั่วเขียวกับน้ำเปล่า คนให้เข้ากันดี
+		2.ตั้งกระทะใช้ไฟอ่อน กวนแป้งจนข้นเหนียว
+		3.แบ่งแป้งออกเป็นส่วนๆ ผสมสีผสมอาหารตามต้องการ
+		4.นำแป้งที่ได้ใส่ถุงบีบหรือพิมพ์ซ่าหริ่ม บีบลงในน้ำเย็นจัดเพื่อให้แป้งเซ็ตตัว
+
+		วิธีทำน้ำกะทิ
+		1.ตั้งหม้อ ใส่กะทิ น้ำตาลทราย และเกลือ คนให้ละลาย
+		2.ต้มด้วยไฟอ่อนจนกะทิหอมและเนียน ไม่ต้องให้เดือดจัด`,
+			// Region: "ภาคเหนือ",
+			Image:  "https://cookinghub.in.th/wp-content/uploads/2024/12/%E0%B8%8B%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A.jpg",
+			Credit: "https://cookinghub.in.th/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3-%E0%B8%8B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A%E0%B9%81%E0%B8%A5/",
+		},
 	}
+	
 	for _, pkg := range Menu {
 		db.FirstOrCreate(&pkg, entity.Menu{Title: pkg.Title})
 	}
@@ -2859,6 +2884,9 @@ func SetupDatabase() {
 		{MenuID: 40, TagID: 11},
 		{MenuID: 41, TagID: 3},
 		{MenuID: 41, TagID: 7},
+		{MenuID: 42, TagID: 3},// ป่นปลา
+		{MenuID: 42, TagID: 9},// ป่นปลา
+		{MenuID: 43, TagID: 15}, //ซาหริ่ม
 	}
 	db.Create(&MenuTag)
 
