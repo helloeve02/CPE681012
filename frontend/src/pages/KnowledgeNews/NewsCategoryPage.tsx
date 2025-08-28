@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import type { EducationalContentInterface } from "../../interfaces/EducationalContent";
+import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
 import {
   GetContentByArticle,
   GetContentByInfographics,
@@ -175,8 +175,10 @@ const NewsCategoryPage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {article.map((item) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-xl mx-auto justify-items-center">
+
+
+            {article.slice(0, 8).map((item) => (
               <Link
                 key={item.ID}
                 to={`/article/${item.ID}`}
@@ -238,7 +240,7 @@ const Section: React.FC<SectionProps> = ({ title, subtitle, items, type, linkTo 
     </div>
 
     <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-      {items.map((item) => (
+      {items.slice(0, 6).map((item) => (
         <Link
           key={item.id}
           to={type === "video" ? `/video/${item.id}` : `/infographic/${item.id}`}

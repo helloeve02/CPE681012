@@ -78,6 +78,21 @@ func CreateContent(c *gin.Context) {
         "menu": menu,  // ส่งคืนรายการคำสั่งซื้อที่ถูกสร้าง
     })
 }
+func GetContentByArticle(c *gin.Context) {
+	var educationalContent []entity.EducationalContent
+
+	db := config.DB()
+
+	// ถ้าต้องการดึง ID = 1 อย่างเดียว
+	if err := db.Preload("ContentCategory").
+		Where("content_category_id = ?", 1).
+		Find(&educationalContent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
+}
 
 func GetContentByInfographics(c *gin.Context) {
 	var educationalContent []entity.EducationalContent
@@ -111,14 +126,14 @@ func GetContentByVideo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
 }
 
-func GetContentByArticle(c *gin.Context) {
+func GetContentAllByKidney(c *gin.Context) {
 	var educationalContent []entity.EducationalContent
 
 	db := config.DB()
 
 	// ถ้าต้องการดึง ID = 1 อย่างเดียว
-	if err := db.Preload("ContentCategory").
-		Where("content_category_id = ?", 1).
+	if err := db.Preload("EducationalGroup").
+		Where("educational_group_id = ?", 1).
 		Find(&educationalContent).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
 		return
@@ -127,5 +142,49 @@ func GetContentByArticle(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
 }
 
+func GetContentAllByDiabetes(c *gin.Context) {
+	var educationalContent []entity.EducationalContent
 
+	db := config.DB()
 
+	// ถ้าต้องการดึง ID = 1 อย่างเดียว
+	if err := db.Preload("EducationalGroup").
+		Where("educational_group_id = ?", 2).
+		Find(&educationalContent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
+}
+
+func GetContentAllByExercise(c *gin.Context) {
+	var educationalContent []entity.EducationalContent
+
+	db := config.DB()
+
+	// ถ้าต้องการดึง ID = 1 อย่างเดียว
+	if err := db.Preload("EducationalGroup").
+		Where("educational_group_id = ?", 3).
+		Find(&educationalContent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
+}
+func GetContentAllByNutrition(c *gin.Context) {
+	var educationalContent []entity.EducationalContent
+
+	db := config.DB()
+
+	// ถ้าต้องการดึง ID = 1 อย่างเดียว
+	if err := db.Preload("EducationalGroup").
+		Where("educational_group_id = ?", 4).
+		Find(&educationalContent).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงข้อมูล EducationalContent ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
+}

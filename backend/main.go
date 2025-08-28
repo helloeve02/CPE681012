@@ -59,6 +59,10 @@ func main() {
 		r.GET("/content-infographics", controller.GetContentByInfographics)
 		r.GET("/content-video", controller.GetContentByVideo)
 		r.GET("/content-article", controller.GetContentByArticle)
+		r.GET("/content-kidney", controller.GetContentAllByKidney)
+		r.GET("/content-diabetes", controller.GetContentAllByDiabetes)
+		r.GET("/content-exercise", controller.GetContentAllByExercise)
+		r.GET("/content-nutrition", controller.GetContentAllByNutrition)
 	}
 
 	r.GET("/", func(c *gin.Context) {

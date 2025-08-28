@@ -431,6 +431,34 @@ async function GetContentByArticle() {
     .catch((e) => e.response);
 }
 
+async function GetContentAllByKidney() {
+  return await axios
+    .get(`${apiUrl}/content-kidney`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentAllByDiabetes() {
+  return await axios
+    .get(`${apiUrl}/content-diabetes`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentAllByExercise() {
+  return await axios
+    .get(`${apiUrl}/content-exercise`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentAllByNutrition() {
+  return await axios
+    .get(`${apiUrl}/content-nutrition`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 export{
     GetAllMenu,
     GetMenuById,
@@ -481,4 +509,9 @@ export{
     GetContentByVideo,
     GetContentByArticle,
     GetAllChooseAvoid,
+    GetContentAllByKidney,
+    GetContentAllByDiabetes,
+    GetContentAllByExercise,
+    GetContentAllByNutrition,
+
 }
