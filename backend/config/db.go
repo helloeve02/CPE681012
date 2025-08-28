@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"math/rand"
 	// "time"
 	// "log"
 	"github.com/helloeve02/CPE681012/entity"
@@ -1158,9 +1159,142 @@ func SetupDatabase() {
 			Image:  "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.jpg",
 			Credit: "https://siamfishing.com/m/content/m.view.php?cat=recipe&nid=150703",
 		},
+		{
+			Title: "ซาหริ่ม",
+			Description: `ส่วนประกอบ 
+		- แป้งถั่วเขียว: 1 ถ้วย 
+		- น้ำเปล่า: 2 ถ้วย
+		- สีผสมอาหาร (สีเขียวจากใบเตย, สีชมพู, สีฟ้า)
+		- กะทิสด: 500 มิลลิลิตร
+		- น้ำตาลทราย: 1 ถ้วย
+		- เกลือป่น: 1/4 ช้อนชา
+		- น้ำเชื่อมสำหรับเสิร์ฟ
+
+		วิธีทำเส้นซ่าหริ่ม
+		1.ผสมแป้งถั่วเขียวกับน้ำเปล่า คนให้เข้ากันดี
+		2.ตั้งกระทะใช้ไฟอ่อน กวนแป้งจนข้นเหนียว
+		3.แบ่งแป้งออกเป็นส่วนๆ ผสมสีผสมอาหารตามต้องการ
+		4.นำแป้งที่ได้ใส่ถุงบีบหรือพิมพ์ซ่าหริ่ม บีบลงในน้ำเย็นจัดเพื่อให้แป้งเซ็ตตัว
+
+		วิธีทำน้ำกะทิ
+		1.ตั้งหม้อ ใส่กะทิ น้ำตาลทราย และเกลือ คนให้ละลาย
+		2.ต้มด้วยไฟอ่อนจนกะทิหอมและเนียน ไม่ต้องให้เดือดจัด`,
+			// Region: "ภาคเหนือ",
+			Image:  "https://cookinghub.in.th/wp-content/uploads/2024/12/%E0%B8%8B%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A.jpg",
+			Credit: "https://cookinghub.in.th/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3-%E0%B8%8B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A%E0%B9%81%E0%B8%A5/",
+		},
 	}
+	
 	for _, pkg := range Menu {
 		db.FirstOrCreate(&pkg, entity.Menu{Title: pkg.Title})
+	}
+
+	// 1️⃣ สร้าง Mealplans
+    mealplans := []entity.Mealplan{
+        {DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+        {DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
+        {DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
+        {DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
+        {DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
+    }
+
+    for i := range mealplans {
+        db.FirstOrCreate(&mealplans[i], map[string]interface{}{
+            "disease_id": mealplans[i].DiseaseID,
+            "plan_name":  mealplans[i].PlanName,
+        })
+    }
+
+    // 2️⃣ สร้าง Mealdays (1 แผนอาหาร = 7 วัน)
+    mealdays := []entity.Mealday{}
+    daysOfWeek := []string{"วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์", "วันอาทิตย์"}
+
+    for _, plan := range mealplans {
+        for _, day := range daysOfWeek {
+            mealdays = append(mealdays, entity.Mealday{
+                MealplanID: plan.ID,
+                DayofWeek:  day,
+            })
+        }
+    }
+
+    for i := range mealdays {
+        db.FirstOrCreate(&mealdays[i], map[string]interface{}{
+            "mealplan_id": mealdays[i].MealplanID,
+            "dayof_week":  mealdays[i].DayofWeek,
+        })
+    }
+
+    // 3️⃣ สร้าง Meals (เช้า, ว่าง, กลางวัน, เย็น)
+    mealTypes := []string{"มื้อเช้า", "มื้อว่าง", "มื้อกลางวัน", "มื้อเย็น"}
+    meals := []entity.Meal{}
+
+    for _, day := range mealdays {
+        for _, mType := range mealTypes {
+            meals = append(meals, entity.Meal{
+                MealdayID: day.ID,
+                MealType:  mType,
+            })
+        }
+    }
+
+    for i := range meals {
+        db.FirstOrCreate(&meals[i], map[string]interface{}{
+            "mealday_id": meals[i].MealdayID,
+            "meal_type":  meals[i].MealType,
+        })
+    }
+
+    // 4️⃣ สร้าง MealMenus แบบสุ่ม (ตัวอย่าง MenuID สมมติเป็น 1-30)
+    mealMenus := []entity.MealMenu{}
+    for _, meal := range meals {
+        menuID := uint(rand.Intn(30) + 1) // 1-30
+        mealMenus = append(mealMenus, entity.MealMenu{
+            MealID:      meal.ID,
+            MenuID:      menuID,
+            PortionText: "",
+        })
+    }
+
+    for i := range mealMenus {
+        db.FirstOrCreate(&mealMenus[i], map[string]interface{}{
+            "meal_id":      mealMenus[i].MealID,
+            "menu_id":      mealMenus[i].MenuID,
+            "portion_text": mealMenus[i].PortionText,
+        })
+    }
+
+	/* Mealplans := []entity.Mealplan{
+		{AdminID: 1 , DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+		{AdminID: 1 , DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
+		{AdminID: 1 , DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
+		{AdminID: 1 , DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
+		{AdminID: 1 , DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
+	}
+
+	for _, mealplan := range Mealplans {
+		db.FirstOrCreate(&mealplan, entity.Mealplan{
+			AdminID: mealplan.AdminID,
+			DiseaseID: mealplan.DiseaseID,
+			PlanName: mealplan.PlanName,
+		})
+	}
+
+	Mealdays := []entity.Mealday{
+		{MealplanID: 1, DayofWeek: "วันจันทร์"},
+		{MealplanID: 1, DayofWeek: "วันอังคาร"},
+		{MealplanID: 1, DayofWeek: "วันพุธ"},
+		{MealplanID: 1, DayofWeek: "วันพฤหัสบดี"},
+		{MealplanID: 1, DayofWeek: "วันศุกร์"},
+		{MealplanID: 1, DayofWeek: "วันเสาร์"},
+		{MealplanID: 1, DayofWeek: "วันอาทิตย์"},
+	}
+
+	for _, day := range Mealdays {
+		db.FirstOrCreate(&day, entity.Mealday{
+			MealplanID: day.MealplanID,
+			DayofWeek:  day.DayofWeek,
+		})
 	}
 
 	Meals := []entity.Meal{
@@ -1201,39 +1335,6 @@ func SetupDatabase() {
 		})
 	}
 
-	Mealplans := []entity.Mealplan{
-		{AdminID: 1 , DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
-		{AdminID: 1 , DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
-		{AdminID: 1 , DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
-		{AdminID: 1 , DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
-		{AdminID: 1 , DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
-	}
-
-	for _, mealplan := range Mealplans {
-		db.FirstOrCreate(&mealplan, entity.Mealplan{
-			AdminID: mealplan.AdminID,
-			DiseaseID: mealplan.DiseaseID,
-			PlanName: mealplan.PlanName,
-		})
-	}
-
-	Mealdays := []entity.Mealday{
-		{MealplanID: 1, DayofWeek: "วันจันทร์"},
-		{MealplanID: 1, DayofWeek: "วันอังคาร"},
-		{MealplanID: 1, DayofWeek: "วันพุธ"},
-		{MealplanID: 1, DayofWeek: "วันพฤหัสบดี"},
-		{MealplanID: 1, DayofWeek: "วันศุกร์"},
-		{MealplanID: 1, DayofWeek: "วันเสาร์"},
-		{MealplanID: 1, DayofWeek: "วันอาทิตย์"},
-	}
-
-	for _, day := range Mealdays {
-		db.FirstOrCreate(&day, entity.Mealday{
-			MealplanID: day.MealplanID,
-			DayofWeek:  day.DayofWeek,
-		})
-	}
-
 	MealMenus := []entity.MealMenu{
 		{MealID: 1, MenuID: 1, PortionText: ""},
 		{MealID: 2, MenuID: 1, PortionText: ""},
@@ -1271,7 +1372,7 @@ func SetupDatabase() {
 			MenuID:      mealmenu.MenuID,
 			PortionText: mealmenu.PortionText,
 		})
-	}
+	} */
 
 	AgeRanges := []entity.AgeRange{
 		{AgeMin: 0, AgeMax: 60},
@@ -2686,6 +2787,8 @@ func SetupDatabase() {
 		{Name: "ทอด"},
 		{Name: "นึ่ง"},
 		{Name: "ส้มตำ"},
+		{Name: "อาหารหวาน"},
+		{Name: "อาหารหวานสำหรับผู้ป่วยโรคเบาหวาน"},
 	}
 
 	for _, Tag := range Tag {
@@ -2781,6 +2884,9 @@ func SetupDatabase() {
 		{MenuID: 40, TagID: 11},
 		{MenuID: 41, TagID: 3},
 		{MenuID: 41, TagID: 7},
+		{MenuID: 42, TagID: 3},// ป่นปลา
+		{MenuID: 42, TagID: 9},// ป่นปลา
+		{MenuID: 43, TagID: 15}, //ซาหริ่ม
 	}
 	db.Create(&MenuTag)
 
@@ -2825,6 +2931,10 @@ func SetupDatabase() {
 			Flag:        "ควรรับประทาน", //เนื้อสัตว์
 			FoodGroupID: 5,
 		},
+		{
+			Flag:        "ควรรับประทาน", //แป้งปลอดโปรตีน //11
+			FoodGroupID: 2,
+		},
 	}
 
 	for _, flag := range FoodFlag {
@@ -2859,15 +2969,36 @@ func SetupDatabase() {
 			Name:        "วุ้นเส้น",
 			Image:       "https://s.isanook.com/he/0/ud/4/23017/vermicelli.jpg?ip/crop/w1200h700/q80/webp",
 			Credit:      "https://www.sanook.com/health/23017/",
-			Description: "ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
-			FoodFlagID:  1,
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
 		},
 		{
 			Name:        "เส้นเซี่ยงไฮ้",
 			Image:       "https://www.bloggang.com/data/m/mai-mee/picture/1244199848.jpg",
 			Credit:      "https://www.bloggang.com/viewdiary.php?id=mai-mee&month=06-2009&date=05&group=1&gblog=238",
-			Description: "ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
-			FoodFlagID:  1,
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
+		},
+		{
+			Name:        "แป้งมัน",
+			Image:       "https://cm.lnwfile.com/_/cm/_raw/pv/ke/oq.png",
+			Credit:      "https://www.cmbakermart.biz/product/1016/%E0%B9%81%E0%B8%9B%E0%B9%89%E0%B8%87%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%9B%E0%B8%B0%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87-%E0%B8%95%E0%B8%A3%E0%B8%B2%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2-thai-fish-tapioca-starch-500-g-01-0100",
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
+		},
+		{
+			Name:        "แป้งเท้ายายม่อม",
+			Image:       "https://missflour.com/wp-content/uploads/2020/03/%E0%B9%81%E0%B8%9B%E0%B9%89%E0%B8%87%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%A7-%E0%B8%95%E0%B8%A3%E0%B8%B2%E0%B8%9B%E0%B8%A5%E0%B8%B2%E0%B9%81%E0%B8%9F%E0%B8%99%E0%B8%8B%E0%B8%B5%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%9F-Coarse-Tapioca-Starch-missflour_front.png",
+			Credit:      "https://missflour.com/product/coarse_tapioca_starch_th/",
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
+		},
+		{
+			Name:        "สาคู",
+			Image:       "https://s359.kapook.com/pagebuilder/44eb9ad3-94e6-4134-a195-bd7a64f5e480.jpg",
+			Credit:      "https://cooking.kapook.com/view263591.html",
+			Description: "เกลือแร่ต่ำ,โซเดียมต่ำ,ฟอสฟอรัสต่ำ,โพแทสเซียมต่ำ",
+			FoodFlagID:  11,
 		},
 		{
 			Name:        "ถั่วแดงสุก",
