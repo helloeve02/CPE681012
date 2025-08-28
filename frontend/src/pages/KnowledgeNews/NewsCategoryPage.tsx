@@ -73,7 +73,6 @@ const NewsCategoryPage: React.FC = () => {
             </p>
           </div>
         </div>
-        {/* Decorative wave */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg className="w-full h-12 fill-current text-white" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
@@ -96,7 +95,7 @@ const NewsCategoryPage: React.FC = () => {
               <p className="text-gray-600 mb-6 text-lg leading-relaxed">
                 ค้นหาความรู้ที่ตรงกับความต้องการของคุณ
               </p>
-              
+
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {categories.map((item, idx) => (
                   <Link
@@ -113,7 +112,7 @@ const NewsCategoryPage: React.FC = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="flex-1 lg:max-w-md">
               <div className="relative">
                 <img
@@ -132,6 +131,7 @@ const NewsCategoryPage: React.FC = () => {
           title="อินโฟกราฟฟิก"
           subtitle="ข้อมูลที่เข้าใจง่าย ผ่านภาพประกอบ"
           items={infographics.map((item) => ({
+            id: item.ID,
             img: item.PictureIn ?? "",
             title: item.Title ?? "",
           }))}
@@ -141,53 +141,18 @@ const NewsCategoryPage: React.FC = () => {
         />
 
         {/* Videos Section */}
-        <div className="mt-16">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">🎥</span>
-              <div>
-                <h3 className="text-2xl font-bold text-gray-800">วิดีโอล่าสุด</h3>
-                <p className="text-gray-600 text-sm">เรียนรู้ผ่านคลิปวิดีโอที่น่าสนใจ</p>
-              </div>
-            </div>
-            <Link 
-              to="/VideoInformation" 
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 font-medium"
-            >
-              ดูเพิ่มเติม
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-          
-          <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-            {video.map((video) => (
-              <Link
-                key={video.ID}
-                to={`/video/${video.ID}`}
-                className="group w-80 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 overflow-hidden border border-gray-100 hover:scale-105"
-              >
-                <div className="relative overflow-hidden">
-                  <img
-                    src={video.PictureOut ?? ""}
-                    alt={video.Title ?? ""}
-                    className="h-48 w-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded-md text-xs font-medium">
-                    วิดีโอ
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h4 className="font-semibold text-gray-800 line-clamp-2 leading-snug">
-                    {video.Title}
-                  </h4>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+        <Section
+          title="วิดีโอล่าสุด"
+          subtitle="เรียนรู้ผ่านคลิปวิดีโอที่น่าสนใจ"
+          items={video.map((item) => ({
+            id: item.ID,
+            img: item.PictureOut ?? "",
+            title: item.Title ?? "",
+          }))}
+          type="video"
+          linkTo="/VideoInformation"
+          icon="🎥"
+        />
 
         {/* Articles Section */}
         <div className="mt-16 mb-12">
@@ -199,9 +164,9 @@ const NewsCategoryPage: React.FC = () => {
                 <p className="text-gray-600 text-sm">อ่านบทความเชิงลึกเพื่อความรู้ที่ครบถ้วน</p>
               </div>
             </div>
-            <Link 
-              to="/ArticleInformation" 
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 font-medium"
+            <Link
+              to="/ArticleInformation"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 font-medium"
             >
               ดูเพิ่มเติม
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,11 +174,14 @@ const NewsCategoryPage: React.FC = () => {
               </svg>
             </Link>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {article.map((item, idx) => (
-              <div
-                key={idx}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-xl mx-auto justify-items-center">
+
+
+            {article.slice(0, 8).map((item) => (
+              <Link
+                key={item.ID}
+                to={`/article/${item.ID}`}
                 className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105"
               >
                 <div className="relative overflow-hidden">
@@ -232,7 +200,7 @@ const NewsCategoryPage: React.FC = () => {
                     {item.Description}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -244,7 +212,7 @@ const NewsCategoryPage: React.FC = () => {
 interface SectionProps {
   title: string;
   subtitle?: string;
-  items: { img: string; title: string }[];
+  items: { id: number; img: string; title: string }[];
   type: "card" | "video";
   linkTo?: string;
   icon?: string;
@@ -260,7 +228,7 @@ const Section: React.FC<SectionProps> = ({ title, subtitle, items, type, linkTo 
           {subtitle && <p className="text-gray-600 text-sm">{subtitle}</p>}
         </div>
       </div>
-      <Link 
+      <Link
         to={linkTo}
         className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 font-medium"
       >
@@ -270,11 +238,12 @@ const Section: React.FC<SectionProps> = ({ title, subtitle, items, type, linkTo 
         </svg>
       </Link>
     </div>
-    
+
     <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-      {items.map((item, idx) => (
-        <div
-          key={idx}
+      {items.slice(0, 6).map((item) => (
+        <Link
+          key={item.id}
+          to={type === "video" ? `/video/${item.id}` : `/infographic/${item.id}`}
           className={`group ${type === "video" ? "w-80" : "w-64"} bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 overflow-hidden border border-gray-100 hover:scale-105`}
         >
           <div className="relative overflow-hidden">
@@ -290,7 +259,7 @@ const Section: React.FC<SectionProps> = ({ title, subtitle, items, type, linkTo 
               {item.title}
             </h4>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   </div>

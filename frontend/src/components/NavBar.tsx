@@ -34,6 +34,7 @@ const NavBar = () => {
   };
 
   const handleKnowledgeClick = () => {
+    navigate("/selectnewscategorypage");
     console.log("Navigate to knowledge");
   };
 
