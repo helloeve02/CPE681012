@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Beaker, Droplet, FlaskConical, FlaskRound, Sparkles, Leaf, Shield } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const METHODS = [
   {
@@ -107,14 +108,17 @@ function RangeBar({ min, max, color }: { min: number; max: number; color: string
 function MethodCard({ method, isHovered, onHover }: { method: any; isHovered: boolean; onHover: (id: string | null) => void }) {
   const { name, icon: Icon, steps, range, color, bgColor, iconBg, textColor } = method;
   
+
   return (
-    <div 
+
+    <div
       className={`font-kanit group relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-6 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl ${isHovered ? 'ring-2 ring-blue-200' : ''}`}
       onMouseEnter={() => onHover(method.id)}
       onMouseLeave={() => onHover(null)}
     >
+
       <div className={`absolute inset-0 ${bgColor} opacity-20 transition-opacity duration-300 ${isHovered ? 'opacity-30' : ''}`} />
-      
+
       <div className="relative z-10">
         <div className="mb-4 flex items-center gap-4">
           <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${iconBg} shadow-sm transition-transform duration-300 group-hover:scale-110`}>
@@ -122,6 +126,7 @@ function MethodCard({ method, isHovered, onHover }: { method: any; isHovered: bo
           </div>
           <h3 className="text-xl font-bold leading-tight text-gray-900">{name}</h3>
         </div>
+
 
         <div className="mb-6 space-y-3">
           {steps.map((step: string, i: number) => (
@@ -148,7 +153,7 @@ function MethodCard({ method, isHovered, onHover }: { method: any; isHovered: bo
 
 export default function CleaningMethodCards() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-green-50 to-emerald-50 font-kanit">
       <div className="mx-auto max-w-7xl px-6 py-12">
@@ -157,16 +162,24 @@ export default function CleaningMethodCards() {
             <Leaf className="h-5 w-5 text-green-600" />
             <span className="text-sm font-medium text-green-700">คู่มือล้างผักผลไม้</span>
           </div>
-          
+          <div
+            onClick={() => navigate("/menutaste")}
+            className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm mb-4 justify-end cursor-pointer hover:bg-gray-100 transition"
+          >
+            <Leaf className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-medium text-green-700">
+              คู่มือเครื่องปรุงรสอาหารไทย
+            </span>
+          </div>
+
           <h1 className="mb-4 bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
             วิธีล้างผัก/ผลไม้<br />เพื่อลดสารตกค้าง
           </h1>
-          
+
           <p className="mx-auto max-w-2xl text-lg text-gray-600 leading-relaxed">
-            เปรียบเทียบประสิทธิภาพและขั้นตอนการล้างผักผลไม้แบบง่ายๆ 
+            เปรียบเทียบประสิทธิภาพและขั้นตอนการล้างผักผลไม้แบบง่ายๆ
             เพื่อลดสารเคมีตกค้างได้อย่างมีประสิทธิภาพ
           </p>
-          
           <div className="mt-6 flex justify-center">
             <div className="flex items-center gap-6 rounded-full bg-white px-6 py-3 shadow-lg">
               <div className="flex items-center gap-2">
@@ -187,15 +200,15 @@ export default function CleaningMethodCards() {
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {METHODS.map((method) => (
-            <MethodCard 
-              key={method.id} 
-              method={method} 
+            <MethodCard
+              key={method.id}
+              method={method}
               isHovered={hoveredCard === method.id}
               onHover={setHoveredCard}
             />
           ))}
         </div>
-        
+
         <footer className="mt-16 text-center">
           <div className="rounded-2xl bg-white/70 backdrop-blur-sm border border-white/20 p-6 shadow-lg">
             <div className="flex items-center justify-center gap-2 mb-3">
@@ -203,7 +216,7 @@ export default function CleaningMethodCards() {
               <h3 className="font-bold text-gray-900">คำแนะนำ</h3>
             </div>
             <p className="text-sm text-gray-700 max-w-2xl mx-auto leading-relaxed">
-              แนะนำให้ใช้เบกกิ้งโซดาสำหรับประสิทธิภาพสูงสุด หรือน้ำเปล่าสำหรับวิธีง่ายๆ ประจำวัน 
+              แนะนำให้ใช้เบกกิ้งโซดาสำหรับประสิทธิภาพสูงสุด หรือน้ำเปล่าสำหรับวิธีง่ายๆ ประจำวัน
               อย่าลืมล้างน้ำสะอาดทุกครั้งหลังจากใช้สารล้าง
             </p>
           </div>

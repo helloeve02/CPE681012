@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import {
     ScatterChart,
     Scatter,
@@ -14,7 +14,8 @@ import {
     PolarAngleAxis,
     PolarRadiusAxis,
 } from "recharts";
-
+// import { useNavigate } from "react-router-dom";
+// import { Leaf } from 'lucide-react';
 const data = [
     { name: "บะหมี่กึ่งสำเร็จรูป", sodium: 1400 },
     { name: "บะหมี่น้ำหมูแดง", sodium: 1777 },
@@ -33,6 +34,8 @@ const getColor = (sodium: number) => {
     if (sodium > 800) return "#f59e0b"; // เหลือง
     return "#10b981"; // เขียว
 };
+
+//   const navigate = useNavigate();
 
 // Custom Tooltip Component
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -72,6 +75,7 @@ export default function SodiumCharts() {
                     </div>
                 </div>
             </div>
+            
 
             <div className="max-w-7xl mx-auto px-6 py-12">
                 {/* Charts Grid */}
