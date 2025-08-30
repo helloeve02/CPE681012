@@ -15,7 +15,7 @@ import DiabetesLessAssessmentPage from "./pages/Assessment/Diabetes/Less";
 import KidneyriskAssessmentPage from "./pages/Assessment/Kidney/Kidney";
 import MealPlannerApp from "./pages/Plan/Mealplan";
 import FoodAdminPanel from "./pages/Admin/Fooditem";
-import HomePage from "./pages/home/HomePage";
+import HomePage from "./pages/Home/HomePage";
 import NutritionInput from "./pages/Nutrition/NutritionInput";
 import NutritionSuggestion from "./pages/Nutrition/NutritionSuggestion";
 import ChooseAvoid from "./pages/Nutrition/ChooseAvoid";

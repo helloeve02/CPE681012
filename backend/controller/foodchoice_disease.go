@@ -34,7 +34,7 @@ func GetFoodChoicesByDiseaseID(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"foodchoicediseases": foodchoicediseases})
+	c.JSON(http.StatusOK, gin.H{"data": foodchoicediseases}) // เพิ่ม "data" wrapper
 }
 
 // GetFoodChoiceDiseaseByID - ดึงคำแนะนำอาหารตาม ID
