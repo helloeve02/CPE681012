@@ -298,18 +298,19 @@ func GetMenusByTagIDs(c *gin.Context) {
 }
 
 func GetFruits(c *gin.Context) {
-	var fruits []entity.FoodItem
-	db := config.DB()
+    var fruits []entity.FoodItem
+    db := config.DB()
 
-	if err := db.Preload("FoodFlag").
-		Where("food_flag_id = ?", 3). // FoodFlagID = 3 ควรรับประทาน
-		Find(&fruits).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงผลไม้ได้"})
-		return
-	}
+    if err := db.Preload("FoodFlag").
+        Where("food_flag_id = ?", 3).
+        Find(&fruits).Error; err != nil {
 
-	c.JSON(http.StatusOK, gin.H{
-		"success": true,
-		"fruits": fruits,
-	})
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถดึงผลไม้ได้"})
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "success":   true,
+        "fooditems": fruits, // เปลี่ยนเป็น fooditems ให้ตรงกับ frontend
+    })
 }

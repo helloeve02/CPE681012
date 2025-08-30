@@ -65,7 +65,7 @@ func main() {
 		r.GET("/content-nutrition", controller.GetContentAllByNutrition)
 		r.POST("/weekly-mealplan/generate", controller.GenerateWeeklyMealPlan)
 		r.GET("/foodchoices",controller.GetAllFoodChoices)
-		r.GET("/foodchoices/disease/:diseaseID",controller.GetFoodChoicesByDisease)
+		r.GET("/foodchoices/disease/:diseaseID",controller.GetFoodChoicesByDiseaseID)
 		r.POST("/menus/by-tags", controller.GetMenusByTagIDs)
 		r.GET("/fruits", controller.GetFruits)
 		r.GET("/desserts", controller.GetDesserts)

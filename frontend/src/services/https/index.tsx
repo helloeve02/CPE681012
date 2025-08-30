@@ -344,13 +344,12 @@ async function GetAllFoodChoices() {
 }
 
 // ดึงคำแนะนำตามโรค
-async function GetFoodChoicesByDisease(diseaseID: number) {
+async function GetFoodChoicesByDiseaseID(diseaseID: number) {
   return await axios
     .get(`${apiUrl}/foodchoices/disease/${diseaseID}`, requestOptions)
-    .then((res) => res)
+    .then((res) => res.data.data) // เดิมคืน res -> แก้เป็นอ่าน payload จริง
     .catch((e) => e.response);
 }
-
 // ดึงเมนูมื้อหลักตาม Tag IDs (POST)
 async function GetMenusByTagIDs(tagIDs: number[]) {
   return await axios
@@ -374,12 +373,13 @@ async function GetMenusByTagIDs(tagIDs: number[]) {
 }
  */
 
+// services/https/index.ts
 async function GetFruits() {
   return await axios
     .get(`${apiUrl}/fruits`, requestOptions)
-    .then((res) => res.data.fooditems)
+    .then((res) => res?.data?.fruits ?? res?.data?.fooditems ?? []) // <= รองรับทั้ง fruits/fooditems
     .catch((e) => {
-      console.error("Error fetching fruits:", e.response?.data || e.message);
+      console.error("Error fetching fruits:", e?.response?.data || e.message);
       return [];
     });
 }
@@ -564,7 +564,7 @@ export{
     GetMealplansByDisease,
     GetFoodItemByID,
     GetAllFoodChoices,
-    GetFoodChoicesByDisease,
+    GetFoodChoicesByDiseaseID,
     GetMenusByTagIDs, //ดึงตามtagที่ผู้ใช้เลือก
     GetFruits,
     GetDesserts,

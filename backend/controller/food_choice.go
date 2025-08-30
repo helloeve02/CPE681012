@@ -35,7 +35,7 @@ func GetFoodChoiceByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"foodchoice": foodchoice})
 }
 
-func GetFoodChoicesByDisease(c *gin.Context) {
+/* func GetFoodChoicesByDisease(c *gin.Context) {
 	diseaseID := c.Param("diseaseID")
 	var foodchoices []entity.FoodChoice
 	db := config.DB()
@@ -46,7 +46,7 @@ func GetFoodChoicesByDisease(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"foodchoices": foodchoices})
-}
+} */ //ไปใช้GetFoodChoicesByDiseaseID (ตารางกลาง)
 
 // CreateFoodChoice - เพิ่มข้อมูลตัวเลือกอาหาร
 func CreateFoodChoice(c *gin.Context) {
