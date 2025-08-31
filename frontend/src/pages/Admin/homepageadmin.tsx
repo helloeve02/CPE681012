@@ -3,13 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Newspaper, Utensils, ClipboardList } from "lucide-react"; // ไอคอนสวยๆ
 
 export default function AdminDashboard() {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLogin"); // ลบสถานะ login
-    localStorage.removeItem("role");
-    navigate("/admin"); // กลับไปหน้า login
-  };
+ 
 
   const menuItems = [
     {
@@ -35,20 +29,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 flex flex-col font-kanit">
       {/* Navbar */}
-      <nav className="bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <span className="text-gray-600 text-sm">ยินดีต้อนรับ</span>
-          <div className="flex items-center space-x-4">
-            <span className="text-gray-800 font-medium text-lg">Admin</span>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 text-white px-4 py-2 rounded-xl shadow hover:bg-red-600 transition-all"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
+      
 
       {/* Content */}
       <main className="flex-1 max-w-5xl mx-auto w-full p-8">
