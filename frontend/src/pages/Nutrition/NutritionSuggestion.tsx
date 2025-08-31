@@ -460,7 +460,17 @@ const NutritionSuggestion = () => {
                                   scrollToCard(columnToCard[foodGroupName])
                                 }
                                 key={foodGroupName}
-                                className="cursor-pointer p-4 text-center font-semibold text-gray-700 min-w-32"
+                                className="
+  relative cursor-pointer p-4 text-center font-semibold text-gray-700 min-w-32
+  overflow-hidden transition-all duration-300 ease-in-out
+  hover:text-transparent hover:bg-clip-text
+  hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600
+  
+  after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-0.5
+  after:bg-gradient-to-r after:from-blue-500 after:to-purple-500
+  after:transition-all after:duration-300 after:-translate-x-1/2
+  hover:after:w-3/4
+"
                               >
                                 <Tooltip title="ดูคำแนะนำเพิ่มเติม">
                                   <span>{foodGroupName}</span>
