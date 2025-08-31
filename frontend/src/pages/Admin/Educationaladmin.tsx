@@ -1,273 +1,285 @@
-import React, { useState, useRef } from 'react';
-import { Search, Plus, Edit, Trash2, Save, X, Filter, ExternalLink, BookOpen, Eye } from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Search, Plus, Edit, Trash2, Save, X, Filter, ExternalLink, BookOpen, Eye } from "lucide-react";
+import {
+  GetAllContent,
+  GetAllCategory,
+  GetAllGroupContent,
+  CreateContent as CreateContentAPI,
+  UpdateContent as UpdateContentAPI,
+  DeleteContent as DeleteContentAPI,
+} from "../../services/https";
+import type { AdminInterface } from "../../interfaces/Admin";
+import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
+import type { ContentCategoryInterface } from "../../interfaces/ContentCategory";
 
-// Updated interfaces matching Go entities
-interface Admin {
-  ID?: number;
-  Name?: string;
-  Email?: string;
-}
-
-interface EducationalGroup {
-  ID?: number;
-  Name?: string;
-  EducationalContents?: EducationalContent[];
-}
-
-interface ContentCategory {
-  ID?: number;
-  Category?: string;
-}
-
-interface EducationalContent {
-  ID?: number;
-  Title?: string;
+interface Admin extends AdminInterface {} // ใช้โครงสร้างเดิม
+interface EducationalGroup { ID?: number; Name?: string; }
+interface ContentCategory extends ContentCategoryInterface {}
+interface EducationalContent extends EducationalContentInterface {
   PictureIn?: string;
   PictureOut?: string;
   Link?: string;
   Description?: string;
   Credit?: string;
-  AdminID?: number;
-  Admin?: Admin;
-  EducationalGroupID?: number;
-  EducationalGroup?: EducationalGroup;
-  ContentCategoryID?: number;
-  ContentCategory?: ContentCategory;
   CreatedAt?: string;
   UpdatedAt?: string;
+  Admin?: Admin;
+  EducationalGroup?: EducationalGroup;
+  ContentCategory?: ContentCategory;
 }
 
-const EducationalAdminPanel = () => {
-  // Sample data for demo
-  const [educationalGroups] = useState<EducationalGroup[]>([
-    { ID: 1, Name: 'โภชนาการและอาหาร' },
-    { ID: 2, Name: 'การออกกำลังกาย' },
-    { ID: 3, Name: 'สุขภาพจิต' },
-    { ID: 4, Name: 'การดูแลตนเอง' }
-  ]);
-
-  const [contentCategories] = useState<ContentCategory[]>([
-    { ID: 1, Category: 'บทความ' },
-    { ID: 2, Category: 'วิดีโอ' },
-    { ID: 3, Category: 'อินโฟกราฟิก' },
-    { ID: 4, Category: 'คู่มือ' },
-    { ID: 5, Category: 'เคล็ดลับ' }
-  ]);
-
-  // Get current admin - using fallback instead of localStorage
+const EducationalAdminPanel: React.FC = () => {
+  // ======= Admin (อ่านจาก localStorage ถ้ามี) =======
   const getCurrentAdmin = (): Admin => {
-    return { ID: 1, Name: 'ผู้ดูแลระบบ', Email: 'admin@example.com' };
+    const id = Number(localStorage.getItem("id") || "0");
+    const firstName = localStorage.getItem("firstName") || "ผู้ดูแลระบบ";
+    const userName = localStorage.getItem("userName") || "admin";
+    return { ID: id || 1, FirstName: firstName, UserName: userName } as Admin;
   };
-
   const [currentAdmin] = useState<Admin>(getCurrentAdmin());
 
-  const [educationalContents, setEducationalContents] = useState<EducationalContent[]>([
-    {
-      ID: 1,
-      Title: '5 อาหารที่ช่วยลดความดันโลหิต',
-      PictureIn: '/api/placeholder/300/200',
-      PictureOut: '/api/placeholder/300/200',
-      Link: 'https://example.com/article-1',
-      Description: 'แนะนำอาหารที่มีสารอาหารสำคัญที่ช่วยในการควบคุมความดันโลหิตให้อยู่ในเกณฑ์ปกติ พร้อมคำแนะนำในการปรุงอาหารที่ถูกต้อง',
-      Credit: 'สำนักงานกองทุนสนับสนุนการสร้างเสริมสุขภาพ (สสส.)',
-      AdminID: 1,
-      EducationalGroupID: 1,
-      ContentCategoryID: 1,
-      CreatedAt: '2024-01-15'
-    },
-    {
-      ID: 2,
-      Title: 'การออกกำลังกายเบาๆ สำหรับผู้สูงอายุ',
-      PictureIn: '/api/placeholder/300/200',
-      PictureOut: '/api/placeholder/300/200',
-      Link: 'https://example.com/article-2',
-      Description: 'ท่าออกกำลังกายง่ายๆ ที่เหมาะสำหรับผู้สูงอายุและผู้ที่มีข้อจำกัดในการเคลื่อนไหว เพื่อสร้างความแข็งแรงให้กับร่างกาย',
-      Credit: 'กรมอนามัย กระทรวงสาธารณสุข',
-      AdminID: 1,
-      EducationalGroupID: 2,
-      ContentCategoryID: 2,
-      CreatedAt: '2024-01-20'
-    },
-    {
-      ID: 3,
-      Title: 'เทคนิคการจัดการความเครียด',
-      PictureIn: '/api/placeholder/300/200',
-      PictureOut: '/api/placeholder/300/200',
-      Link: 'https://example.com/article-3',
-      Description: 'วิธีการจัดการกับความเครียดในชีวิตประจำวัน ด้วยเทคนิคง่ายๆ ที่สามารถทำได้ที่บ้าน รวมถึงการหายใจและการผ่อนคลาย',
-      Credit: 'สมาคมจิตแพทย์แห่งประเทศไทย',
-      AdminID: 1,
-      EducationalGroupID: 3,
-      ContentCategoryID: 3,
-      CreatedAt: '2024-01-25'
-    }
-  ]);
+  // ======= States หลัก =======
+  const [educationalGroups, setEducationalGroups] = useState<EducationalGroup[]>([]);
+  const [contentCategories, setContentCategories] = useState<ContentCategory[]>([]);
+  const [educationalContents, setEducationalContents] = useState<EducationalContent[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [err, setErr] = useState<string | null>(null);
 
-  // State management
-  const [selectedGroup, setSelectedGroup] = useState<string>('ทั้งหมด');
-  const [selectedCategory, setSelectedCategory] = useState<string>('ทั้งหมด');
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  // ฟิลเตอร์/ค้นหา + ฟอร์ม
+  const [selectedGroup, setSelectedGroup] = useState<string>("ทั้งหมด");
+  const [selectedCategory, setSelectedCategory] = useState<string>("ทั้งหมด");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [showAddForm, setShowAddForm] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<EducationalContent | null>(null);
   const [viewingItem, setViewingItem] = useState<EducationalContent | null>(null);
-
-  // Ref for form section
   const formRef = useRef<HTMLDivElement>(null);
 
-  // Form state
   const [formData, setFormData] = useState<EducationalContent>({
-    Title: '',
-    PictureIn: '',
-    PictureOut: '',
-    Link: '',
-    Description: '',
-    Credit: '',
-    AdminID: currentAdmin.ID,
+    Title: "",
+    PictureIn: "",
+    PictureOut: "",
+    Link: "",
+    Description: "",
+    Credit: "",
+    AdminID: currentAdmin?.ID || 1,
     EducationalGroupID: undefined,
-    ContentCategoryID: undefined
+    ContentCategoryID: undefined,
   });
 
-  // Filter educational contents
-  const filteredItems = educationalContents.filter(item => {
-    const group = educationalGroups.find(g => g.ID === item.EducationalGroupID);
-    const category = contentCategories.find(c => c.ID === item.ContentCategoryID);
-    
-    const matchesGroup = selectedGroup === 'ทั้งหมด' || group?.Name === selectedGroup;
-    const matchesCategory = selectedCategory === 'ทั้งหมด' || category?.Category === selectedCategory;
-    const matchesSearch = 
-      item.Title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.Description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      false;
-    
-    return matchesGroup && matchesCategory && matchesSearch;
-  });
+  // ======= โหลดข้อมูลจาก backend =======
+  useEffect(() => {
+    let alive = true;
+    setLoading(true);
+    setErr(null);
 
-  // Handle form submission
-  const handleSubmit = () => {
-    if (!formData.Title || !formData.EducationalGroupID || !formData.ContentCategoryID || !formData.Description) {
-      alert('กรุณากรอกข้อมูลที่จำเป็น (หัวข้อ, หมวดหมู่, ประเภทเนื้อหา และคำอธิบาย)');
-      return;
-    }
-    
-    if (editingItem) {
-      setEducationalContents(items => 
-        items.map(item => 
-          item.ID === editingItem.ID 
-            ? { ...formData, ID: editingItem.ID, UpdatedAt: new Date().toISOString().split('T')[0] }
-            : item
-        )
-      );
-      setEditingItem(null);
-    } else {
-      const newItem: EducationalContent = {
-        ...formData,
-        ID: Math.max(...educationalContents.map(i => i.ID || 0)) + 1,
-        CreatedAt: new Date().toISOString().split('T')[0]
-      };
-      setEducationalContents(items => [...items, newItem]);
-    }
-    
-    setFormData({
-      Title: '',
-      PictureIn: '',
-      PictureOut: '',
-      Link: '',
-      Description: '',
-      Credit: '',
-      AdminID: currentAdmin.ID,
-      EducationalGroupID: undefined,
-      ContentCategoryID: undefined
-    });
-    setShowAddForm(false);
-  };
+    (async () => {
+      try {
+        // controllers ฝั่ง Go คืน {"menu": [...]} สำหรับ groups/categories/contents
+        const [grpRes, catRes, contentRes] = await Promise.all([
+          GetAllGroupContent(),
+          GetAllCategory(),
+          GetAllContent(),
+        ]);
 
-  const handleEdit = (item: EducationalContent) => {
-    setEditingItem(item);
-    setFormData(item);
-    setShowAddForm(true);
-    
-    setTimeout(() => {
-      if (formRef.current) {
-        formRef.current.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest'
-        });
-        
-        const firstInput = formRef.current.querySelector('input[type="text"]') as HTMLInputElement;
-        if (firstInput) {
-          firstInput.focus();
-        }
+        if (!alive) return;
+
+        const groups: EducationalGroup[] = grpRes?.data?.menu ?? [];
+        const categories: ContentCategory[] = catRes?.data?.menu ?? [];
+        const contents: EducationalContent[] = contentRes?.data?.menu ?? [];
+
+        setEducationalGroups(groups);
+        setContentCategories(categories);
+        setEducationalContents(contents);
+      } catch (e: any) {
+        setErr(e?.message || "โหลดข้อมูลไม่สำเร็จ");
+      } finally {
+        if (alive) setLoading(false);
       }
-    }, 300);
-  };
+    })();
 
-  const handleAddNew = () => {
-    setShowAddForm(true);
-    setEditingItem(null);
-    setFormData({
-      Title: '',
-      PictureIn: '',
-      PictureOut: '',
-      Link: '',
-      Description: '',
-      Credit: '',
-      AdminID: currentAdmin.ID,
-      EducationalGroupID: undefined,
-      ContentCategoryID: undefined
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  // ======= Filtered list =======
+  const filteredItems = useMemo(() => {
+    return (educationalContents || []).filter((item) => {
+      const group = educationalGroups.find((g) => g.ID === item.EducationalGroupID);
+      const category = contentCategories.find((c) => c.ID === item.ContentCategoryID);
+
+      const matchesGroup = selectedGroup === "ทั้งหมด" || group?.Name === selectedGroup;
+      const matchesCategory = selectedCategory === "ทั้งหมด" || category?.Category === selectedCategory;
+      const q = (searchTerm || "").toLowerCase();
+
+      const matchesSearch =
+        (item.Title || "").toLowerCase().includes(q) ||
+        (item.Description || "").toLowerCase().includes(q);
+
+      return matchesGroup && matchesCategory && matchesSearch;
     });
-    
+  }, [educationalContents, educationalGroups, contentCategories, selectedGroup, selectedCategory, searchTerm]);
+
+  // ======= Helpers =======
+  const scrollToFormAndFocus = () => {
     setTimeout(() => {
       if (formRef.current) {
-        formRef.current.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start',
-          inline: 'nearest'
-        });
-        
-        const firstInput = formRef.current.querySelector('input[type="text"]') as HTMLInputElement;
-        if (firstInput) {
-          firstInput.focus();
-        }
+        formRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+        const firstInput = formRef.current.querySelector('input[type="text"]') as HTMLInputElement | null;
+        firstInput?.focus();
       }
     }, 100);
   };
 
-  const handleViewDetails = (item: EducationalContent) => {
-    setViewingItem(item);
-  };
-
-  const handleDelete = (id: number) => {
-    if (window.confirm('คุณแน่ใจหรือไม่ที่จะลบเนื้อหาการศึกษานี้?')) {
-      setEducationalContents(items => items.filter(item => item.ID !== id));
-    }
-  };
-
-  const handleCancel = () => {
-    setShowAddForm(false);
-    setEditingItem(null);
+  const resetForm = () => {
     setFormData({
-      Title: '',
-      PictureIn: '',
-      PictureOut: '',
-      Link: '',
-      Description: '',
-      Credit: '',
-      AdminID: currentAdmin.ID,
+      Title: "",
+      PictureIn: "",
+      PictureOut: "",
+      Link: "",
+      Description: "",
+      Credit: "",
+      AdminID: currentAdmin?.ID || 1,
       EducationalGroupID: undefined,
-      ContentCategoryID: undefined
+      ContentCategoryID: undefined,
     });
   };
 
   const getGroupDisplayText = (groupId?: number) => {
-    const group = educationalGroups.find(g => g.ID === groupId);
-    return group?.Name || '';
+    const group = educationalGroups.find((g) => g.ID === groupId);
+    return group?.Name || "";
   };
 
   const getCategoryDisplayText = (categoryId?: number) => {
-    const category = contentCategories.find(c => c.ID === categoryId);
-    return category?.Category || '';
+    const category = contentCategories.find((c) => c.ID === categoryId);
+    return category?.Category || "";
   };
+
+  // ======= Actions =======
+  const handleAddNew = () => {
+    setShowAddForm(true);
+    setEditingItem(null);
+    resetForm();
+    scrollToFormAndFocus();
+  };
+
+  const handleEdit = (item: EducationalContent) => {
+    setEditingItem(item);
+    setFormData({
+      ...item,
+      AdminID: item.AdminID ?? (currentAdmin?.ID || 1),
+    });
+    setShowAddForm(true);
+    scrollToFormAndFocus();
+  };
+
+  const handleViewDetails = (item: EducationalContent) => setViewingItem(item);
+
+  const handleCancel = () => {
+    setShowAddForm(false);
+    setEditingItem(null);
+    resetForm();
+  };
+
+  const handleDelete = async (id?: number) => {
+    if (!id) return;
+    if (!window.confirm("คุณแน่ใจหรือไม่ที่จะลบเนื้อหาการศึกษานี้?")) return;
+
+    // optimistic UI
+    const prev = educationalContents;
+    setEducationalContents((s) => s.filter((x) => x.ID !== id));
+
+    const res = await DeleteContentAPI(id);
+    if (res?.status !== 200) {
+      // rollback
+      setEducationalContents(prev);
+      alert(res?.data?.error || "ลบไม่สำเร็จ");
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!formData.Title || !formData.EducationalGroupID || !formData.ContentCategoryID || !formData.Description) {
+      alert("กรุณากรอกข้อมูลที่จำเป็น (หัวข้อ, หมวดหมู่, ประเภทเนื้อหา และคำอธิบาย)");
+      return;
+    }
+
+    const payload: EducationalContent = {
+      Title: formData.Title?.trim(),
+      PictureIn: formData.PictureIn?.trim() || "",
+      PictureOut: formData.PictureOut?.trim() || "",
+      Link: formData.Link?.trim() || "",
+      Description: formData.Description?.trim() || "",
+      Credit: formData.Credit?.trim() || "",
+      AdminID: currentAdmin?.ID || 1,
+      EducationalGroupID: formData.EducationalGroupID,
+      ContentCategoryID: formData.ContentCategoryID,
+    };
+
+    if (editingItem?.ID) {
+      // === Update ===
+      const optimistic = educationalContents.map((x) =>
+        x.ID === editingItem.ID ? { ...x, ...payload, UpdatedAt: new Date().toISOString() } : x
+      );
+      setEducationalContents(optimistic);
+
+      const res = await UpdateContentAPI(editingItem.ID, payload);
+      if (!res) {
+        // rollback minimal (รีเฟรชใหม่)
+        alert("แก้ไขไม่สำเร็จ (ตรวจสอบว่า backend มี PATCH /content/:id แล้วหรือยัง)");
+        // ดึงใหม่จากเซิร์ฟเวอร์ให้สถานะล่าสุด
+        const fresh = await GetAllContent();
+        setEducationalContents(fresh?.data?.menu ?? []);
+        return;
+      }
+      setEditingItem(null);
+      setShowAddForm(false);
+      resetForm();
+    } else {
+      // === Create ===
+      // optimistic
+      const tempId = Math.max(0, ...educationalContents.map((i) => i.ID || 0)) + 1;
+      const optimistic: EducationalContent = {
+        ...payload,
+        ID: tempId,
+        CreatedAt: new Date().toISOString(),
+      };
+      setEducationalContents((s) => [optimistic, ...s]);
+
+      const res = await CreateContentAPI(payload);
+      if (!res?.menu && !res?.id) {
+        // rollback
+        setEducationalContents((s) => s.filter((x) => x.ID !== tempId));
+        alert("เพิ่มเนื้อหาไม่สำเร็จ");
+        return;
+      }
+
+      // ดึงใหม่ให้ตรงกับ DB
+      const fresh = await GetAllContent();
+      setEducationalContents(fresh?.data?.menu ?? []);
+      setShowAddForm(false);
+      resetForm();
+    }
+  };
+
+  // ======= Render =======
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-kanit flex items-center justify-center">
+        <div className="bg-white shadow-sm rounded-xl px-6 py-4 border">
+          กำลังโหลดข้อมูล...
+        </div>
+      </div>
+    );
+  }
+  if (err) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-kanit flex items-center justify-center">
+        <div className="bg-white shadow-sm rounded-xl px-6 py-4 border text-red-600">
+          เกิดข้อผิดพลาด: {err}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-kanit">
@@ -281,14 +293,15 @@ const EducationalAdminPanel = () => {
             </div>
             <div className="text-right">
               <p className="text-sm text-gray-500">ผู้ดูแลระบบ</p>
-              <p className="text-sm font-medium text-gray-900">{currentAdmin.Name}</p>
+              <p className="text-sm font-medium text-gray-900">
+                {currentAdmin?.FirstName || currentAdmin?.UserName || "ผู้ดูแลระบบ"}
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-
         {/* Filters */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 mb-8">
           <div className="p-6 border-b border-gray-100">
@@ -296,32 +309,36 @@ const EducationalAdminPanel = () => {
               <Filter className="w-5 h-5 text-gray-600" />
               <h3 className="text-lg font-semibold text-gray-900">ตัวกรองและค้นหา</h3>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">หมวดหมู่</label>
-                <select 
+                <select
                   className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   value={selectedGroup}
                   onChange={(e) => setSelectedGroup(e.target.value)}
                 >
                   <option value="ทั้งหมด">ทั้งหมด</option>
-                  {educationalGroups.map(group => (
-                    <option key={group.ID} value={group.Name}>{group.Name}</option>
+                  {educationalGroups.map((group) => (
+                    <option key={group.ID} value={group.Name}>
+                      {group.Name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">ประเภทเนื้อหา</label>
-                <select 
+                <select
                   className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
                   <option value="ทั้งหมด">ทั้งหมด</option>
-                  {contentCategories.map(category => (
-                    <option key={category.ID} value={category.Category}>{category.Category}</option>
+                  {contentCategories.map((category) => (
+                    <option key={category.ID} value={category.Category}>
+                      {category.Category}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -359,10 +376,10 @@ const EducationalAdminPanel = () => {
           <div ref={formRef} className="bg-white rounded-xl shadow-sm border border-gray-100 mb-8 scroll-mt-8">
             <div className="p-6 border-b border-gray-100">
               <h3 className="text-lg font-semibold text-gray-900">
-                {editingItem ? '✏️ แก้ไขเนื้อหาการศึกษา' : '➕ เพิ่มเนื้อหาการศึกษาใหม่'}
+                {editingItem ? "✏️ แก้ไขเนื้อหาการศึกษา" : "➕ เพิ่มเนื้อหาการศึกษาใหม่"}
               </h3>
             </div>
-            
+
             <div className="p-6">
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -374,8 +391,8 @@ const EducationalAdminPanel = () => {
                       type="text"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="ระบุหัวข้อเนื้อหา"
-                      value={formData.Title || ''}
-                      onChange={(e) => setFormData({...formData, Title: e.target.value})}
+                      value={formData.Title || ""}
+                      onChange={(e) => setFormData({ ...formData, Title: e.target.value })}
                     />
                   </div>
 
@@ -385,11 +402,11 @@ const EducationalAdminPanel = () => {
                     </label>
                     <select
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      value={formData.EducationalGroupID || ''}
-                      onChange={(e) => setFormData({...formData, EducationalGroupID: Number(e.target.value)})}
+                      value={formData.EducationalGroupID || ""}
+                      onChange={(e) => setFormData({ ...formData, EducationalGroupID: Number(e.target.value) || undefined })}
                     >
                       <option value="">เลือกหมวดหมู่</option>
-                      {educationalGroups.map(group => (
+                      {educationalGroups.map((group) => (
                         <option key={group.ID} value={group.ID}>
                           {group.Name}
                         </option>
@@ -404,11 +421,13 @@ const EducationalAdminPanel = () => {
                   </label>
                   <select
                     className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    value={formData.ContentCategoryID || ''}
-                    onChange={(e) => setFormData({...formData, ContentCategoryID: Number(e.target.value)})}
+                    value={formData.ContentCategoryID || ""}
+                    onChange={(e) =>
+                      setFormData({ ...formData, ContentCategoryID: Number(e.target.value) || undefined })
+                    }
                   >
                     <option value="">เลือกประเภทเนื้อหา</option>
-                    {contentCategories.map(category => (
+                    {contentCategories.map((category) => (
                       <option key={category.ID} value={category.ID}>
                         {category.Category}
                       </option>
@@ -423,8 +442,8 @@ const EducationalAdminPanel = () => {
                       type="url"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="https://example.com/cover-image.jpg"
-                      value={formData.PictureIn || ''}
-                      onChange={(e) => setFormData({...formData, PictureIn: e.target.value})}
+                      value={formData.PictureIn || ""}
+                      onChange={(e) => setFormData({ ...formData, PictureIn: e.target.value })}
                     />
                   </div>
 
@@ -434,8 +453,8 @@ const EducationalAdminPanel = () => {
                       type="url"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                       placeholder="https://example.com/content-image.jpg"
-                      value={formData.PictureOut || ''}
-                      onChange={(e) => setFormData({...formData, PictureOut: e.target.value})}
+                      value={formData.PictureOut || ""}
+                      onChange={(e) => setFormData({ ...formData, PictureOut: e.target.value })}
                     />
                   </div>
                 </div>
@@ -446,8 +465,8 @@ const EducationalAdminPanel = () => {
                     type="url"
                     className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="https://example.com/article"
-                    value={formData.Link || ''}
-                    onChange={(e) => setFormData({...formData, Link: e.target.value})}
+                    value={formData.Link || ""}
+                    onChange={(e) => setFormData({ ...formData, Link: e.target.value })}
                   />
                 </div>
 
@@ -457,8 +476,8 @@ const EducationalAdminPanel = () => {
                     type="text"
                     className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     placeholder="ระบุแหล่งที่มาหรือเครดิต"
-                    value={formData.Credit || ''}
-                    onChange={(e) => setFormData({...formData, Credit: e.target.value})}
+                    value={formData.Credit || ""}
+                    onChange={(e) => setFormData({ ...formData, Credit: e.target.value })}
                   />
                 </div>
 
@@ -470,8 +489,8 @@ const EducationalAdminPanel = () => {
                     rows={4}
                     className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
                     placeholder="ระบุคำอธิบายเนื้อหา..."
-                    value={formData.Description || ''}
-                    onChange={(e) => setFormData({...formData, Description: e.target.value})}
+                    value={formData.Description || ""}
+                    onChange={(e) => setFormData({ ...formData, Description: e.target.value })}
                   />
                 </div>
 
@@ -481,7 +500,7 @@ const EducationalAdminPanel = () => {
                     className="bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-2.5 rounded-lg hover:from-green-600 hover:to-green-700 transition-all duration-200 flex items-center gap-2 shadow-sm"
                   >
                     <Save className="w-4 h-4" />
-                    {editingItem ? 'บันทึกการแก้ไข' : 'เพิ่มเนื้อหา'}
+                    {editingItem ? "บันทึกการแก้ไข" : "เพิ่มเนื้อหา"}
                   </button>
                   <button
                     onClick={handleCancel}
@@ -518,16 +537,12 @@ const EducationalAdminPanel = () => {
                     <div className="flex items-start space-x-4 flex-1">
                       <div className="w-24 h-16 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden shadow-sm">
                         {item.PictureIn ? (
-                          <img 
-                            src={item.PictureIn} 
-                            alt={item.Title}
-                            className="w-full h-full object-cover"
-                          />
+                          <img src={item.PictureIn} alt={item.Title} className="w-full h-full object-cover" />
                         ) : (
                           <BookOpen className="w-6 h-6 text-gray-400" />
                         )}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between mb-2">
                           <h4 className="text-lg font-semibold text-gray-900 line-clamp-2">{item.Title}</h4>
@@ -543,7 +558,7 @@ const EducationalAdminPanel = () => {
                             </a>
                           )}
                         </div>
-                        
+
                         <div className="flex items-center gap-4 mb-3">
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                             📚 {getGroupDisplayText(item.EducationalGroupID)}
@@ -553,29 +568,21 @@ const EducationalAdminPanel = () => {
                           </span>
                           {item.CreatedAt && (
                             <span className="text-sm text-gray-500">
-                              📅 {new Date(item.CreatedAt).toLocaleDateString('th-TH')}
+                              📅 {new Date(item.CreatedAt).toLocaleDateString("th-TH")}
                             </span>
                           )}
                         </div>
-                        
-                        <p className="text-gray-600 text-sm line-clamp-2 mb-2">
-                          {item.Description}
-                        </p>
+
+                        <p className="text-gray-600 text-sm line-clamp-2 mb-2">{item.Description}</p>
 
                         {item.Credit && (
-                          <p className="text-xs text-gray-500 mb-1">
-                            ✏️ เครดิต: {item.Credit}
-                          </p>
+                          <p className="text-xs text-gray-500 mb-1">✏️ เครดิต: {item.Credit}</p>
                         )}
 
-                        {item.Link && (
-                          <p className="text-xs text-blue-600 truncate">
-                            🔗 {item.Link}
-                          </p>
-                        )}
+                        {item.Link && <p className="text-xs text-blue-600 truncate">🔗 {item.Link}</p>}
                       </div>
                     </div>
-                    
+
                     <div className="flex space-x-2 ml-4">
                       <button
                         onClick={() => handleViewDetails(item)}
@@ -622,7 +629,7 @@ const EducationalAdminPanel = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="p-6">
               <div className="space-y-6">
                 {/* Images */}
@@ -631,11 +638,7 @@ const EducationalAdminPanel = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">รูปภาพหน้าปก</label>
                     <div className="w-full h-32 bg-gray-100 rounded-xl overflow-hidden shadow-sm">
                       {viewingItem.PictureIn ? (
-                        <img 
-                          src={viewingItem.PictureIn} 
-                          alt="Cover Image"
-                          className="w-full h-full object-cover"
-                        />
+                        <img src={viewingItem.PictureIn} alt="Cover Image" className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-400">
                           <BookOpen className="w-8 h-8" />
@@ -643,16 +646,12 @@ const EducationalAdminPanel = () => {
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="text-center">
                     <label className="block text-sm font-medium text-gray-700 mb-2">รูปภาพเนื้อหา</label>
                     <div className="w-full h-32 bg-gray-100 rounded-xl overflow-hidden shadow-sm">
                       {viewingItem.PictureOut ? (
-                        <img 
-                          src={viewingItem.PictureOut} 
-                          alt="Content Image"
-                          className="w-full h-full object-cover"
-                        />
+                        <img src={viewingItem.PictureOut} alt="Content Image" className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-400">
                           <BookOpen className="w-8 h-8" />
@@ -687,9 +686,7 @@ const EducationalAdminPanel = () => {
                     {viewingItem.CreatedAt && (
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">วันที่สร้าง</label>
-                        <p className="text-gray-700">
-                          📅 {new Date(viewingItem.CreatedAt).toLocaleDateString('th-TH')}
-                        </p>
+                        <p className="text-gray-700">📅 {new Date(viewingItem.CreatedAt).toLocaleDateString("th-TH")}</p>
                       </div>
                     )}
                   </div>
@@ -716,9 +713,9 @@ const EducationalAdminPanel = () => {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">ลิงก์เนื้อหา</label>
                       <div className="bg-gray-50 rounded-lg p-3">
-                        <a 
-                          href={viewingItem.Link} 
-                          target="_blank" 
+                        <a
+                          href={viewingItem.Link}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 hover:text-blue-800 underline break-all text-sm"
                         >
@@ -763,7 +760,7 @@ const EducationalAdminPanel = () => {
                   </button>
                   <button
                     onClick={() => setViewingItem(null)}
-                    className="bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-200 transition-all duration-200"
+                    className="bg-gray-100 text-gray-700 px-6 py-2.5 rounded-lg hover:bg-gray-200 transition-colors duration-200"
                   >
                     ปิด
                   </button>
