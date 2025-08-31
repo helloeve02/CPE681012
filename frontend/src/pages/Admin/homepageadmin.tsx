@@ -16,7 +16,7 @@ import {
   Heart,
   Globe,
 } from "lucide-react";
-import {TopBarAdmin} from "../../components/TopBarAdmin"
+import { TopBarAdmin } from "../../components/TopBarAdmin"
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -52,40 +52,40 @@ export default function AdminDashboard() {
     iconBg: string;
     icon: React.ReactNode;
   }> = [
-    {
-      title: "จัดการข่าวสารและการใช้ความรู้",
-      link: "/admin/educational",
-      icon: <Newspaper className="w-10 h-10" />,
-      gradient: "from-blue-500 via-blue-600 to-cyan-500",
-      description: "จัดการเนื้อหาข่าวสารและบทความสุขภาพ",
-      delay: "delay-100",
-      stats: { total: 24, recent: 3 },
-      color: "blue",
-      iconBg: "from-blue-400 to-cyan-400",
-    },
-    {
-      title: "จัดการเมนูอาหารแนะนำ",
-      link: "/admin/menu",
-      icon: <Utensils className="w-10 h-10" />,
-      gradient: "from-green-500 via-emerald-500 to-teal-500",
-      description: "จัดการเมนูอาหารและคำแนะนำโภชนาการ",
-      delay: "delay-200",
-      stats: { total: 156, recent: 12 },
-      color: "green",
-      iconBg: "from-green-400 to-emerald-400",
-    },
-    {
-      title: "จัดการรายการอาหารและวัตถุดิบ",
-      link: "/admin/fooditem",
-      icon: <ClipboardList className="w-10 h-10" />,
-      gradient: "from-orange-500 via-amber-500 to-yellow-500",
-      description: "จัดการข้อมูลอาหารและส่วนผสม",
-      delay: "delay-300",
-      stats: { total: 89, recent: 7 },
-      color: "orange",
-      iconBg: "from-orange-400 to-amber-400",
-    },
-  ];
+      {
+        title: "จัดการข่าวสารและการใช้ความรู้",
+        link: "/admin/educational",
+        icon: <Newspaper className="w-10 h-10" />,
+        gradient: "from-blue-500 via-blue-600 to-cyan-500",
+        description: "จัดการเนื้อหาข่าวสารและบทความสุขภาพ",
+        delay: "delay-100",
+        stats: { total: 24, recent: 3 },
+        color: "blue",
+        iconBg: "from-blue-400 to-cyan-400",
+      },
+      {
+        title: "จัดการเมนูอาหารแนะนำ",
+        link: "/admin/menu",
+        icon: <Utensils className="w-10 h-10" />,
+        gradient: "from-green-500 via-emerald-500 to-teal-500",
+        description: "จัดการเมนูอาหารและคำแนะนำโภชนาการ",
+        delay: "delay-200",
+        stats: { total: 156, recent: 12 },
+        color: "green",
+        iconBg: "from-green-400 to-emerald-400",
+      },
+      {
+        title: "จัดการรายการอาหารและวัตถุดิบ",
+        link: "/admin/fooditem",
+        icon: <ClipboardList className="w-10 h-10" />,
+        gradient: "from-orange-500 via-amber-500 to-yellow-500",
+        description: "จัดการข้อมูลอาหารและส่วนผสม",
+        delay: "delay-300",
+        stats: { total: 89, recent: 7 },
+        color: "orange",
+        iconBg: "from-orange-400 to-amber-400",
+      },
+    ];
 
   const notifications = [
     { id: 1, message: "มีข่าวสารใหม่ 3 รายการรอการอนุมัติ", time: "2 นาทีที่แล้ว", type: "info" },
@@ -94,7 +94,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-100 font-sans relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-100 font-sans relative overflow-hidden font-kanit">
       {/* Animated Background Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
@@ -122,16 +122,15 @@ export default function AdminDashboard() {
 
       {/* Navbar */}
       <div>
-      <TopBarAdmin />
-    </div>
+        <TopBarAdmin />
+      </div>
 
       {/* Main Content */}
-      <main className="relative max-w-7xl mx-auto px-8 py-12">
+      <main className="relative max-w-7xl mx-auto px-8 py-12 font-kanit">
         {/* Hero Section */}
         <div
-          className={`text-center mb-16 transition-all duration-1000 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`text-center mb-16 transition-all duration-1000 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           <div className="relative">
             <h1 className="text-7xl sm:text-8xl font-black bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 bg-clip-text text-transparent mb-8 leading-tight drop-shadow-sm">
@@ -155,9 +154,8 @@ export default function AdminDashboard() {
 
         {/* Super Stats Cards */}
         <div
-          className={`grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 transition-all duration-1000 delay-300 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 transition-all duration-1000 delay-300 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           {[
             {
@@ -208,13 +206,12 @@ export default function AdminDashboard() {
                     {stat.icon}
                   </div>
                   <div
-                    className={`px-4 py-2 rounded-full text-sm font-bold ${
-                      typeof stat.change === "string" && stat.change.includes("+")
+                    className={`px-4 py-2 rounded-full text-sm font-bold ${typeof stat.change === "string" && stat.change.includes("+")
                         ? "bg-green-100 text-green-700"
                         : typeof stat.change === "string" && stat.change.includes("-")
-                        ? "bg-red-100 text-red-700"
-                        : "bg-blue-100 text-blue-700"
-                    } shadow-lg`}
+                          ? "bg-red-100 text-red-700"
+                          : "bg-blue-100 text-blue-700"
+                      } shadow-lg`}
                   >
                     {stat.change}
                   </div>
@@ -308,9 +305,8 @@ export default function AdminDashboard() {
 
         {/* Ultra Modern Overview Section */}
         <div
-          className={`transition-all duration-1000 delay-700 ${
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
+          className={`transition-all duration-1000 delay-700 ${isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
         >
           <div className="relative bg-white/80 backdrop-blur-2xl rounded-3xl shadow-2xl p-12 border border-white/50 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-cyan-50/50 to-indigo-50/50"></div>
@@ -383,13 +379,12 @@ export default function AdminDashboard() {
                     className="group text-center p-8 bg-white/60 backdrop-blur-xl rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-white/60 relative overflow-hidden"
                   >
                     <div
-                      className={`absolute inset-0 bg-gradient-to-br ${
-                        stat.color === "blue"
+                      className={`absolute inset-0 bg-gradient-to-br ${stat.color === "blue"
                           ? "from-blue-500/5 to-cyan-500/5"
                           : stat.color === "green"
-                          ? "from-green-500/5 to-emerald-500/5"
-                          : "from-orange-500/5 to-amber-500/5"
-                      } group-hover:opacity-100 opacity-0 transition-opacity duration-500`}
+                            ? "from-green-500/5 to-emerald-500/5"
+                            : "from-orange-500/5 to-amber-500/5"
+                        } group-hover:opacity-100 opacity-0 transition-opacity duration-500`}
                     ></div>
 
                     <div className="relative z-10">
