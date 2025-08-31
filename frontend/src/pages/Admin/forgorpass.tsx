@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, Shield, CheckCircle, AlertCircle, Sparkles, Star, Heart, Zap, Key } from 'lucide-react';
-
+import { useNavigate } from "react-router-dom";
 export default function PasswordResetForm() {
   const [email, setEmail] = useState('focus001@gmail.com');
   const [newPassword, setNewPassword] = useState('');
@@ -40,9 +40,8 @@ export default function PasswordResetForm() {
     }, 2000);
   };
 
-  const navigateToLogin = () => {
-    console.log('Navigate to login');
-  };
+  const navigate= useNavigate();
+    
 
   const isFormValid = email && newPassword && confirmPassword && passwordsMatch;
 
@@ -372,7 +371,7 @@ export default function PasswordResetForm() {
             <div className="text-center mt-6 pt-6 border-t border-sky-100">
               <button
                 type="button"
-                onClick={navigateToLogin}
+                onClick={() => navigate("/admin")}
                 className="group inline-flex items-center space-x-2 text-gray-600 hover:text-sky-600 transition-colors font-bold text-sm"
               >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
