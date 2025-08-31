@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TopBarAdmin } from "../../components/TopBarAdmin";
-import type { FoodItemInterface } from "../../interfaces/FoodItem";
+// import type { FoodItemInterface } from "../../interfaces/FoodItem";
 import { ListUsers, CreateUser, DeleteUserByID } from "../../services/https";
 import type { AdminInterface } from "../../interfaces/Admin";
 
@@ -48,7 +48,7 @@ const FoodAdminPanel: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validation
     if (!formData.FirstName || !formData.LastName || !formData.UserName || !formData.Password) {
       showMessage("error", "กรุณากรอกข้อมูลให้ครบทุกช่อง");
@@ -62,12 +62,18 @@ const FoodAdminPanel: React.FC = () => {
           prev.map((f) => (f.ID === editingItem.ID ? { ...formData, ID: editingItem.ID } : f))
         );
         showMessage("success", "แก้ไขสำเร็จ");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // 1 วินาที
       } else {
         // create mode
         const res = await CreateUser(formData);
         if (res?.status === 201) {
           setFoodItems((prev) => [...prev, res.data]);
           showMessage("success", "เพิ่มข้อมูลสำเร็จ");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000); // 1 วินาที
         }
       }
       setShowAddForm(false);
@@ -85,17 +91,17 @@ const FoodAdminPanel: React.FC = () => {
 
   const confirmDelete = async () => {
     if (!deleteId) return;
-    
+
     try {
       const res = await DeleteUserByID(deleteId);
-      if (res?.status === 200) {
+      if (res) {
         setFoodItems((prev) => prev.filter((f) => f.ID !== deleteId));
         showMessage("success", "ลบสำเร็จ");
       }
     } catch {
       showMessage("error", "ไม่สามารถลบได้");
     }
-    
+
     setShowDeleteModal(false);
     setDeleteId(null);
   };
@@ -143,11 +149,10 @@ const FoodAdminPanel: React.FC = () => {
 
       {/* Message Toast */}
       {message.show && (
-        <div className={`fixed top-24 right-6 z-50 px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-sm border transform transition-all duration-500 ease-out ${
-          message.type === 'success' ? 'bg-emerald-500/95 text-white border-emerald-400/50 shadow-emerald-500/25' :
+        <div className={`fixed top-24 right-6 z-50 px-6 py-4 rounded-2xl shadow-2xl backdrop-blur-sm border transform transition-all duration-500 ease-out ${message.type === 'success' ? 'bg-emerald-500/95 text-white border-emerald-400/50 shadow-emerald-500/25' :
           message.type === 'error' ? 'bg-red-500/95 text-white border-red-400/50 shadow-red-500/25' :
-          'bg-blue-500/95 text-white border-blue-400/50 shadow-blue-500/25'
-        }`}>
+            'bg-blue-500/95 text-white border-blue-400/50 shadow-blue-500/25'
+          }`}>
           <div className="flex items-center space-x-3">
             {message.type === 'success' && (
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -175,7 +180,7 @@ const FoodAdminPanel: React.FC = () => {
                 </svg>
               </div>
               <h3 className="text-2xl font-bold text-gray-800 mb-4">ยืนยันการลบ</h3>
-              <p className="text-gray-600 mb-8 leading-relaxed">คุณแน่ใจหรือไม่ที่จะลบรายการนี้?<br/>การกระทำนี้ไม่สามารถยกเลิกได้</p>
+              <p className="text-gray-600 mb-8 leading-relaxed">คุณแน่ใจหรือไม่ที่จะลบรายการนี้?<br />การกระทำนี้ไม่สามารถยกเลิกได้</p>
               <div className="flex space-x-4">
                 <button
                   onClick={() => setShowDeleteModal(false)}
@@ -245,7 +250,7 @@ const FoodAdminPanel: React.FC = () => {
         {/* Action Button */}
         {!showAddForm && (
           <div className="text-center">
-            <button 
+            <button
               onClick={openAddForm}
               className="bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 text-white px-10 py-4 rounded-2xl font-bold shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 flex items-center space-x-3 mx-auto text-lg"
             >
@@ -278,7 +283,7 @@ const FoodAdminPanel: React.FC = () => {
                     </p>
                   </div>
                 </div>
-                <button 
+                <button
                   onClick={cancelForm}
                   className="text-white/80 hover:text-white hover:bg-white/20 p-3 rounded-xl transition-all duration-200"
                 >
@@ -288,7 +293,7 @@ const FoodAdminPanel: React.FC = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="p-8 bg-gradient-to-br from-blue-50/50 to-indigo-50/50">
               <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -311,7 +316,7 @@ const FoodAdminPanel: React.FC = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <label className="block font-bold text-gray-700 text-lg mb-3">นามสกุล</label>
                     <div className="relative group">
@@ -331,7 +336,7 @@ const FoodAdminPanel: React.FC = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <label className="block font-bold text-gray-700 text-lg mb-3">ชื่อผู้ใช้</label>
                     <div className="relative group">
@@ -349,7 +354,7 @@ const FoodAdminPanel: React.FC = () => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <label className="block font-bold text-gray-700 text-lg mb-3">รหัสผ่าน</label>
                     <div className="relative group">
@@ -373,7 +378,7 @@ const FoodAdminPanel: React.FC = () => {
 
                 <div className="border-t border-gray-200/50 pt-8">
                   <div className="flex justify-center space-x-6">
-                    <button 
+                    <button
                       type="submit"
                       className="bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 text-white px-10 py-4 rounded-2xl font-bold shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1 transition-all duration-300 flex items-center space-x-3 text-lg"
                     >
@@ -382,7 +387,7 @@ const FoodAdminPanel: React.FC = () => {
                       </svg>
                       <span>{editingItem ? "บันทึกการแก้ไข" : "บันทึกข้อมูล"}</span>
                     </button>
-                    <button 
+                    <button
                       type="button"
                       onClick={cancelForm}
                       className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-10 py-4 rounded-2xl font-bold border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 text-lg"
@@ -412,7 +417,7 @@ const FoodAdminPanel: React.FC = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="p-8 bg-gradient-to-br from-blue-50/30 to-indigo-50/30 min-h-96">
             {foodItems.length === 0 ? (
               <div className="text-center py-20">
@@ -428,7 +433,7 @@ const FoodAdminPanel: React.FC = () => {
                 <p className="text-gray-500 text-xl mb-8 max-w-md mx-auto leading-relaxed">
                   เริ่มต้นโดยการเพิ่มแอดมินคนแรกเข้าสู่ระบบเพื่อเริ่มการจัดการ
                 </p>
-                <button 
+                <button
                   onClick={openAddForm}
                   className="bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 text-white px-10 py-4 rounded-2xl font-bold shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 flex items-center space-x-3 mx-auto text-lg"
                 >
@@ -448,14 +453,14 @@ const FoodAdminPanel: React.FC = () => {
                     {/* Card Header */}
                     <div className="bg-gradient-to-br from-blue-500 via-purple-500 to-indigo-500 p-6 text-center relative overflow-hidden">
                       <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-10 translate-x-10"></div>
-                      
+
                       <div className="relative">
                         <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-lg mb-3 group-hover:scale-110 transition-transform duration-300">
                           <svg className="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                           </svg>
                         </div>
-                        
+
                         <div className="text-white font-semibold text-base">
                           แอดมินคนที่ {item.ID}
                         </div>
@@ -475,7 +480,7 @@ const FoodAdminPanel: React.FC = () => {
                           </span>
                         </div>
                       </div>
-                      
+
                       <div className="border-t border-gray-100 pt-4">
                         <div className="flex justify-center space-x-3">
                           <button
