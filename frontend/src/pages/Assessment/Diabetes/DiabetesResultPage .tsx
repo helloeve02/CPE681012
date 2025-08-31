@@ -36,7 +36,7 @@ const DiabetesResultPage = () => {
     );
   }
 
-  const getRiskLevel = (score) => {
+  const getRiskLevel = (score: number) => {
     if (score <= 2) {
       return {
         level: 'น้อยกว่า หรือเท่ากับ 2',
