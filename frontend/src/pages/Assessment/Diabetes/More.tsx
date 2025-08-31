@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import { 
-  ArrowLeft, 
-  User, 
-  // Weight,
+import {
+  ArrowLeft,
+  User,
   Ruler,
   Heart,
-  Droplets,
   Users,
   Info,
-  // Calendar,
   Activity
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const DiabetesMoreAssessmentPage: React.FC = () => {
+const DiabetesMoreAssessmentPage = () => {
   const [form, setForm] = useState({
     age: "",
     gender: "",
@@ -22,25 +19,101 @@ const DiabetesMoreAssessmentPage: React.FC = () => {
     waist: "",
     systolic: "",
     diastolic: "",
-    bloodSugar: "",
     familyHistory: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-const navigate = useNavigate();
-  const handleRadio = (name: string, value: string) => {
+
+  const handleRadio = (name, value) => {
     setForm({ ...form, [name]: value });
   };
 
+  // ฟังก์ชันคำนวณคะแนนความเสี่ยงตามตารางที่ให้มา
+  const calculateRiskScore = () => {
+    let totalScore = 0;
+
+    // 1. อายุ
+    const age = parseInt(form.age);
+    if (age >= 35 && age <= 39) totalScore += 0;
+    else if (age >= 40 && age <= 44) totalScore += 1;
+    else if (age >= 45 && age <= 49) totalScore += 2;
+    else if (age >= 50 && age <= 54) totalScore += 3;
+    else if (age >= 55 && age <= 59) totalScore += 4;
+    else if (age >= 60 && age <= 64) totalScore += 5;
+    else if (age >= 65) totalScore += 6;
+
+    // 2. เพศ
+    if (form.gender === "female") totalScore += 0;
+    else if (form.gender === "male") totalScore += 1;
+
+    // 3. ดัชนีมวลกาย (BMI)
+    const weight = parseFloat(form.weight);
+    const height = parseFloat(form.height) / 100;
+    if (weight && height) {
+      const bmi = weight / (height * height);
+      if (bmi < 23) totalScore += 0;
+      else if (bmi >= 23 && bmi < 27.5) totalScore += 1;
+      else if (bmi >= 27.5) totalScore += 3;
+    }
+
+    // 4. รอบเอว
+    const waist = parseFloat(form.waist);
+    if (waist) {
+      if (form.gender === "female") {
+        if (waist < 80) totalScore += 0;
+        else if (waist >= 80 && waist < 88) totalScore += 3;
+        else if (waist >= 88) totalScore += 4;
+      } else if (form.gender === "male") {
+        if (waist < 90) totalScore += 0;
+        else if (waist >= 90 && waist < 102) totalScore += 3;
+        else if (waist >= 102) totalScore += 4;
+      }
+    }
+
+    // 5. ความดันโลหิต
+    const systolic = parseInt(form.systolic);
+    const diastolic = parseInt(form.diastolic);
+    if (systolic && diastolic) {
+      if (systolic < 140 && diastolic < 90) totalScore += 0;
+      else totalScore += 1;
+    }
+
+    // 6. ประวัติโรคเบาหวานในญาติสายตรง
+    if (form.familyHistory === "no") totalScore += 0;
+    else if (form.familyHistory === "yes") totalScore += 5;
+
+    return totalScore;
+  };
+
   const handleSubmit = () => {
-    console.log("Assessment data:", form);
-    alert("การประเมินเสร็จสิ้น!");
+    // ตรวจสอบข้อมูลที่จำเป็น
+    if (!form.age || !form.gender || !form.weight || !form.height || !form.waist || !form.systolic || !form.diastolic || !form.familyHistory) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+      return;
+    }
+
+    if (parseInt(form.age) < 35) {
+      alert("การประเมินนี้สำหรับผู้ที่มีอายุ 35 ปีขึ้นไป");
+      return;
+    }
+
+    const score = calculateRiskScore();
+    
+    // ส่งข้อมูลไปหน้าผลลัพธ์ผ่าน state
+    navigate('/assessment/diabetes-result', { 
+      state: { 
+        formData: form, 
+        score: score 
+      } 
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-kanit">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-sans">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -48,7 +121,7 @@ const navigate = useNavigate();
           {/* Header Navigation */}
           <div className="flex items-center mb-8">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/assessment/selectagerange')}
               className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
             >
               <ArrowLeft size={22} />
@@ -102,7 +175,7 @@ const navigate = useNavigate();
                 </div>
                 <h4 className="text-lg font-bold text-gray-800">ข้อมูลส่วนตัว</h4>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">อายุ</label>
@@ -110,33 +183,34 @@ const navigate = useNavigate();
                     type="number"
                     name="age"
                     value={form.age}
+                    min={35}
                     onChange={handleChange}
                     placeholder="กรอกอายุของคุณ"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors bg-white"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">เพศ</label>
                   <div className="flex gap-4">
                     <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
-                      <input 
-                        type="radio" 
-                        name="gender" 
+                      <input
+                        type="radio"
+                        name="gender"
                         checked={form.gender === "male"}
-                        onChange={() => handleRadio("gender", "male")} 
+                        onChange={() => handleRadio("gender", "male")}
                         className="text-blue-500"
-                      /> 
+                      />
                       <span>ชาย</span>
                     </label>
                     <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
-                      <input 
-                        type="radio" 
-                        name="gender" 
+                      <input
+                        type="radio"
+                        name="gender"
                         checked={form.gender === "female"}
-                        onChange={() => handleRadio("gender", "female")} 
+                        onChange={() => handleRadio("gender", "female")}
                         className="text-blue-500"
-                      /> 
+                      />
                       <span>หญิง</span>
                     </label>
                   </div>
@@ -152,7 +226,7 @@ const navigate = useNavigate();
                 </div>
                 <h4 className="text-lg font-bold text-gray-800">ข้อมูลทางกาย</h4>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">น้ำหนัก (กก.)</label>
@@ -165,7 +239,7 @@ const navigate = useNavigate();
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors bg-white"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">ส่วนสูง (ซม.)</label>
                   <input
@@ -177,7 +251,7 @@ const navigate = useNavigate();
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors bg-white"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">รอบเอว (ซม.)</label>
                   <input
@@ -200,7 +274,7 @@ const navigate = useNavigate();
                 </div>
                 <h4 className="text-lg font-bold text-gray-800">ความดันโลหิต</h4>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">ความดันตัวบน</label>
@@ -213,7 +287,7 @@ const navigate = useNavigate();
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:outline-none transition-colors bg-white"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">ความดันตัวล่าง</label>
                   <input
@@ -228,28 +302,6 @@ const navigate = useNavigate();
               </div>
             </div>
 
-            {/* Blood Sugar Section */}
-            <div className="bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="p-2 bg-yellow-500 rounded-lg text-white">
-                  <Droplets size={20} />
-                </div>
-                <h4 className="text-lg font-bold text-gray-800">ระดับน้ำตาลในเลือด</h4>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">ระดับน้ำตาลในเลือดขณะอดอาหาร (mg/dL)</label>
-                <input
-                  name="bloodSugar"
-                  type="number"
-                  value={form.bloodSugar}
-                  onChange={handleChange}
-                  placeholder="ระดับน้ำตาลในเลือดขณะอดอาหาร"
-                  className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-yellow-500 focus:outline-none transition-colors bg-white"
-                />
-              </div>
-            </div>
-
             {/* Family History Section */}
             <div className="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-xl p-6">
               <div className="flex items-center gap-2 mb-4">
@@ -258,41 +310,31 @@ const navigate = useNavigate();
                 </div>
                 <h4 className="text-lg font-bold text-gray-800">ประวัติครอบครัว</h4>
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   มีบิดา มารดา หรือพี่น้องสายตรงเป็นโรคเบาหวานหรือไม่
                 </label>
                 <div className="flex flex-wrap gap-3">
                   <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-teal-300 transition-colors cursor-pointer">
-                    <input 
-                      type="radio" 
-                      name="familyHistory" 
+                    <input
+                      type="radio"
+                      name="familyHistory"
                       checked={form.familyHistory === "yes"}
-                      onChange={() => handleRadio("familyHistory", "yes")} 
+                      onChange={() => handleRadio("familyHistory", "yes")}
                       className="text-teal-500"
-                    /> 
+                    />
                     <span>มี</span>
                   </label>
                   <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-teal-300 transition-colors cursor-pointer">
-                    <input 
-                      type="radio" 
-                      name="familyHistory" 
+                    <input
+                      type="radio"
+                      name="familyHistory"
                       checked={form.familyHistory === "no"}
-                      onChange={() => handleRadio("familyHistory", "no")} 
+                      onChange={() => handleRadio("familyHistory", "no")}
                       className="text-teal-500"
-                    /> 
+                    />
                     <span>ไม่มี</span>
-                  </label>
-                  <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-teal-300 transition-colors cursor-pointer">
-                    <input 
-                      type="radio" 
-                      name="familyHistory" 
-                      checked={form.familyHistory === "unknown"}
-                      onChange={() => handleRadio("familyHistory", "unknown")} 
-                      className="text-teal-500"
-                    /> 
-                    <span>ไม่ทราบ</span>
                   </label>
                 </div>
               </div>
@@ -302,7 +344,12 @@ const navigate = useNavigate();
             <div className="pt-6">
               <button
                 onClick={handleSubmit}
-                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+                disabled={!form.age || parseInt(form.age) < 35}
+                className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform
+                  ${!form.age || parseInt(form.age) < 35
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white hover:scale-105 hover:shadow-xl"
+                  }`}
               >
                 ประเมินผลลัพธ์
               </button>
