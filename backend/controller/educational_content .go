@@ -188,3 +188,26 @@ func GetContentAllByNutrition(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"educationalContents": educationalContent})
 }
+
+func UpdateContent(c *gin.Context) {
+	id := c.Param("id")
+
+	var content entity.EducationalContent
+	db := config.DB()
+	if err := db.First(&content, "id = ?", id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "ไม่พบข้อมูล content"})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&content); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := db.Save(&content).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "ไม่สามารถแก้ไขข้อมูล content ได้"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "แก้ไขข้อมูล content สำเร็จ", "content": content})
+}
