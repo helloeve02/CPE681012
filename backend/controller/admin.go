@@ -54,8 +54,8 @@ func CreateUser(c *gin.Context) {
 	u := entity.Admin{
 		UserName:  user.UserName,  
 		Password:  hashedPassword,     
-		FirstName:  "ไม่ได้ระบุ",
-		LastName:  "ไม่ได้ระบุ",
+		FirstName:  user.FirstName,
+		LastName:  user.LastName,
 	}
 
 	// บันทึก

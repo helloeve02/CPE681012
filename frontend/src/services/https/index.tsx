@@ -6,6 +6,8 @@ import type { UserInfo } from "../../interfaces/Nutrition";
 import type { AdminInterface } from "../../interfaces/Admin";
 import type { MenuInterface } from "../../interfaces/Menu";
 import type { FoodItemInterface } from "../../interfaces/FoodItem";
+import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
+
 const requestOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -48,7 +50,7 @@ async function GetAllDisease() {
 async function FindRuleByUserInfo(userInfo: UserInfo) {
   return await axios
     .post(`${apiUrl}/rule`, userInfo)
-    .then((res) => res.data) 
+    .then((res) => res.data)
     .catch((e) => {
       console.error("Error fetching rule:", e.response?.data || e.message);
       return null;
@@ -122,7 +124,7 @@ async function SignIn(data: AdminInterface) {
 async function CreateUser(data: AdminInterface) {
   return await axios
 
-    .post(`${apiUrl}/signup`, data, requestOptions)
+    .post(`${apiUrl}/createadmin`, data, requestOptions)
 
     .then((res) => res)
 
@@ -175,6 +177,13 @@ async function UpdateUserByid(id: string, data: AdminInterface) {
 
     .then((res) => res)
 
+    .catch((e) => e.response);
+}
+
+async function ListUsers() {
+  return await axios
+    .get(`${apiUrl}/admin`, requestOptions)
+    .then((res) => res)
     .catch((e) => e.response);
 }
 
@@ -267,7 +276,7 @@ async function GetFoodItemsByFlags() {
 async function CreateMenu(menuInfo: MenuInterface) {
   return await axios
     .post(`${apiUrl}/menu`, menuInfo)
-    .then((res) => res.data) 
+    .then((res) => res.data)
     .catch((e) => {
       console.error("Error fetching menu:", e.response?.data || e.message);
       return null;
@@ -291,7 +300,7 @@ async function DeleteMenu(id: number | undefined) {
 async function CreateFoodItem(data: FoodItemInterface) {
   return await axios
     .post(`${apiUrl}/food-item`, data)
-    .then((res) => res.data) 
+    .then((res) => res.data)
     .catch((e) => {
       console.error("Error fetching food item:", e.response?.data || e.message);
       return null;
@@ -344,13 +353,12 @@ async function GetAllFoodChoices() {
 }
 
 // ดึงคำแนะนำตามโรค
-async function GetFoodChoicesByDisease(diseaseID: number) {
+async function GetFoodChoicesByDiseaseID(diseaseID: number) {
   return await axios
     .get(`${apiUrl}/foodchoices/disease/${diseaseID}`, requestOptions)
-    .then((res) => res)
+    .then((res) => res.data.data) // เดิมคืน res -> แก้เป็นอ่าน payload จริง
     .catch((e) => e.response);
 }
-
 // ดึงเมนูมื้อหลักตาม Tag IDs (POST)
 async function GetMenusByTagIDs(tagIDs: number[]) {
   return await axios
@@ -374,12 +382,13 @@ async function GetMenusByTagIDs(tagIDs: number[]) {
 }
  */
 
+// services/https/index.ts
 async function GetFruits() {
   return await axios
     .get(`${apiUrl}/fruits`, requestOptions)
-    .then((res) => res.data.fooditems)
+    .then((res) => res?.data?.fruits ?? res?.data?.fooditems ?? []) // <= รองรับทั้ง fruits/fooditems
     .catch((e) => {
-      console.error("Error fetching fruits:", e.response?.data || e.message);
+      console.error("Error fetching fruits:", e?.response?.data || e.message);
       return [];
     });
 }
@@ -428,12 +437,22 @@ async function DeleteContent(id: number | undefined) {
     .catch((e) => e.response);
 }
 
-async function CreateContent(data: FoodItemInterface) {
+async function CreateContent(data: EducationalContentInterface) {
   return await axios
-    .post(`${apiUrl}/content`, data)
-    .then((res) => res.data) 
+    .post(`${apiUrl}/content`, data ,requestOptions)
+    .then((res) => res?.data)
     .catch((e) => {
-      console.error("Error fetching food item:", e.response?.data || e.message);
+      console.error("Error creating content:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function UpdateContent(id: number, data: EducationalContentInterface) {
+  return await axios
+    .patch(`${apiUrl}/content/${id}`, data, requestOptions)
+    .then((res) => res?.data)
+    .catch((e) => {
+      console.error("Error updating content:", e.response?.data || e.message);
       return null;
     });
 }
@@ -530,65 +549,111 @@ async function GetContentAllByNutrition() {
     .catch((e) => e.response);
 }
 
-export{
-    GetAllMenu,
-    GetMenuById,
-    GetAllMenuImage,
-    GetAllDisease,
-    FindRuleByUserInfo,
-    GetNutritionDataByRule,
-    GetPortionDataByRule,
-    GetCaloriesByRule,
-    GetRuleDetailByRule,
-    GetAllIngredients,
-    GetIngredientsByID,
-    SignIn,
-    CreateUser,
-    ResetPassword,
-    GetUserById,
-    DeleteUserByID,
-    UpdateUserByid,
-    UpdateUser,
-    GetAllTag,
-    GetTagByID,
-    GetAllMenuTag,
-    GetMenuTagByID,
-    GetAllFoodFlags,
-    GetAllFoodItems,
-    GetFoodGroupByID,
-    GetAllFoodGroups,
-    GetFoodItemsByFlags,
-    CreateMenu,
-    UpdateMenu,
-    GenerateWeeklyMealPlan,
-    GetMealplansByDisease,
-    GetFoodItemByID,
-    GetAllFoodChoices,
-    GetFoodChoicesByDisease,
-    GetMenusByTagIDs, //ดึงตามtagที่ผู้ใช้เลือก
-    GetFruits,
-    GetDesserts,
-    GetDiabeticDesserts, //ดึงของหวานโรคเบหวาน
-    DeleteMenu,
-    CreateFoodItem,
-    DeleteFoodItem,
-    GetAllContent,
-    GetContentByID,
-    DeleteContent,
-    CreateContent,
-    GetAllCategory,
-    GetContentCatByID,
-    DeleteContentCat,
-    GetAllGroupContent,
-    GetGroupContentByID,
-    DeleteGroupContent,
-    GetContentByInfographics,
-    GetContentByVideo,
-    GetContentByArticle,
-    GetAllChooseAvoid,
-    GetContentAllByKidney,
-    GetContentAllByDiabetes,
-    GetContentAllByExercise,
-    GetContentAllByNutrition,
+// นับจำนวนเมนูทั้งหมด
+async function GetMenuCount() {
+  return await GetAllMenu()
+    .then((res) => (res && res.data ? res.data.length : 0))
+    .catch((e) => {
+      console.error("Error counting menus:", e.response?.data || e.message);
+      return 0;
+    });
+}
+
+// นับจำนวน Content ทั้งหมด
+async function GetContentCount() {
+  return await GetAllContent()
+    .then((res) => (res && res.data ? res.data.length : 0))
+    .catch((e) => {
+      console.error("Error counting contents:", e.response?.data || e.message);
+      return 0;
+    });
+}
+
+// นับจำนวน Food Item ทั้งหมด
+async function GetFoodItemCount() {
+  return await GetAllFoodItems()
+    .then((res) => (res && res.data ? res.data.length : 0))
+    .catch((e) => {
+      console.error("Error counting food items:", e.response?.data || e.message);
+      return 0;
+    });
+}
+
+// นับจำนวน Disease ทั้งหมด
+async function GetDiseaseCount() {
+  return await GetAllDisease()
+    .then((res) => (res && res.data ? res.data.length : 0))
+    .catch((e) => {
+      console.error("Error counting diseases:", e.response?.data || e.message);
+      return 0;
+    });
+}
+
+export {
+  GetAllMenu,
+  GetMenuById,
+  GetAllMenuImage,
+  GetAllDisease,
+  FindRuleByUserInfo,
+  GetNutritionDataByRule,
+  GetPortionDataByRule,
+  GetCaloriesByRule,
+  GetRuleDetailByRule,
+  GetAllIngredients,
+  GetIngredientsByID,
+  SignIn,
+  CreateUser,
+  ResetPassword,
+  GetUserById,
+  DeleteUserByID,
+  UpdateUserByid,
+  UpdateUser,
+  GetAllTag,
+  GetTagByID,
+  GetAllMenuTag,
+  GetMenuTagByID,
+  GetAllFoodFlags,
+  GetAllFoodItems,
+  GetFoodGroupByID,
+  GetAllFoodGroups,
+  GetFoodItemsByFlags,
+  CreateMenu,
+  UpdateMenu,
+  GenerateWeeklyMealPlan,
+  GetMealplansByDisease,
+  GetFoodItemByID,
+  GetAllFoodChoices,
+  GetFoodChoicesByDiseaseID,
+  GetMenusByTagIDs, //ดึงตามtagที่ผู้ใช้เลือก
+  GetFruits,
+  GetDesserts,
+  GetDiabeticDesserts, //ดึงของหวานโรคเบหวาน
+  DeleteMenu,
+  CreateFoodItem,
+  DeleteFoodItem,
+  GetAllContent,
+  GetContentByID,
+  DeleteContent,
+  CreateContent,
+  UpdateContent,
+  GetAllCategory,
+  GetContentCatByID,
+  DeleteContentCat,
+  GetAllGroupContent,
+  GetGroupContentByID,
+  DeleteGroupContent,
+  GetContentByInfographics,
+  GetContentByVideo,
+  GetContentByArticle,
+  GetAllChooseAvoid,
+  GetContentAllByKidney,
+  GetContentAllByDiabetes,
+  GetContentAllByExercise,
+  GetContentAllByNutrition,
+  GetMenuCount,
+  GetContentCount,
+  GetFoodItemCount,
+  GetDiseaseCount,
+  ListUsers,
 
 }
