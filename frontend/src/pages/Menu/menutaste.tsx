@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Sparkles, AlertTriangle, ChefHat } from 'lucide-react';
 
 type SeasoningItem = {
   name: string;
@@ -91,23 +92,23 @@ const tabColors: Record<TabKey, {
   icon: string;
 }> = {
   เปรี้ยว: {
-    gradient: "from-yellow-400 via-orange-400 to-red-500",
-    activeGradient: "from-yellow-500 to-red-500",
-    cardGradient: "from-yellow-50 to-orange-50",
-    shadow: "shadow-yellow-200/50",
+    gradient: "from-amber-400 via-orange-400 to-orange-500",
+    activeGradient: "from-amber-500 to-orange-500",
+    cardGradient: "from-amber-50 to-orange-50",
+    shadow: "shadow-orange-200/50",
     icon: "🍋"
   },
   หวาน: {
-    gradient: "from-pink-400 via-rose-400 to-purple-500",
-    activeGradient: "from-pink-500 to-purple-600",
-    cardGradient: "from-pink-50 to-purple-50",
+    gradient: "from-pink-400 via-pink-500 to-rose-500",
+    activeGradient: "from-pink-500 to-rose-500",
+    cardGradient: "from-pink-50 to-rose-50",
     shadow: "shadow-pink-200/50",
     icon: "🍯"
   },
   เค็ม: {
-    gradient: "from-blue-400 via-teal-400 to-green-500",
-    activeGradient: "from-blue-500 to-green-600",
-    cardGradient: "from-blue-50 to-teal-50",
+    gradient: "from-blue-500 via-indigo-500 to-indigo-600",
+    activeGradient: "from-blue-500 to-indigo-600",
+    cardGradient: "from-blue-50 to-indigo-50",
     shadow: "shadow-blue-200/50",
     icon: "🧂"
   },
@@ -117,110 +118,94 @@ export default function SeasoningUI() {
   const [activeTab, setActiveTab] = useState<TabKey>("เปรี้ยว");
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-gray-50 font-kanit">
-      {/* Hero Header with Gradient Background */}
-      <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-yellow-400/20 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-pink-400/20 to-transparent rounded-full blur-2xl"></div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 font-kanit">
+      {/* Enhanced Header - เข้าธีมกับหน้าอื่น */}
+      <div className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-16 h-16 bg-white/10 rounded-full animate-pulse delay-300"></div>
+          <div className="absolute top-1/2 right-1/4 w-12 h-12 bg-white/5 rounded-full animate-pulse delay-700"></div>
+        </div>
         
-        <div className="relative z-10 container mx-auto px-6 py-16 text-center">
-          <div className="flex items-center justify-center mb-4">
-            <span className="text-4xl mr-3">✨</span>
-            <h1 className="text-5xl md:text-6xl font-bold text-white">
+        <div className="relative px-6 py-10 text-center">
+          <div className="flex items-center justify-center mb-3">
+            <ChefHat className="w-7 h-7 mr-3 text-yellow-300" />
+            <h1 className="font-bold text-3xl md:text-4xl font-kanit bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
               เครื่องปรุงรสอาหารไทย
             </h1>
-            <span className="text-4xl ml-3">✨</span>
+            <ChefHat className="w-7 h-7 ml-3 text-yellow-300" />
           </div>
-          {/* <p className="text-xl text-white/90 font-light max-w-2xl mx-auto leading-relaxed">
-            ค้นพบมนูอาหารและวิถีดั้งเดิมคุณภาพพจงสำหรับการดูแลสุขภาพ
-          </p> */}
-          
-          {/* Floating particles effect */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-            <div className="absolute top-1/3 right-1/3 w-3 h-3 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '0.5s'}}></div>
-            <div className="absolute bottom-1/4 left-1/3 w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+          <p className="text-blue-100 font-kanit text-base max-w-xl mx-auto">
+            ค้นพบข้อมูลเครื่องปรุงรสและวิธีการใช้อย่างปลอดภัยสำหรับสุขภาพ
+          </p>
+        </div>
+      </div>
+
+      {/* Modern Tabs - ใช้สไตล์เดียวกับหน้าอื่น */}
+      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex justify-center">
+            <div className="inline-flex bg-gray-100 p-1 rounded-xl mt-4 mb-4">
+              {(Object.keys(data) as TabKey[]).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-2.5 rounded-lg font-kanit text-base font-medium transition-all duration-300 flex items-center gap-2 ${
+                    activeTab === tab
+                      ? "bg-white text-blue-600 shadow-md transform scale-105"
+                      : "text-gray-600 hover:text-blue-500 hover:bg-white/50"
+                  }`}
+                >
+                  <span className="text-xl">{tabColors[tab].icon}</span>
+                  <span>{tab}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-6 -mt-8 relative z-10">
-        {/* Enhanced Tab Navigation */}
-        <div className="flex justify-center mb-12">
-          <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-2 shadow-2xl border border-white/30 inline-flex space-x-2">
-            {(Object.keys(data) as TabKey[]).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`group relative flex items-center px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${
-                  activeTab === tab
-                    ? `bg-gradient-to-r ${tabColors[tab].activeGradient} text-white shadow-2xl ${tabColors[tab].shadow} scale-105`
-                    : "text-gray-600 hover:text-gray-800 hover:bg-white/60"
-                }`}
-              >
-                <span className="text-2xl mr-3 group-hover:scale-110 transition-transform">
-                  {tabColors[tab].icon}
-                </span>
-                <span className="relative z-10">{tab}</span>
-                {activeTab === tab && (
-                  <>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent rounded-xl"></div>
-                    <div className="absolute -inset-2 bg-gradient-to-r from-white/10 to-transparent rounded-2xl blur-lg"></div>
-                  </>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Content Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-16">
+      {/* Content Cards Grid */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-8">
           {data[activeTab].map((item, index) => (
             <div
               key={index}
-              className={`group relative bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 p-8 hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02]`}
+              className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl 
+                        transition-all duration-500 overflow-hidden border border-gray-100
+                        hover:transform hover:scale-[1.02]"
               style={{
-                background: `linear-gradient(135deg, ${tabColors[activeTab].cardGradient.replace('from-', '').replace(' to-', ', ')})`,
                 animationDelay: `${index * 0.1}s`
               }}
             >
-              {/* Decorative corner elements */}
-              <div className="absolute top-6 right-6 w-16 h-16 bg-gradient-to-br from-white/40 to-white/10 rounded-full blur-xl"></div>
-              <div className="absolute bottom-6 left-6 w-12 h-12 bg-gradient-to-br from-white/30 to-transparent rounded-full blur-lg"></div>
-              
-              {/* Glowing border effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-white/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              
-              {/* Content */}
-              <div className="relative z-10">
+              <div className="p-6">
                 {/* Header with icon */}
-                <div className="flex items-center mb-6">
+                <div className="flex items-center mb-5">
                   <div className={`flex items-center justify-center w-14 h-14 bg-gradient-to-r ${tabColors[activeTab].gradient} rounded-2xl shadow-lg mr-4 group-hover:scale-110 transition-transform`}>
                     <span className="text-2xl text-white">{tabColors[activeTab].icon}</span>
                   </div>
-                  <h2 className="text-3xl font-bold text-gray-800 group-hover:text-gray-900 transition-colors">
+                  <h3 className="text-xl font-kanit font-bold text-gray-800 group-hover:text-blue-600 transition-colors">
                     {item.name}
-                  </h2>
+                  </h3>
                 </div>
                 
                 {/* Description */}
-                <div className="mb-8">
-                  <p className="text-gray-700 text-lg leading-relaxed group-hover:text-gray-800 transition-colors">
+                <div className="mb-5">
+                  <p className="text-gray-700 font-kanit text-base leading-relaxed group-hover:text-gray-800 transition-colors">
                     {item.desc}
                   </p>
                 </div>
                 
                 {/* Caution Box */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-red-200/40 shadow-lg">
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                      <span className="text-white text-xl font-bold">⚠️</span>
+                <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-5 border border-red-100/60 shadow-sm">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-red-400 to-pink-500 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                      <AlertTriangle className="text-white" size={16} />
                     </div>
-                    <div>
-                      <h4 className="text-red-800 font-semibold text-lg mb-2">ข้อควรระวัง</h4>
-                      <p className="text-red-700 text-base leading-relaxed font-medium">
+                    <div className="flex-grow">
+                      <h4 className="text-red-700 font-kanit font-semibold text-base mb-1.5">ข้อควรระวัง</h4>
+                      <p className="text-red-600 font-kanit text-sm leading-relaxed">
                         {item.caution}
                       </p>
                     </div>
@@ -228,20 +213,22 @@ export default function SeasoningUI() {
                 </div>
               </div>
 
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              {/* Hover effect overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
             </div>
           ))}
         </div>
 
-        {/* Footer with animated elements */}
-        <div className="text-center pb-12">
-          <div className="inline-flex items-center justify-center space-x-4 mb-4">
-            <div className={`w-4 h-4 bg-gradient-to-r ${tabColors.เปรี้ยว.gradient} rounded-full animate-bounce`}></div>
-            <div className={`w-4 h-4 bg-gradient-to-r ${tabColors.หวาน.gradient} rounded-full animate-bounce`} style={{ animationDelay: "0.2s" }}></div>
-            <div className={`w-4 h-4 bg-gradient-to-r ${tabColors.เค็ม.gradient} rounded-full animate-bounce`} style={{ animationDelay: "0.4s" }}></div>
+        {/* Enhanced Footer */}
+        <div className="text-center pb-6">
+          <div className="inline-flex items-center justify-center space-x-3 mb-4">
+            <div className={`w-3 h-3 bg-gradient-to-r ${tabColors.เปรี้ยว.gradient} rounded-full animate-bounce`}></div>
+            <div className={`w-3 h-3 bg-gradient-to-r ${tabColors.หวาน.gradient} rounded-full animate-bounce`} style={{ animationDelay: "0.2s" }}></div>
+            <div className={`w-3 h-3 bg-gradient-to-r ${tabColors.เค็ม.gradient} rounded-full animate-bounce`} style={{ animationDelay: "0.4s" }}></div>
           </div>
-          <p className="text-gray-500 text-sm">สำรวจรสชาติแท้ของอาหารไทยอย่างปลอดภัย</p>
+          <p className="text-gray-500 font-kanit text-base max-w-lg mx-auto">
+            สำรวจรสชาติแท้ของอาหารไทยอย่างปลอดภัย เพื่อสุขภาพที่ดีของคุณและครอบครัว
+          </p>
         </div>
       </div>
     </div>
