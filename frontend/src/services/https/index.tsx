@@ -124,7 +124,7 @@ async function SignIn(data: AdminInterface) {
 async function CreateUser(data: AdminInterface) {
   return await axios
 
-    .post(`${apiUrl}/signup`, data, requestOptions)
+    .post(`${apiUrl}/createadmin`, data, requestOptions)
 
     .then((res) => res)
 
@@ -177,6 +177,13 @@ async function UpdateUserByid(id: string, data: AdminInterface) {
 
     .then((res) => res)
 
+    .catch((e) => e.response);
+}
+
+async function ListUsers() {
+  return await axios
+    .get(`${apiUrl}/admin`, requestOptions)
+    .then((res) => res)
     .catch((e) => e.response);
 }
 
@@ -647,5 +654,6 @@ export {
   GetContentCount,
   GetFoodItemCount,
   GetDiseaseCount,
+  ListUsers,
 
 }

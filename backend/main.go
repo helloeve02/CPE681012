@@ -19,6 +19,7 @@ func main() {
 
 	router := r.Group("/")
 	r.POST("/signin", controller.SignIn)
+	r.POST("/createadmin", controller.CreateUser)
 	{
 		router.Use(middlewares.Authorizes())
 		r.GET("/menu", controller.GetAllMenu)

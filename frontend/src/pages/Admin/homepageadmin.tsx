@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Newspaper,
   Utensils,
   ClipboardList,
-  LogOut,
-  User,
-  Shield,
   TrendingUp,
-  Clock,
   Star,
   Activity,
-  Bell,
   Zap,
   Heart,
   Globe,
@@ -19,7 +14,6 @@ import {
 import { TopBarAdmin } from "../../components/TopBarAdmin"
 
 export default function AdminDashboard() {
-  const navigate = useNavigate();
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -85,6 +79,17 @@ export default function AdminDashboard() {
         color: "orange",
         iconBg: "from-orange-400 to-amber-400",
       },
+      {
+        title: "จัดการแอดมิน",
+        link: "/admin/adminmanage",
+        icon: <ClipboardList className="w-10 h-10" />,
+        gradient: "from-orange-500 via-amber-500 to-yellow-500",
+        description: "จัดการข้อมูลอาหารและส่วนผสม",
+        delay: "delay-300",
+        stats: { total: 89, recent: 7 },
+        color: "orange",
+        iconBg: "from-orange-400 to-amber-400",
+      },
     ];
 
   const notifications = [
@@ -94,7 +99,7 @@ export default function AdminDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-100 font-sans relative overflow-hidden font-kanit">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-indigo-100 relative overflow-hidden font-kanit">
       {/* Animated Background Orbs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
