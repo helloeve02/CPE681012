@@ -11,6 +11,7 @@ import {
 import type { AdminInterface } from "../../interfaces/Admin";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
 import type { ContentCategoryInterface } from "../../interfaces/ContentCategory";
+import { TopBarAdmin } from "../../components/TopBarAdmin";
 
 interface Admin extends AdminInterface {} // ใช้โครงสร้างเดิม
 interface EducationalGroup { ID?: number; Name?: string; }
@@ -283,6 +284,9 @@ const EducationalAdminPanel: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-kanit">
+      <div>
+              <TopBarAdmin />
+            </div>
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -291,12 +295,12 @@ const EducationalAdminPanel: React.FC = () => {
               <h1 className="text-2xl font-bold text-gray-900">จัดการข่าวสารและการให้ความรู้</h1>
               <p className="text-gray-600 mt-1">ระบบจัดการเนื้อหาการศึกษาและข้อมูลสุขภาพ</p>
             </div>
-            <div className="text-right">
+            {/* <div className="text-right">
               <p className="text-sm text-gray-500">ผู้ดูแลระบบ</p>
               <p className="text-sm font-medium text-gray-900">
                 {currentAdmin?.FirstName || currentAdmin?.UserName || "ผู้ดูแลระบบ"}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
