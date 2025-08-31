@@ -6,6 +6,8 @@ import type { UserInfo } from "../../interfaces/Nutrition";
 import type { AdminInterface } from "../../interfaces/Admin";
 import type { MenuInterface } from "../../interfaces/Menu";
 import type { FoodItemInterface } from "../../interfaces/FoodItem";
+import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
+
 const requestOptions = {
   headers: {
     "Content-Type": "application/json",
@@ -428,12 +430,22 @@ async function DeleteContent(id: number | undefined) {
     .catch((e) => e.response);
 }
 
-async function CreateContent(data: FoodItemInterface) {
+async function CreateContent(data: EducationalContentInterface) {
   return await axios
-    .post(`${apiUrl}/content`, data)
-    .then((res) => res.data)
+    .post(`${apiUrl}/content`, data ,requestOptions)
+    .then((res) => res?.data)
     .catch((e) => {
-      console.error("Error fetching food item:", e.response?.data || e.message);
+      console.error("Error creating content:", e.response?.data || e.message);
+      return null;
+    });
+}
+
+async function UpdateContent(id: number, data: EducationalContentInterface) {
+  return await axios
+    .patch(`${apiUrl}/content/${id}`, data, requestOptions)
+    .then((res) => res?.data)
+    .catch((e) => {
+      console.error("Error updating content:", e.response?.data || e.message);
       return null;
     });
 }
@@ -616,6 +628,7 @@ export {
   GetContentByID,
   DeleteContent,
   CreateContent,
+  UpdateContent,
   GetAllCategory,
   GetContentCatByID,
   DeleteContentCat,
