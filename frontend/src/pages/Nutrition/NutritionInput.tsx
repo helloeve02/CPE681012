@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Input, Radio, Select, Spin } from "antd";
-import type { RadioChangeEvent } from "antd";
 import { GetAllDisease, FindRuleByUserInfo } from "../../services/https";
 import type { DiseasesInterface } from "../../interfaces/Disease";
 import { InfoCircleOutlined } from "@ant-design/icons";
@@ -61,14 +60,6 @@ const NutritionInput = () => {
       console.error("Error getting rule:", error);
       alert("เกิดข้อผิดพลาดในการเรียกข้อมูล");
     }
-  };
-
-  const onDiseaseChange = (e: RadioChangeEvent) => {
-    setDisease(e.target.value);
-  };
-
-  const onSearch = (value: string) => {
-    console.log("search:", value);
   };
 
   const getAllDisease = async () => {

@@ -8,6 +8,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import type {
+  ConditionalCardItem,
   NutritionData,
   PortionData,
   RuleData,
@@ -66,6 +67,7 @@ type Props = {
   caloryDatas: number;
   ruleDatas: RuleData;
   foodGroups: FoodGroupData[];
+  conditionalCardData: ConditionalCardItem[];
 };
 
 Font.register({
@@ -86,6 +88,7 @@ const NutritionPDF: React.FC<Props> = ({
   caloryDatas,
   ruleDatas,
   foodGroups,
+  conditionalCardData,
 }) => {
   // Grouped by food group
   const groupedByFoodGroup = portionDatas.reduce((acc, item) => {
@@ -183,7 +186,7 @@ const NutritionPDF: React.FC<Props> = ({
 
         {/* ChooseAvoid */}
         <Text style={[styles.title]}>อาหารที่ควรเลี่ยง</Text>
-        
+
         {foodGroups.map((group) => (
           <View key={group.topic} wrap={false} style={{ marginBottom: 10 }}>
             <Text style={{ fontWeight: "bold", fontSize: 12, marginBottom: 4 }}>
@@ -205,6 +208,20 @@ const NutritionPDF: React.FC<Props> = ({
             </Text>
           </View>
         ))}
+        {/* Conditional Card Data */}
+        {conditionalCardData.length > 0 && (
+          <View>
+            <Text style={[styles.title]}>อาหารที่ควรระวังเป็นพิเศษ</Text>
+            {conditionalCardData.map((card, index) => (
+              <View key={index} style={{ marginBottom: 8 }}>
+                <Text style={{ fontWeight: "bold", fontSize: 12 }}>
+                  {card.name}
+                </Text>
+                <Text>{card.description}</Text>
+              </View>
+            ))}
+          </View>
+        )}
       </Page>
     </Document>
   );

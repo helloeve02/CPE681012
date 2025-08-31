@@ -11,6 +11,7 @@ import {
 } from "../../services/https";
 import { getValidRule } from "../../services/https/ruleUtils";
 import type {
+  ConditionalCardItem,
   NutritionData,
   PortionData,
   RuleData,
@@ -26,18 +27,46 @@ export type FoodGroupData = {
 // At the top of the file, below your imports
 
 export async function fetchNutritionPdfData() {
-  const ruleNum = getValidRule();
+  const ruleNum = getValidRule() ?? 0;
   if (!ruleNum) {
     throw new Error("No valid rule found");
   }
 
-  // Helper: transform food items (copied from your function)
+  const conditionalCardData: ConditionalCardItem[] =
+    ruleNum >= 17 && ruleNum <= 22
+      ? [
+          {
+            name: "ขนมหวาน",
+            description: "เช่น เบเกอรี่ เค้ก พาย คุกกี้ น้ำอัดลม",
+          },
+          {
+            name: "ผลไม้หวานจัด",
+            description: "เช่น ทุเรียน ขนุน ละมุด ลิ้นจี่ ลำไย ผลไม้ดอง ผลไม้เชื่อม ผลไม้แช่อิ่ม เป็นต้น",
+          },
+          {
+            name: "อาหารที่มีรสเค็มจัด",
+            description: "เช่น ปลาเค็ม ไข่เค็ม ของหมักดองทุกชนิด",
+          },
+        ]
+      : [];
+
+  // Helper: transform food items (with condition for ruleNum)
   function transformFoodItems(foodItems: FoodItem[]): FoodGroupData[] {
     const groupMap: Record<string, { recommended: FoodItem[]; avoided: FoodItem[] }> = {};
 
     foodItems.forEach((item) => {
       const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
       const flag = item.FoodFlag.Flag;
+
+      // Add condition for ruleNum between 17 and 22 inclusive
+      if (
+        ruleNum >= 17 && ruleNum <= 22 &&
+        groupName !== "เนื้อสัตว์" &&
+        groupName !== "ไขมัน"
+      ) {
+        // Skip groups not matching the required ones
+        return;
+      }
 
       if (!groupMap[groupName]) {
         groupMap[groupName] = { recommended: [], avoided: [] };
@@ -56,7 +85,6 @@ export async function fetchNutritionPdfData() {
       avoided: data.avoided,
     }));
   }
-
   // Fetch all in parallel
   const [
     nutritionRes,
@@ -107,6 +135,7 @@ export async function fetchNutritionPdfData() {
     caloryDatas,
     ruleDatas,
     foodGroups,
+    conditionalCardData,
   };
 }
 
@@ -120,6 +149,7 @@ const PDFViewerPage = () => {
   const [ruleDatas, setRuleDatas] = useState<RuleData | null>(null);
   const [isLoading, setLoading] = useState(true);
   const [foodGroups, setFoodGroups] = useState<FoodGroupData[]>([]);
+  const [conditionalCardData, setConditionalCardData] = useState<ConditionalCardItem[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -130,6 +160,7 @@ const PDFViewerPage = () => {
         setCaloryDatas(data.caloryDatas);
         setRuleDatas(data.ruleDatas);
         setFoodGroups(data.foodGroups);
+        setConditionalCardData(data.conditionalCardData);
       } catch (err) {
         console.error(err);
         navigate("/nutrition"); // fallback on error or missing ruleNum
@@ -158,6 +189,7 @@ const PDFViewerPage = () => {
           caloryDatas={caloryDatas}
           ruleDatas={ruleDatas}
           foodGroups={foodGroups}
+          conditionalCardData={conditionalCardData}
         />
       </PDFViewer>
     </div>
