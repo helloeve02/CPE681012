@@ -5,7 +5,7 @@ import type { AdminInterface } from "../../interfaces/Admin";
 import { Search, Plus, Edit, Trash2, Save, X, Filter, Hash, Eye, ArrowLeft, User, UserCheck } from 'lucide-react';
 import { message } from "antd";
 
-const FoodAdminPanel: React.FC = () => {
+const AdminMangePanel: React.FC = () => {
   const [foodItems, setFoodItems] = useState<AdminInterface[]>([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingItem, setEditingItem] = useState<AdminInterface | null>(null);
@@ -635,4 +635,4 @@ const FoodAdminPanel: React.FC = () => {
   );
 };
 
-export default FoodAdminPanel;
+export default AdminMangePanel;
