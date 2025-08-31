@@ -159,7 +159,7 @@ async function DeleteUserByID(id: Number | undefined) {
     method: "DELETE",
   };
 
-  let res = await fetch(`${apiUrl}/users/${id}`, requestOptions).then((res) => {
+  let res = await fetch(`${apiUrl}/admin/${id}`, requestOptions).then((res) => {
     if (res.status == 200) {
       return true;
     } else {
