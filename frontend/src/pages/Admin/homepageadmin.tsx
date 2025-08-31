@@ -16,6 +16,7 @@ import {
   Heart,
   Globe,
 } from "lucide-react";
+import {TopBarAdmin} from "../../components/TopBarAdmin"
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -38,12 +39,6 @@ export default function AdminDashboard() {
     };
   }, []);
 
-  const handleLogout = () => {
-    // Old behavior restored
-    localStorage.removeItem("isLogin");
-    localStorage.removeItem("role");
-    navigate("/admin"); // กลับไปหน้า login
-  };
 
   // MENU: preserve modern look but restore real navigation
   const menuItems: Array<{
@@ -126,100 +121,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* Navbar */}
-      <nav className="relative bg-white/80 backdrop-blur-2xl shadow-2xl border-b border-blue-100/50 sticky top-0 z-50">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/5 to-indigo-500/5"></div>
-        <div className="relative max-w-7xl mx-auto px-8 py-6">
-          <div className="flex justify-between items-center">
-            {/* Logo Section */}
-            <div className="flex items-center space-x-5">
-              <div className="relative group">
-                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 via-cyan-500 to-indigo-500 rounded-2xl flex items-center justify-center shadow-2xl hover:shadow-cyan-500/25 transition-all duration-500 group-hover:scale-110">
-                  <Shield className="w-8 h-8 text-white drop-shadow-lg" />
-                </div>
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity blur"></div>
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-gradient-to-r from-green-400 to-emerald-400 rounded-full border-2 border-white animate-pulse shadow-lg"></div>
-              </div>
-              <div>
-                <h1 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent drop-shadow-sm">
-                  Admin Panel
-                </h1>
-                <p className="text-gray-600 font-semibold tracking-wide">ระบบจัดการแอปพลิเคชันสุขภาพ</p>
-              </div>
-            </div>
-
-            {/* Center Time & Status */}
-            <div className="hidden lg:flex items-center space-x-6">
-              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 backdrop-blur-xl rounded-2xl px-6 py-3 border border-blue-200/50 shadow-lg">
-                <div className="flex items-center space-x-3">
-                  <Clock className="w-5 h-5 text-blue-600" />
-                  <span className="text-gray-700 font-bold text-lg">
-                    {currentTime.toLocaleTimeString("th-TH", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </span>
-                </div>
-              </div>
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl px-4 py-2 border border-green-200/50">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                  <span className="text-green-700 font-semibold text-sm">ระบบออนไลน์</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Actions */}
-            <div className="flex items-center space-x-4">
-              {/* Notifications */}
-              <div className="relative group">
-                <button
-                  className="relative p-3 bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl border border-blue-200/50"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <Bell className="w-6 h-6 text-blue-600" />
-                  <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-bounce shadow-lg">
-                    {notifications.length}
-                  </div>
-                </button>
-                <div className="absolute right-0 mt-4 w-80 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-blue-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 transform translate-y-2 group-hover:translate-y-0 z-50">
-                  <div className="p-6 border-b border-blue-50">
-                    <h3 className="font-bold text-gray-800 text-lg">การแจ้งเตือน</h3>
-                  </div>
-                  <div className="max-h-80 overflow-y-auto">
-                    {notifications.map((notification) => (
-                      <div
-                        key={notification.id}
-                        className="p-4 border-b border-blue-50/50 last:border-b-0 hover:bg-blue-50/30 transition-colors"
-                      >
-                        <p className="text-gray-800 font-medium mb-2">{notification.message}</p>
-                        <p className="text-blue-600 text-sm font-semibold">{notification.time}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* User Profile */}
-              <div className="flex items-center space-x-4 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl px-5 py-3 border border-blue-200/50 shadow-lg">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
-                  <User className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-gray-800 font-bold hidden sm:block">{firstname}</span>
-              </div>
-
-              {/* Logout Button (functional like old) */}
-              <button
-                onClick={handleLogout}
-                className="group flex items-center space-x-3 bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl hover:shadow-red-500/25 transition-all duration-300 transform hover:scale-105"
-              >
-                <LogOut className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                <span>ออกจากระบบ</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <div>
+      <TopBarAdmin />
+    </div>
 
       {/* Main Content */}
       <main className="relative max-w-7xl mx-auto px-8 py-12">
