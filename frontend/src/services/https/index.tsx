@@ -122,7 +122,7 @@ async function SignIn(data: AdminInterface) {
 async function CreateUser(data: AdminInterface) {
   return await axios
 
-    .post(`${apiUrl}/signup`, data, requestOptions)
+    .post(`${apiUrl}/createadmin`, data, requestOptions)
 
     .then((res) => res)
 

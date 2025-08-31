@@ -45,11 +45,12 @@ import ArticleDetailPage from "./pages/KnowledgeNews/ArticlePage";
 import CleaningMethodCards from "./pages/Menu/menucleaningre"
 import ImportanceOfNutrition from "./pages/Nutrition/ImportanceOfNutrition";
 import MenuTaste from "./pages/Menu/menutaste"
+import SignUp from "./pages/Admin/adminsignup"
 const AppContent = () => {
   const location = useLocation();
 
   // เช็คว่าไม่ใช่หน้า admin ค่อยแสดง NavBar
-  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem", "/forgot-pass"].includes(location.pathname);
+  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem", "/forgot-pass","/admin/signup"].includes(location.pathname);
 
   return (
     <>
@@ -96,6 +97,7 @@ const AppContent = () => {
         <Route path="/fluidcalculator" element={<FluidCalculator />} />
         <Route path="/cleaningre" element={<CleaningMethodCards />} />
         <Route path="/menutaste" element={<MenuTaste />} />
+        <Route path="/admin/signup" element={<PrivateRoute><SignUp /></PrivateRoute>} />
       </Routes>
     </>
   );
