@@ -94,7 +94,7 @@ const FoodAdminPanel: React.FC = () => {
 
   return (
     // <div className="font-kanit">
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50 ">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-sky-50 font-kanit">
       {contextHolder}
       <TopBarAdmin />
 
@@ -258,7 +258,7 @@ const FoodAdminPanel: React.FC = () => {
 
         {/* Admin List */}
         <Card 
-          className="border-0 shadow-xl rounded-2xl overflow-hidden"
+          className="border-0 shadow-xl rounded-2xl overflow-hidden "
           bodyStyle={{ padding: 0 }}
         >
           <div className="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-5">
@@ -270,13 +270,13 @@ const FoodAdminPanel: React.FC = () => {
             </div>
           </div>
           
-          <div className="p-8 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 min-h-96">
+          <div className="p-8 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 min-h-96 ">
             {foodItems.length === 0 ? (
               <div className="text-center py-20">
                 <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-3xl flex items-center justify-center mx-auto mb-6">
                   <UserOutlined className="text-6xl text-blue-400" />
                 </div>
-                <Title level={3} className="text-gray-500 mb-4">ยังไม่มีข้อมูลแอดมิน</Title>
+                <Title level={3} className="text-gray-500 mb-4 ">ยังไม่มีข้อมูลแอดมิน</Title>
                 <Text type="secondary" className="text-lg mb-6 block">
                   เริ่มต้นโดยการเพิ่มแอดมินคนแรกเข้าสู่ระบบ
                 </Text>
@@ -311,7 +311,7 @@ const FoodAdminPanel: React.FC = () => {
                       </div>
 
                       {/* Card Content */}
-                      <div className="p-6 text-center">
+                      <div className="p-6 text-center font-kanit">
                         <Title level={4} className="!mb-2 text-gray-800">
                           {item.FirstName} {item.LastName}
                         </Title>
