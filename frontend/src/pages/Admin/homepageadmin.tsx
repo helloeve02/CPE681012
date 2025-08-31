@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Newspaper,
   Utensils,
   ClipboardList,
-  LogOut,
-  User,
-  Shield,
   TrendingUp,
-  Clock,
   Star,
   Activity,
-  Bell,
   Zap,
   Heart,
   Globe,
@@ -19,7 +14,6 @@ import {
 import { TopBarAdmin } from "../../components/TopBarAdmin"
 
 export default function AdminDashboard() {
-  const navigate = useNavigate();
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -77,6 +71,17 @@ export default function AdminDashboard() {
       {
         title: "จัดการรายการอาหารและวัตถุดิบ",
         link: "/admin/fooditem",
+        icon: <ClipboardList className="w-10 h-10" />,
+        gradient: "from-orange-500 via-amber-500 to-yellow-500",
+        description: "จัดการข้อมูลอาหารและส่วนผสม",
+        delay: "delay-300",
+        stats: { total: 89, recent: 7 },
+        color: "orange",
+        iconBg: "from-orange-400 to-amber-400",
+      },
+      {
+        title: "จัดการแอดมิน",
+        link: "/admin/adminmanage",
         icon: <ClipboardList className="w-10 h-10" />,
         gradient: "from-orange-500 via-amber-500 to-yellow-500",
         description: "จัดการข้อมูลอาหารและส่วนผสม",

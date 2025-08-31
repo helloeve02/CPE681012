@@ -180,6 +180,13 @@ async function UpdateUserByid(id: string, data: AdminInterface) {
     .catch((e) => e.response);
 }
 
+async function ListUsers() {
+  return await axios
+    .get(`${apiUrl}/admin`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 //ไม่ได้ใช้
 async function UpdateUser(data: AdminInterface) {
   const requestOptions = {
@@ -647,5 +654,6 @@ export {
   GetContentCount,
   GetFoodItemCount,
   GetDiseaseCount,
+  ListUsers,
 
 }
