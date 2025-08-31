@@ -24,11 +24,11 @@ const DiabetesMoreAssessmentPage = () => {
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleRadio = (name, value) => {
+  const handleRadio = (name: string, value: string) => {
     setForm({ ...form, [name]: value });
   };
 

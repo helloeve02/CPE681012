@@ -27,15 +27,8 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
     bp: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setForm(prev => {
-      // ถ้าเปลี่ยนเพศ ให้รีเซ็ตรอบเอว
-      if (name === "gender") {
-        return { ...prev, [name]: value, waist: "" };
-      }
-      return { ...prev, [name]: value };
-    });
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
