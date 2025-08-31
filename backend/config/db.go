@@ -469,7 +469,7 @@ func SetupDatabase() {
 3. ใส่หอมใหญ่, มันฝรั่ง, มะเขือเทศ ปรุงรสด้วยน้ำตาลปี๊บ, น้ำมะขาม, น้ำปลา
 4. นำปลาที่ทอดไว้จัดใส่จาน ราดซอสบนปลาที่ทอดแล้ว แต่งหน้าด้วยผักชีและพริกชี้ฟ้าแดง`,
 			// Region: "ภาคกลาง",
-			Image:  "https://chefoldschool.com/wp-content/uploads/2020/06/p45.jpg",
+			Image:  "https://www.ajinomoto.co.th/storage/photos/shares/Recipe/Menu/Lot5-16/61fa99ec4d2b6.jpg",
 			Credit: "https://shop.line.me/@nuy98/product/1000746977",
 		},
 		{
