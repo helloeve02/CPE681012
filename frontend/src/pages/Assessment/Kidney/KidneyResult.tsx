@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { 
-  ArrowLeft, 
+import {
+  ArrowLeft,
   Info,
   RefreshCw,
   CheckCircle,
@@ -29,66 +29,114 @@ interface Props {
   onReset?: () => void;
 }
 
-const KidneyRiskResultsPage: React.FC<Props> = ({ 
+const KidneyRiskResultsPage: React.FC<Props> = ({
   formData: propFormData,
   onBack,
-  onReset 
+  onReset
 }) => {
-  // รับข้อมูลจาก props หรือ localStorage หรือ state
-  const [formData, setFormData] = useState<FormData | null>(null);
+  const [formData, setFormData] = useState<FormData>({
+    age: "",
+    gender: "",
+    waist: "",
+    diabetes: "",
+    bp: ""
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // ลองรับข้อมูลจากหลายแหล่ง
     let data: FormData | null = null;
 
-    // 1. จาก props ที่ส่งมา
-    if (propFormData) {
+    // Priority 1: ข้อมูลจาก props
+    if (propFormData && Object.values(propFormData).some(val => val && val !== "")) {
       data = propFormData;
+      console.log("Using prop data:", propFormData);
     }
-    // 2. จาก URL parameters (ถ้ามี)
-    else if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('age') && urlParams.has('gender')) {
-        data = {
-          age: urlParams.get('age') || '',
-          gender: urlParams.get('gender') || '',
-          waist: urlParams.get('waist') || '',
-          diabetes: urlParams.get('diabetes') || '',
-          bp: urlParams.get('bp') || ''
-        };
+    // Priority 2: ข้อมูลจาก React Router location state
+    else if (typeof window !== "undefined") {
+      // ใช้ useLocation hook แทน
+      try {
+        // เข้าถึง location state ผ่าน window.history.state
+        const locationState = window.history.state?.usr || window.history.state;
+        console.log("Location state:", locationState);
+        
+        if (locationState && typeof locationState === 'object' && locationState.age) {
+          data = locationState as FormData;
+          console.log("Using location state data:", data);
+        }
+      } catch (error) {
+        console.log("Error accessing location state:", error);
       }
     }
-    // 3. จาก state ที่เก็บใน memory (ในกรณีที่มีการจัดการ state ระดับ app)
-    else if (typeof window !== 'undefined' && (window as any).kidneyFormData) {
-      data = (window as any).kidneyFormData;
+
+    // Priority 3: ข้อมูลจาก URL parameters (fallback)
+    if (!data && typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("age") || urlParams.has("gender")) {
+        data = {
+          age: urlParams.get("age") || "",
+          gender: urlParams.get("gender") || "",
+          waist: urlParams.get("waist") || "",
+          diabetes: urlParams.get("diabetes") || "",
+          bp: urlParams.get("bp") || ""
+        };
+        console.log("Using URL params data:", data);
+      }
+    }
+
+    // หากไม่มีข้อมูล ให้แสดงข้อผิดพลาด
+    if (!data || !Object.values(data).some(val => val && val !== "")) {
+      console.error("No form data found!");
+      // อาจจะ redirect กลับไปหน้าแบบประเมิน
+      data = {
+        age: "",
+        gender: "",
+        waist: "",
+        diabetes: "",
+        bp: ""
+      };
     }
 
     setFormData(data);
     setLoading(false);
 
-    // ฟัง custom event จากหน้า assessment
-    const handleAssessmentComplete = (event: any) => {
+    // Event listener สำหรับการอัพเดทข้อมูล
+    const handleAssessmentComplete = (event: CustomEvent) => {
       const { formData: eventData } = event.detail;
-      setFormData(eventData);
+      if (eventData) {
+        setFormData(eventData);
+        console.log("Updated from event:", eventData);
+      }
     };
 
-    window.addEventListener('kidneyAssessmentComplete', handleAssessmentComplete);
-
-    // Cleanup
+    window.addEventListener("kidneyAssessmentComplete", handleAssessmentComplete as EventListener);
+    
     return () => {
-      window.removeEventListener('kidneyAssessmentComplete', handleAssessmentComplete);
+      window.removeEventListener("kidneyAssessmentComplete", handleAssessmentComplete as EventListener);
     };
   }, [propFormData]);
 
   // คำนวณคะแนนจากข้อมูลที่ได้รับ
   const calculateScore = (data: FormData): number => {
     let score = 0;
-    if (data.age) score += parseInt(data.age);
-    if (data.gender) score += parseInt(data.gender);
-    if (data.waist) score += parseInt(data.waist);
-    if (data.diabetes) score += parseInt(data.diabetes);
-    if (data.bp) score += parseInt(data.bp);
+    
+    // คำนวณคะแนนแต่ละส่วน
+    if (data.age && data.age !== "") {
+      score += parseInt(data.age) || 0;
+    }
+    if (data.gender && data.gender !== "") {
+      score += parseInt(data.gender) || 0;
+    }
+    if (data.waist && data.waist !== "") {
+      score += parseInt(data.waist) || 0;
+    }
+    if (data.diabetes && data.diabetes !== "") {
+      score += parseInt(data.diabetes) || 0;
+    }
+    if (data.bp && data.bp !== "") {
+      score += parseInt(data.bp) || 0;
+    }
+    
+    console.log("Total score:", score);
     return score;
   };
 
@@ -124,57 +172,19 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
     return { score, level, color, description, icon };
   };
 
-  const riskLevels = [
-    { 
-      score: "-2 ถึง 2", 
-      level: "ระดับน้อย", 
-      risk: "มีความเสี่ยงน้อยกว่า 5%", 
-      color: "from-green-500 to-emerald-600",
-      icon: CheckCircle,
-      bgColor: "bg-green-50",
-      textColor: "text-green-600"
-    },
-    { 
-      score: "3 ถึง 6", 
-      level: "ระดับปานกลาง", 
-      risk: "มีความเสี่ยง 5-10%", 
-      color: "from-yellow-500 to-amber-600",
-      icon: Shield,
-      bgColor: "bg-yellow-50",
-      textColor: "text-yellow-600"
-    },
-    { 
-      score: "7 ถึง 9", 
-      level: "ระดับสูง", 
-      risk: "มีความเสี่ยง 10-20%", 
-      color: "from-orange-500 to-red-500",
-      icon: AlertTriangle,
-      bgColor: "bg-orange-50",
-      textColor: "text-orange-600"
-    },
-    { 
-      score: "10 ขึ้นไป", 
-      level: "ระดับรุนแรง", 
-      risk: "มีความเสี่ยง 20% ขึ้นไป", 
-      color: "from-red-500 to-red-600",
-      icon: XCircle,
-      bgColor: "bg-red-50",
-      textColor: "text-red-600"
-    }
-  ];
-
   // ฟังก์ชันแปลค่าเป็นข้อความ
-  const getAgeText = (value: string) => {
-    switch(value) {
-      case "0": return "น้อยกว่า 45 ปี";
-      case "2": return "45-54 ปี";
-      case "4": return "มากกว่า 55 ปี";
+  const getAgeText = (value: string | number) => {
+    const numValue = Number(value);
+    switch (numValue) {
+      case 0: return "น้อยกว่า 45 ปี";
+      case 2: return "45-54 ปี";
+      case 4: return "มากกว่า 55 ปี";
       default: return "ไม่ระบุ";
     }
   };
 
   const getGenderText = (value: string) => {
-    switch(value) {
+    switch (value) {
       case "0": return "หญิง";
       case "3": return "ชาย";
       default: return "ไม่ระบุ";
@@ -194,7 +204,7 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
   };
 
   const getBpText = (value: string) => {
-    switch(value) {
+    switch (value) {
       case "-2": return "น้อยกว่า 120 มิลลิเมตรปรอท";
       case "0": return "120-129 มิลลิเมตรปรอท";
       case "1": return "130-139 มิลลิเมตรปรอท";
@@ -205,18 +215,11 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
     }
   };
 
-  // หาระดับความเสี่ยงปัจจุบัน
-  const getCurrentRiskLevel = (assessmentResult: any) => {
-    if (assessmentResult.score >= -2 && assessmentResult.score <= 2) return riskLevels[0];
-    if (assessmentResult.score >= 3 && assessmentResult.score <= 6) return riskLevels[1];
-    if (assessmentResult.score >= 7 && assessmentResult.score <= 9) return riskLevels[2];
-    return riskLevels[3];
-  };
-
   const handleBack = () => {
     if (onBack) {
       onBack();
-    } else if (typeof window !== 'undefined' && window.history.length > 1) {
+    } else if (typeof window !== 'undefined') {
+      // ไปกลับหน้าแบบประเมิน
       window.history.back();
     }
   };
@@ -225,6 +228,14 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
     if (onReset) {
       onReset();
     } else {
+      // รีเซ็ตข้อมูลและกลับไปหน้าแบบประเมิน
+      setFormData({
+        age: "",
+        gender: "",
+        waist: "",
+        diabetes: "",
+        bp: ""
+      });
       handleBack();
     }
   };
@@ -241,48 +252,109 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
     );
   }
 
-  // ถ้าไม่มีข้อมูล ให้ใช้ข้อมูลเริ่มต้น
-  if (!formData || !formData.age || !formData.gender) {
-    setFormData({
-      age: "0",
-      gender: "0", 
-      waist: "0",
-      diabetes: "0",
-      bp: "0"
-    });
-    return null;
+  // ตรวจสอบว่ามีข้อมูลหรือไม่
+  const hasValidData = Object.values(formData).some(val => val && val !== "");
+  
+  if (!hasValidData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto p-8">
+          <div className="mb-6">
+            <XCircle size={64} className="text-red-500 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">ไม่พบข้อมูลการประเมิน</h2>
+            <p className="text-gray-600 mb-6">
+              กรุณาทำแบบประเมินความเสี่ยงก่อนดูผลลัพธ์
+            </p>
+          </div>
+          <button
+            onClick={handleBack}
+            className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300"
+          >
+            กลับไปทำแบบประเมิน
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const assessmentResult = getAssessmentResult(formData);
+
+  const riskLevels = [
+    {
+      score: "-2 ถึง 2",
+      level: "ระดับน้อย",
+      risk: "มีความเสี่ยงน้อยกว่า 5%",
+      color: "from-green-500 to-emerald-600",
+      icon: CheckCircle,
+      bgColor: "bg-green-50",
+      textColor: "text-green-600"
+    },
+    {
+      score: "3 ถึง 6",
+      level: "ระดับปานกลาง",
+      risk: "มีความเสี่ยง 5-10%",
+      color: "from-yellow-500 to-amber-600",
+      icon: Shield,
+      bgColor: "bg-yellow-50",
+      textColor: "text-yellow-600"
+    },
+    {
+      score: "7 ถึง 9",
+      level: "ระดับสูง",
+      risk: "มีความเสี่ยง 10-20%",
+      color: "from-orange-500 to-red-500",
+      icon: AlertTriangle,
+      bgColor: "bg-orange-50",
+      textColor: "text-orange-600"
+    },
+    {
+      score: "10 ขึ้นไป",
+      level: "ระดับรุนแรง",
+      risk: "มีความเสี่ยง 20% ขึ้นไป",
+      color: "from-red-500 to-red-600",
+      icon: XCircle,
+      bgColor: "bg-red-50",
+      textColor: "text-red-600"
+    }
+  ];
+
+  // หาระดับความเสี่ยงปัจจุบัน
+  const getCurrentRiskLevel = (result: any) => {
+    if (result.score >= -2 && result.score <= 2) return riskLevels[0];
+    if (result.score >= 3 && result.score <= 6) return riskLevels[1];
+    if (result.score >= 7 && result.score <= 9) return riskLevels[2];
+    return riskLevels[3];
+  };
+
   const currentRisk = getCurrentRiskLevel(assessmentResult);
 
   const resultSections = [
-    {
-      title: "ผลคะแนนรวม",
-      icon: TrendingUp,
-      color: currentRisk.color,
-      content: (
-        <div className="text-center space-y-4">
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
-            <p className="text-white/90 text-lg mb-2">คะแนนรวมของคุณ</p>
-            <p className="text-5xl font-bold text-white mb-2">{assessmentResult.score}</p>
-            <p className="text-white/90 text-sm">คะแนน</p>
-          </div>
+  {
+    title: "ผลคะแนนรวม",
+    icon: TrendingUp,
+    color: currentRisk.color,
+    content: (
+      <div className="text-center space-y-4">
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+          <p className="text-black text-lg mb-2">คะแนนรวมของคุณ</p>
+          <p className="text-5xl font-bold text-black mb-2">{assessmentResult.score}</p>
+          <p className="text-black text-sm">คะแนน</p>
         </div>
-      )
-    },
-    {
-      title: "ระดับความเสี่ยง",
-      icon: currentRisk.icon,
-      color: currentRisk.color,
-      content: (
-        <div className="text-center space-y-4">
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
-            <h3 className="text-2xl font-bold text-white mb-2">{currentRisk.level}</h3>
-            <p className="text-white/90 text-lg">{currentRisk.risk}</p>
-          </div>
+      </div>
+    )
+  },
+  {
+    title: "ระดับความเสี่ยง",
+    icon: currentRisk.icon,
+    color: currentRisk.color,
+    content: (
+      <div className="text-center space-y-4">
+        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 border border-white/30">
+          <h3 className="text-2xl font-bold text-black mb-2">{currentRisk.level}</h3>
+          <p className="text-black text-lg">{currentRisk.risk}</p>
         </div>
-      )
+      </div>
+    )
     },
     {
       title: "ข้อมูลที่ใช้ประเมิน",
@@ -459,20 +531,19 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {riskLevels.map((level, index) => {
                   const LevelIcon = level.icon;
-                  const isCurrentLevel = 
+                  const isCurrentLevel =
                     (assessmentResult.score >= -2 && assessmentResult.score <= 2 && level.score === "-2 ถึง 2") ||
                     (assessmentResult.score >= 3 && assessmentResult.score <= 6 && level.score === "3 ถึง 6") ||
                     (assessmentResult.score >= 7 && assessmentResult.score <= 9 && level.score === "7 ถึง 9") ||
                     (assessmentResult.score >= 10 && level.score === "10 ขึ้นไป");
 
                   return (
-                    <div 
-                      key={index} 
-                      className={`p-4 rounded-xl border-2 transition-all ${
-                        isCurrentLevel 
-                          ? `${level.bgColor} border-current ${level.textColor} shadow-lg scale-105` 
+                    <div
+                      key={index}
+                      className={`p-4 rounded-xl border-2 transition-all ${isCurrentLevel
+                          ? `${level.bgColor} border-current ${level.textColor} shadow-lg scale-105`
                           : "bg-gray-50 border-gray-200 hover:bg-gray-100"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3 mb-3">
                         <div className={`p-2 rounded-lg ${isCurrentLevel ? 'bg-white/50' : 'bg-gray-200'}`}>
