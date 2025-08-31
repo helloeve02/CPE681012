@@ -1,4 +1,4 @@
-import { Button, Spin } from "antd";
+import { Button, Spin, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type {
@@ -24,6 +24,7 @@ import {
 } from "@ant-design/icons";
 import { LuApple, LuDroplets, LuEggFried } from "react-icons/lu";
 import { IoFishOutline } from "react-icons/io5";
+import { TbSalt } from "react-icons/tb";
 
 const NutritionSuggestion = () => {
   const navigate = useNavigate();
@@ -165,8 +166,28 @@ const NutritionSuggestion = () => {
     เย็น: "🌙",
   };
 
+  const columnToCard: { [key: string]: string } = {
+    "ข้าว/แป้ง": "protein-card",
+    แป้งปลอดโปรตีน: "protein-card",
+    ผัก: "potassium-card",
+    ผลไม้: "potassium-card",
+    เนื้อสัตว์: "phosphorus-card",
+    ไขมัน: "fat-card",
+    ซอสปรุงรส: "sodium-card",
+  };
+
+  const scrollToCard = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = 100; // height of fixed header
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+  };
+
   const extraAdvice = [
     {
+      id: "protein-card",
       title: "โปรตีน",
       icon: <LuEggFried size={32} />,
       risk: "การรับประทานอาหารประเภทโปรตีนสูง ในผู้ที่ไตมีการทำงานเสื่อมไปบางส่วน อาจเร่งการดำเนินของโรคไตให้เร็วขึ้นได้ เพราะอาหารเหล่านี้ทำให้เลือดในร่างกายมีความเป็นกรดมากขึ้น ไตจึงต้องทำงานหนักเพื่อขับยูเรียซึ่งเป็นของเสียที่ได้จากการสลายโปรตีนและเพิ่มการขับกรดออกจากร่างกาย",
@@ -180,6 +201,7 @@ const NutritionSuggestion = () => {
       tips: null,
     },
     {
+      id: "phosphorus-card",
       title: "ฟอสฟอรัส",
       icon: <IoFishOutline size={32} />,
       risk: "ปริมาณฟอสฟอรัสที่สูง อาจมีส่วนทำให้กระดูกพรุน และเกิดภาวะหลอดเลือดแดงแข็ง",
@@ -188,6 +210,7 @@ const NutritionSuggestion = () => {
       tips: null,
     },
     {
+      id: "potassium-card",
       title: "โพแทสเซียม",
       icon: <LuApple size={32} />,
       risk: "โพแทสเซียมที่สูงทำให้หัวใจเต้นผิดปกติ",
@@ -196,12 +219,23 @@ const NutritionSuggestion = () => {
       tips: "การนำผักมาสับเป็นชิ้นเล็ก ๆ ต้มในน้ำแล้วเทน้ำทิ้ง จะกำจัดโพแทสเซียมออกได้ประมาณร้อยละ 20 – 30 อย่างไรก็ตาม อาหารจะสูญเสียคุณค่าของวิตามินที่จำเป็นด้วย",
     },
     {
+      id: "sodium-card",
       title: "โซเดียม",
-      icon: <LuDroplets size={32} />,
+      icon: <TbSalt size={32} />,
       risk: "การรับประทานโซเดียมมากส่งผลให้เกิดภาวะความดันโลหิตสูงและบวมน้ำ",
       recommendation: "ไม่เกิน 2,000 มิลลิกรัม/วัน",
       note: "เครื่องปรุงเป็นแหล่งของโซเดียม",
       tips: "ควรเลือกเครื่องปรุงอย่างใดอย่างหนึ่งในการปรุงอาหารแต่ละมื้อ หากมีการใช้เครื่องปรุง 2 ชนิด ต้องลดปริมาณเครื่องปรุงแต่ละชนิดต่อมื้อลงให้เหลือแค่อย่างละครึ่งจากข้อแนะนำ",
+    },
+    {
+      id: "fat-card",
+      title: "ไขมัน",
+      icon: <LuDroplets size={32} />, // replace with an appropriate icon
+      risk: "ไขมันเป็นอาหารที่ให้พลังงานสูง การรับประทานไขมันมากเกินไป โดยเฉพาะไขมันตัวร้าย (LDL-Cholesterol) อาจเพิ่มความเสี่ยงต่อโรคหัวใจและหลอดเลือด",
+      recommendation:
+        "แนะนำให้รับประทานมื้อละ 2-3 ช้อนชา เลือกไขมันชนิดดีเพื่อสุขภาพ",
+      note: "ไขมันที่แนะนำควรเลือกไขมันชนิดดี เช่น น้ำมันที่มีกรดโอเลอิกสูง ได้แก่ น้ำมันรำข้าว น้ำมันมะกอก น้ำมันคาโนล่า น้ำมันถั่วเหลือง น้ำมันดอกทานตะวัน",
+      tips: "ควรหลีกเลี่ยงไขมันอิ่มตัวสูง เช่น น้ำมันจากสัตว์ น้ำมันปาล์ม น้ำมันมะพร้าว และหลีกเลี่ยงไขมันทรานส์ที่แฝงในอาหาร เช่น เนยเทียม มาการีน เบเกอรี่ คุกกี้",
     },
   ];
 
@@ -353,6 +387,9 @@ const NutritionSuggestion = () => {
                           ([foodGroupName, items], index) => (
                             <tr
                               key={foodGroupName}
+                              onClick={() =>
+                                scrollToCard(columnToCard[foodGroupName])
+                              }
                               className={`border-b border-gray-100 ${
                                 index % 2 === 0
                                   ? "bg-white/50"
@@ -419,10 +456,15 @@ const NutritionSuggestion = () => {
                           {Object.keys(groupedByFoodGroup).map(
                             (foodGroupName) => (
                               <th
+                                onClick={() =>
+                                  scrollToCard(columnToCard[foodGroupName])
+                                }
                                 key={foodGroupName}
-                                className="p-4 text-center font-semibold text-gray-700 min-w-32"
+                                className="cursor-pointer p-4 text-center font-semibold text-gray-700 min-w-32"
                               >
-                                {foodGroupName}
+                                <Tooltip title="ดูคำแนะนำเพิ่มเติม">
+                                  <span>{foodGroupName}</span>
+                                </Tooltip>
                               </th>
                             )
                           )}
@@ -555,8 +597,8 @@ const NutritionSuggestion = () => {
 
             {/* Extra Nutrition Advice Cards */}
             {(ruleNum! < 17 || ruleNum! > 22) && (
-            <div
-              className={`
+              <div
+                className={`
               max-w-6xl mx-auto mb-8
               ${
                 isVisible
@@ -564,21 +606,22 @@ const NutritionSuggestion = () => {
                   : "opacity-0"
               }
             `}
-            >
-              <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-white/30">
-                <div className="flex items-center mb-6">
-                  <div className="w-1 h-12 bg-gradient-to-b from-emerald-500 to-teal-600 rounded-full mr-4"></div>
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center">
-                    <BulbOutlined className="mr-3 text-emerald-600" />
-                    คำแนะนำเพิ่มเติม
-                  </h3>
-                </div>
+              >
+                <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-white/30">
+                  <div className="flex items-center mb-6">
+                    <div className="w-1 h-12 bg-gradient-to-b from-emerald-500 to-teal-600 rounded-full mr-4"></div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center">
+                      <BulbOutlined className="mr-3 text-emerald-600" />
+                      คำแนะนำเพิ่มเติม
+                    </h3>
+                  </div>
 
-                <div className="grid md:grid-cols-1 gap-1">
-                  {extraAdvice.map((advice, index) => (
-                    <div
-                      key={advice.title}
-                      className={`
+                  <div className="grid md:grid-cols-1 gap-1">
+                    {extraAdvice.map((advice, index) => (
+                      <div
+                        id={advice.id}
+                        key={advice.title}
+                        className={`
                         bg-gradient-to-br from-gray-50/80 to-white/80 rounded-2xl p-6 border border-gray-200/50
                         transform transition-all duration-500 hover:scale-105 hover:shadow-lg
                         ${
@@ -587,97 +630,98 @@ const NutritionSuggestion = () => {
                             : "opacity-0"
                         }
                       `}
-                      style={{ animationDelay: `${700 + index * 100}ms` }}
-                    >
-                      {/* Header */}
-                      <div className="flex items-center mb-4">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center text-blue-600 mr-4">
-                          {advice.icon}
+                        style={{ animationDelay: `${700 + index * 100}ms` }}
+                      >
+                        {/* Header */}
+                        <div className="flex items-center mb-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center text-blue-600 mr-4">
+                            {advice.icon}
+                          </div>
+                          <h4 className="text-xl font-bold text-gray-800">
+                            {advice.title}
+                          </h4>
                         </div>
-                        <h4 className="text-xl font-bold text-gray-800">
-                          {advice.title}
-                        </h4>
-                      </div>
 
-                      {/* Risk Section */}
-                      <div className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <WarningOutlined className="text-red-500 mr-2" />
-                          <span className="font-semibold text-red-700">
-                            ความเสี่ยง
-                          </span>
-                        </div>
-                        <p className="text-sm text-gray-700 leading-relaxed bg-red-50 p-3 rounded-lg border-l-4 border-red-200">
-                          {advice.risk}
-                        </p>
-                      </div>
-
-                      {/* Recommendation Section */}
-                      <div className="mb-4">
-                        <div className="flex items-center mb-2">
-                          <CheckCircleOutlined className="text-green-500 mr-2" />
-                          <span className="font-semibold text-green-700">
-                            คำแนะนำ
-                          </span>
-                        </div>
-                        <div className="bg-green-50 p-3 rounded-lg border-l-4 border-green-200">
-                          {typeof advice.recommendation === "object" ? (
-                            <div className="space-y-2">
-                              <div className="text-sm text-gray-700">
-                                <strong className="text-green-800">
-                                  ก่อนฟอกไต:
-                                </strong>{" "}
-                                {advice.recommendation.preDialysis}
-                              </div>
-                              <div className="text-sm text-gray-700">
-                                <strong className="text-green-800">
-                                  ระหว่างฟอกไต:
-                                </strong>{" "}
-                                {advice.recommendation.dialysis}
-                              </div>
-                            </div>
-                          ) : (
-                            <p className="text-sm text-gray-700 leading-relaxed">
-                              {advice.recommendation}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Note Section */}
-                      {advice.note && (
+                        {/* Risk Section */}
                         <div className="mb-4">
                           <div className="flex items-center mb-2">
-                            <InfoCircleOutlined className="text-blue-500 mr-2" />
-                            <span className="font-semibold text-blue-700">
-                              หมายเหตุ
+                            <WarningOutlined className="text-red-500 mr-2" />
+                            <span className="font-semibold text-red-700">
+                              ความเสี่ยง
                             </span>
                           </div>
-                          <p className="text-sm text-gray-700 leading-relaxed bg-blue-50 p-3 rounded-lg border-l-4 border-blue-200">
-                            {advice.note}
+                          <p className="text-sm text-gray-700 leading-relaxed bg-red-50 p-3 rounded-lg border-l-4 border-red-200">
+                            {advice.risk}
                           </p>
                         </div>
-                      )}
 
-                      {/* Tips Section */}
-                      {advice.tips && (
-                        <div>
+                        {/* Recommendation Section */}
+                        <div className="mb-4">
                           <div className="flex items-center mb-2">
-                            <BulbOutlined className="text-amber-500 mr-2" />
-                            <span className="font-semibold text-amber-700">
-                              เทคนิค
+                            <CheckCircleOutlined className="text-green-500 mr-2" />
+                            <span className="font-semibold text-green-700">
+                              คำแนะนำ
                             </span>
                           </div>
-                          <p className="text-sm text-gray-700 leading-relaxed bg-amber-50 p-3 rounded-lg border-l-4 border-amber-200">
-                            {advice.tips}
-                          </p>
+                          <div className="bg-green-50 p-3 rounded-lg border-l-4 border-green-200">
+                            {typeof advice.recommendation === "object" ? (
+                              <div className="space-y-2">
+                                <div className="text-sm text-gray-700">
+                                  <strong className="text-green-800">
+                                    ก่อนฟอกไต:
+                                  </strong>{" "}
+                                  {advice.recommendation.preDialysis}
+                                </div>
+                                <div className="text-sm text-gray-700">
+                                  <strong className="text-green-800">
+                                    ระหว่างฟอกไต:
+                                  </strong>{" "}
+                                  {advice.recommendation.dialysis}
+                                </div>
+                              </div>
+                            ) : (
+                              <p className="text-sm text-gray-700 leading-relaxed">
+                                {advice.recommendation}
+                              </p>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  ))}
+
+                        {/* Note Section */}
+                        {advice.note && (
+                          <div className="mb-4">
+                            <div className="flex items-center mb-2">
+                              <InfoCircleOutlined className="text-blue-500 mr-2" />
+                              <span className="font-semibold text-blue-700">
+                                หมายเหตุ
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-700 leading-relaxed bg-blue-50 p-3 rounded-lg border-l-4 border-blue-200">
+                              {advice.note}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Tips Section */}
+                        {advice.tips && (
+                          <div>
+                            <div className="flex items-center mb-2">
+                              <BulbOutlined className="text-amber-500 mr-2" />
+                              <span className="font-semibold text-amber-700">
+                                เทคนิค
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-700 leading-relaxed bg-amber-50 p-3 rounded-lg border-l-4 border-amber-200">
+                              {advice.tips}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>)}
+            )}
 
             {/* Action Buttons */}
             <div
