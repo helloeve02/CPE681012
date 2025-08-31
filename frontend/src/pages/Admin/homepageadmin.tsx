@@ -12,13 +12,18 @@ import {
   Globe,
 } from "lucide-react";
 import { TopBarAdmin } from "../../components/TopBarAdmin"
+import { GetAllContent, GetAllFoodItems, GetAllMenu, ListUsers } from "../../services/https";
 
 export default function AdminDashboard() {
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeCard, setActiveCard] = useState<number | null>(null);
-
+  const [menuCount, setMenuCount] = useState<number>(0);
+  const [contentCount, setContentCount] = useState<number>(0);
+  const [fooditem, setfooditemCount] = useState<number>(0);
+  const [admin, setAdmin] = useState<number>(0);
+   const totalCount = menuCount + fooditem + contentCount + admin;
   // read name from localStorage like the old behavior you wanted
   const firstname =
     (typeof window !== "undefined" && localStorage.getItem("firstname")) ||
@@ -33,6 +38,47 @@ export default function AdminDashboard() {
     };
   }, []);
 
+    const getAllMenu = async () => {
+    try {
+      const res = await GetAllMenu();
+      setMenuCount(res?.data?.menu?.length || 0); // เก็บจำนวนเมนูใน state
+    } catch (error) {
+      console.error("Error fetching menu:", error);
+    }
+  };
+  const getAllFoodItems = async () => {
+    try {
+      const res = await GetAllFoodItems();
+      setfooditemCount(res?.data?.fooditems?.length || 0); // เก็บจำนวนเมนูใน state
+    } catch (error) {
+      console.error("Error fetching menu:", error);
+    }
+  };
+    const getAllContent = async () => {
+    try {
+      const res = await GetAllContent();
+      // console.log(res)
+      setContentCount(res?.data?.menu?.length || 0); // เก็บจำนวนเมนูใน state
+    } catch (error) {
+      console.error("Error fetching menu:", error);
+    }
+  };
+  const getListUsers = async () => {
+    try {
+      const res = await ListUsers();
+      console.log(res.data.length)
+      setAdmin(res?.data?.length || 0); // เก็บจำนวนเมนูใน state
+    } catch (error) {
+      console.error("Error fetching menu:", error);
+    }
+  };
+  useEffect(() => {
+      getAllMenu();
+      getAllFoodItems();
+      getAllContent();
+      getListUsers();
+    }, []);
+
 
   // MENU: preserve modern look but restore real navigation
   const menuItems: Array<{
@@ -41,7 +87,7 @@ export default function AdminDashboard() {
     gradient: string;
     description: string;
     delay: string;
-    stats: { total: number | string; recent: number | string };
+    stats: { recent: number | string; };
     color: "blue" | "green" | "orange";
     iconBg: string;
     icon: React.ReactNode;
@@ -53,7 +99,7 @@ export default function AdminDashboard() {
         gradient: "from-blue-500 via-blue-600 to-cyan-500",
         description: "จัดการเนื้อหาข่าวสารและบทความสุขภาพ",
         delay: "delay-100",
-        stats: { total: 24, recent: 3 },
+        stats: { recent: contentCount },
         color: "blue",
         iconBg: "from-blue-400 to-cyan-400",
       },
@@ -64,7 +110,7 @@ export default function AdminDashboard() {
         gradient: "from-green-500 via-emerald-500 to-teal-500",
         description: "จัดการเมนูอาหารและคำแนะนำโภชนาการ",
         delay: "delay-200",
-        stats: { total: 156, recent: 12 },
+        stats: { recent: menuCount },
         color: "green",
         iconBg: "from-green-400 to-emerald-400",
       },
@@ -75,7 +121,7 @@ export default function AdminDashboard() {
         gradient: "from-orange-500 via-amber-500 to-yellow-500",
         description: "จัดการข้อมูลอาหารและส่วนผสม",
         delay: "delay-300",
-        stats: { total: 89, recent: 7 },
+        stats: { recent: fooditem },
         color: "orange",
         iconBg: "from-orange-400 to-amber-400",
       },
@@ -86,7 +132,7 @@ export default function AdminDashboard() {
         gradient: "from-orange-500 via-amber-500 to-yellow-500",
         description: "จัดการข้อมูลอาหารและส่วนผสม",
         delay: "delay-300",
-        stats: { total: 89, recent: 7 },
+        stats: { recent: admin },
         color: "orange",
         iconBg: "from-orange-400 to-amber-400",
       },
@@ -165,36 +211,11 @@ export default function AdminDashboard() {
           {[
             {
               label: "เนื้อหาทั้งหมด",
-              value: "269",
+              value: totalCount,
               icon: <Activity className="w-7 h-7" />,
               color: "blue",
-              change: "+12%",
               bg: "from-blue-500 to-cyan-500",
-            },
-            {
-              label: "ผู้เข้าชมวันนี้",
-              value: "1,247",
-              icon: <TrendingUp className="w-7 h-7" />,
-              color: "cyan",
-              change: "+8%",
-              bg: "from-cyan-500 to-teal-500",
-            },
-            {
-              label: "อัพเดตล่าสุด",
-              value: "22",
-              icon: <Star className="w-7 h-7" />,
-              color: "indigo",
-              change: "+5%",
-              bg: "from-indigo-500 to-blue-500",
-            },
-            {
-              label: "ระบบออนไลน์",
-              value: "99.9%",
-              icon: <Zap className="w-7 h-7" />,
-              color: "teal",
-              change: "stable",
-              bg: "from-teal-500 to-cyan-500",
-            },
+            }
           ].map((stat, index) => (
             <div
               key={index}
@@ -210,16 +231,7 @@ export default function AdminDashboard() {
                   <div className={`p-4 rounded-2xl bg-gradient-to-r ${stat.bg} text-white shadow-xl group-hover:scale-125 transition-transform duration-500`}>
                     {stat.icon}
                   </div>
-                  <div
-                    className={`px-4 py-2 rounded-full text-sm font-bold ${typeof stat.change === "string" && stat.change.includes("+")
-                        ? "bg-green-100 text-green-700"
-                        : typeof stat.change === "string" && stat.change.includes("-")
-                          ? "bg-red-100 text-red-700"
-                          : "bg-blue-100 text-blue-700"
-                      } shadow-lg`}
-                  >
-                    {stat.change}
-                  </div>
+                 
                 </div>
                 <div className="text-4xl font-black text-gray-800 mb-3 group-hover:text-blue-600 transition-colors">
                   {stat.value}
@@ -283,11 +295,8 @@ export default function AdminDashboard() {
                   </p>
 
                   <div className="flex justify-center space-x-6 mb-8">
-                    <div className="bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-2xl transition-colors">
-                      <span className="font-bold text-gray-700 text-sm">ทั้งหมด: {item.stats.total}</span>
-                    </div>
                     <div className={`bg-gradient-to-r ${item.gradient} text-white px-4 py-2 rounded-2xl shadow-lg`}>
-                      <span className="font-bold text-sm">ใหม่: {item.stats.recent}</span>
+                      <span className="font-bold text-sm">ทั้งหมด: {item.stats.recent}</span>
                     </div>
                   </div>
 
@@ -356,25 +365,22 @@ export default function AdminDashboard() {
                 {[
                   {
                     label: "ข่าวสาร",
-                    value: "24",
+                    value: contentCount,
                     icon: <Newspaper className="w-8 h-8" />,
-                    trend: "+15%",
                     color: "blue",
                     bg: "from-blue-400 to-cyan-400",
                   },
                   {
                     label: "เมนูอาหาร",
-                    value: "156",
+                    value: menuCount,
                     icon: <Utensils className="w-8 h-8" />,
-                    trend: "+8%",
                     color: "green",
                     bg: "from-green-400 to-emerald-400",
                   },
                   {
                     label: "วัตถุดิบ",
-                    value: "89",
+                    value: fooditem,
                     icon: <ClipboardList className="w-8 h-8" />,
-                    trend: "+12%",
                     color: "orange",
                     bg: "from-orange-400 to-amber-400",
                   },
@@ -407,9 +413,6 @@ export default function AdminDashboard() {
                         {stat.value}
                       </div>
                       <div className="text-gray-600 font-bold text-lg mb-4">{stat.label}</div>
-                      <div className="inline-block text-green-600 text-sm font-bold bg-green-100 px-4 py-2 rounded-full shadow-lg">
-                        {stat.trend} เดือนนี้
-                      </div>
                     </div>
                   </div>
                 ))}
