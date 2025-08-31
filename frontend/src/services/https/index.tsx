@@ -159,7 +159,7 @@ async function DeleteUserByID(id: Number | undefined) {
     method: "DELETE",
   };
 
-  let res = await fetch(`${apiUrl}/users/${id}`, requestOptions).then((res) => {
+  let res = await fetch(`${apiUrl}/admin/${id}`, requestOptions).then((res) => {
     if (res.status == 200) {
       return true;
     } else {
@@ -549,45 +549,9 @@ async function GetContentAllByNutrition() {
     .catch((e) => e.response);
 }
 
-// นับจำนวนเมนูทั้งหมด
-async function GetMenuCount() {
-  return await GetAllMenu()
-    .then((res) => (res && res.data ? res.data.length : 0))
-    .catch((e) => {
-      console.error("Error counting menus:", e.response?.data || e.message);
-      return 0;
-    });
-}
 
-// นับจำนวน Content ทั้งหมด
-async function GetContentCount() {
-  return await GetAllContent()
-    .then((res) => (res && res.data ? res.data.length : 0))
-    .catch((e) => {
-      console.error("Error counting contents:", e.response?.data || e.message);
-      return 0;
-    });
-}
 
-// นับจำนวน Food Item ทั้งหมด
-async function GetFoodItemCount() {
-  return await GetAllFoodItems()
-    .then((res) => (res && res.data ? res.data.length : 0))
-    .catch((e) => {
-      console.error("Error counting food items:", e.response?.data || e.message);
-      return 0;
-    });
-}
 
-// นับจำนวน Disease ทั้งหมด
-async function GetDiseaseCount() {
-  return await GetAllDisease()
-    .then((res) => (res && res.data ? res.data.length : 0))
-    .catch((e) => {
-      console.error("Error counting diseases:", e.response?.data || e.message);
-      return 0;
-    });
-}
 
 export {
   GetAllMenu,
@@ -650,10 +614,6 @@ export {
   GetContentAllByDiabetes,
   GetContentAllByExercise,
   GetContentAllByNutrition,
-  GetMenuCount,
-  GetContentCount,
-  GetFoodItemCount,
-  GetDiseaseCount,
   ListUsers,
 
 }
