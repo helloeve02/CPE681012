@@ -8,9 +8,9 @@ import {
   Scale,
   CheckCircle,
   AlertCircle,
-  Target,
-  TrendingUp,
-  BarChart3
+  // Target,
+  // TrendingUp,
+  // BarChart3
 } from "lucide-react";
 
 const BMICalculatorFormPage: React.FC = () => {
@@ -21,6 +21,7 @@ const BMICalculatorFormPage: React.FC = () => {
     chest: "",
     hip: "",
   });
+  
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +33,7 @@ const BMICalculatorFormPage: React.FC = () => {
   };
 
   const isFormComplete = () => {
-    return form.weight && form.height && form.waist;
+    return form.weight && form.height ;
   };
 
   const getCompletedFields = () => {
@@ -155,7 +156,7 @@ const BMICalculatorFormPage: React.FC = () => {
             </div>
             <div className="text-right">
               <div className="text-3xl font-bold text-blue-600 mb-1">
-                {getCompletedFields()}/5
+                {getCompletedFields()}/2
               </div>
               <div className="text-sm text-gray-500">ข้อมูลที่กรอก</div>
             </div>
@@ -215,22 +216,9 @@ const BMICalculatorFormPage: React.FC = () => {
                   {renderInput("height", "ส่วนสูง", Ruler, "ซม.", true)}
                 </div>
                 
-                <div className="grid grid-cols-1 gap-6">
+                {/* <div className="grid grid-cols-1 gap-6">
                   {renderInput("waist", "รอบเอว (วัดในระดับสะดือ)", Activity, "ซม.", true)}
-                </div>
-              </div>
-
-              {/* Additional Measurements */}
-              <div className="space-y-6 pt-6 border-t border-gray-200">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-2 h-8 bg-gradient-to-b from-blue-500 to-indigo-600 rounded-full"></div>
-                  <h4 className="text-xl font-bold text-gray-800">ข้อมูลเสริม (ไม่บังคับ)</h4>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {renderInput("chest", "รอบอก", Activity, "ซม.")}
-                  {renderInput("hip", "รอบสะโพก", Activity, "ซม.")}
-                </div>
+                </div> */}
               </div>
             </div>
 
