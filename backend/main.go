@@ -74,6 +74,7 @@ func main() {
 		r.GET("/mealplans/by-disease/:id", controller.GetMealplansByDisease)
 		r.GET("/fooditem/:id", controller.GetFoodItemByID)
 		r.PATCH("/content/:id", controller.UpdateContent)
+		r.PATCH("/admin/:id", controller.UpdateUser)
 	}
 
 	r.GET("/", func(c *gin.Context) {
