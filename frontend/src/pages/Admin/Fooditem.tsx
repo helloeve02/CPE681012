@@ -704,13 +704,13 @@ const FoodAdminPanel = () => {
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4 border-t border-gray-100">
+              <div className="flex justify-center gap-3 pt-4 border-t border-gray-100">
                 <button
                   onClick={() => {
                     setViewingItem(null);
                     handleEdit(viewingItem);
                   }}
-                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-3 rounded-2xl hover:from-blue-600 hover:to-blue-700 transition-all duration-200 flex items-center gap-2 shadow-lg font-semibold"
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 to-indigo-500 hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 text-white px-8 py-3 rounded-2xl font-bold shadow-2xl hover:shadow-blue-500/25 transform hover:-translate-y-1 transition-all duration-200 flex items-center gap-2 shadow-lg font-semibold"
                 >
                   <Edit className="w-4 h-4" />
                   แก้ไขรายการ

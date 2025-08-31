@@ -12,7 +12,6 @@ import type { AdminInterface } from "../../interfaces/Admin";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
 import type { ContentCategoryInterface } from "../../interfaces/ContentCategory";
 import { TopBarAdmin } from "../../components/TopBarAdmin";
-import { message } from "antd";
 
 interface Admin extends AdminInterface {} // ใช้โครงสร้างเดิม
 interface EducationalGroup { ID?: number; Name?: string; }
@@ -194,21 +193,15 @@ const EducationalAdminPanel: React.FC = () => {
   const confirmDelete = async () => {
     if (!deleteId) return;
     
-    try {
-      // optimistic UI
-      const prev = educationalContents;
-      setEducationalContents((s) => s.filter((x) => x.ID !== deleteId));
+    // optimistic UI
+    const prev = educationalContents;
+    setEducationalContents((s) => s.filter((x) => x.ID !== deleteId));
 
-      const res = await DeleteContentAPI(deleteId);
-      if (res?.status !== 200) {
-        // rollback
-        setEducationalContents(prev);
-        message.error(res?.data?.error || "ลบไม่สำเร็จ");
-      } else {
-        message.success("ลบเนื้อหาสำเร็จ");
-      }
-    } catch (error) {
-      message.error("เกิดข้อผิดพลาดในการลบเนื้อหา");
+    const res = await DeleteContentAPI(deleteId);
+    if (res?.status !== 200) {
+      // rollback
+      setEducationalContents(prev);
+      alert(res?.data?.error || "ลบไม่สำเร็จ");
     }
     
     setShowDeleteModal(false);
@@ -217,7 +210,7 @@ const EducationalAdminPanel: React.FC = () => {
 
   const handleSubmit = async () => {
     if (!formData.Title || !formData.EducationalGroupID || !formData.ContentCategoryID || !formData.Description) {
-      message.warning("กรุณากรอกข้อมูลที่จำเป็น (หัวข้อ, หมวดหมู่, ประเภทเนื้อหา และคำอธิบาย)");
+      alert("กรุณากรอกข้อมูลที่จำเป็น (หัวข้อ, หมวดหมู่, ประเภทเนื้อหา และคำอธิบาย)");
       return;
     }
 
@@ -233,56 +226,49 @@ const EducationalAdminPanel: React.FC = () => {
       ContentCategoryID: formData.ContentCategoryID,
     };
 
-    try {
-      if (editingItem?.ID) {
-        // === Update ===
-        const optimistic = educationalContents.map((x) =>
-          x.ID === editingItem.ID ? { ...x, ...payload, UpdatedAt: new Date().toISOString() } : x
-        );
-        setEducationalContents(optimistic);
+    if (editingItem?.ID) {
+      // === Update ===
+      const optimistic = educationalContents.map((x) =>
+        x.ID === editingItem.ID ? { ...x, ...payload, UpdatedAt: new Date().toISOString() } : x
+      );
+      setEducationalContents(optimistic);
 
-        const res = await UpdateContentAPI(editingItem.ID, payload);
-        if (!res) {
-          // rollback minimal (รีเฟรชใหม่)
-          message.error("แก้ไขไม่สำเร็จ (ตรวจสอบว่า backend มี PATCH /content/:id แล้วหรือยัง)");
-          // ดึงใหม่จากเซิร์ฟเวอร์ให้สถานะล่าสุด
-          const fresh = await GetAllContent();
-          setEducationalContents(fresh?.data?.menu ?? []);
-          return;
-        }
-        setEditingItem(null);
-        setShowAddForm(false);
-        resetForm();
-        message.success("แก้ไขเนื้อหาสำเร็จ");
-      } else {
-        // === Create ===
-        // optimistic
-        const tempId = Math.max(0, ...educationalContents.map((i) => i.ID || 0)) + 1;
-        const optimistic: EducationalContent = {
-          ...payload,
-          ID: tempId,
-          CreatedAt: new Date().toISOString(),
-        };
-        setEducationalContents((s) => [optimistic, ...s]);
-
-        const res = await CreateContentAPI(payload);
-        if (!res?.menu && !res?.id) {
-          // rollback
-          setEducationalContents((s) => s.filter((x) => x.ID !== tempId));
-          message.error("เพิ่มเนื้อหาไม่สำเร็จ");
-          return;
-        }
-
-        // ดึงใหม่ให้ตรงกับ DB
+      const res = await UpdateContentAPI(editingItem.ID, payload);
+      if (!res) {
+        // rollback minimal (รีเฟรชใหม่)
+        alert("แก้ไขไม่สำเร็จ (ตรวจสอบว่า backend มี PATCH /content/:id แล้วหรือยัง)");
+        // ดึงใหม่จากเซิร์ฟเวอร์ให้สถานะล่าสุด
         const fresh = await GetAllContent();
         setEducationalContents(fresh?.data?.menu ?? []);
-        setShowAddForm(false);
-        resetForm();
-        message.success("เพิ่มเนื้อหาสำเร็จ");
+        return;
       }
-    } catch (error) {
-      console.error("Error saving content:", error);
-      message.error("บันทึกข้อมูลไม่สำเร็จ");
+      setEditingItem(null);
+      setShowAddForm(false);
+      resetForm();
+    } else {
+      // === Create ===
+      // optimistic
+      const tempId = Math.max(0, ...educationalContents.map((i) => i.ID || 0)) + 1;
+      const optimistic: EducationalContent = {
+        ...payload,
+        ID: tempId,
+        CreatedAt: new Date().toISOString(),
+      };
+      setEducationalContents((s) => [optimistic, ...s]);
+
+      const res = await CreateContentAPI(payload);
+      if (!res?.menu && !res?.id) {
+        // rollback
+        setEducationalContents((s) => s.filter((x) => x.ID !== tempId));
+        alert("เพิ่มเนื้อหาไม่สำเร็จ");
+        return;
+      }
+
+      // ดึงใหม่ให้ตรงกับ DB
+      const fresh = await GetAllContent();
+      setEducationalContents(fresh?.data?.menu ?? []);
+      setShowAddForm(false);
+      resetForm();
     }
   };
 
