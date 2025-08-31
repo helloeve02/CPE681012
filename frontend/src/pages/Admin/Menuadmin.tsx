@@ -4,6 +4,7 @@ import type { MenuInterface } from '../../interfaces/Menu';
 import type { TagInterface } from '../../interfaces/Tag';
 import { GetAllMenu, GetAllTag, CreateMenu, UpdateMenu, DeleteMenu } from "../../services/https";
 import { message } from "antd";
+import { TopBarAdmin } from '../../components/TopBarAdmin';
 const MenuAdminPanel = () => {
   // Sample tags data
   const [tags, setTags] = useState<TagInterface[]>([]);
@@ -93,7 +94,7 @@ const MenuAdminPanel = () => {
   // Handle form submission
   const handleSubmit = async () => {
     if (!formData.Title || !formData.Description || !formData.Image?.trim() ||
-    !formData.Credit?.trim() || !formData.Tags) {
+      !formData.Credit?.trim() || !formData.Tags) {
       message.warning('กรุณากรอกข้อมูลที่จำเป็น');
       return;
     }
@@ -211,6 +212,9 @@ const MenuAdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-green-50 font-kanit">
+      <div>
+        <TopBarAdmin />
+      </div>
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -223,6 +227,7 @@ const MenuAdminPanel = () => {
           </div>
         </div>
       </div>
+
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Filters */}
@@ -318,7 +323,7 @@ const MenuAdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ <span className="text-red-500">*</span></label> 
+                    <label className="block text-sm font-medium text-gray-700 mb-2">URL รูปภาพ <span className="text-red-500">*</span></label>
                     <input
                       type="url"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"

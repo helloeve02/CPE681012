@@ -10,7 +10,7 @@ export const TopBarAdmin = () => {
   };
 
   return (
-    <nav className="bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200 sticky top-0 z-10">
+    <nav className="bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200 sticky top-0 z-10 font-kanit">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <span className="text-gray-600 text-sm">ยินดีต้อนรับ</span>
         <div className="flex items-center space-x-4">

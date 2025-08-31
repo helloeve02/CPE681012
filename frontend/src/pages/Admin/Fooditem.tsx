@@ -4,6 +4,7 @@ import type { FoodFlagInterface } from '../../interfaces/FoodFlag';
 import type { FoodItemInterface } from '../../interfaces/FoodItem';
 import type { FoodGroupInterface } from '../../interfaces/FoodGroup';
 import { GetAllFoodFlags, GetAllFoodItems, GetAllFoodGroups, CreateFoodItem, DeleteFoodItem } from "../../services/https";
+import { TopBarAdmin } from '../../components/TopBarAdmin';
 
 const FoodAdminPanel = () => {
   // Sample data
@@ -253,6 +254,9 @@ const FoodAdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-kanit">
+      <div>
+        <TopBarAdmin />
+      </div>
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
