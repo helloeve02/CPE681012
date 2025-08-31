@@ -12,4 +12,6 @@ type FoodItem struct {
 	// FoodFlag ทำหน้าที่เป็น FK
 	FoodFlagID uint
 	FoodFlag FoodFlag `gorm:"foreignKey:FoodFlagID"`
+
+	FoodExchange *FoodExchange
 }

@@ -92,6 +92,14 @@ async function GetAllChooseAvoid() {
     .catch((e) => e.response);
 }
 
+async function GetAllFoodExchanges() {
+  return await axios
+    .get(`${apiUrl}/foodexchanges`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+
 
 //==================================Nutrition END======================================⏬
 
@@ -646,6 +654,7 @@ export {
   GetContentByVideo,
   GetContentByArticle,
   GetAllChooseAvoid,
+  GetAllFoodExchanges,
   GetContentAllByKidney,
   GetContentAllByDiabetes,
   GetContentAllByExercise,

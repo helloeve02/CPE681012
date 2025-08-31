@@ -40,6 +40,10 @@ const NutritionSuggestion = () => {
     navigate("/importance-of-nutrition");
   };
 
+  const handleFoodExchange = () => {
+    navigate("/food-exchanges");
+  };
+
   const [nutritionDatas, setNutritionDatas] = useState<NutritionData[]>([]);
   const [portionDatas, setPortionDatas] = useState<PortionData[]>([]);
   const [caloryDatas, setCaloryDatas] = useState<number>();
@@ -188,7 +192,7 @@ const NutritionSuggestion = () => {
   const extraAdvice = [
     {
       id: "protein-card",
-      title: "โปรตีน",
+      title: "ข้าว/แป้ง vs แป้งปลอดโปรตีน",
       icon: <LuEggFried size={32} />,
       risk: "การรับประทานอาหารประเภทโปรตีนสูง ในผู้ที่ไตมีการทำงานเสื่อมไปบางส่วน อาจเร่งการดำเนินของโรคไตให้เร็วขึ้นได้ เพราะอาหารเหล่านี้ทำให้เลือดในร่างกายมีความเป็นกรดมากขึ้น ไตจึงต้องทำงานหนักเพื่อขับยูเรียซึ่งเป็นของเสียที่ได้จากการสลายโปรตีนและเพิ่มการขับกรดออกจากร่างกาย",
       recommendation: {
@@ -533,7 +537,7 @@ const NutritionSuggestion = () => {
             {/* Nutrition Info Link */}
             <div
               className={`
-              max-w-6xl mx-auto text-right mb-8
+              max-w-6xl mx-auto text-right mb-8 flex flex-col sm:flex-row justify-end gap-4
               ${
                 isVisible
                   ? "animate-in slide-in-from-bottom-8 fade-in duration-700 delay-300"
@@ -541,13 +545,25 @@ const NutritionSuggestion = () => {
               }
             `}
             >
-              <button
-                onClick={handlePortion}
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-2xl shadow-lg hover:from-blue-600 hover:to-indigo-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-              >
-                <InfoCircleOutlined className="mr-2" />
-                ความสำคัญของโภชนาการ
-              </button>
+              <Tooltip title="1 ส่วน เท่ากับเท่าไหร่กันนะ?">
+                <button
+                  onClick={handleFoodExchange}
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-2xl shadow-lg hover:from-blue-600 hover:to-indigo-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  <InfoCircleOutlined className="mr-2" />
+                  รายการอาหารแลกเปลี่ยน
+                </button>
+              </Tooltip>
+
+              <Tooltip title="หากทานไม่เพียงพอจะเป็นอย่างไร?">
+                <button
+                  onClick={handlePortion}
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-2xl shadow-lg hover:from-blue-600 hover:to-indigo-700 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  <InfoCircleOutlined className="mr-2" />
+                  ความสำคัญของโภชนาการ
+                </button>
+              </Tooltip>
             </div>
 
             {/* Calorie & Nutrition Card */}
@@ -660,7 +676,7 @@ const NutritionSuggestion = () => {
                               ความเสี่ยง
                             </span>
                           </div>
-                          <p className="text-sm text-gray-700 leading-relaxed bg-red-50 p-3 rounded-lg border-l-4 border-red-200">
+                          <p className="text-gray-700 leading-relaxed bg-red-50 p-3 rounded-lg border-l-4 border-red-200">
                             {advice.risk}
                           </p>
                         </div>
@@ -676,13 +692,13 @@ const NutritionSuggestion = () => {
                           <div className="bg-green-50 p-3 rounded-lg border-l-4 border-green-200">
                             {typeof advice.recommendation === "object" ? (
                               <div className="space-y-2">
-                                <div className="text-sm text-gray-700">
+                                <div className="text-gray-700">
                                   <strong className="text-green-800">
                                     ก่อนฟอกไต:
                                   </strong>{" "}
                                   {advice.recommendation.preDialysis}
                                 </div>
-                                <div className="text-sm text-gray-700">
+                                <div className="text-gray-700">
                                   <strong className="text-green-800">
                                     ระหว่างฟอกไต:
                                   </strong>{" "}
@@ -690,7 +706,7 @@ const NutritionSuggestion = () => {
                                 </div>
                               </div>
                             ) : (
-                              <p className="text-sm text-gray-700 leading-relaxed">
+                              <p className="text-gray-700 leading-relaxed">
                                 {advice.recommendation}
                               </p>
                             )}
@@ -706,7 +722,7 @@ const NutritionSuggestion = () => {
                                 หมายเหตุ
                               </span>
                             </div>
-                            <p className="text-sm text-gray-700 leading-relaxed bg-blue-50 p-3 rounded-lg border-l-4 border-blue-200">
+                            <p className="text-gray-700 leading-relaxed bg-blue-50 p-3 rounded-lg border-l-4 border-blue-200">
                               {advice.note}
                             </p>
                           </div>
@@ -721,7 +737,7 @@ const NutritionSuggestion = () => {
                                 เทคนิค
                               </span>
                             </div>
-                            <p className="text-sm text-gray-700 leading-relaxed bg-amber-50 p-3 rounded-lg border-l-4 border-amber-200">
+                            <p className="text-gray-700 leading-relaxed bg-amber-50 p-3 rounded-lg border-l-4 border-amber-200">
                               {advice.tips}
                             </p>
                           </div>
@@ -748,12 +764,13 @@ const NutritionSuggestion = () => {
                 <Button
                   type="primary"
                   className={`
-                    flex-1 !h-16 !text-xl !font-kanit !font-semibold
-                    !bg-gradient-to-r !from-blue-600 !to-indigo-700
-                    !border-0 !rounded-2xl !shadow-xl
-                    hover:!from-blue-700 hover:!to-indigo-800
-                    hover:!shadow-2xl hover:!scale-105
-                    !transition-all !duration-300
+                    flex-1 !h-auto  !px-6 !py-3
+      !text-base sm:!text-xl !font-kanit !font-semibold
+      !bg-gradient-to-r !from-blue-600 !to-indigo-700
+      !border-0 !rounded-2xl !shadow-xl
+      hover:!from-blue-700 hover:!to-indigo-800
+      hover:!shadow-2xl hover:!scale-103
+      !transition-all !duration-300
                   `}
                   onClick={handleNext}
                 >

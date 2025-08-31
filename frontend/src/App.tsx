@@ -46,6 +46,7 @@ import CleaningMethodCards from "./pages/Menu/menucleaningre"
 import ImportanceOfNutrition from "./pages/Nutrition/ImportanceOfNutrition";
 import MenuTaste from "./pages/Menu/menutaste"
 import AdminManage from "./pages/Admin/adminmanage"
+import FoodExchanges from "./pages/Nutrition/FoodExchanges";
 const AppContent = () => {
   const location = useLocation();
 
@@ -98,6 +99,7 @@ const AppContent = () => {
         <Route path="/cleaningre" element={<CleaningMethodCards />} />
         <Route path="/menutaste" element={<MenuTaste />} />
         <Route path="/admin/adminmanage" element={<PrivateRoute><AdminManage /></PrivateRoute>} />
+        <Route path="/food-exchanges" element={<FoodExchanges />} />
       </Routes>
     </>
   );
