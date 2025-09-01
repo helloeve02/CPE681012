@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { GetAllFoodExchanges } from "../../services/https";
 import { Spin } from "antd";
 import type { FoodExchangeInterface } from "../../interfaces/FoodExchange";
+import FoodPopup from "./FoodPopup";
 
 const FoodExchanges = () => {
   const [isLoading, setLoading] = useState(true);
-  const [foodExchanges, setFoodExchanges] = useState<FoodExchangeInterface[]>([]);
+  const [foodExchanges, setFoodExchanges] = useState<FoodExchangeInterface[]>(
+    []
+  );
   const [isVisible, setIsVisible] = useState(false);
-  
+  const [selectedItem, setSelectedItem] =
+    useState<FoodExchangeInterface | null>(null);
+
   const getAllFoodExchanges = async () => {
     try {
       const res = await GetAllFoodExchanges();
@@ -24,9 +29,51 @@ const FoodExchanges = () => {
   useEffect(() => {
     const fetchData = async () => {
       await getAllFoodExchanges();
+      // Add hard-coded FoodGroup with some dummy items
+      setFoodExchanges((prev) => [
+        ...prev,
+        {
+          ID: 999990,
+          Amount: "1/2-1/3",
+          Unit: "ถ้วยตวง",
+          FoodItem: {
+            Name: "ผักสุก",
+            Image:
+              "https://www.sgethai.com/wp-content/uploads/2022/02/%E0%B8%9C%E0%B8%B1%E0%B8%81%E0%B8%95%E0%B9%89%E0%B8%A13.jpg",
+            Credit:
+              "https://www.sgethai.com/article/%E0%B8%9C%E0%B8%B1%E0%B8%81%E0%B8%95%E0%B9%89%E0%B8%A1-%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B9%83%E0%B8%AB%E0%B9%89/?srsltid=AfmBOop5vfQQUi84RikxtIN899oG_xSGVp7CjPEuGQbB40p28BjQiyTO",
+            FoodFlag: { FoodGroup: { Name: "ผัก" } },
+          },
+        },
+        {
+          ID: 999991,
+          Amount: "3/4 - 1",
+          Unit: "ถ้วยตวง",
+          FoodItem: {
+            Name: "ผักดิบ",
+            Image:
+              "https://s.isanook.com/wo/0/ud/14/73853/73853-thumbnail.jpg?ip/crop/w1200h700/q80/webp",
+            Credit: "https://www.sanook.com/women/73853/",
+            FoodFlag: { FoodGroup: { Name: "ผัก" } },
+          },
+        },
+        {
+          ID: 999992,
+          Amount: "2",
+          Unit: "ช้อนโต๊ะ",
+          FoodItem: {
+            Name: "เนื้อสัตว์",
+            Image:
+              "https://www.foodnetworksolution.com/uploads/process/7d5db8ee90181960985e37bd89ad1a57.jpg",
+            Credit:
+              "https://www.foodnetworksolution.com/wiki/word/1141/meat-%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AA%E0%B8%B1%E0%B8%95%E0%B8%A7%E0%B9%8C",
+            FoodFlag: { FoodGroup: { Name: "เนื้อสัตว์" } },
+          },
+        },
+      ]);
       setTimeout(() => {
         setLoading(false);
-        setTimeout(() => setIsVisible(true), 100)
+        setTimeout(() => setIsVisible(true), 100);
       }, 300);
     };
 
@@ -35,7 +82,8 @@ const FoodExchanges = () => {
 
   // Group food exchanges by food group
   const groupedFoodExchanges = foodExchanges.reduce((acc, exchange) => {
-    const groupName = exchange.FoodItem?.FoodFlag?.FoodGroup?.Name || "ไม่ระบุหมวดหมู่";
+    const groupName =
+      exchange.FoodItem?.FoodFlag?.FoodGroup?.Name || "ไม่ระบุหมวดหมู่";
     if (!acc[groupName]) {
       acc[groupName] = [];
     }
@@ -43,7 +91,7 @@ const FoodExchanges = () => {
     return acc;
   }, {} as Record<string, any[]>);
 
- return (
+  return (
     <>
       {isLoading ? (
         <div className="font-kanit fixed inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
@@ -60,7 +108,7 @@ const FoodExchanges = () => {
           <div className="relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-700"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-600/90 via-blue-600/90 to-purple-700/90"></div>
-            
+
             {/* Smaller Floating Elements */}
             <div className="absolute top-6 left-6 w-12 h-12 bg-white/10 rounded-full animate-pulse"></div>
             <div className="absolute top-16 right-12 w-10 h-10 bg-white/10 rounded-full animate-pulse delay-1000"></div>
@@ -100,53 +148,56 @@ const FoodExchanges = () => {
                   </h2>
                 </div>
                 <p className="text-gray-700 text-base leading-relaxed">
-                  ระบบอาหารแลกเปลี่ยนช่วยให้คุณสามารถวางแผนการรับประทานอาหารได้อย่างสมดุล 
-                  โดยแต่ละหมวดหมู่อาหารจะมีปริมาณและหน่วยที่เหมาะสมสำหรับ 1 ส่วนแลกเปลี่ยน
+                  ระบบอาหารแลกเปลี่ยนช่วยให้คุณสามารถวางแผนการรับประทานอาหารได้อย่างสมดุล
+                  โดยแต่ละหมวดหมู่อาหารจะมีปริมาณและหน่วยที่เหมาะสมสำหรับ 1
+                  ส่วนแลกเปลี่ยน
                 </p>
               </div>
             </div>
 
             {/* Compact Food Groups */}
             <div className="max-w-5xl mx-auto space-y-8">
-              {Object.entries(groupedFoodExchanges).map(([groupName, exchanges], groupIndex) => (
-                <div 
-                  key={groupName}
-                  className={`
+              {Object.entries(groupedFoodExchanges).map(
+                ([groupName, exchanges], groupIndex) => (
+                  <div
+                    key={groupName}
+                    className={`
                     ${
                       isVisible
                         ? "animate-in slide-in-from-bottom-8 fade-in duration-700"
                         : "opacity-0"
                     }
                   `}
-                  style={{ animationDelay: `${200 + groupIndex * 200}ms` }}
-                >
-                  <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 overflow-hidden">
-                    {/* Compact Group Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 md:p-5 relative overflow-hidden">
-                      <div className="relative z-10">
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-lg mr-3 backdrop-blur-sm">
-                            🍽️
-                          </div>
-                          <div>
-                            <h2 className="text-xl md:text-2xl font-bold text-white mb-1">
-                              หมวดหมู่ {groupName}
-                            </h2>
-                            <p className="text-white/90 text-sm md:text-base">
-                              {groupName} 1 ส่วน เท่ากับ
-                            </p>
+                    style={{ animationDelay: `${200 + groupIndex * 200}ms` }}
+                  >
+                    <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 overflow-hidden">
+                      {/* Compact Group Header */}
+                      <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 md:p-5 relative overflow-hidden">
+                        <div className="relative z-10">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-lg mr-3 backdrop-blur-sm">
+                              🍽️
+                            </div>
+                            <div>
+                              <h2 className="text-xl md:text-2xl font-bold text-white mb-1">
+                                หมวดหมู่ {groupName}
+                              </h2>
+                              <p className="text-white/90 text-sm md:text-base">
+                                {groupName} 1 ส่วน เท่ากับ
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Compact Food Items Grid */}
-                    <div className="p-4 md:p-6">
-                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
-                        {exchanges.map((exchange, index) => (
-                          <div 
-                            key={exchange.ID}
-                            className={`
+                      {/* Compact Food Items Grid */}
+                      <div className="p-4 md:p-6">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+                          {exchanges.map((exchange, index) => (
+                            <div
+                              key={exchange.ID}
+                              onClick={() => setSelectedItem(exchange)}
+                              className={`
                               group bg-white/60 backdrop-blur-sm rounded-xl border border-white/40 
                               hover:border-blue-300/50 hover:shadow-lg hover:bg-white/80
                               transform transition-all duration-300 hover:scale-102 overflow-hidden
@@ -156,73 +207,63 @@ const FoodExchanges = () => {
                                   : "opacity-0"
                               }
                             `}
-                            style={{ animationDelay: `${400 + groupIndex * 200 + index * 50}ms` }}
-                          >
-                            {/* Compact Food Image */}
-                            {exchange.FoodItem?.Image && (
-                              <div className="relative h-20 overflow-hidden">
-                                <img
-                                  src={exchange.FoodItem.Image}
-                                  alt={exchange.FoodItem.Name || "อาหาร"}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgNDAwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iODAiIGZpbGw9IiNGM0Y0RjYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSI0MCIgcj0iMjAiIGZpbGw9IiNENUQ3REEiLz48L3N2Zz4=";
-                                  }}
-                                />
-                              </div>
-                            )}
-
-                            {/* Compact Food Details */}
-                            <div className="p-3">
-                              <div className="text-center mb-3">
-                                <h3 className="text-sm font-bold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors duration-300 line-clamp-2">
-                                  {exchange.FoodItem?.Name || "ไม่ระบุชื่อ"}
-                                </h3>
-                              </div>
-
-                              {/* Compact Amount Display */}
-                              <div className="relative">
-                                <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-3 text-center border border-blue-200/50 group-hover:from-blue-100 group-hover:to-indigo-200 transition-all duration-300">
-                                  <div className="flex items-baseline justify-center space-x-1">
-                                    <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                      {exchange.Amount || "1"}
-                                    </span>
-                                    <span className="text-sm text-gray-600 font-semibold">
-                                      {exchange.Unit || "ส่วน"}
-                                    </span>
-                                  </div>
-                                  <div className="mt-1 text-xs text-gray-500 font-medium">
-                                    = 1 ส่วนแลกเปลี่ยน
-                                  </div>
-                                </div>
-                                
-                                {/* Smaller Decorative Elements */}
-                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
-                              </div>
-
-                              {/* Compact Credit Link */}
-                              {exchange.FoodItem?.Credit && (
-                                <div className="mt-2 text-center">
-                                  <a
-                                    href={exchange.FoodItem.Credit}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-xs text-blue-500 hover:text-blue-700 hover:underline transition-all duration-200 font-medium"
-                                  >
-                                    เครดิตรูปภาพ
-                                  </a>
+                              style={{
+                                animationDelay: `${
+                                  400 + groupIndex * 200 + index * 50
+                                }ms`,
+                              }}
+                            >
+                              {/* Compact Food Image */}
+                              {exchange.FoodItem?.Image && (
+                                <div className="relative h-20 overflow-hidden">
+                                  <img
+                                    src={exchange.FoodItem.Image}
+                                    alt={exchange.FoodItem.Name || "อาหาร"}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    onError={(e) => {
+                                      const target =
+                                        e.target as HTMLImageElement;
+                                      target.src =
+                                        "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgNDAwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iODAiIGZpbGw9IiNGM0Y0RjYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSI0MCIgcj0iMjAiIGZpbGw9IiNENUQ3REEiLz48L3N2Zz4=";
+                                    }}
+                                  />
                                 </div>
                               )}
+
+                              {/* Compact Food Details */}
+                              <div className="p-3">
+                                <div className="text-center mb-3">
+                                  <h3 className="text-sm font-bold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors duration-300 line-clamp-2">
+                                    {exchange.FoodItem?.Name || "ไม่ระบุชื่อ"}
+                                  </h3>
+                                </div>
+
+                                {/* Compact Amount Display */}
+                                <div className="relative">
+                                  <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-3 text-center border border-blue-200/50 group-hover:from-blue-100 group-hover:to-indigo-200 transition-all duration-300">
+                                    <div className="flex items-baseline justify-center space-x-1">
+                                      <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                        {exchange.Amount || "1"}
+                                      </span>
+                                      <span className="text-sm text-gray-600 font-semibold">
+                                        {exchange.Unit || "ส่วน"}
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  {/* Smaller Decorative Elements */}
+                                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
 
             {/* Compact Empty State */}
@@ -272,30 +313,46 @@ const FoodExchanges = () => {
                       วิธีใช้ระบบแลกเปลี่ยน
                     </h4>
                   </div>
-                  
+
                   <div className="grid md:grid-cols-3 gap-4 mt-6">
                     <div className="bg-white/60 rounded-xl p-4 border border-blue-200/50">
                       <div className="text-2xl mb-2">🎯</div>
-                      <h5 className="font-bold text-gray-800 mb-1 text-sm">เลือกอาหาร</h5>
-                      <p className="text-gray-600 text-xs">เลือกอาหารจากหมวดหมู่เดียวกันเพื่อแลกเปลี่ยน</p>
+                      <h5 className="font-bold text-gray-800 mb-1 text-sm">
+                        เลือกอาหาร
+                      </h5>
+                      <p className="text-gray-600 text-xs">
+                        เลือกอาหารจากหมวดหมู่เดียวกันเพื่อแลกเปลี่ยน
+                      </p>
                     </div>
-                    
+
                     <div className="bg-white/60 rounded-xl p-4 border border-green-200/50">
                       <div className="text-2xl mb-2">⚖️</div>
-                      <h5 className="font-bold text-gray-800 mb-1 text-sm">ชั่งปริมาณ</h5>
-                      <p className="text-gray-600 text-xs">ใช้ปริมาณที่แสดงเป็น 1 ส่วนแลกเปลี่ยน</p>
+                      <h5 className="font-bold text-gray-800 mb-1 text-sm">
+                        ชั่งปริมาณ
+                      </h5>
+                      <p className="text-gray-600 text-xs">
+                        ใช้ปริมาณที่แสดงเป็น 1 ส่วนแลกเปลี่ยน
+                      </p>
                     </div>
-                    
+
                     <div className="bg-white/60 rounded-xl p-4 border border-purple-200/50">
                       <div className="text-2xl mb-2">🎉</div>
-                      <h5 className="font-bold text-gray-800 mb-1 text-sm">สนุกกับการทาน</h5>
-                      <p className="text-gray-600 text-xs">เพลิดเพลินกับอาหารที่หลากหลายและมีประโยชน์</p>
+                      <h5 className="font-bold text-gray-800 mb-1 text-sm">
+                        สนุกกับการทาน
+                      </h5>
+                      <p className="text-gray-600 text-xs">
+                        เพลิดเพลินกับอาหารที่หลากหลายและมีประโยชน์
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <FoodPopup
+            item={selectedItem}
+            onClose={() => setSelectedItem(null)}
+          />
         </div>
       )}
     </>
