@@ -14,6 +14,7 @@ import type {
   RuleData,
 } from "../../interfaces/Nutrition";
 import type { FoodGroupData } from "./PDFViewerPage";
+import type { FoodExchangeInterface } from "../../interfaces/FoodExchange";
 
 const styles = StyleSheet.create({
   page: {
@@ -68,6 +69,7 @@ type Props = {
   ruleDatas: RuleData;
   foodGroups: FoodGroupData[];
   conditionalCardData: ConditionalCardItem[];
+  foodExchangeGroups: FoodExchangeInterface[];
 };
 
 Font.register({
@@ -89,6 +91,7 @@ const NutritionPDF: React.FC<Props> = ({
   ruleDatas,
   foodGroups,
   conditionalCardData,
+  foodExchangeGroups,
 }) => {
   // Grouped by food group
   const groupedByFoodGroup = portionDatas.reduce((acc, item) => {
@@ -220,6 +223,39 @@ const NutritionPDF: React.FC<Props> = ({
                 <Text>{card.description}</Text>
               </View>
             ))}
+          </View>
+        )}
+        {/* Food Exchange Data */}
+        {foodExchangeGroups.length > 0 && (
+          <View>
+            <Text style={[styles.title]}>รายการอาหารแลกเปลี่ยน</Text>
+            {(() => {
+              // Group food exchange items by food group
+              const groupedExchanges = foodExchangeGroups.reduce((acc, item) => {
+                const groupName = item.FoodItem?.FoodFlag?.FoodGroup?.Name || 'อื่นๆ';
+                if (!acc[groupName]) {
+                  acc[groupName] = [];
+                }
+                acc[groupName].push(item);
+                return acc;
+              }, {} as Record<string, FoodExchangeInterface[]>);
+
+              return Object.entries(groupedExchanges).map(([groupName, items]) => (
+                <View key={groupName} style={{ marginBottom: 10 }}>
+                  <Text style={{ fontWeight: "bold", fontSize: 12, marginBottom: 4 }}>
+                    {groupName} 1 ส่วน เท่ากับ
+                  </Text>
+                  <Text>
+                    {items
+                      .filter((item) => item.FoodItem?.Name) // Filter out items without names
+                      .map((item) => 
+                        `${item.FoodItem?.Name} ${item.Amount || ''} ${item.Unit || ''}`
+                      )
+                      .join(', ')} {' '}
+                  </Text>
+                </View>
+              ));
+            })()}
           </View>
         )}
       </Page>
