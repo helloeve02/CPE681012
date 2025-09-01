@@ -47,6 +47,8 @@ import ImportanceOfNutrition from "./pages/Nutrition/ImportanceOfNutrition";
 import MenuTaste from "./pages/Menu/menutaste"
 import AdminManage from "./pages/Admin/adminmanage"
 import FoodExchanges from "./pages/Nutrition/FoodExchanges";
+import DiabetesResultPage from "./pages/Assessment/Diabetes/DiabetesResultPage ";
+import KidneyRiskResultsPage from "./pages/Assessment/Kidney/KidneyResult";
 const AppContent = () => {
   const location = useLocation();
 
@@ -80,6 +82,8 @@ const AppContent = () => {
         <Route path="/assessment/information/bmi" element={<GeneralHealthIntroPage />} />
         <Route path="/assessment/bmi" element={<BMICalculator />} />
         <Route path="/assessment/bmiresult" element={<BMICalculatorResultPage />} />
+        <Route path="/assessment/diabetes-result" element={<DiabetesResultPage />} />
+        <Route path="/assessment/kidneys-result" element={<KidneyRiskResultsPage />} />
         <Route path="/assessment/selectagerange" element={<SelectAgeRange />} />
         <Route path="/assessment/diabetesmoreassessmentpage" element={<DiabetesMoreAssessmentPage />} />
         <Route path="/assessment/diabeteslessassessmentpage" element={<DiabetesLessAssessmentPage />} />

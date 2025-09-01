@@ -78,7 +78,7 @@ const HealthAssessmentPage: React.FC = () => {
           {/* Header Navigation */}
           <div className="flex items-center mb-8">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/")}
               className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
             >
               <ArrowLeft size={22} />

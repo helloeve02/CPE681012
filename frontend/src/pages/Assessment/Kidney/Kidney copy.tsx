@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   ArrowLeft,
   User,
@@ -10,15 +11,7 @@ import {
   Info,
 } from "lucide-react";
 
-// เนื่องจากไม่สามารถ import component อื่นได้ ให้ใช้วิธีอื่นในการเชื่อมต่อ
-
-interface Props {
-  onBack?: () => void;
-  onSubmit?: (formData: any) => void;
-}
-
-const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
-  const navigate = useNavigate();
+const KidneyRiskAssessmentPage: React.FC = () => {
   const [form, setForm] = useState({
     age: "",
     gender: "",
@@ -26,41 +19,16 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
     diabetes: "",
     bp: "",
   });
-
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    // ตรวจสอบว่ากรอกข้อมูลครบหรือไม่
-    if (!form.age || !form.gender || !form.waist || !form.diabetes || !form.bp) {
-      alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-      return;
-    }
-    navigate("/assessment/kidneys-result", { state: form });
-
-    // ส่งข้อมูลไปยัง parent component หรือเก็บใน global state
-    if (onSubmit) {
-      onSubmit(form);
-    } else {
-      // เก็บข้อมูลใน window object เป็น fallback
-      (window as any).kidneyFormData = form;
-      
-      // สร้าง custom event เพื่อแจ้งให้ components อื่นรู้
-      const event = new CustomEvent('kidneyAssessmentComplete', { 
-        detail: { formData: form } 
-      });
-      window.dispatchEvent(event);
-      
-    }
-  };
-
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else if (typeof window !== 'undefined' && window.history.length > 1) {
-      window.history.back();
-    }
+  const navigate = useNavigate();
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm(prev => {
+      // ถ้าเปลี่ยนเพศ ให้รีเซ็ตรอบเอว
+      if (name === "gender") {
+        return { ...prev, [name]: value, waist: "" };
+      }
+      return { ...prev, [name]: value };
+    });
   };
 
   const assessmentSections = [
@@ -125,8 +93,8 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
           label: "ประวัติการป่วยโรคเบาหวาน",
           options: [
             { value: "", label: "-- เลือกคำตอบ --" },
-            { value: "2", label: "มี" },
-            { value: "0", label: "ไม่มี" }
+            { value: "0", label: "มี" },
+            { value: "2", label: "ไม่มี" }
           ],
           gridCols: "md:col-span-2"
         }
@@ -164,8 +132,7 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
           {/* Header Navigation */}
           <div className="flex items-center mb-8">
             <button
-              onClick={handleBack}
-              
+              onClick={() => navigate("/selectassessmentcategorypage")}
               className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
             >
               <ArrowLeft size={22} />
@@ -287,7 +254,9 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
             <div className="p-6">
               <button
                 type="button"
-                onClick={handleSubmit}
+                onClick={() => navigate("/assessment/kidneys-result", { 
+  state: { formData: form }
+  })}
                 className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
               >
                 ประเมินผลลัพธ์
