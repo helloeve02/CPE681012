@@ -49,6 +49,10 @@ import AdminManage from "./pages/Admin/adminmanage"
 import FoodExchanges from "./pages/Nutrition/FoodExchanges";
 import DiabetesResultPage from "./pages/Assessment/Diabetes/DiabetesResultPage ";
 import KidneyRiskResultsPage from "./pages/Assessment/Kidney/KidneyResult";
+import StressAssessmentForm from "./pages/Assessment/Stress/Stress";
+import StressResultsPage from "./pages/Assessment/Stress/StressResult";
+import DepressionAssessmentForm from "./pages/Assessment/Depression/Depression";
+import DepressionResultsPage from "./pages/Assessment/Depression/DepressionResult";
 import Menulabel from "./pages/Menu/menulabel"
 const AppContent = () => {
   const location = useLocation();
@@ -85,6 +89,10 @@ const AppContent = () => {
         <Route path="/assessment/bmiresult" element={<BMICalculatorResultPage />} />
         <Route path="/assessment/diabetes-result" element={<DiabetesResultPage />} />
         <Route path="/assessment/kidneys-result" element={<KidneyRiskResultsPage />} />
+        <Route path="/assessment/stress" element={<StressAssessmentForm />} />
+        <Route path="/assessment/stress-result" element={<StressResultsPage />} />
+        <Route path="/assessment/depression" element={<DepressionAssessmentForm />} />
+        <Route path="/assessment/depression-result" element={<DepressionResultsPage />} />
         <Route path="/assessment/selectagerange" element={<SelectAgeRange />} />
         <Route path="/assessment/diabetesmoreassessmentpage" element={<DiabetesMoreAssessmentPage />} />
         <Route path="/assessment/diabeteslessassessmentpage" element={<DiabetesLessAssessmentPage />} />
