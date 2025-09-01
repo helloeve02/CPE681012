@@ -13,6 +13,7 @@ import {
   Cigarette,
   Wine,
   User,
+  Home,
   Ruler
 } from "lucide-react";
 
@@ -22,7 +23,7 @@ const BMICalculatorResultPage: React.FC = () => {
   const {
     weight,
     height,
-    waist,
+    // waist,
     chest,
     hip,
     systolic,
@@ -234,7 +235,7 @@ const BMICalculatorResultPage: React.FC = () => {
           </div>
           
           <div className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
               <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl border border-blue-200">
                 <div className="p-3 bg-blue-500 rounded-xl">
                   <Scale className="text-white" size={20} />
@@ -246,7 +247,7 @@ const BMICalculatorResultPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-4 p-4 bg-green-50 rounded-2xl border border-green-200">
-                <div className="p-3 bg-green-500 rounded-xl">
+                <div className="p-2 bg-green-500 rounded-xl">
                   <Ruler className="text-white" size={20} />
                 </div>
                 <div>
@@ -255,15 +256,7 @@ const BMICalculatorResultPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4 p-4 bg-purple-50 rounded-2xl border border-purple-200">
-                <div className="p-3 bg-purple-500 rounded-xl">
-                  <Activity className="text-white" size={20} />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600">รอบเอว</p>
-                  <p className="text-xl font-bold text-gray-800">{waist} ซม.</p>
-                </div>
-              </div>
+              
 
               {chest && (
                 <div className="flex items-center gap-4 p-4 bg-orange-50 rounded-2xl border border-orange-200">
@@ -427,11 +420,11 @@ const BMICalculatorResultPage: React.FC = () => {
             
             <button
               className="w-full max-w-md py-5 rounded-2xl font-bold text-lg text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 transform hover:scale-105 shadow-lg hover:shadow-xl transition-all duration-300"
-              onClick={() => window.print()}
+              onClick={() => navigate("/")}
             >
               <div className="flex items-center justify-center gap-3">
-                <span>📋</span>
-                <span>พิมพ์ผลลัพธ์</span>
+                <span><Home size={24} /></span>
+                <span>หน้าหลัก</span>
               </div>
             </button>
           </div>

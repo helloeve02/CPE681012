@@ -12,8 +12,10 @@ import {
   Activity,
   User,
   Ruler,
+  Home,
   Droplets
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   age: string;
@@ -42,7 +44,7 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
     bp: ""
   });
   const [loading, setLoading] = useState(true);
-
+const navigate = useNavigate();
   useEffect(() => {
     let data: FormData | null = null;
 
@@ -599,6 +601,15 @@ const KidneyRiskResultsPage: React.FC<Props> = ({
                   <RefreshCw size={20} />
                   ประเมินใหม่
                 </button>
+                <button
+              className="w-full max-w-md py-5 rounded-2xl font-bold text-lg text-gray-700 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 transform hover:scale-105 shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={() => navigate("/")}
+            >
+              <div className="flex items-center justify-center gap-3">
+                <span><Home size={24} /></span>
+                <span>หน้าหลัก</span>
+              </div>
+            </button>
               </div>
             </div>
           </div>
