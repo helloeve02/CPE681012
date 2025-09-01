@@ -7,34 +7,105 @@ interface MealPlanPDFProps {
 }
 
 const styles = StyleSheet.create({
-  page: { padding: 20, fontFamily: "Sarabun", fontSize: 12 },
-  dayContainer: { marginBottom: 10 },
-  dayText: { fontWeight: "bold", fontSize: 14, marginBottom: 5 },
-  timeContainer: { marginLeft: 10, marginBottom: 2 },
-  timeText: { fontWeight: "bold", fontSize: 12 },
-  mealText: { marginLeft: 10 },
+  page: {
+    padding: 20,
+    fontFamily: "Sarabun",
+    fontSize: 10
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20
+  },
+  table: {
+    width: "100%"
+  },
+  row: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: "#000",
+    borderBottomStyle: "solid",
+    minHeight: 40
+  },
+  headerRow: {
+    backgroundColor: "#f0f0f0",
+    fontWeight: "bold"
+  },
+  cell: {
+    flex: 1,
+    padding: 5,
+    borderRightWidth: 1,
+    borderRightColor: "#000",
+    borderRightStyle: "solid",
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
+  },
+  timeCell: {
+    width: 20,
+    backgroundColor: "#e0e0e0"
+  },
+  headerText: {
+    fontWeight: "bold",
+    fontSize: 10
+  },
+  mealText: {
+    fontSize: 9,
+    lineHeight: 1.2,
+    marginBottom: 2
+  }
 });
 
-const MealPlanPDF: React.FC<MealPlanPDFProps> = ({ mealPlan }) => (
-  <Document>
-    <Page style={styles.page}>
-      {Object.entries(mealPlan).map(([day, mealsByTime]) => (
-        <View key={day} style={styles.dayContainer}>
-          <Text style={styles.dayText}>{day}</Text>
-          {Object.entries(mealsByTime).map(([time, meals]: [string, any[]]) => (
-            <View key={time} style={styles.timeContainer}>
-              <Text style={styles.timeText}>{time}:</Text>
-              {meals.map((meal) => (
-                <Text key={meal.ID} style={styles.mealText}>
-                  - {meal.PortionText}
-                </Text>
-              ))}
+const MealPlanPDF: React.FC<MealPlanPDFProps> = ({ mealPlan }) => {
+  const timeSlots = ["เช้า", "ว่างเช้า", "กลางวัน", "ว่างบ่าย", "เย็น"];
+  const days = Object.keys(mealPlan);
+
+  return (
+    <Document>
+      <Page style={styles.page}>
+        <Text style={styles.title}>แผนการทานอาหารประจำสัปดาห์.</Text>
+        
+        <View style={styles.table}>
+          {/* Header */}
+          <View style={[styles.row, styles.headerRow]}>
+            <View style={[styles.cell, styles.timeCell]}>
+              <Text style={styles.headerText}>วัน</Text>
+            </View>
+            {timeSlots.map((timeSlot) => (
+              <View key={timeSlot} style={styles.cell}>
+                <Text style={styles.headerText}>{timeSlot}</Text>
+              </View>
+            ))}
+          </View>
+
+          {/* Rows */}
+          {days.map((day) => (
+            <View key={day} style={styles.row}>
+              <View style={[styles.cell, styles.timeCell]}>
+                <Text style={styles.headerText}>{day}</Text>
+              </View>
+              {timeSlots.map((timeSlot) => {
+                const meals = (mealPlan as any)[day][timeSlot] || [];
+                return (
+                  <View key={`${day}-${timeSlot}`} style={styles.cell}>
+                    {meals.length > 0 ? (
+                      meals.map((meal: any, index: number) => (
+                        <Text key={meal.ID || index} style={styles.mealText}>
+                          {meal.PortionText}{"  "}
+                        </Text>
+                      ))
+                    ) : (
+                      <Text style={styles.mealText}>-</Text>
+                    )}
+                  </View>
+                );
+              })}
             </View>
           ))}
         </View>
-      ))}
-    </Page>
-  </Document>
-);
+      </Page>
+    </Document>
+  );
+};
 
 export default MealPlanPDF;
