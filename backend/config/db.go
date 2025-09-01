@@ -2937,6 +2937,14 @@ func SetupDatabase() {
 			Flag:        "ควรรับประทาน", //แป้งปลอดโปรตีน //11
 			FoodGroupID: 2,
 		},
+		{
+			Flag:        "-", 
+			FoodGroupID: 1,
+		},
+		{
+			Flag:        "-", 
+			FoodGroupID: 4,
+		},
 	}
 
 	for _, flag := range FoodFlag {
@@ -3491,6 +3499,41 @@ func SetupDatabase() {
 			Credit:      "https://www.moac.go.th/news-preview-452991792546",
 			Description: "ไขมันอิ่มตัว",
 			FoodFlagID:  9,
+		},
+		{
+			Name:        "เส้นใหญ่",
+			Image:       "https://static.cdntap.com/tap-assets-prod/wp-content/uploads/sites/25/2021/12/twine3.jpg?width=700&quality=95",
+			Credit:      "https://th.theasianparent.com/big-flat-noodles-menu",
+			Description: "-",
+			FoodFlagID:  12,
+		},
+		{
+			Name:        "บะหมี่",
+			Image:       "https://www.calforlife.com/image/food/Noodles.jpg",
+			Credit:      "https://www.calforlife.com/th/calories/noodles",
+			Description: "-",
+			FoodFlagID:  12,
+		},
+		{
+			Name:        "ข้าวโพด",
+			Image:       "https://www.calforlife.com/image/food/Sweet-Corn-Boiled.jpg",
+			Credit:      "https://www.calforlife.com/th/calories/Sweet-Corn-Boiled",
+			Description: "-",
+			FoodFlagID:  12,
+		},
+		{
+			Name:        "มะละกอสุก",
+			Image:       "https://www.simahealthcare.com/image/catalog/01-simaxray/ppp/aHR0cHM6Ly9zLmlzYW5vb2suY29tL3dvLzAvdWQvMTEvNTkwMzkvcGFwYXlhLmpwZw==.jpg",
+			Credit:      "https://www.simahealthcare.com/content/list?article_id=81&article_type=1",
+			Description: "-",
+			FoodFlagID:  13,
+		},
+		{
+			Name:        "กล้วยน้ำว้า",
+			Image:       "https://v3i.rweb-images.com/www.disthai.com/images/content/original-1634715683568.jpg",
+			Credit:      "https://www.disthai.com/16915273/%E0%B8%81%E0%B8%A5%E0%B9%89%E0%B8%A7%E0%B8%A2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A7%E0%B9%89%E0%B8%B2",
+			Description: "-",
+			FoodFlagID:  13,
 		},
 	}
 
@@ -4386,6 +4429,11 @@ func SetupDatabase() {
 		{Amount: "1", Unit: "ผลเล็ก", FoodItemID: 16},
 		{Amount: "1", Unit: "ผลใหญ่", FoodItemID: 33},
 		{Amount: "1", Unit: "เม็ดเล็ก", FoodItemID: 34},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 79},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 80},
+		{Amount: "1/2", Unit: "ฝักใหญ่", FoodItemID: 81},
+		{Amount: "6-8", Unit: "ชิ้น", FoodItemID: 82},
+		{Amount: "1", Unit: "ผล", FoodItemID: 83},
 
 	}
 

@@ -127,7 +127,7 @@ const FoodExchanges = () => {
             </div>
           </div>
 
-          {/* Compact Info Banner */}
+          {/* Enhanced Info Banner */}
           <div
             className={`
               p-4 md:p-6
@@ -139,50 +139,62 @@ const FoodExchanges = () => {
             `}
           >
             <div className="max-w-5xl mx-auto mb-6">
-              <div className="bg-white/80 backdrop-blur-md rounded-2xl p-4 md:p-6 shadow-lg border border-white/30">
-                <div className="flex items-center mb-3">
-                  <div className="w-1 h-8 bg-gradient-to-b from-emerald-500 to-blue-600 rounded-full mr-3"></div>
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center">
-                    <span className="mr-2 text-lg">💡</span>
-                    เกี่ยวกับอาหารแลกเปลี่ยน
-                  </h2>
+              <div className="group relative overflow-hidden bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-white/30 transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:bg-white/90">
+                {/* Decorative elements */}
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-emerald-400/10 to-blue-400/10 rounded-full transform translate-x-12 -translate-y-12 group-hover:scale-150 transition-transform duration-700"></div>
+                <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-br from-purple-400/10 to-indigo-400/10 rounded-full transform -translate-x-10 translate-y-10 group-hover:scale-150 transition-transform duration-700"></div>
+                
+                <div className="relative">
+                  <div className="flex items-center mb-4">
+                    <div className="w-1 h-10 bg-gradient-to-b from-emerald-500 to-blue-600 rounded-full mr-4 group-hover:h-12 transition-all duration-300"></div>
+                    <h2 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center group-hover:text-emerald-700 transition-colors duration-300">
+                      <span className="mr-3 text-2xl group-hover:scale-110 transition-transform duration-300">💡</span>
+                      เกี่ยวกับอาหารแลกเปลี่ยน
+                    </h2>
+                  </div>
+                  <p className="text-gray-700 text-base leading-relaxed group-hover:text-gray-800 transition-colors duration-300">
+                    ระบบอาหารแลกเปลี่ยนช่วยให้คุณสามารถวางแผนการรับประทานอาหารได้อย่างสมดุล
+                    โดยแต่ละหมวดหมู่อาหารจะมีปริมาณและหน่วยที่เหมาะสมสำหรับ 1
+                    ส่วนแลกเปลี่ยน
+                  </p>
                 </div>
-                <p className="text-gray-700 text-base leading-relaxed">
-                  ระบบอาหารแลกเปลี่ยนช่วยให้คุณสามารถวางแผนการรับประทานอาหารได้อย่างสมดุล
-                  โดยแต่ละหมวดหมู่อาหารจะมีปริมาณและหน่วยที่เหมาะสมสำหรับ 1
-                  ส่วนแลกเปลี่ยน
-                </p>
               </div>
             </div>
 
-            {/* Compact Food Groups */}
+            {/* Enhanced Food Groups */}
             <div className="max-w-5xl mx-auto space-y-8">
               {Object.entries(groupedFoodExchanges).map(
                 ([groupName, exchanges], groupIndex) => (
                   <div
                     key={groupName}
                     className={`
-                    ${
-                      isVisible
-                        ? "animate-in slide-in-from-bottom-8 fade-in duration-700"
-                        : "opacity-0"
-                    }
-                  `}
+                      group relative
+                      ${
+                        isVisible
+                          ? "animate-in slide-in-from-bottom-8 fade-in duration-700"
+                          : "opacity-0"
+                      }
+                    `}
                     style={{ animationDelay: `${200 + groupIndex * 200}ms` }}
                   >
-                    <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-lg border border-white/30 overflow-hidden">
-                      {/* Compact Group Header */}
-                      <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 md:p-5 relative overflow-hidden">
+                    <div className="relative overflow-hidden bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/30 transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:bg-white/90">
+                      {/* Decorative background elements */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/5 to-purple-400/5 rounded-full transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-700"></div>
+                      <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-emerald-400/5 to-blue-400/5 rounded-full transform -translate-x-12 translate-y-12 group-hover:scale-150 transition-transform duration-700"></div>
+
+                      {/* Enhanced Group Header */}
+                      <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-6 md:p-8 overflow-hidden group-hover:from-blue-700 group-hover:to-purple-700 transition-all duration-500">
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         <div className="relative z-10">
                           <div className="flex items-center">
-                            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-lg mr-3 backdrop-blur-sm">
+                            <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center text-2xl mr-4 backdrop-blur-sm group-hover:scale-110 group-hover:bg-white/30 transition-all duration-300 shadow-lg">
                               🍽️
                             </div>
                             <div>
-                              <h2 className="text-xl md:text-2xl font-bold text-white mb-1">
+                              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 group-hover:text-blue-100 transition-colors duration-300">
                                 หมวดหมู่ {groupName}
                               </h2>
-                              <p className="text-white/90 text-sm md:text-base">
+                              <p className="text-white/90 text-base md:text-lg group-hover:text-white transition-colors duration-300">
                                 {groupName} 1 ส่วน เท่ากับ
                               </p>
                             </div>
@@ -190,36 +202,42 @@ const FoodExchanges = () => {
                         </div>
                       </div>
 
-                      {/* Compact Food Items Grid */}
-                      <div className="p-4 md:p-6">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+                      {/* Enhanced Food Items Grid */}
+                      <div className="p-6 md:p-8">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
                           {exchanges.map((exchange, index) => (
                             <div
                               key={exchange.ID}
                               onClick={() => setSelectedItem(exchange)}
                               className={`
-                              group bg-white/60 backdrop-blur-sm rounded-xl border border-white/40 
-                              hover:border-blue-300/50 hover:shadow-lg hover:bg-white/80
-                              transform transition-all duration-300 hover:scale-102 overflow-hidden
-                              ${
-                                isVisible
-                                  ? "animate-in slide-in-from-bottom-4 fade-in"
-                                  : "opacity-0"
-                              }
-                            `}
+                                group/item relative overflow-hidden cursor-pointer
+                                bg-white/60 backdrop-blur-sm rounded-2xl border border-white/40 
+                                hover:border-blue-300/50 hover:shadow-2xl hover:bg-white/90
+                                transform transition-all duration-500 hover:scale-110 hover:-translate-y-2
+                                ${
+                                  isVisible
+                                    ? "animate-in slide-in-from-bottom-4 fade-in"
+                                    : "opacity-0"
+                                }
+                              `}
                               style={{
                                 animationDelay: `${
                                   400 + groupIndex * 200 + index * 50
                                 }ms`,
                               }}
                             >
-                              {/* Compact Food Image */}
+                              {/* Enhanced decorative elements */}
+                              <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full transform translate-x-8 -translate-y-8 group-hover/item:scale-150 group-hover/item:opacity-20 transition-all duration-700"></div>
+                              <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-br from-emerald-400/10 to-blue-400/10 rounded-full transform -translate-x-6 translate-y-6 group-hover/item:scale-150 group-hover/item:opacity-20 transition-all duration-700"></div>
+
+                              {/* Enhanced Food Image */}
                               {exchange.FoodItem?.Image && (
-                                <div className="relative h-20 overflow-hidden">
+                                <div className="relative h-24 overflow-hidden rounded-t-2xl">
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 z-10"></div>
                                   <img
                                     src={exchange.FoodItem.Image}
                                     alt={exchange.FoodItem.Name || "อาหาร"}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    className="w-full h-full object-cover group-hover/item:scale-125 transition-transform duration-700"
                                     onError={(e) => {
                                       const target =
                                         e.target as HTMLImageElement;
@@ -230,30 +248,30 @@ const FoodExchanges = () => {
                                 </div>
                               )}
 
-                              {/* Compact Food Details */}
-                              <div className="p-3">
-                                <div className="text-center mb-3">
-                                  <h3 className="text-sm font-bold text-gray-800 mb-2 group-hover:text-blue-700 transition-colors duration-300 line-clamp-2">
+                              {/* Enhanced Food Details */}
+                              <div className="relative p-4">
+                                <div className="text-center mb-4">
+                                  <h3 className="text-sm font-bold text-gray-800 mb-2 group-hover/item:text-blue-700 transition-colors duration-300 line-clamp-2">
                                     {exchange.FoodItem?.Name || "ไม่ระบุชื่อ"}
                                   </h3>
                                 </div>
 
-                                {/* Compact Amount Display */}
+                                {/* Enhanced Amount Display */}
                                 <div className="relative">
-                                  <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-3 text-center border border-blue-200/50 group-hover:from-blue-100 group-hover:to-indigo-200 transition-all duration-300">
+                                  <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-4 text-center border border-blue-200/50 group-hover/item:from-blue-100 group-hover/item:to-indigo-200 group-hover/item:border-blue-300 group-hover/item:shadow-lg transition-all duration-500">
                                     <div className="flex items-baseline justify-center space-x-1">
-                                      <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                      <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover/item:from-blue-700 group-hover/item:to-purple-700 transition-all duration-300">
                                         {exchange.Amount || "1"}
                                       </span>
-                                      <span className="text-sm text-gray-600 font-semibold">
+                                      <span className="text-sm text-gray-600 font-semibold group-hover/item:text-gray-800 transition-colors duration-300">
                                         {exchange.Unit || "ส่วน"}
                                       </span>
                                     </div>
                                   </div>
 
-                                  {/* Smaller Decorative Elements */}
-                                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                  <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                  {/* Enhanced Decorative Elements */}
+                                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-60 group-hover/item:opacity-100 group-hover/item:scale-125 transition-all duration-300 shadow-lg"></div>
+                                  <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full opacity-60 group-hover/item:opacity-100 group-hover/item:scale-125 transition-all duration-300 shadow-lg"></div>
                                 </div>
                               </div>
                             </div>
@@ -266,7 +284,7 @@ const FoodExchanges = () => {
               )}
             </div>
 
-            {/* Compact Empty State */}
+            {/* Enhanced Empty State */}
             {Object.keys(groupedFoodExchanges).length === 0 && (
               <div
                 className={`
@@ -278,21 +296,27 @@ const FoodExchanges = () => {
                   }
                 `}
               >
-                <div className="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/30">
-                  <div className="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
-                    <span className="text-4xl opacity-60">🍽️</span>
+                <div className="group relative overflow-hidden bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 transition-all duration-500 hover:shadow-2xl hover:scale-105 hover:bg-white/90">
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-gray-400/5 to-gray-500/5 rounded-full transform translate-x-12 -translate-y-12 group-hover:scale-150 transition-transform duration-700"></div>
+                  <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-br from-gray-300/5 to-gray-400/5 rounded-full transform -translate-x-10 translate-y-10 group-hover:scale-150 transition-transform duration-700"></div>
+                  
+                  <div className="relative">
+                    <div className="w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300">
+                      <span className="text-5xl opacity-60 group-hover:opacity-80 transition-opacity duration-300">🍽️</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-700 mb-4 group-hover:text-gray-800 transition-colors duration-300">
+                      ไม่มีข้อมูลอาหารแลกเปลี่ยน
+                    </h3>
+                    <p className="text-gray-600 text-lg leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+                      กรุณาเพิ่มข้อมูลอาหารแลกเปลี่ยนเพื่อแสดงผลในหน้านี้
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-700 mb-3">
-                    ไม่มีข้อมูลอาหารแลกเปลี่ยน
-                  </h3>
-                  <p className="text-gray-600 text-base leading-relaxed">
-                    กรุณาเพิ่มข้อมูลอาหารแลกเปลี่ยนเพื่อแสดงผลในหน้านี้
-                  </p>
                 </div>
               </div>
             )}
 
-            {/* Compact Info Section */}
+            {/* Enhanced Info Section */}
             <div
               className={`
                 max-w-5xl mx-auto mt-8 mb-6
@@ -303,46 +327,59 @@ const FoodExchanges = () => {
                 }
               `}
             >
-              <div className="bg-gradient-to-br from-white/80 to-blue-50/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/30">
-                <div className="text-center">
-                  <div className="flex items-center justify-center mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-xl flex items-center justify-center text-blue-600 mr-3 shadow-lg">
-                      <span className="text-2xl">📊</span>
+              <div className="group relative overflow-hidden bg-gradient-to-br from-white/80 to-blue-50/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 transition-all duration-500 hover:shadow-2xl hover:scale-[1.02] hover:bg-gradient-to-br hover:from-white/90 hover:to-blue-50/90">
+                {/* Enhanced decorative elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/5 to-indigo-400/5 rounded-full transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-700"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-400/5 to-pink-400/5 rounded-full transform -translate-x-12 translate-y-12 group-hover:scale-150 transition-transform duration-700"></div>
+                
+                <div className="relative text-center">
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl flex items-center justify-center text-blue-600 mr-4 shadow-xl group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300">
+                      <span className="text-3xl group-hover:scale-110 transition-transform duration-300">📊</span>
                     </div>
-                    <h4 className="text-xl font-bold text-gray-800">
+                    <h4 className="text-2xl font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
                       วิธีใช้ระบบแลกเปลี่ยน
                     </h4>
                   </div>
 
-                  <div className="grid md:grid-cols-3 gap-4 mt-6">
-                    <div className="bg-white/60 rounded-xl p-4 border border-blue-200/50">
-                      <div className="text-2xl mb-2">🎯</div>
-                      <h5 className="font-bold text-gray-800 mb-1 text-sm">
-                        เลือกอาหาร
-                      </h5>
-                      <p className="text-gray-600 text-xs">
-                        เลือกอาหารจากหมวดหมู่เดียวกันเพื่อแลกเปลี่ยน
-                      </p>
+                  <div className="grid md:grid-cols-3 gap-6 mt-8">
+                    <div className="group/card relative overflow-hidden bg-white/60 rounded-2xl p-6 border border-blue-200/50 transition-all duration-500 hover:shadow-xl hover:scale-105 hover:bg-white/80 hover:border-blue-300">
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-blue-400/5 to-blue-500/5 rounded-full transform translate-x-8 -translate-y-8 group-hover/card:scale-150 transition-transform duration-700"></div>
+                      <div className="relative">
+                        <div className="text-3xl mb-3 group-hover/card:scale-110 transition-transform duration-300">🎯</div>
+                        <h5 className="font-bold text-gray-800 mb-2 text-lg group-hover/card:text-blue-700 transition-colors duration-300">
+                          เลือกอาหาร
+                        </h5>
+                        <p className="text-gray-600 text-sm group-hover/card:text-gray-700 transition-colors duration-300">
+                          เลือกอาหารจากหมวดหมู่เดียวกันเพื่อแลกเปลี่ยน
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="bg-white/60 rounded-xl p-4 border border-green-200/50">
-                      <div className="text-2xl mb-2">⚖️</div>
-                      <h5 className="font-bold text-gray-800 mb-1 text-sm">
-                        ชั่งปริมาณ
-                      </h5>
-                      <p className="text-gray-600 text-xs">
-                        ใช้ปริมาณที่แสดงเป็น 1 ส่วนแลกเปลี่ยน
-                      </p>
+                    <div className="group/card relative overflow-hidden bg-white/60 rounded-2xl p-6 border border-green-200/50 transition-all duration-500 hover:shadow-xl hover:scale-105 hover:bg-white/80 hover:border-green-300">
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-green-400/5 to-green-500/5 rounded-full transform translate-x-8 -translate-y-8 group-hover/card:scale-150 transition-transform duration-700"></div>
+                      <div className="relative">
+                        <div className="text-3xl mb-3 group-hover/card:scale-110 transition-transform duration-300">⚖️</div>
+                        <h5 className="font-bold text-gray-800 mb-2 text-lg group-hover/card:text-green-700 transition-colors duration-300">
+                          ชั่งปริมาณ
+                        </h5>
+                        <p className="text-gray-600 text-sm group-hover/card:text-gray-700 transition-colors duration-300">
+                          ใช้ปริมาณที่แสดงเป็น 1 ส่วนแลกเปลี่ยน
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="bg-white/60 rounded-xl p-4 border border-purple-200/50">
-                      <div className="text-2xl mb-2">🎉</div>
-                      <h5 className="font-bold text-gray-800 mb-1 text-sm">
-                        สนุกกับการทาน
-                      </h5>
-                      <p className="text-gray-600 text-xs">
-                        เพลิดเพลินกับอาหารที่หลากหลายและมีประโยชน์
-                      </p>
+                    <div className="group/card relative overflow-hidden bg-white/60 rounded-2xl p-6 border border-purple-200/50 transition-all duration-500 hover:shadow-xl hover:scale-105 hover:bg-white/80 hover:border-purple-300">
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-400/5 to-purple-500/5 rounded-full transform translate-x-8 -translate-y-8 group-hover/card:scale-150 transition-transform duration-700"></div>
+                      <div className="relative">
+                        <div className="text-3xl mb-3 group-hover/card:scale-110 transition-transform duration-300">🎉</div>
+                        <h5 className="font-bold text-gray-800 mb-2 text-lg group-hover/card:text-purple-700 transition-colors duration-300">
+                          สนุกกับการทาน
+                        </h5>
+                        <p className="text-gray-600 text-sm group-hover/card:text-gray-700 transition-colors duration-300">
+                          เพลิดเพลินกับอาหารที่หลากหลายและมีประโยชน์
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

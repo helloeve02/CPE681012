@@ -117,21 +117,7 @@ const ChooseAvoid = () => {
               preview={false}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             />
-            <div
-              className={`
-              absolute inset-0 opacity-0 group-hover:opacity-100 
-              transition-opacity duration-300 flex items-center justify-center
-              ${
-                isRecommended
-                  ? "bg-gradient-to-t from-green-600/80 to-green-400/40"
-                  : "bg-gradient-to-t from-red-600/80 to-red-400/40"
-              }
-            `}
-            >
-              <div className="text-white font-medium text-center px-2">
-                คลิกเพื่อดูรายละเอียด
-              </div>
-            </div>
+            
           </div>
 
           <div className="p-3">
