@@ -49,6 +49,7 @@ import AdminManage from "./pages/Admin/adminmanage"
 import FoodExchanges from "./pages/Nutrition/FoodExchanges";
 import DiabetesResultPage from "./pages/Assessment/Diabetes/DiabetesResultPage ";
 import KidneyRiskResultsPage from "./pages/Assessment/Kidney/KidneyResult";
+import Menulabel from "./pages/Menu/menulabel"
 const AppContent = () => {
   const location = useLocation();
 
@@ -104,6 +105,7 @@ const AppContent = () => {
         <Route path="/menutaste" element={<MenuTaste />} />
         <Route path="/admin/adminmanage" element={<PrivateRoute><AdminManage /></PrivateRoute>} />
         <Route path="/food-exchanges" element={<FoodExchanges />} />
+        <Route path="/menulabel" element={<Menulabel />} />
       </Routes>
     </>
   );
