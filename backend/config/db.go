@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"math/rand"
+
 	// "time"
 	// "log"
 	"github.com/helloeve02/CPE681012/entity"
@@ -55,6 +56,7 @@ func SetupDatabase() {
 		&entity.EducationalGroup{},
 		&entity.FoodChoice{},
 		&entity.FoodchoiceDisease{},
+		&entity.FoodExchange{},
 	)
 	if err != nil {
 		panic("failed to migrate database: " + err.Error())
@@ -1184,85 +1186,85 @@ func SetupDatabase() {
 			Credit: "https://cookinghub.in.th/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3-%E0%B8%8B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A%E0%B9%81%E0%B8%A5/",
 		},
 	}
-	
+
 	for _, pkg := range Menu {
 		db.FirstOrCreate(&pkg, entity.Menu{Title: pkg.Title})
 	}
 
 	// 1️⃣ สร้าง Mealplans
-    mealplans := []entity.Mealplan{
-        {DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
-        {DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
-        {DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
-        {DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
-        {DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
-    }
+	mealplans := []entity.Mealplan{
+		{DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
+		{DiseaseID: 2, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 3b-5"},
+		{DiseaseID: 3, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ HD"},
+		{DiseaseID: 4, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ CAPD"},
+		{DiseaseID: 5, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคเบาหวาน"},
+	}
 
-    for i := range mealplans {
-        db.FirstOrCreate(&mealplans[i], map[string]interface{}{
-            "disease_id": mealplans[i].DiseaseID,
-            "plan_name":  mealplans[i].PlanName,
-        })
-    }
+	for i := range mealplans {
+		db.FirstOrCreate(&mealplans[i], map[string]interface{}{
+			"disease_id": mealplans[i].DiseaseID,
+			"plan_name":  mealplans[i].PlanName,
+		})
+	}
 
-    // 2️⃣ สร้าง Mealdays (1 แผนอาหาร = 7 วัน)
-    mealdays := []entity.Mealday{}
-    daysOfWeek := []string{"วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์", "วันอาทิตย์"}
+	// 2️⃣ สร้าง Mealdays (1 แผนอาหาร = 7 วัน)
+	mealdays := []entity.Mealday{}
+	daysOfWeek := []string{"วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์", "วันอาทิตย์"}
 
-    for _, plan := range mealplans {
-        for _, day := range daysOfWeek {
-            mealdays = append(mealdays, entity.Mealday{
-                MealplanID: plan.ID,
-                DayofWeek:  day,
-            })
-        }
-    }
+	for _, plan := range mealplans {
+		for _, day := range daysOfWeek {
+			mealdays = append(mealdays, entity.Mealday{
+				MealplanID: plan.ID,
+				DayofWeek:  day,
+			})
+		}
+	}
 
-    for i := range mealdays {
-        db.FirstOrCreate(&mealdays[i], map[string]interface{}{
-            "mealplan_id": mealdays[i].MealplanID,
-            "dayof_week":  mealdays[i].DayofWeek,
-        })
-    }
+	for i := range mealdays {
+		db.FirstOrCreate(&mealdays[i], map[string]interface{}{
+			"mealplan_id": mealdays[i].MealplanID,
+			"dayof_week":  mealdays[i].DayofWeek,
+		})
+	}
 
-    // 3️⃣ สร้าง Meals (เช้า, ว่าง, กลางวัน, เย็น)
-    mealTypes := []string{"มื้อเช้า", "มื้อว่าง", "มื้อกลางวัน", "มื้อเย็น"}
-    meals := []entity.Meal{}
+	// 3️⃣ สร้าง Meals (เช้า, ว่าง, กลางวัน, เย็น)
+	mealTypes := []string{"มื้อเช้า", "มื้อว่าง", "มื้อกลางวัน", "มื้อเย็น"}
+	meals := []entity.Meal{}
 
-    for _, day := range mealdays {
-        for _, mType := range mealTypes {
-            meals = append(meals, entity.Meal{
-                MealdayID: day.ID,
-                MealType:  mType,
-            })
-        }
-    }
+	for _, day := range mealdays {
+		for _, mType := range mealTypes {
+			meals = append(meals, entity.Meal{
+				MealdayID: day.ID,
+				MealType:  mType,
+			})
+		}
+	}
 
-    for i := range meals {
-        db.FirstOrCreate(&meals[i], map[string]interface{}{
-            "mealday_id": meals[i].MealdayID,
-            "meal_type":  meals[i].MealType,
-        })
-    }
+	for i := range meals {
+		db.FirstOrCreate(&meals[i], map[string]interface{}{
+			"mealday_id": meals[i].MealdayID,
+			"meal_type":  meals[i].MealType,
+		})
+	}
 
-    // 4️⃣ สร้าง MealMenus แบบสุ่ม (ตัวอย่าง MenuID สมมติเป็น 1-30)
-    mealMenus := []entity.MealMenu{}
-    for _, meal := range meals {
-        menuID := uint(rand.Intn(30) + 1) // 1-30
-        mealMenus = append(mealMenus, entity.MealMenu{
-            MealID:      meal.ID,
-            MenuID:      menuID,
-            PortionText: "",
-        })
-    }
+	// 4️⃣ สร้าง MealMenus แบบสุ่ม (ตัวอย่าง MenuID สมมติเป็น 1-30)
+	mealMenus := []entity.MealMenu{}
+	for _, meal := range meals {
+		menuID := uint(rand.Intn(30) + 1) // 1-30
+		mealMenus = append(mealMenus, entity.MealMenu{
+			MealID:      meal.ID,
+			MenuID:      menuID,
+			PortionText: "",
+		})
+	}
 
-    for i := range mealMenus {
-        db.FirstOrCreate(&mealMenus[i], map[string]interface{}{
-            "meal_id":      mealMenus[i].MealID,
-            "menu_id":      mealMenus[i].MenuID,
-            "portion_text": mealMenus[i].PortionText,
-        })
-    }
+	for i := range mealMenus {
+		db.FirstOrCreate(&mealMenus[i], map[string]interface{}{
+			"meal_id":      mealMenus[i].MealID,
+			"menu_id":      mealMenus[i].MenuID,
+			"portion_text": mealMenus[i].PortionText,
+		})
+	}
 
 	/* Mealplans := []entity.Mealplan{
 		{AdminID: 1 , DiseaseID: 1, PlanName: "แผนอาหารสำหรับผู้ป่วยโรคไตระยะ 1-3a"},
@@ -2884,8 +2886,8 @@ func SetupDatabase() {
 		{MenuID: 40, TagID: 11},
 		{MenuID: 41, TagID: 3},
 		{MenuID: 41, TagID: 7},
-		{MenuID: 42, TagID: 3},// ป่นปลา
-		{MenuID: 42, TagID: 9},// ป่นปลา
+		{MenuID: 42, TagID: 3},  // ป่นปลา
+		{MenuID: 42, TagID: 9},  // ป่นปลา
 		{MenuID: 43, TagID: 15}, //ซาหริ่ม
 	}
 	db.Create(&MenuTag)
@@ -2934,6 +2936,14 @@ func SetupDatabase() {
 		{
 			Flag:        "ควรรับประทาน", //แป้งปลอดโปรตีน //11
 			FoodGroupID: 2,
+		},
+		{
+			Flag:        "-", 
+			FoodGroupID: 1,
+		},
+		{
+			Flag:        "-", 
+			FoodGroupID: 4,
 		},
 	}
 
@@ -3357,28 +3367,28 @@ func SetupDatabase() {
 			Description: "โปรตีนคุณภาพดี",
 			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
 		},
-			{
+		{
 			Name:        "เนื้อไก่ไม่มีหนัง/อกไก่/สันในไก่",
 			Image:       "https://img.thaicdn.net/u/2017/wanchalerm/Health_01_60/chic.jpg",
 			Credit:      "https://health.kapook.com/view166661.html",
 			Description: "โปรตีนคุณภาพดี",
 			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
 		},
-			{
+		{
 			Name:        "เนื้อกุ้งสุก",
 			Image:       "https://cheewajit.com/app/uploads/2018/07/588f7f8017000025002d93f4.jpeg",
 			Credit:      "https://cheewajit.com/healthy-food/recipe/103077.html",
 			Description: "โปรตีนคุณภาพดี",
 			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
 		},
-			{
+		{
 			Name:        "เนื้อปลาสุก",
 			Image:       "https://api2.krua.co/wp-content/uploads/2023/02/BannerMobile_960x633-16.jpg",
 			Credit:      "https://api2.krua.co/cooking_post/cooked-fish-tips/",
 			Description: "โปรตีนคุณภาพดี",
 			FoodFlagID:  10, //เนื้อสัตว์ควรรับประทาน
 		},
-			{
+		{
 			Name:        "ไข่ขาวต้ม",
 			Image:       "https://th-test-11.slatic.net/p/f43ff1cbdca2e92da80ed6377ad72bbb.jpg",
 			Credit:      "https://www.lazada.co.th/products/100-500-i4835057710.html",
@@ -3489,6 +3499,41 @@ func SetupDatabase() {
 			Credit:      "https://www.moac.go.th/news-preview-452991792546",
 			Description: "ไขมันอิ่มตัว",
 			FoodFlagID:  9,
+		},
+		{
+			Name:        "เส้นใหญ่",
+			Image:       "https://static.cdntap.com/tap-assets-prod/wp-content/uploads/sites/25/2021/12/twine3.jpg?width=700&quality=95",
+			Credit:      "https://th.theasianparent.com/big-flat-noodles-menu",
+			Description: "-",
+			FoodFlagID:  12,
+		},
+		{
+			Name:        "บะหมี่",
+			Image:       "https://www.calforlife.com/image/food/Noodles.jpg",
+			Credit:      "https://www.calforlife.com/th/calories/noodles",
+			Description: "-",
+			FoodFlagID:  12,
+		},
+		{
+			Name:        "ข้าวโพด",
+			Image:       "https://www.calforlife.com/image/food/Sweet-Corn-Boiled.jpg",
+			Credit:      "https://www.calforlife.com/th/calories/Sweet-Corn-Boiled",
+			Description: "-",
+			FoodFlagID:  12,
+		},
+		{
+			Name:        "มะละกอสุก",
+			Image:       "https://www.simahealthcare.com/image/catalog/01-simaxray/ppp/aHR0cHM6Ly9zLmlzYW5vb2suY29tL3dvLzAvdWQvMTEvNTkwMzkvcGFwYXlhLmpwZw==.jpg",
+			Credit:      "https://www.simahealthcare.com/content/list?article_id=81&article_type=1",
+			Description: "-",
+			FoodFlagID:  13,
+		},
+		{
+			Name:        "กล้วยน้ำว้า",
+			Image:       "https://v3i.rweb-images.com/www.disthai.com/images/content/original-1634715683568.jpg",
+			Credit:      "https://www.disthai.com/16915273/%E0%B8%81%E0%B8%A5%E0%B9%89%E0%B8%A7%E0%B8%A2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A7%E0%B9%89%E0%B8%B2",
+			Description: "-",
+			FoodFlagID:  13,
 		},
 	}
 
@@ -4217,149 +4262,187 @@ func SetupDatabase() {
 
 	FoodChoice := []entity.FoodChoice{
 		{
-			FoodName:        "นม และผลิตภัณฑ์นมไขมันต่ำหรือไร้ไขมัน",
+			FoodName: "นม และผลิตภัณฑ์นมไขมันต่ำหรือไร้ไขมัน",
 		},
 		{
-			FoodName:        "เนื้อสัตว์ไม่ติดหนัง ไม่ติดมัน เนื้อหมู เนื้อไก่ เนื้อวัว อาหารทะเล ไข่ ไข่ขาว เต้าหู้ โปรตีนเกษตร",
+			FoodName: "เนื้อสัตว์ไม่ติดหนัง ไม่ติดมัน เนื้อหมู เนื้อไก่ เนื้อวัว อาหารทะเล ไข่ ไข่ขาว เต้าหู้ โปรตีนเกษตร",
 		},
 		{
-			FoodName:        "ธัญพืชและผลิตภัณฑ์: ข้าว แป้ง ก๋วยเตี๋ยว ขนมจีน ขนมปัง ข้าวโพด ข้าวฟ่าง ข้าวโอ๊ต ทั้งขัดสี และไม่ขัดสี",
+			FoodName: "ธัญพืชและผลิตภัณฑ์: ข้าว แป้ง ก๋วยเตี๋ยว ขนมจีน ขนมปัง ข้าวโพด ข้าวฟ่าง ข้าวโอ๊ต ทั้งขัดสี และไม่ขัดสี",
 		},
 		{
-			FoodName:        "ถั่ว: ถั่วเหลือง ถั่วเหลือง ถั่วเขียว ถั่วแดง ถั่วดำ ถั่วลิสง เม็ดมะม่วงหิมพานต์ อัลมอลด์ ",
+			FoodName: "ถั่ว: ถั่วเหลือง ถั่วเหลือง ถั่วเขียว ถั่วแดง ถั่วดำ ถั่วลิสง เม็ดมะม่วงหิมพานต์ อัลมอลด์ ",
 		},
 		{
-			FoodName:        "น้ำมันชนิดดี: น้ำมันพืช น้ำมันรำข้าว น้ำมันมะกอก น้ำมันถั่วเหลือง",
+			FoodName: "น้ำมันชนิดดี: น้ำมันพืช น้ำมันรำข้าว น้ำมันมะกอก น้ำมันถั่วเหลือง",
 		},
 		{
-			FoodName:        "ไขมันอิ่มตัว ไขมันทรานส์",
+			FoodName: "ไขมันอิ่มตัว ไขมันทรานส์",
 		},
 		{
-			FoodName:        "สมุนไพร และเครื่องเทศ",
+			FoodName: "สมุนไพร และเครื่องเทศ",
 		},
 		{
-			FoodName:        "้เกลือ น้ำปลา ซีอิ้ว เครื่องปรุงรสที่มีโซเดียม",
+			FoodName: "้เกลือ น้ำปลา ซีอิ้ว เครื่องปรุงรสที่มีโซเดียม",
 		},
 		{
-			FoodName:        "ขนมหวาน น้ำตาล เครื่องดื่มที่ใส่น้ำตาล",
+			FoodName: "ขนมหวาน น้ำตาล เครื่องดื่มที่ใส่น้ำตาล",
 		},
 		{
-			FoodName:        "อาหารที่มีฟอสฟอรัสแอบซ่อน",
+			FoodName: "อาหารที่มีฟอสฟอรัสแอบซ่อน",
 		},
 	}
 
 	for _, foodchoice := range FoodChoice {
 		db.FirstOrCreate(&foodchoice, entity.FoodChoice{
-			FoodName:        foodchoice.FoodName,})
+			FoodName: foodchoice.FoodName})
 	}
 
-		FoodchoiceDisease := []entity.FoodchoiceDisease{
+	FoodchoiceDisease := []entity.FoodchoiceDisease{
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        1,
-			Description:        "รับประทานในปริมาณที่เหมาะสม",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 1,
+			Description:  "รับประทานในปริมาณที่เหมาะสม",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        2,
-			Description:        "รับประทานในปริมาณที่เหมาะสม",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 2,
+			Description:  "รับประทานในปริมาณที่เหมาะสม",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        3,
-			Description:        "รับประทานให้หลากหลายในปริมาณที่เหมาะสม",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 3,
+			Description:  "รับประทานให้หลากหลายในปริมาณที่เหมาะสม",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        4,
-			Description:        "รับประทานในปริมาณที่เหมาะสม",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 4,
+			Description:  "รับประทานในปริมาณที่เหมาะสม",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        5,
-			Description:        "รับประทานในปริมาณที่เหมาะสม",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 5,
+			Description:  "รับประทานในปริมาณที่เหมาะสม",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        6,
-			Description:        "หลีกเลี่ยง",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 6,
+			Description:  "หลีกเลี่ยง",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        7,
-			Description:        "ใช้ได้",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 7,
+			Description:  "ใช้ได้",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        8,
-			Description:        "จำกัดการรับประทาน",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 8,
+			Description:  "จำกัดการรับประทาน",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        9,
-			Description:        "จำกัดการรับประทาน",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 9,
+			Description:  "จำกัดการรับประทาน",
 		},
 		{
-			DiseaseID:        1, //1-3a
-			FoodChoiceID:        10,
-			Description:        "หลีกเลี่ยงเด็ดขาด",
+			DiseaseID:    1, //1-3a
+			FoodChoiceID: 10,
+			Description:  "หลีกเลี่ยงเด็ดขาด",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        1,
-			Description:        "มีโปรตีน มีโพแทสเซียม และฟอสฟอรัสสูง",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 1,
+			Description:  "มีโปรตีน มีโพแทสเซียม และฟอสฟอรัสสูง",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        2,
-			Description:        "จำกัดปริมาณและ ระวังโพแทสเซียมและฟอสฟอรัสในอาหารบางชนิด",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 2,
+			Description:  "จำกัดปริมาณและ ระวังโพแทสเซียมและฟอสฟอรัสในอาหารบางชนิด",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        3,
-			Description:        "ธัญพืชและผลิตภัณฑ์ที่ไม่ขัดสีมีโพแทสเซียมและฟอสฟอรัสสูง",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 3,
+			Description:  "ธัญพืชและผลิตภัณฑ์ที่ไม่ขัดสีมีโพแทสเซียมและฟอสฟอรัสสูง",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        4,
-			Description:        "มีทั้งโพแทสเซียมและฟอสฟอรัสสูง",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 4,
+			Description:  "มีทั้งโพแทสเซียมและฟอสฟอรัสสูง",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        5,
-			Description:        "รับประทานในปริมาณที่เหมาะสม",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 5,
+			Description:  "รับประทานในปริมาณที่เหมาะสม",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        6,
-			Description:        "หลีกเลี่ยง",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 6,
+			Description:  "หลีกเลี่ยง",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        7,
-			Description:        "ใช้ได้",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 7,
+			Description:  "ใช้ได้",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        8,
-			Description:        "จำกัดการรับประทาน",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 8,
+			Description:  "จำกัดการรับประทาน",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        9,
-			Description:        "จำกัดการรับประทาน",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 9,
+			Description:  "จำกัดการรับประทาน",
 		},
 		{
-			DiseaseID:        2, //3b-5
-			FoodChoiceID:        10,
-			Description:        "หลีกเลี่ยงเด็ดขาด",
+			DiseaseID:    2, //3b-5
+			FoodChoiceID: 10,
+			Description:  "หลีกเลี่ยงเด็ดขาด",
 		},
 	}
 
 	for _, foodchoicedisease := range FoodchoiceDisease {
 		db.FirstOrCreate(&foodchoicedisease, entity.FoodchoiceDisease{
-			DiseaseID:       foodchoicedisease.DiseaseID,
-			FoodChoiceID:     foodchoicedisease.FoodChoiceID,
-			Description:     foodchoicedisease.Description,})
+			DiseaseID:    foodchoicedisease.DiseaseID,
+			FoodChoiceID: foodchoicedisease.FoodChoiceID,
+			Description:  foodchoicedisease.Description})
 	}
+
+	FoodExchanges := []entity.FoodExchange{
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 1},
+		{Amount: "1/2", Unit: "ทัพพี", FoodItemID: 2},
+		{Amount: "2", Unit: "ทัพพี", FoodItemID: 3},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 15},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 4},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 12},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 13},
+		{Amount: "2", Unit: "ทัพพี", FoodItemID: 14},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 9},
+		{Amount: "1", Unit: "แผ่น", FoodItemID: 10},
+		{Amount: "6", Unit: "แผ่น", FoodItemID: 11},
+		{Amount: "6-8", Unit: "ชิ้น", FoodItemID: 22},
+		{Amount: "6-8", Unit: "ชิ้น", FoodItemID: 23},
+		{Amount: "1/2", Unit: "ผล", FoodItemID: 25},
+		{Amount: "1/2", Unit: "ผลกลาง", FoodItemID: 26},
+		{Amount: "1/2", Unit: "ผล", FoodItemID: 27},
+		{Amount: "1/2", Unit: "ผล", FoodItemID: 28},
+		{Amount: "1", Unit: "ผลเล็ก", FoodItemID: 16},
+		{Amount: "1", Unit: "ผลใหญ่", FoodItemID: 33},
+		{Amount: "1", Unit: "เม็ดเล็ก", FoodItemID: 34},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 79},
+		{Amount: "1", Unit: "ทัพพี", FoodItemID: 80},
+		{Amount: "1/2", Unit: "ฝักใหญ่", FoodItemID: 81},
+		{Amount: "6-8", Unit: "ชิ้น", FoodItemID: 82},
+		{Amount: "1", Unit: "ผล", FoodItemID: 83},
+
+	}
+
+	for _, foodexchange := range FoodExchanges {
+		db.FirstOrCreate(&foodexchange, entity.FoodExchange{
+			Amount:     foodexchange.Amount,
+			Unit:       foodexchange.Unit,
+			FoodItemID: foodexchange.FoodItemID,
+		})
+	}
+
 }

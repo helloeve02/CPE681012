@@ -10,6 +10,7 @@ import {
   ExclamationCircleOutlined,
   FireOutlined,
 } from "@ant-design/icons";
+import { getValidRule } from "../../services/https/ruleUtils";
 
 const data = [
   {
@@ -69,9 +70,18 @@ const data = [
 const ImportanceOfNutrition = () => {
   const [isLoading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const [ruleNum, setRuleNum] = useState<number | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const ruleNum = getValidRule();
+    if (!ruleNum) {
+      navigate("/nutrition");
+      return;
+    }
+
+    setRuleNum(ruleNum);
+
     setTimeout(() => {
       setLoading(false);
       setTimeout(() => setIsVisible(true), 100);
@@ -147,10 +157,10 @@ const ImportanceOfNutrition = () => {
                   <div
                     key={index}
                     onClick={() =>
-                                  navigate("/choose-avoid", {
-                                    state: { scrollTo: item.linkto },
-                                  })
-                                } 
+                      navigate("/choose-avoid", {
+                        state: { scrollTo: item.linkto },
+                      })
+                    }
                     className={`
                       group cursor-pointer transform transition-all duration-500
                       hover:scale-[1.02] hover:shadow-2xl
@@ -204,16 +214,10 @@ const ImportanceOfNutrition = () => {
                               {item.title}
                             </h3>
                             <div className="flex items-center text-gray-500 group-hover:text-blue-600 transition-colors duration-300">
-                              <span
-                                
-                                className="text-sm font-medium mr-2 hidden sm:inline"
-                              >
+                              <span className="text-sm font-medium mr-2 hidden sm:inline">
                                 ดูอาหารแนะนำ
                               </span>
-                              <ArrowRightOutlined
-                                
-                                className="transform group-hover:translate-x-1 transition-transform duration-300"
-                              />
+                              <ArrowRightOutlined className="transform group-hover:translate-x-1 transition-transform duration-300" />
                             </div>
                           </div>
 
@@ -284,6 +288,104 @@ const ImportanceOfNutrition = () => {
                 ))}
               </div>
 
+              {/* Nutritional Deficiency Warning Section */}
+              {ruleNum! > 0 && (ruleNum! < 17 || ruleNum! > 22) && (
+                <div
+                  className={`
+                mt-12 transition-all duration-700
+                ${
+                  isVisible
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-8 opacity-0"
+                }
+              `}
+                  style={{ transitionDelay: "500ms" }}
+                >
+                  <div className="bg-gradient-to-r from-orange-50/90 to-red-50/90 backdrop-blur-md rounded-3xl p-6 md:p-8 border border-orange-200/50 shadow-xl">
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center shadow-lg">
+                        <div className="text-2xl text-white">⚠</div>
+                      </div>
+                      <div>
+                        <h3 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                          สัญญาณบอกเหตุ ภาวะขาดสารอาหารใน
+                          ผู้ป่วยฟอกเลือดด้วยเครื่องไตเทียม
+                        </h3>
+                        <p className="text-gray-600">
+                          สัญญาณของร่างกายอะไรบ้าง ที่เป็นสัญญาณที่มักพบใน
+                          กลุ่มผู้ป่วยฟอกเลือดด้วยเครื่องไตเทียมที่มีภาวะขาดสารอาหาร
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-white/70 rounded-2xl p-6 mb-6 border border-orange-200/50">
+                      <h4 className="font-bold text-gray-800 mb-4 flex items-center">
+                        <div className="text-orange-500 mr-3 text-xl">👤</div>
+                        วิธีการประเมิน ภาวะขาดสารอาหารเบื้องต้น
+                      </h4>
+                      <div className="space-y-4">
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            1
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-gray-800 font-medium">
+                              เบื่ออาหาร รับประทานอาหารน้อยกว่า ที่เคยทานได้
+                            </div>
+                            <div className="text-gray-600 text-sm mt-1">
+                              ติดต่อกันนานมากกว่า 7 วัน
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            2
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-gray-800 font-medium">
+                              น้ำหนักตัวลดลงโดยไม่ได้ตั้งใจ
+                            </div>
+                            <div className="text-gray-600 text-sm mt-1">
+                              &gt;5% ในช่วง 3 เดือนที่ผ่านมา
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            3
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-gray-800 font-medium">
+                              ดัชนีมวลกาย (BMI)
+                            </div>
+                            <div className="text-gray-600 text-sm mt-1">
+                              &lt; 18.5 กก./ตร.ม.
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-r from-red-100/80 to-pink-100/80 rounded-2xl p-5 border border-red-200">
+                      <div className="flex items-start gap-3">
+                        <div className="text-red-500 text-xl mt-1 flex-shrink-0">
+                          ❗
+                        </div>
+                        <div>
+                          <div className="font-bold text-red-800 mb-2">
+                            หากคุณเริ่มมีสัญญาณของภาวะขาดสารอาหาร
+                          </div>
+                          <div className="text-red-700">
+                            ให้รีบปรึกษาแพทย์หรือบุคลากรทางการแพทย์
+                            เพื่อรับคำแนะนำและรับการรักษาต่อไป
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Call to Action */}
               <div
                 className={`
@@ -297,7 +399,7 @@ const ImportanceOfNutrition = () => {
               >
                 <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl p-8 border border-blue-200/50">
                   <div className="text-2xl font-bold text-gray-800 mb-4">
-                    แล้วมีอาหารอะไรบ้างที่ควรกิน แล้วก็ไม่ควรกิน??
+                    แล้วมีอาหารอะไรบ้างที่ควรกิน แล้วก็ไม่ควรกิน?
                   </div>
                   <p className="text-gray-600 mb-6">
                     อยากรู้ว่าอะไรควรกินหรือหลีกเลี่ยง?

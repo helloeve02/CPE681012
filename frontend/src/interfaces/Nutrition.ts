@@ -27,3 +27,7 @@ export interface RuleData {
   IBWMax: number;
 }
 
+export interface ConditionalCardItem {
+  name: string;
+  description: string;
+}

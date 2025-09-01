@@ -76,6 +76,7 @@ func main() {
 		r.PATCH("/content/:id", controller.UpdateContent)
 		r.PATCH("/admin/:id", controller.UpdateUser)
 		r.DELETE("/admin/:id", controller.DeleteUser)
+		r.GET("/foodexchanges", controller.GetAllFoodExchanges)
 	}
 
 	r.GET("/", func(c *gin.Context) {
