@@ -32,7 +32,15 @@ import {
   GetDiabeticDesserts,
   GetAllMenu,
 } from "../../services/https/index";
-import { setWithTTL, getValidItem, clearKey, makePlanFingerprint } from "../../services/https/ruleUtils";
+import {
+  setWithTTL,
+  getValidItem,
+  clearKey,
+  makePlanFingerprint,
+} from "../../services/https/ruleUtils";
+import MealPlanPDF from "./MealPlanPDF";
+import { pdf } from "@react-pdf/renderer";
+import saveAs from "file-saver";
 
 /* -------------------------------------------
  *  Utilities: ตัวช่วยอ่าน payload ที่รูปทรงไม่แน่นอน
@@ -45,15 +53,20 @@ const extractArray = <T,>(...candidates: any[]): T[] => {
 const extractTags = (resp: any): TagInterface[] =>
   extractArray<TagInterface>(
     resp?.data?.tags,
-    resp?.data?.tag,      // <— เพิ่ม
+    resp?.data?.tag, // <— เพิ่ม
     resp?.tags,
-    resp?.tag,            // <— เพิ่ม
+    resp?.tag, // <— เพิ่ม
     resp?.data,
     resp
   );
 
 const extractMenus = (resp: any): MenuInterface[] =>
-  extractArray<MenuInterface>(resp?.data?.menus, resp?.menus, resp?.data?.menu, resp);
+  extractArray<MenuInterface>(
+    resp?.data?.menus,
+    resp?.menus,
+    resp?.data?.menu,
+    resp
+  );
 
 const extractFruits = (resp: any): FoodItemInterface[] =>
   extractArray<FoodItemInterface>(
@@ -64,7 +77,10 @@ const extractFruits = (resp: any): FoodItemInterface[] =>
     resp
   );
 
-const extractDesserts = (resp: any, key: "desserts" | "diabeticDesserts"): MenuInterface[] =>
+const extractDesserts = (
+  resp: any,
+  key: "desserts" | "diabeticDesserts"
+): MenuInterface[] =>
   extractArray<MenuInterface>(resp?.data?.[key], resp?.[key], resp);
 
 /* -------------------------------------------
@@ -102,7 +118,7 @@ const SLOT_CONFIGS_CACHE_KEY = "slotConfigs:v1";
 const SELECTED_DISEASE_ID_KEY = "selectedDiseaseId:v1";
 const LAST_RANDOMIZED_KEY = "lastRandomized:v1";
 const TTL_MS = 2 * 60 * 60 * 1000; // 2 ชั่วโมง (ปรับได้)
- /* const TTL_MS = 5 * 1000; //เอาไว้เทส */
+/* const TTL_MS = 5 * 1000; //เอาไว้เทส */
 // ====== Cache types ======
 type CachedPlan = {
   plan: MealPlan;
@@ -148,9 +164,9 @@ const days: DayName[] = [
 // มื้อใน 1 วัน
 interface DailyMeals {
   เช้า: MealMenuInterface[];
-  "ว่างเช้า": MealMenuInterface[];
+  ว่างเช้า: MealMenuInterface[];
   กลางวัน: MealMenuInterface[];
-  "ว่างบ่าย": MealMenuInterface[];
+  ว่างบ่าย: MealMenuInterface[];
   เย็น: MealMenuInterface[];
 }
 
@@ -198,6 +214,7 @@ const MealPlannerApp = () => {
   const [showRecommendations, setShowRecommendations] = useState(false);
   const [showSlotConfig, setShowSlotConfig] = useState(false);
 
+  const [plannedMeal, setPlannedMeal] = useState<MealPlan | null>(null);
   const [currentMealPlan, setCurrentMealPlan] = useState<MealPlan>({});
   const [isRandomizing, setIsRandomizing] = useState(false);
   const [lastRandomized, setLastRandomized] = useState<Date>(new Date(0)); // (6) default = 0 → แสดง "—"
@@ -226,8 +243,15 @@ const MealPlannerApp = () => {
     const hasFruit = fruits.length > 0;
     const hasAnyDessert = desserts.length > 0 || diabeticDesserts.length > 0;
     // ผู้ป่วยเบาหวาน: ต้องมี "ผลไม้" หรือ "ของหวานเบาหวาน" อย่างน้อยหนึ่งอย่าง
-    return selectedDisease.ID === 5 ? hasFruit || diabeticDesserts.length > 0 : hasFruit || hasAnyDessert;
-  }, [fruits.length, desserts.length, diabeticDesserts.length, selectedDisease.ID]);
+    return selectedDisease.ID === 5
+      ? hasFruit || diabeticDesserts.length > 0
+      : hasFruit || hasAnyDessert;
+  }, [
+    fruits.length,
+    desserts.length,
+    diabeticDesserts.length,
+    selectedDisease.ID,
+  ]);
 
   /* -------------------------------------------
    *  Data loaders
@@ -242,7 +266,9 @@ const MealPlannerApp = () => {
 
       setFruits(extractFruits(fruitsRes).map(normFood));
       setDesserts(extractDesserts(dessertsRes, "desserts").map(normMenu));
-      setDiabeticDesserts(extractDesserts(diabeticDessertsRes, "diabeticDesserts").map(normMenu));
+      setDiabeticDesserts(
+        extractDesserts(diabeticDessertsRes, "diabeticDesserts").map(normMenu)
+      );
     } catch (e) {
       console.error("Error loading additional data:", e);
     }
@@ -282,7 +308,9 @@ const MealPlannerApp = () => {
       setAllTags(rawTags.map(normTag));
 
       // restore slotConfigs
-      const savedSlots = getValidItem<SlotConfigInterface[]>(SLOT_CONFIGS_CACHE_KEY);
+      const savedSlots = getValidItem<SlotConfigInterface[]>(
+        SLOT_CONFIGS_CACHE_KEY
+      );
       if (Array.isArray(savedSlots) && savedSlots.length) {
         setSlotConfigs(savedSlots);
       }
@@ -297,7 +325,11 @@ const MealPlannerApp = () => {
   const loadFoodChoicesByDisease = async (diseaseId: number) => {
     try {
       const resp = await GetFoodChoicesByDiseaseID(diseaseId);
-      const items = extractArray<FoodchoiceDiseaseInterface>(resp, resp?.data, resp?.data?.data);
+      const items = extractArray<FoodchoiceDiseaseInterface>(
+        resp,
+        resp?.data,
+        resp?.data?.data
+      );
       setFoodChoiceDiseases(items);
     } catch (e) {
       console.error("Error loading food choices:", e);
@@ -356,8 +388,19 @@ const MealPlannerApp = () => {
           โพแทสเซียม: "3,500-4,500 มก./วัน",
         },
         foods: {
-          แนะนำ: ["นมและผลิตภัณฑ์นมไขมันต่ำหรือไร้ไขมัน", "เนื้อสัตว์ไม่ติดหนัง ไข่ขาว เต้าหู้", "ธัญพืชและผลิตภัณฑ์หลากหลาย", "ถั่วต่างๆ อัลมอนด์", "น้ำมันชนิดดี เช่น น้ำมันมะกอก"],
-          ควรหลีกเลี่ยง: ["ไขมันอิ่มตัว ไขมันทรานส์", "อาหารที่มีเกลือสูง น้ำปลา ซีอิ๊ว", "ขนมหวาน น้ำตาล เครื่องดื่มหวาน", "อาหารที่มีฟอสฟอรัสแอบซ่อน"],
+          แนะนำ: [
+            "นมและผลิตภัณฑ์นมไขมันต่ำหรือไร้ไขมัน",
+            "เนื้อสัตว์ไม่ติดหนัง ไข่ขาว เต้าหู้",
+            "ธัญพืชและผลิตภัณฑ์หลากหลาย",
+            "ถั่วต่างๆ อัลมอนด์",
+            "น้ำมันชนิดดี เช่น น้ำมันมะกอก",
+          ],
+          ควรหลีกเลี่ยง: [
+            "ไขมันอิ่มตัว ไขมันทรานส์",
+            "อาหารที่มีเกลือสูง น้ำปลา ซีอิ๊ว",
+            "ขนมหวาน น้ำตาล เครื่องดื่มหวาน",
+            "อาหารที่มีฟอสฟอรัสแอบซ่อน",
+          ],
         },
       },
       2: {
@@ -377,13 +420,33 @@ const MealPlannerApp = () => {
           โพแทสเซียม: "2,000-3,000 มก./วัน",
         },
         foods: {
-          แนะนำ: ["น้ำมันชนิดดี", "สมุนไพร/เครื่องเทศ", "ธัญพืชขัดสี เช่น ข้าวขาว"],
-          ควรหลีกเลี่ยง: ["นมและผลิตภัณฑ์นม", "เนื้อสัตว์มากเกิน", "ธัญพืชไม่ขัดสี", "ถั่วต่างๆ", "ไขมันอิ่มตัว/ทรานส์", "เกลือ น้ำปลา ซีอิ๊ว", "ขนมหวาน น้ำตาล", "อาหารที่มีฟอสฟอรัสแอบซ่อน"],
+          แนะนำ: [
+            "น้ำมันชนิดดี",
+            "สมุนไพร/เครื่องเทศ",
+            "ธัญพืชขัดสี เช่น ข้าวขาว",
+          ],
+          ควรหลีกเลี่ยง: [
+            "นมและผลิตภัณฑ์นม",
+            "เนื้อสัตว์มากเกิน",
+            "ธัญพืชไม่ขัดสี",
+            "ถั่วต่างๆ",
+            "ไขมันอิ่มตัว/ทรานส์",
+            "เกลือ น้ำปลา ซีอิ๊ว",
+            "ขนมหวาน น้ำตาล",
+            "อาหารที่มีฟอสฟอรัสแอบซ่อน",
+          ],
         },
       },
       3: {
         title: "คำแนะนำสำหรับผู้ป่วยโรคไต HD (Hemodialysis)",
-        general: ["ควบคุมน้ำตามแพทย์แนะนำ", "จำกัดโซเดียมอย่างเคร่งครัด", "เพิ่มโปรตีนชดเชยการสูญเสีย", "จำกัดโพแทสเซียม/ฟอสฟอรัส", "ทานวิตามินตามแพทย์", "มาฟอกเลือดตามนัด"],
+        general: [
+          "ควบคุมน้ำตามแพทย์แนะนำ",
+          "จำกัดโซเดียมอย่างเคร่งครัด",
+          "เพิ่มโปรตีนชดเชยการสูญเสีย",
+          "จำกัดโพแทสเซียม/ฟอสฟอรัส",
+          "ทานวิตามินตามแพทย์",
+          "มาฟอกเลือดตามนัด",
+        ],
         nutrition: {
           โซเดียม: "< 2,000 มก./วัน",
           โปรตีน: "1.2-1.4 กรัม/กก.น้ำหนัก",
@@ -392,13 +455,33 @@ const MealPlannerApp = () => {
           น้ำ: "500-800 มล./วัน + ปัสสาวะ",
         },
         foods: {
-          แนะนำ: ["เนื้อสัตว์คุณภาพดี", "ไข่ขาว", "ข้าวขาว/ขนมปังขาว", "น้ำมันมะกอก/คาโนลา"],
-          ควรหลีกเลี่ยง: ["ผลไม้โพแทสเซียมสูง", "ผักใบเขียวเข้ม", "นม/ผลิตภัณฑ์นม", "ถั่วต่างๆ", "เกลือ/เครื่องปรุงเค็ม", "อาหารแปรรูป", "ดื่มน้ำมากเกิน"],
+          แนะนำ: [
+            "เนื้อสัตว์คุณภาพดี",
+            "ไข่ขาว",
+            "ข้าวขาว/ขนมปังขาว",
+            "น้ำมันมะกอก/คาโนลา",
+          ],
+          ควรหลีกเลี่ยง: [
+            "ผลไม้โพแทสเซียมสูง",
+            "ผักใบเขียวเข้ม",
+            "นม/ผลิตภัณฑ์นม",
+            "ถั่วต่างๆ",
+            "เกลือ/เครื่องปรุงเค็ม",
+            "อาหารแปรรูป",
+            "ดื่มน้ำมากเกิน",
+          ],
         },
       },
       4: {
         title: "คำแนะนำสำหรับผู้ป่วยโรคไต CAPD",
-        general: ["รักษาความสะอาดการทำ CAPD", "คุมเกลือ/น้ำ (ผ่อนกว่า HD)", "เพิ่มโปรตีน", "ระวังติดเชื้อช่องท้อง", "ชั่งน้ำหนัก/ดูอาการบวม", "ทานเสริมตามแพทย์"],
+        general: [
+          "รักษาความสะอาดการทำ CAPD",
+          "คุมเกลือ/น้ำ (ผ่อนกว่า HD)",
+          "เพิ่มโปรตีน",
+          "ระวังติดเชื้อช่องท้อง",
+          "ชั่งน้ำหนัก/ดูอาการบวม",
+          "ทานเสริมตามแพทย์",
+        ],
         nutrition: {
           โซเดียม: "< 2,500 มก./วัน",
           โปรตีน: "1.2-1.3 กรัม/กก.น้ำหนัก",
@@ -407,13 +490,32 @@ const MealPlannerApp = () => {
           น้ำ: "1,000-1,500 มล./วัน + ปัสสาวะ",
         },
         foods: {
-          แนะนำ: ["ปลา/ไก่", "ไข่", "ข้าวขาว/ขนมปัง", "น้ำมันดี", "ผักผลไม้เหมาะสม"],
-          ควรหลีกเลี่ยง: ["อาหารเค็ม", "ผลิตภัณฑ์นมมากไป", "อาหารแปรรูปมีฟอสฟอรัส", "แอลกอฮอล์", "ขนมหวานมากไป"],
+          แนะนำ: [
+            "ปลา/ไก่",
+            "ไข่",
+            "ข้าวขาว/ขนมปัง",
+            "น้ำมันดี",
+            "ผักผลไม้เหมาะสม",
+          ],
+          ควรหลีกเลี่ยง: [
+            "อาหารเค็ม",
+            "ผลิตภัณฑ์นมมากไป",
+            "อาหารแปรรูปมีฟอสฟอรัส",
+            "แอลกอฮอล์",
+            "ขนมหวานมากไป",
+          ],
         },
       },
       5: {
         title: "คำแนะนำสำหรับผู้ป่วยโรคเบาหวาน",
-        general: ["คุมระดับน้ำตาลตามเป้าหมาย", "ทานตรงเวลาและแบ่งมื้อ", "เลือกคาร์บ GI ต่ำ", "ออกกำลังสม่ำเสมอ", "ตรวจน้ำตาลประจำ", "คุมน้ำหนัก"],
+        general: [
+          "คุมระดับน้ำตาลตามเป้าหมาย",
+          "ทานตรงเวลาและแบ่งมื้อ",
+          "เลือกคาร์บ GI ต่ำ",
+          "ออกกำลังสม่ำเสมอ",
+          "ตรวจน้ำตาลประจำ",
+          "คุมน้ำหนัก",
+        ],
         nutrition: {
           คาร์โบไฮเดรต: "45-65% พลังงาน",
           โปรตีน: "15-20% พลังงาน",
@@ -422,14 +524,30 @@ const MealPlannerApp = () => {
           โซเดียม: "< 2,300 มก./วัน",
         },
         foods: {
-          แนะนำ: ["ธัญพืชไม่ขัดสี", "ผักไฟเบอร์สูง", "ผลไม้สดปริมาณเหมาะสม", "ปลา/เนื้อสัตว์ไขมันต่ำ", "ถั่วต่างๆ", "นมไขมันต่ำ", "น้ำมันมะกอก"],
-          ควรหลีกเลี่ยง: ["น้ำตาล/ขนมหวาน/น้ำหวาน", "ข้าว/แป้งขัดสี", "ไขมันอิ่มตัว/ทรานส์", "ทอด/แปรรูป", "แอลกอฮอล์มากไป", "ผลไม้กระป๋อง/แห้งหวาน"],
+          แนะนำ: [
+            "ธัญพืชไม่ขัดสี",
+            "ผักไฟเบอร์สูง",
+            "ผลไม้สดปริมาณเหมาะสม",
+            "ปลา/เนื้อสัตว์ไขมันต่ำ",
+            "ถั่วต่างๆ",
+            "นมไขมันต่ำ",
+            "น้ำมันมะกอก",
+          ],
+          ควรหลีกเลี่ยง: [
+            "น้ำตาล/ขนมหวาน/น้ำหวาน",
+            "ข้าว/แป้งขัดสี",
+            "ไขมันอิ่มตัว/ทรานส์",
+            "ทอด/แปรรูป",
+            "แอลกอฮอล์มากไป",
+            "ผลไม้กระป๋อง/แห้งหวาน",
+          ],
         },
       },
     };
 
     const diseaseId = selectedDisease.ID || 1;
-    const recommendation = baseRecommendations[diseaseId] || baseRecommendations[1];
+    const recommendation =
+      baseRecommendations[diseaseId] || baseRecommendations[1];
     const shouldShowFoodChoices = diseaseId === 1 || diseaseId === 2;
 
     return {
@@ -447,9 +565,10 @@ const MealPlannerApp = () => {
 
     try {
       const dessertIdSet = new Set<number>(
-        [...desserts.map((d) => d.ID), ...diabeticDesserts.map((d) => d.ID)].filter(
-          (id): id is number => typeof id === "number"
-        )
+        [
+          ...desserts.map((d) => d.ID),
+          ...diabeticDesserts.map((d) => d.ID),
+        ].filter((id): id is number => typeof id === "number")
       );
 
       const mainPools = await Promise.all(
@@ -487,9 +606,15 @@ const MealPlannerApp = () => {
         })
       );
 
-      const emptyMainSlots = mainPools.filter((p) => !p.menus?.length).map((p) => p.slot.slotName);
+      const emptyMainSlots = mainPools
+        .filter((p) => !p.menus?.length)
+        .map((p) => p.slot.slotName);
       if (emptyMainSlots.length > 0) {
-        throw new Error(`ไม่พบเมนูสำหรับ: ${emptyMainSlots.join(", ")}\nโปรดเลือกแท็กให้ครอบคลุมมากขึ้น`);
+        throw new Error(
+          `ไม่พบเมนูสำหรับ: ${emptyMainSlots.join(
+            ", "
+          )}\nโปรดเลือกแท็กให้ครอบคลุมมากขึ้น`
+        );
       }
 
       const isDiabetic = selectedDisease.ID === 5;
@@ -505,9 +630,9 @@ const MealPlannerApp = () => {
       for (const day of days) {
         const daily: DailyMeals = {
           เช้า: [],
-          "ว่างเช้า": [],
+          ว่างเช้า: [],
           กลางวัน: [],
-          "ว่างบ่าย": [],
+          ว่างบ่าย: [],
           เย็น: [],
         };
 
@@ -586,7 +711,7 @@ const MealPlannerApp = () => {
 
         resultPlan[day] = daily;
       }
-
+      setPlannedMeal(resultPlan);
       setCurrentMealPlan(resultPlan);
       setLastRandomized(new Date());
 
@@ -596,12 +721,22 @@ const MealPlannerApp = () => {
         { plan: resultPlan, fingerprint: fp, lastRandomized: Date.now() },
         TTL_MS
       );
-      setWithTTL<number>(SELECTED_DISEASE_ID_KEY, selectedDisease.ID ?? 0, TTL_MS);
-      setWithTTL<SlotConfigInterface[]>(SLOT_CONFIGS_CACHE_KEY, slotConfigs, TTL_MS);
+      setWithTTL<number>(
+        SELECTED_DISEASE_ID_KEY,
+        selectedDisease.ID ?? 0,
+        TTL_MS
+      );
+      setWithTTL<SlotConfigInterface[]>(
+        SLOT_CONFIGS_CACHE_KEY,
+        slotConfigs,
+        TTL_MS
+      );
       setWithTTL<number>(LAST_RANDOMIZED_KEY, Date.now(), TTL_MS);
     } catch (err: any) {
       console.error(err);
-      setError(err?.message || "สุ่มแผนไม่สำเร็จ กรุณาลองใหม่หรือลดเงื่อนไขแท็ก");
+      setError(
+        err?.message || "สุ่มแผนไม่สำเร็จ กรุณาลองใหม่หรือลดเงื่อนไขแท็ก"
+      );
     } finally {
       setIsRandomizing(false);
     }
@@ -645,7 +780,18 @@ const MealPlannerApp = () => {
   };
 
   const handleGoToFluidCalc = () => navigate("/fluidcalculator");
-  const handleDownload = () => console.log("Downloading meal plan...");
+  // const handleDownload = () => console.log("Downloading meal plan...");
+
+  const handleDownload = async () => {
+    if (!plannedMeal) return; // no data to generate PDF
+    try {
+      const blob = await pdf(<MealPlanPDF mealPlan={plannedMeal} />).toBlob();
+      saveAs(blob, "MealPlan.pdf");
+    } catch (err) {
+      console.error("PDF generation failed:", err);
+    }
+  };
+
   const handlePrint = () => window.print();
 
   /* -------------------------------------------
@@ -660,7 +806,11 @@ const MealPlannerApp = () => {
     วันเสาร์: "bg-gradient-to-br from-purple-100 to-purple-200",
     วันอาทิตย์: "bg-gradient-to-br from-red-100 to-red-200",
   };
-
+  useEffect(() => {
+    if (plannedMeal) {
+      console.log("Planned Meal updated:", plannedMeal);
+    }
+  }, [plannedMeal]);
   /* -------------------------------------------
    *  Render
    * ----------------------------------------- */
@@ -671,7 +821,9 @@ const MealPlannerApp = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center space-y-4 animate-in fade-in zoom-in duration-300">
             <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
-            <span className="font-kanit text-xl text-gray-700">กำลังโหลดข้อมูล...</span>
+            <span className="font-kanit text-xl text-gray-700">
+              กำลังโหลดข้อมูล...
+            </span>
             <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
               <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
             </div>
@@ -690,7 +842,9 @@ const MealPlannerApp = () => {
                 </div>
               </div>
               <div className="flex-grow">
-                <h3 className="font-kanit font-bold text-red-800">เกิดข้อผิดพลาด</h3>
+                <h3 className="font-kanit font-bold text-red-800">
+                  เกิดข้อผิดพลาด
+                </h3>
                 <p className="font-kanit text-red-700">{error}</p>
               </div>
               <button
@@ -756,7 +910,11 @@ const MealPlannerApp = () => {
                   // เปลี่ยนโรค = ล้างแผนเก่า
                   clearKey(MEAL_PLAN_CACHE_KEY);
                   // บันทึก diseaseId ที่เลือกไว้
-                  setWithTTL<number>(SELECTED_DISEASE_ID_KEY, disease.ID ?? 0, TTL_MS);
+                  setWithTTL<number>(
+                    SELECTED_DISEASE_ID_KEY,
+                    disease.ID ?? 0,
+                    TTL_MS
+                  );
                 }
               }}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 font-kanit text-lg bg-gradient-to-r from-gray-50 to-blue-50 hover:from-blue-50 hover:to-indigo-50 transition-all duration-300"
@@ -802,7 +960,9 @@ const MealPlannerApp = () => {
               <h3 className="text-2xl font-kanit font-bold text-gray-800 mb-2">
                 ตั้งค่า Slot การสุ่มเมนูอาหาร
               </h3>
-              <p className="text-gray-600 font-kanit">กำหนดประเภทอาหารที่ต้องการสำหรับแต่ละมื้อ</p>
+              <p className="text-gray-600 font-kanit">
+                กำหนดประเภทอาหารที่ต้องการสำหรับแต่ละมื้อ
+              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -816,8 +976,12 @@ const MealPlannerApp = () => {
                       <Star className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className="font-kanit font-semibold text-gray-800 text-lg">{slot.slotName}</h4>
-                      <span className="font-kanit text-sm text-gray-500">({slot.mealTypes.join(", ")})</span>
+                      <h4 className="font-kanit font-semibold text-gray-800 text-lg">
+                        {slot.slotName}
+                      </h4>
+                      <span className="font-kanit text-sm text-gray-500">
+                        ({slot.mealTypes.join(", ")})
+                      </span>
                     </div>
                   </div>
 
@@ -828,7 +992,9 @@ const MealPlannerApp = () => {
                       </div>
                     ) : (
                       allTags
-                        .filter((tag) => (tag.Name || "").trim() !== "อาหารหวาน")
+                        .filter(
+                          (tag) => (tag.Name || "").trim() !== "อาหารหวาน"
+                        )
                         .map((tag) => (
                           <label
                             key={tag.ID}
@@ -836,13 +1002,17 @@ const MealPlannerApp = () => {
                           >
                             <input
                               type="checkbox"
-                              checked={slot.selectedTags.some((t) => t.ID === tag.ID)}
+                              checked={slot.selectedTags.some(
+                                (t) => t.ID === tag.ID
+                              )}
                               onChange={() => handleTagToggle(slotIndex, tag)}
                               className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
                             />
                             <div className="flex items-center gap-2">
                               <Tag className="w-4 h-4 text-blue-500" />
-                              <span className="font-kanit text-gray-700">{tag.Name || `Tag #${tag.ID}`}</span>
+                              <span className="font-kanit text-gray-700">
+                                {tag.Name || `Tag #${tag.ID}`}
+                              </span>
                             </div>
                           </label>
                         ))
@@ -851,10 +1021,15 @@ const MealPlannerApp = () => {
 
                   {slot.selectedTags.length > 0 && (
                     <div className="mt-4 p-3 bg-blue-50 rounded-xl border border-blue-200">
-                      <p className="font-kanit text-sm text-blue-800 font-medium mb-2">เลือกแล้ว:</p>
+                      <p className="font-kanit text-sm text-blue-800 font-medium mb-2">
+                        เลือกแล้ว:
+                      </p>
                       <div className="flex flex-wrap gap-1">
                         {slot.selectedTags.map((t) => (
-                          <span key={t.ID} className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-kanit">
+                          <span
+                            key={t.ID}
+                            className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-kanit"
+                          >
                             {t.Name}
                           </span>
                         ))}
@@ -871,9 +1046,13 @@ const MealPlannerApp = () => {
                   <span className="text-white text-sm font-bold">!</span>
                 </div>
                 <div>
-                  <p className="font-kanit text-yellow-800 font-medium mb-1">หมายเหตุ:</p>
+                  <p className="font-kanit text-yellow-800 font-medium mb-1">
+                    หมายเหตุ:
+                  </p>
                   <p className="font-kanit text-yellow-700 text-sm leading-relaxed">
-                    การเลือก tag จะช่วยให้ระบบสุ่มเมนูที่ตรงกับความต้องการของคุณมากขึ้น หากไม่เลือก tag ระบบจะสุ่มจากเมนูทั้งหมดที่เหมาะสมกับโรค
+                    การเลือก tag
+                    จะช่วยให้ระบบสุ่มเมนูที่ตรงกับความต้องการของคุณมากขึ้น
+                    หากไม่เลือก tag ระบบจะสุ่มจากเมนูทั้งหมดที่เหมาะสมกับโรค
                   </p>
                 </div>
               </div>
@@ -909,9 +1088,12 @@ const MealPlannerApp = () => {
         <div className="flex items-center justify-center gap-2 mb-8">
           <Clock className="w-5 h-5 text-gray-500" />
           <span className="font-kanit text-gray-600 bg-white px-4 py-2 rounded-full shadow-sm border">
-            สุ่มล่าสุด: {lastRandomized.getTime() === 0
+            สุ่มล่าสุด:{" "}
+            {lastRandomized.getTime() === 0
               ? "—"
-              : `${lastRandomized.toLocaleDateString("th-TH")} ${lastRandomized.toLocaleTimeString("th-TH")}`}
+              : `${lastRandomized.toLocaleDateString(
+                  "th-TH"
+                )} ${lastRandomized.toLocaleTimeString("th-TH")}`}
           </span>
         </div>
 
@@ -921,9 +1103,13 @@ const MealPlannerApp = () => {
             <div className="flex items-center justify-center">
               <div className="text-center">
                 <h3 className="font-kanit font-bold text-2xl mb-1">
-                  {selectedDisease.ID ? `${selectedDisease.Name} ${selectedDisease.Stage}` : "ยังไม่เลือกระยะโรค"}
+                  {selectedDisease.ID
+                    ? `${selectedDisease.Name} ${selectedDisease.Stage}`
+                    : "ยังไม่เลือกระยะโรค"}
                 </h3>
-                <p className="font-kanit text-blue-100">แผนการรับประทานอาหารรายสัปดาห์</p>
+                <p className="font-kanit text-blue-100">
+                  แผนการรับประทานอาหารรายสัปดาห์
+                </p>
               </div>
             </div>
           </div>
@@ -932,7 +1118,9 @@ const MealPlannerApp = () => {
             <table className="w-full">
               <thead>
                 <tr className="bg-gradient-to-r from-gray-50 to-blue-50">
-                  <th className="border border-gray-200 px-6 py-4 font-kanit font-bold text-gray-800">วัน/มื้อ</th>
+                  <th className="border border-gray-200 px-6 py-4 font-kanit font-bold text-gray-800">
+                    วัน/มื้อ
+                  </th>
                   <th className="border border-gray-200 px-6 py-4 bg-gradient-to-br from-purple-100 to-purple-200 font-kanit font-bold text-purple-800">
                     🌅 เช้า
                   </th>
@@ -952,10 +1140,14 @@ const MealPlannerApp = () => {
               </thead>
               <tbody>
                 {Object.entries(currentMealPlan).map(([day, meals]) => (
-                  <tr key={day} className="hover:bg-blue-50/50 transition-colors duration-200">
+                  <tr
+                    key={day}
+                    className="hover:bg-blue-50/50 transition-colors duration-200"
+                  >
                     <td
-                      className={`border border-gray-200 px-6 py-6 font-kanit font-bold text-gray-800 ${dayColors[day as DayName] ?? ""
-                        } text-center`}
+                      className={`border border-gray-200 px-6 py-6 font-kanit font-bold text-gray-800 ${
+                        dayColors[day as DayName] ?? ""
+                      } text-center`}
                     >
                       {day}
                     </td>
@@ -964,10 +1156,15 @@ const MealPlannerApp = () => {
                     <td className="border border-gray-200 px-6 py-6">
                       <ul className="space-y-2">
                         {meals?.เช้า?.map((mealMenu) => (
-                          <li key={mealMenu.ID} className="flex items-start group">
+                          <li
+                            key={mealMenu.ID}
+                            className="flex items-start group"
+                          >
                             <div className="w-3 h-3 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"></div>
                             <button
-                              onClick={() => navigate(`/menu/${mealMenu.MenuID}`)}
+                              onClick={() =>
+                                navigate(`/menu/${mealMenu.MenuID}`)
+                              }
                               className="font-kanit text-gray-700 group-hover:text-purple-700 transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 rounded px-1"
                             >
                               {mealMenu.PortionText}
@@ -975,7 +1172,9 @@ const MealPlannerApp = () => {
                           </li>
                         ))}
                         {(!meals?.เช้า || meals?.เช้า?.length === 0) && (
-                          <span className="font-kanit text-gray-400 italic">ไม่มีเมนู</span>
+                          <span className="font-kanit text-gray-400 italic">
+                            ไม่มีเมนู
+                          </span>
                         )}
                       </ul>
                     </td>
@@ -985,26 +1184,39 @@ const MealPlannerApp = () => {
                       {meals?.["ว่างเช้า"]?.length ? (
                         <ul className="space-y-2">
                           {meals["ว่างเช้า"].map((mealMenu) => (
-                            <li key={mealMenu.ID} className="flex items-start group">
+                            <li
+                              key={mealMenu.ID}
+                              className="flex items-start group"
+                            >
                               <div className="w-3 h-3 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"></div>
                               {mealMenu.isFoodItem ? (
                                 <button
-                                  onClick={() => navigate(`/fooditem/${mealMenu.MenuID}`)}
+                                  onClick={() =>
+                                    navigate(`/fooditem/${mealMenu.MenuID}`)
+                                  }
                                   className="font-kanit text-gray-700 group-hover:text-green-700 transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded px-1"
                                 >
                                   {mealMenu.PortionText}
-                                  <span className="text-xs text-green-600 ml-1">(ผลไม้)</span>
+                                  <span className="text-xs text-green-600 ml-1">
+                                    (ผลไม้)
+                                  </span>
                                 </button>
                               ) : (
                                 <button
-                                  onClick={() => navigate(`/menu/${mealMenu.MenuID}`)}
+                                  onClick={() =>
+                                    navigate(`/menu/${mealMenu.MenuID}`)
+                                  }
                                   className="font-kanit text-gray-700 group-hover:text-purple-700 transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 rounded px-1"
                                 >
                                   {mealMenu.PortionText}
                                   {mealMenu.isSpecialDessert ? (
-                                    <span className="text-xs text-blue-600 ml-1">(อาหารหวานสำหรับผู้ป่วยเบาหวาน)</span>
+                                    <span className="text-xs text-blue-600 ml-1">
+                                      (อาหารหวานสำหรับผู้ป่วยเบาหวาน)
+                                    </span>
                                   ) : (
-                                    <span className="text-xs text-purple-600 ml-1">(อาหารหวาน)</span>
+                                    <span className="text-xs text-purple-600 ml-1">
+                                      (อาหารหวาน)
+                                    </span>
                                   )}
                                 </button>
                               )}
@@ -1012,7 +1224,9 @@ const MealPlannerApp = () => {
                           ))}
                         </ul>
                       ) : (
-                        <span className="font-kanit text-gray-400 italic">-</span>
+                        <span className="font-kanit text-gray-400 italic">
+                          -
+                        </span>
                       )}
                     </td>
 
@@ -1020,10 +1234,15 @@ const MealPlannerApp = () => {
                     <td className="border border-gray-200 px-6 py-6">
                       <ul className="space-y-2">
                         {meals?.กลางวัน?.map((mealMenu) => (
-                          <li key={mealMenu.ID} className="flex items-start group">
+                          <li
+                            key={mealMenu.ID}
+                            className="flex items-start group"
+                          >
                             <div className="w-3 h-3 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"></div>
                             <button
-                              onClick={() => navigate(`/menu/${mealMenu.MenuID}`)}
+                              onClick={() =>
+                                navigate(`/menu/${mealMenu.MenuID}`)
+                              }
                               className="font-kanit text-gray-700 group-hover:text-teal-700 transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50 rounded px-1"
                             >
                               {mealMenu.PortionText}
@@ -1031,7 +1250,9 @@ const MealPlannerApp = () => {
                           </li>
                         ))}
                         {(!meals?.กลางวัน || meals?.กลางวัน?.length === 0) && (
-                          <span className="font-kanit text-gray-400 italic">ไม่มีเมนู</span>
+                          <span className="font-kanit text-gray-400 italic">
+                            ไม่มีเมนู
+                          </span>
                         )}
                       </ul>
                     </td>
@@ -1041,26 +1262,39 @@ const MealPlannerApp = () => {
                       {meals?.["ว่างบ่าย"]?.length ? (
                         <ul className="space-y-2">
                           {meals["ว่างบ่าย"].map((mealMenu) => (
-                            <li key={mealMenu.ID} className="flex items-start group">
+                            <li
+                              key={mealMenu.ID}
+                              className="flex items-start group"
+                            >
                               <div className="w-3 h-3 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"></div>
                               {mealMenu.isFoodItem ? (
                                 <button
-                                  onClick={() => navigate(`/fooditem/${mealMenu.MenuID}`)}
+                                  onClick={() =>
+                                    navigate(`/fooditem/${mealMenu.MenuID}`)
+                                  }
                                   className="font-kanit text-gray-700 group-hover:text-green-700 transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded px-1"
                                 >
                                   {mealMenu.PortionText}
-                                  <span className="text-xs text-green-600 ml-1">(ผลไม้)</span>
+                                  <span className="text-xs text-green-600 ml-1">
+                                    (ผลไม้)
+                                  </span>
                                 </button>
                               ) : (
                                 <button
-                                  onClick={() => navigate(`/menu/${mealMenu.MenuID}`)}
+                                  onClick={() =>
+                                    navigate(`/menu/${mealMenu.MenuID}`)
+                                  }
                                   className="font-kanit text-gray-700 group-hover:text-purple-700 transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 rounded px-1"
                                 >
                                   {mealMenu.PortionText}
                                   {mealMenu.isSpecialDessert ? (
-                                    <span className="text-xs text-blue-600 ml-1">(อาหารหวานสำหรับผู้ป่วยโรคเบาหวาน)</span>
+                                    <span className="text-xs text-blue-600 ml-1">
+                                      (อาหารหวานสำหรับผู้ป่วยโรคเบาหวาน)
+                                    </span>
                                   ) : (
-                                    <span className="text-xs text-purple-600 ml-1">(อาหารหวาน)</span>
+                                    <span className="text-xs text-purple-600 ml-1">
+                                      (อาหารหวาน)
+                                    </span>
                                   )}
                                 </button>
                               )}
@@ -1068,7 +1302,9 @@ const MealPlannerApp = () => {
                           ))}
                         </ul>
                       ) : (
-                        <span className="font-kanit text-gray-400 italic">-</span>
+                        <span className="font-kanit text-gray-400 italic">
+                          -
+                        </span>
                       )}
                     </td>
 
@@ -1076,10 +1312,15 @@ const MealPlannerApp = () => {
                     <td className="border border-gray-200 px-6 py-6">
                       <ul className="space-y-2">
                         {meals?.เย็น?.map((mealMenu) => (
-                          <li key={mealMenu.ID} className="flex items-start group">
+                          <li
+                            key={mealMenu.ID}
+                            className="flex items-start group"
+                          >
                             <div className="w-3 h-3 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200"></div>
                             <button
-                              onClick={() => navigate(`/menu/${mealMenu.MenuID}`)}
+                              onClick={() =>
+                                navigate(`/menu/${mealMenu.MenuID}`)
+                              }
                               className="font-kanit text-gray-700 group-hover:text-purple-700 transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 rounded px-1"
                             >
                               {mealMenu.PortionText}
@@ -1087,7 +1328,9 @@ const MealPlannerApp = () => {
                           </li>
                         ))}
                         {(!meals?.เย็น || meals?.เย็น?.length === 0) && (
-                          <span className="font-kanit text-gray-400 italic">ไม่มีเมนู</span>
+                          <span className="font-kanit text-gray-400 italic">
+                            ไม่มีเมนู
+                          </span>
                         )}
                       </ul>
                     </td>
@@ -1109,6 +1352,7 @@ const MealPlannerApp = () => {
           </button>
           <button
             onClick={handleDownload}
+            disabled={!plannedMeal}
             className="flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-8 py-3 rounded-2xl font-kanit text-lg font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
           >
             <Download className="w-5 h-5" />
@@ -1118,7 +1362,11 @@ const MealPlannerApp = () => {
             onClick={() => setShowRecommendations(!showRecommendations)}
             disabled={!selectedDisease.ID}
             className={`flex items-center gap-3 bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-2xl font-kanit text-lg font-medium shadow-lg transform transition-all duration-300
-              ${!selectedDisease.ID ? "opacity-50 cursor-not-allowed" : "hover:from-orange-600 hover:to-red-600 hover:shadow-xl hover:scale-105"}
+              ${
+                !selectedDisease.ID
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:from-orange-600 hover:to-red-600 hover:shadow-xl hover:scale-105"
+              }
             `}
           >
             <FileText className="w-5 h-5" />
@@ -1134,8 +1382,12 @@ const MealPlannerApp = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
                   <FileText className="w-8 h-8" />
                 </div>
-                <h3 className="font-kanit font-bold text-2xl mb-2">{getRecommendations()?.title}</h3>
-                <p className="font-kanit text-orange-100">คำแนะนำโภชนาการและการดูแลสุขภาพ</p>
+                <h3 className="font-kanit font-bold text-2xl mb-2">
+                  {getRecommendations()?.title}
+                </h3>
+                <p className="font-kanit text-orange-100">
+                  คำแนะนำโภชนาการและการดูแลสุขภาพ
+                </p>
               </div>
             </div>
 
@@ -1146,7 +1398,9 @@ const MealPlannerApp = () => {
                   <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mr-3">
                     <span className="text-white font-bold text-sm">!</span>
                   </div>
-                  <h4 className="font-kanit text-xl font-bold text-gray-800">คำแนะนำทั่วไป</h4>
+                  <h4 className="font-kanit text-xl font-bold text-gray-800">
+                    คำแนะนำทั่วไป
+                  </h4>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {getRecommendations()?.general.map((item, index) => (
@@ -1155,9 +1409,13 @@ const MealPlannerApp = () => {
                       className="flex items-start p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 hover:shadow-md transition-all duration-300"
                     >
                       <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                        <span className="text-white text-xs font-bold">{index + 1}</span>
+                        <span className="text-white text-xs font-bold">
+                          {index + 1}
+                        </span>
                       </div>
-                      <span className="font-kanit text-gray-700 leading-relaxed">{item}</span>
+                      <span className="font-kanit text-gray-700 leading-relaxed">
+                        {item}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -1169,21 +1427,27 @@ const MealPlannerApp = () => {
                   <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mr-3">
                     <span className="text-white font-bold text-sm">N</span>
                   </div>
-                  <h4 className="font-kanit text-xl font-bold text-gray-800">แนวทางโภชนาการ</h4>
+                  <h4 className="font-kanit text-xl font-bold text-gray-800">
+                    แนวทางโภชนาการ
+                  </h4>
                 </div>
                 <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(getRecommendations()?.nutrition || {}).map(([nutrient, amount]) => (
-                      <div
-                        key={nutrient}
-                        className="flex justify-between items-center p-4 bg-white rounded-xl border border-green-200 shadow-sm hover:shadow-md transition-all duration-300"
-                      >
-                        <span className="font-kanit font-semibold text-gray-700">{nutrient}:</span>
-                        <span className="font-kanit text-green-600 font-bold bg-green-100 px-3 py-1 rounded-full">
-                          {amount}
-                        </span>
-                      </div>
-                    ))}
+                    {Object.entries(getRecommendations()?.nutrition || {}).map(
+                      ([nutrient, amount]) => (
+                        <div
+                          key={nutrient}
+                          className="flex justify-between items-center p-4 bg-white rounded-xl border border-green-200 shadow-sm hover:shadow-md transition-all duration-300"
+                        >
+                          <span className="font-kanit font-semibold text-gray-700">
+                            {nutrient}:
+                          </span>
+                          <span className="font-kanit text-green-600 font-bold bg-green-100 px-3 py-1 rounded-full">
+                            {amount}
+                          </span>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
@@ -1196,7 +1460,9 @@ const MealPlannerApp = () => {
                       <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mr-3">
                         <span className="text-white font-bold text-sm">F</span>
                       </div>
-                      <h4 className="font-kanit text-xl font-bold text-gray-800">คำแนะนำการเลือกอาหาร</h4>
+                      <h4 className="font-kanit text-xl font-bold text-gray-800">
+                        คำแนะนำการเลือกอาหาร
+                      </h4>
                     </div>
                     <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border border-purple-200">
                       <div className="grid grid-cols-1 gap-4">
@@ -1206,13 +1472,17 @@ const MealPlannerApp = () => {
                             className="flex items-start p-4 bg-white rounded-xl border border-purple-200 shadow-sm hover:shadow-md transition-all duration-300"
                           >
                             <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                              <span className="text-white text-xs font-bold">{fc.FoodChoiceID}</span>
+                              <span className="text-white text-xs font-bold">
+                                {fc.FoodChoiceID}
+                              </span>
                             </div>
                             <div>
                               <span className="font-kanit font-semibold text-purple-700 block mb-1">
                                 {fc.FoodChoice?.FoodName}
                               </span>
-                              <span className="font-kanit text-gray-600 text-sm">{fc.Description}</span>
+                              <span className="font-kanit text-gray-600 text-sm">
+                                {fc.Description}
+                              </span>
                             </div>
                           </div>
                         ))}
@@ -1228,7 +1498,9 @@ const MealPlannerApp = () => {
                     <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mr-3">
                       <span className="text-white font-bold text-sm">✓</span>
                     </div>
-                    <h4 className="font-kanit text-xl font-bold text-green-600">อาหารที่แนะนำ</h4>
+                    <h4 className="font-kanit text-xl font-bold text-green-600">
+                      อาหารที่แนะนำ
+                    </h4>
                   </div>
                   <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200">
                     <ul className="space-y-3">
@@ -1238,9 +1510,13 @@ const MealPlannerApp = () => {
                           className="flex items-start p-3 bg-white rounded-xl border border-green-200 hover:shadow-sm transition-all duration-300"
                         >
                           <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                            <span className="text-white text-xs font-bold">✓</span>
+                            <span className="text-white text-xs font-bold">
+                              ✓
+                            </span>
                           </div>
-                          <span className="font-kanit text-gray-700">{food}</span>
+                          <span className="font-kanit text-gray-700">
+                            {food}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -1252,21 +1528,29 @@ const MealPlannerApp = () => {
                     <div className="w-8 h-8 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-3">
                       <span className="text-white font-bold text-sm">✕</span>
                     </div>
-                    <h4 className="font-kanit text-xl font-bold text-red-600">อาหารที่ควรหลีกเลี่ยง</h4>
+                    <h4 className="font-kanit text-xl font-bold text-red-600">
+                      อาหารที่ควรหลีกเลี่ยง
+                    </h4>
                   </div>
                   <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-6 border border-red-200">
                     <ul className="space-y-3">
-                      {getRecommendations()?.foods.ควรหลีกเลี่ยง.map((food, index) => (
-                        <li
-                          key={index}
-                          className="flex items-start p-3 bg-white rounded-xl border border-red-200 hover:shadow-sm transition-all duration-300"
-                        >
-                          <div className="w-6 h-6 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
-                            <span className="text-white text-xs font-bold">✕</span>
-                          </div>
-                          <span className="font-kanit text-gray-700">{food}</span>
-                        </li>
-                      ))}
+                      {getRecommendations()?.foods.ควรหลีกเลี่ยง.map(
+                        (food, index) => (
+                          <li
+                            key={index}
+                            className="flex items-start p-3 bg-white rounded-xl border border-red-200 hover:shadow-sm transition-all duration-300"
+                          >
+                            <div className="w-6 h-6 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                              <span className="text-white text-xs font-bold">
+                                ✕
+                              </span>
+                            </div>
+                            <span className="font-kanit text-gray-700">
+                              {food}
+                            </span>
+                          </li>
+                        )
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -1279,9 +1563,13 @@ const MealPlannerApp = () => {
                     <span className="text-white font-bold text-sm">!</span>
                   </div>
                   <div>
-                    <p className="font-kanit font-semibold text-yellow-800 mb-2">ข้อควรระวัง</p>
+                    <p className="font-kanit font-semibold text-yellow-800 mb-2">
+                      ข้อควรระวัง
+                    </p>
                     <p className="font-kanit text-yellow-700 leading-relaxed">
-                      คำแนะนำเหล่านี้เป็นแนวทางทั่วไป ควรปรึกษาแพทย์หรือนักโภชนาการ เพื่อการวางแผนอาหารที่เหมาะสมกับสภาวะสุขภาพของท่านโดยเฉพาะ
+                      คำแนะนำเหล่านี้เป็นแนวทางทั่วไป
+                      ควรปรึกษาแพทย์หรือนักโภชนาการ
+                      เพื่อการวางแผนอาหารที่เหมาะสมกับสภาวะสุขภาพของท่านโดยเฉพาะ
                     </p>
                   </div>
                 </div>

@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Calculator, Plus, Trash2, Info, ChevronRight, Target, TrendingUp, AlertTriangle, CheckCircle, Calendar, Clock } from "lucide-react";
+import { Calculator, Plus, Trash2, Info, ChevronRight, Target, TrendingUp, Calendar, Clock, Tags } from "lucide-react";
 
 // --- Data (รวมทั้งสองตาราง) ---
 const ITEMS = [
@@ -51,16 +51,16 @@ function Badge({ tone = "gray", children }: { tone?: "green" | "yellow" | "red" 
 function Progress({ value, max, label }: { value: number; max: number; label?: string }) {
   const pct = clamp((value / max) * 100, 0, 100);
   let tone: "green" | "yellow" | "red" = "green";
-  if (pct >= 100 || value > max) tone = "red"; 
-  else if (pct >= 70) tone = "yellow"; 
+  if (pct >= 100 || value > max) tone = "red";
+  else if (pct >= 70) tone = "yellow";
   else tone = "green";
-  
+
   const barTone = {
     green: "bg-gradient-to-r from-emerald-400 to-green-500",
     yellow: "bg-gradient-to-r from-yellow-400 to-amber-500",
     red: "bg-gradient-to-r from-red-400 to-pink-500",
   }[tone];
-  
+
   return (
     <div className="w-full">
       {label && <div className="mb-3 text-sm text-gray-600 font-kanit flex items-center gap-2">
@@ -68,17 +68,16 @@ function Progress({ value, max, label }: { value: number; max: number; label?: s
         {label}
       </div>}
       <div className="h-4 w-full bg-gray-200 rounded-full overflow-hidden shadow-inner">
-        <div className={`h-4 ${barTone} transition-all duration-700 ease-out shadow-sm`} 
-             style={{ width: `${pct}%` }} />
+        <div className={`h-4 ${barTone} transition-all duration-700 ease-out shadow-sm`}
+          style={{ width: `${pct}%` }} />
       </div>
       <div className="mt-2 flex justify-between items-center">
         <span className="text-sm text-gray-600 font-kanit">
           {Math.round(value).toLocaleString()} / {max.toLocaleString()} มก.
         </span>
-        <span className={`text-sm font-medium font-kanit ${
-          tone === 'green' ? 'text-green-600' : 
-          tone === 'yellow' ? 'text-yellow-600' : 'text-red-600'
-        }`}>
+        <span className={`text-sm font-medium font-kanit ${tone === 'green' ? 'text-green-600' :
+            tone === 'yellow' ? 'text-yellow-600' : 'text-red-600'
+          }`}>
           {Math.round(pct)}%
         </span>
       </div>
@@ -109,7 +108,7 @@ function QuickQty({ onPick, unit }: { onPick: (v: number) => void; unit: string 
 export default function SodiumCalculator() {
   const [meals, setMeals] = useState([{ id: Date.now(), qty: {} as Record<string, number> }]);
   const navigate = useNavigate();
-  
+
   const addMeal = () => setMeals((ms) => [...ms, { id: Date.now(), qty: {} }]);
   const removeMeal = (id: number) => setMeals((ms) => ms.filter((m) => m.id !== id));
 
@@ -128,7 +127,7 @@ export default function SodiumCalculator() {
           <div className="absolute bottom-10 right-10 w-16 h-16 bg-white/10 rounded-full animate-pulse delay-300"></div>
           <div className="absolute top-1/2 right-1/4 w-12 h-12 bg-white/5 rounded-full animate-pulse delay-700"></div>
         </div>
-        
+
         <div className="relative px-6 py-12">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center justify-center mb-4">
@@ -140,7 +139,7 @@ export default function SodiumCalculator() {
             <p className="text-blue-100 font-kanit text-lg text-center max-w-3xl mx-auto">
               เครื่องมือคำนวณโซเดียมสำหรับการดูแลสุขภาพ เพิ่มหลายมื้อและติดตามปริมาณโซเดียมต่อวัน
             </p>
-            
+
             {/* Quick Stats */}
             <div className="flex justify-center mt-8">
               <div className="bg-white/20 backdrop-blur-sm rounded-2xl px-6 py-4 flex items-center gap-6">
@@ -161,19 +160,32 @@ export default function SodiumCalculator() {
 
       <div className="max-w-6xl mx-auto p-6 space-y-8">
         {/* Navigation Button */}
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-4">
           <button
             onClick={() => navigate("/menusodium")}
             className="flex items-center gap-3 bg-gradient-to-r from-rose-500 to-pink-600 
-                     hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 
-                     rounded-2xl font-kanit text-lg font-medium shadow-lg 
-                     hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+               hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 
+               rounded-2xl font-kanit text-lg font-medium shadow-lg 
+               hover:shadow-xl transform hover:scale-105 transition-all duration-300"
           >
             <TrendingUp size={22} />
             การเปรียบเทียบโซเดียมในเมนูอาหาร
             <ChevronRight size={20} />
           </button>
+
+          <button
+            onClick={() => navigate("/menulabel")}
+            className="flex items-center gap-3 bg-gradient-to-r from-rose-500 to-pink-600 
+               hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 
+               rounded-2xl font-kanit text-lg font-medium shadow-lg 
+               hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
+            <Tags size={22} />
+            ความรู้ฉลากโภชนาการไทย
+            <ChevronRight size={20} />
+          </button>
         </div>
+
 
         {/* Daily Total Summary */}
         <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
@@ -190,7 +202,7 @@ export default function SodiumCalculator() {
             </div>
             <div className="text-right">
               <div className="text-4xl font-bold text-gray-800 font-kanit">
-                {Math.round(dayTotal).toLocaleString()} 
+                {Math.round(dayTotal).toLocaleString()}
                 <span className="text-lg text-gray-500 ml-2">มก.</span>
               </div>
               <Badge tone={dayTotal > DAY_LIMIT ? "red" : dayTotal > DAY_LIMIT * 0.7 ? "yellow" : "green"}>
@@ -229,7 +241,7 @@ export default function SodiumCalculator() {
                         </div>
                       </div>
                     </div>
-                    
+
                     {meals.length > 1 && (
                       <button
                         onClick={() => removeMeal(meal.id)}
@@ -241,7 +253,7 @@ export default function SodiumCalculator() {
                       </button>
                     )}
                   </div>
-                  
+
                   <div className="mt-4">
                     <Progress value={mealTotal} max={MEAL_LIMIT} label="เปรียบเทียบกับเกณฑ์ 400 มก./มื้อ" />
                   </div>
@@ -280,9 +292,9 @@ export default function SodiumCalculator() {
                                 min={0}
                                 step={0.25}
                                 value={q}
-                                onChange={(e) => setMeals((ms) => ms.map((m) => 
-                                  m.id === meal.id 
-                                    ? { ...m, qty: { ...m.qty, [item.id]: Number(e.target.value) } } 
+                                onChange={(e) => setMeals((ms) => ms.map((m) =>
+                                  m.id === meal.id
+                                    ? { ...m, qty: { ...m.qty, [item.id]: Number(e.target.value) } }
                                     : m
                                 ))}
                                 className="flex-grow px-4 py-3 rounded-xl border-2 border-gray-200 
@@ -294,22 +306,22 @@ export default function SodiumCalculator() {
                                 className="px-4 py-3 rounded-xl bg-gradient-to-r from-gray-100 to-gray-200 
                                          hover:from-gray-200 hover:to-gray-300 text-gray-700 font-kanit
                                          border border-gray-300 hover:border-gray-400 transition-all"
-                                onClick={() => setMeals((ms) => ms.map((m) => 
-                                  m.id === meal.id 
-                                    ? { ...m, qty: { ...m.qty, [item.id]: 0 } } 
+                                onClick={() => setMeals((ms) => ms.map((m) =>
+                                  m.id === meal.id
+                                    ? { ...m, qty: { ...m.qty, [item.id]: 0 } }
                                     : m
                                 ))}
                               >
                                 ล้าง
                               </button>
                             </div>
-                            <QuickQty 
-                              unit={item.unit} 
-                              onPick={(v) => setMeals((ms) => ms.map((m) => 
-                                m.id === meal.id 
-                                  ? { ...m, qty: { ...m.qty, [item.id]: v } } 
+                            <QuickQty
+                              unit={item.unit}
+                              onPick={(v) => setMeals((ms) => ms.map((m) =>
+                                m.id === meal.id
+                                  ? { ...m, qty: { ...m.qty, [item.id]: v } }
                                   : m
-                              ))} 
+                              ))}
                             />
                           </div>
                         </div>
@@ -345,8 +357,8 @@ export default function SodiumCalculator() {
             <div>
               <h4 className="font-semibold text-gray-800 font-kanit mb-2">ข้อมูลสำคัญ</h4>
               <p className="text-sm text-gray-600 font-kanit leading-relaxed">
-                แหล่งข้อมูล: ตารางปริมาณโซเดียมต่อหน่วยของเครื่องปรุงรสต่างๆ 
-                เครื่องมือนี้ใช้สำหรับการประเมินเบื้องต้นเท่านั้น 
+                แหล่งข้อมูล: ตารางปริมาณโซเดียมต่อหน่วยของเครื่องปรุงรสต่างๆ
+                เครื่องมือนี้ใช้สำหรับการประเมินเบื้องต้นเท่านั้น
                 หากมีโรคประจำตัวหรือต้องการคำแนะนำเฉพาะบุคคล กรุณาปรึกษาแพทย์หรือนักโภชนาการ
               </p>
             </div>

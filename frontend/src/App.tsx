@@ -53,6 +53,7 @@ import StressAssessmentForm from "./pages/Assessment/Stress/Stress";
 import StressResultsPage from "./pages/Assessment/Stress/StressResult";
 import DepressionAssessmentForm from "./pages/Assessment/Depression/Depression";
 import DepressionResultsPage from "./pages/Assessment/Depression/DepressionResult";
+import Menulabel from "./pages/Menu/menulabel"
 const AppContent = () => {
   const location = useLocation();
 
@@ -112,6 +113,7 @@ const AppContent = () => {
         <Route path="/menutaste" element={<MenuTaste />} />
         <Route path="/admin/adminmanage" element={<PrivateRoute><AdminManage /></PrivateRoute>} />
         <Route path="/food-exchanges" element={<FoodExchanges />} />
+        <Route path="/menulabel" element={<Menulabel />} />
       </Routes>
     </>
   );
