@@ -57,7 +57,7 @@ const healthSections = [
         description: "ประเมินระดับความเครียดด้วยแบบประเมิน ST5 มาตรฐาน"
       },
       { 
-        label: "ประเมินโรคซึมเศร้า (2Q)", 
+        label: "ประเมินโรคซึมเศร้า (PHQ-9)", 
         path: "/assessment/depression",
         icon: FileText,
         description: "คัดกรองความเสี่ยงโรคซึมเศร้าด้วยแบบประเมิน 2Q"
