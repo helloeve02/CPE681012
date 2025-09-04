@@ -114,6 +114,7 @@ const AppContent = () => {
         <Route path="/admin/adminmanage" element={<PrivateRoute><AdminManage /></PrivateRoute>} />
         <Route path="/food-exchanges" element={<FoodExchanges />} />
         <Route path="/menulabel" element={<Menulabel />} />
+        
       </Routes>
     </>
   );
