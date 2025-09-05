@@ -54,11 +54,12 @@ import StressResultsPage from "./pages/Assessment/Stress/StressResult";
 import DepressionAssessmentForm from "./pages/Assessment/Depression/Depression";
 import DepressionResultsPage from "./pages/Assessment/Depression/DepressionResult";
 import Menulabel from "./pages/Menu/menulabel"
+import ConfirmOTP from "./pages/Admin/otp"
 const AppContent = () => {
   const location = useLocation();
 
   // เช็คว่าไม่ใช่หน้า admin ค่อยแสดง NavBar
-  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem", "/forgot-pass","/admin/adminmanage"].includes(location.pathname);
+  const hideNavBar = ["/admin", "/pdf-viewer","/admin-home","/admin/menu","/admin/educational","/admin/fooditem", "/forgot-pass","/admin/adminmanage","/confirm-otp"].includes(location.pathname);
 
   return (
     <>
@@ -100,21 +101,21 @@ const AppContent = () => {
         <Route path="/mealplanner" element={<MealPlannerApp />} />
         <Route path="/pdf-viewer" element={<PDFViewerPage />} />
         <Route path="/admin" element={<AdminLoginForm />} />
-        <Route path="/admin/fooditem" element={<PrivateRoute><FoodAdminPanel /></PrivateRoute>} />
-        <Route path="/admin/menu" element={<PrivateRoute><MenuAdminPanel /></PrivateRoute>} />
+        <Route path="/admin/fooditem" element={<PrivateRoute type="auth"><FoodAdminPanel /></PrivateRoute>} />
+        <Route path="/admin/menu" element={<PrivateRoute type="auth"><MenuAdminPanel /></PrivateRoute>} />
         <Route path="/admin/educational" element={<PrivateRoute><EducationalAdminPanel /></PrivateRoute>} />
-        <Route path="/forgot-pass" element={<PasswordResetForm />} />
-        <Route path="/admin-home" element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
+        <Route path="/forgot-pass" element={<PrivateRoute type="reset"><PasswordResetForm /></PrivateRoute>} />
+        <Route path="/admin-home" element={<PrivateRoute type="auth"><AdminDashboard /></PrivateRoute>} />
         <Route path="/menucal" element={<SodiumCalculator />} />
         <Route path="/importance-of-nutrition" element={<ImportanceOfNutrition />} />
         <Route path="/menusodium" element={<SodiumBubbleChart />} />
         <Route path="/fluidcalculator" element={<FluidCalculator />} />
         <Route path="/cleaningre" element={<CleaningMethodCards />} />
         <Route path="/menutaste" element={<MenuTaste />} />
-        <Route path="/admin/adminmanage" element={<PrivateRoute><AdminManage /></PrivateRoute>} />
+        <Route path="/admin/adminmanage" element={<PrivateRoute type="auth"><AdminManage /></PrivateRoute>} />
         <Route path="/food-exchanges" element={<FoodExchanges />} />
         <Route path="/menulabel" element={<Menulabel />} />
-        
+        <Route path="/confirm-otp" element={<ConfirmOTP />} />
       </Routes>
     </>
   );
@@ -127,6 +128,8 @@ function App() {
       localStorage.setItem("isLogin", "false");
     }
   }, []);
+  localStorage.setItem("canResetPassword", "false");
+
 
   return (
     <Router>
