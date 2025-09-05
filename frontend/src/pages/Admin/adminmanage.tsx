@@ -12,7 +12,6 @@ const AdminMangePanel: React.FC = () => {
   const [formData, setFormData] = useState({
     FirstName: "",
     LastName: "",
-    Password: "",
     UserName: ""
   });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -52,7 +51,7 @@ const AdminMangePanel: React.FC = () => {
     e.preventDefault();
 
     // Validation
-    if (!formData.FirstName || !formData.LastName || !formData.UserName || !formData.Password) {
+    if (!formData.FirstName || !formData.LastName || !formData.UserName ) {
       message.warning("กรุณากรอกข้อมูลให้ครบทุกช่อง");
       return;
     }
@@ -79,7 +78,7 @@ const AdminMangePanel: React.FC = () => {
         }
       }
       setShowAddForm(false);
-      setFormData({ FirstName: "", LastName: "", Password: "", UserName: "" });
+      setFormData({ FirstName: "", LastName: "", UserName: "" });
       setEditingItem(null);
     } catch (err) {
       message.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล");
@@ -110,7 +109,7 @@ const AdminMangePanel: React.FC = () => {
 
   const openAddForm = () => {
     setEditingItem(null);
-    setFormData({ FirstName: "", LastName: "", Password: "", UserName: "" });
+    setFormData({ FirstName: "", LastName: "",  UserName: "" });
     setShowAddForm(true);
     // Scroll to form
     setTimeout(() => {
@@ -124,7 +123,6 @@ const AdminMangePanel: React.FC = () => {
       FirstName: item.FirstName || "",
       LastName: item.LastName || "",
       UserName: item.UserName || "",
-      Password: ""
     });
     setShowAddForm(true);
     // Scroll to form
@@ -136,7 +134,7 @@ const AdminMangePanel: React.FC = () => {
   const cancelForm = () => {
     setShowAddForm(false);
     setEditingItem(null);
-    setFormData({ FirstName: "", LastName: "", Password: "", UserName: "" });
+    setFormData({ FirstName: "", LastName: "", UserName: "" });
   };
 
   const handleGoBack = () => {
@@ -427,27 +425,7 @@ const AdminMangePanel: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="block font-bold text-gray-700 text-lg">
-                      รหัสผ่าน <span className="text-red-500">*</span>
-                    </label>
-                    <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <svg className="w-5 h-5 text-blue-400 group-focus-within:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                      </div>
-                      <input
-                        type="password"
-                        name="Password"
-                        value={formData.Password}
-                        onChange={handleInputChange}
-                        placeholder="กรอกรหัสผ่าน"
-                        className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-gray-200 hover:border-blue-400 focus:border-blue-500 focus:outline-none shadow-sm hover:shadow-md focus:shadow-lg transition-all duration-200 bg-white/80 backdrop-blur-sm text-lg"
-                        required
-                      />
-                    </div>
-                  </div>
+                  
                 </div>
 
                 <div className="border-t border-gray-200/50 pt-8">
