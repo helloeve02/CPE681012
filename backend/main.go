@@ -1,11 +1,15 @@
 package main
 
 import (
+	"fmt"
+	"net/http"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/helloeve02/CPE681012/config"
 	"github.com/helloeve02/CPE681012/controller"
 	"github.com/helloeve02/CPE681012/middlewares"
-	"net/http"
+	"github.com/joho/godotenv"
 )
 
 const PORT = "8000"
@@ -20,6 +24,13 @@ func main() {
 	router := r.Group("/")
 	r.POST("/signin", controller.SignIn)
 	r.POST("/createadmin", controller.CreateUser)
+
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("⚠️ ไม่พบไฟล์ .env จะใช้ค่า environment ของระบบแทน")
+	}
+
+	// ทดสอบว่าอ่านค่าได้
+	fmt.Println("SMTP_EMAIL =", os.Getenv("SMTP_EMAIL"))
 	{
 		router.Use(middlewares.Authorizes())
 		r.GET("/menu", controller.GetAllMenu)
@@ -77,6 +88,9 @@ func main() {
 		r.PATCH("/admin/:id", controller.UpdateUser)
 		r.DELETE("/admin/:id", controller.DeleteUser)
 		r.GET("/foodexchanges", controller.GetAllFoodExchanges)
+		r.POST("/send-otp", controller.SendOTP)
+		r.POST("/verify-otp", controller.VerifyOTP)
+
 	}
 
 	r.GET("/", func(c *gin.Context) {

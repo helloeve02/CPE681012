@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
 import {
   GetContentByArticle,
   GetContentByInfographics,
   GetContentByVideo,
 } from "../../services/https";
+import { ArrowLeft } from "lucide-react";
 
 const NewsCategoryPage: React.FC = () => {
   const [infographics, setInfographics] = useState<EducationalContentInterface[]>([]);
   const [video, setVideo] = useState<EducationalContentInterface[]>([]);
   const [article, setArticle] = useState<EducationalContentInterface[]>([]);
-
+const navigate = useNavigate();
   const categories = [
     { label: "โรคไต", path: "/KidneyInformation", icon: "🫘", color: "bg-emerald-500" },
     { label: "โรคเบาหวาน", path: "/DiabetesInformation", icon: "🩺", color: "bg-red-500" },
@@ -64,6 +65,12 @@ const NewsCategoryPage: React.FC = () => {
       <div className="relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-6 py-16">
+          <button
+              onClick={() => navigate(-1)}
+              className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
+            >
+              <ArrowLeft size={22} />
+            </button>
           <div className="text-center">
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
               สาระความรู้
@@ -127,7 +134,7 @@ const NewsCategoryPage: React.FC = () => {
         </div>
 
         {/* Infographics Section */}
-        <Section
+        <CarouselSection
           title="อินโฟกราฟฟิก"
           subtitle="ข้อมูลที่เข้าใจง่าย ผ่านภาพประกอบ"
           items={infographics.map((item) => ({
@@ -141,7 +148,7 @@ const NewsCategoryPage: React.FC = () => {
         />
 
         {/* Videos Section */}
-        <Section
+        <CarouselSection
           title="วิดีโอล่าสุด"
           subtitle="เรียนรู้ผ่านคลิปวิดีโอที่น่าสนใจ"
           items={video.map((item) => ({
@@ -176,8 +183,6 @@ const NewsCategoryPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-screen-xl mx-auto justify-items-center">
-
-
             {article.slice(0, 8).map((item) => (
               <Link
                 key={item.ID}
@@ -209,7 +214,7 @@ const NewsCategoryPage: React.FC = () => {
   );
 };
 
-interface SectionProps {
+interface CarouselSectionProps {
   title: string;
   subtitle?: string;
   items: { id: number; img: string; title: string }[];
@@ -218,51 +223,137 @@ interface SectionProps {
   icon?: string;
 }
 
-const Section: React.FC<SectionProps> = ({ title, subtitle, items, type, linkTo = "#", icon }) => (
-  <div className="mt-16">
-    <div className="flex items-center justify-between mb-8">
-      <div className="flex items-center gap-3">
-        {icon && <span className="text-3xl">{icon}</span>}
-        <div>
-          <h3 className="text-2xl font-bold text-gray-800">{title}</h3>
-          {subtitle && <p className="text-gray-600 text-sm">{subtitle}</p>}
+const CarouselSection: React.FC<CarouselSectionProps> = ({ title, subtitle, items, type, linkTo = "#", icon }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const cardWidth = type === "video" ? 320 : 256; // w-80 = 320px, w-64 = 256px
+  const gap = 24; // gap-6 = 24px
+
+  const checkScrollButtons = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
+
+  const scrollTo = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = cardWidth + gap;
+      const currentScrollLeft = scrollContainerRef.current.scrollLeft;
+      const newScrollLeft = direction === 'left' 
+        ? currentScrollLeft - scrollAmount 
+        : currentScrollLeft + scrollAmount;
+      
+      scrollContainerRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  useEffect(() => {
+    checkScrollButtons();
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', checkScrollButtons);
+      return () => container.removeEventListener('scroll', checkScrollButtons);
+    }
+  }, [items]);
+
+  if (items.length === 0) return null;
+
+  return (
+    <div className="mt-16">
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-3">
+          {icon && <span className="text-3xl">{icon}</span>}
+          <div>
+            <h3 className="text-2xl font-bold text-gray-800">{title}</h3>
+            {subtitle && <p className="text-gray-600 text-sm">{subtitle}</p>}
+          </div>
+        </div>
+        
+        <Link
+          to={linkTo}
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 font-medium"
+        >
+          ดูเพิ่มเติม
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
+      </div>
+
+      <div className="relative">
+        {/* Left Arrow */}
+        {items.length > 3 && (
+          <button
+            onClick={() => scrollTo('left')}
+            disabled={!canScrollLeft}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-lg transition-all duration-300 ${
+              canScrollLeft 
+                ? 'bg-white text-indigo-600 hover:bg-indigo-50 border border-indigo-200' 
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+            }`}
+            style={{ marginLeft: '-20px' }}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        )}
+
+        {/* Right Arrow */}
+        {items.length > 3 && (
+          <button
+            onClick={() => scrollTo('right')}
+            disabled={!canScrollRight}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full shadow-lg transition-all duration-300 ${
+              canScrollRight 
+                ? 'bg-white text-indigo-600 hover:bg-indigo-50 border border-indigo-200' 
+                : 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+            }`}
+            style={{ marginRight: '-20px' }}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        )}
+
+        <div 
+          ref={scrollContainerRef}
+          className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {items.map((item) => (
+            <Link
+              key={item.id}
+              to={type === "video" ? `/video/${item.id}` : `/infographic/${item.id}`}
+              className={`group ${type === "video" ? "w-80" : "w-64"} bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 overflow-hidden border border-gray-100 hover:scale-105`}
+            >
+              <div className="relative overflow-hidden">
+                <img
+                  src={item.img}
+                  alt={item.title}
+                  className={`${type === "video" ? "h-48" : "h-64"} w-full object-cover group-hover:scale-110 transition-transform duration-300`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <div className="p-4">
+                <h4 className="font-semibold text-gray-800 line-clamp-2 leading-snug">
+                  {item.title}
+                </h4>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
-      <Link
-        to={linkTo}
-        className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 font-medium"
-      >
-        ดูเพิ่มเติม
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </Link>
     </div>
-
-    <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
-      {items.slice(0, 6).map((item) => (
-        <Link
-          key={item.id}
-          to={type === "video" ? `/video/${item.id}` : `/infographic/${item.id}`}
-          className={`group ${type === "video" ? "w-80" : "w-64"} bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 overflow-hidden border border-gray-100 hover:scale-105`}
-        >
-          <div className="relative overflow-hidden">
-            <img
-              src={item.img}
-              alt={item.title}
-              className={`${type === "video" ? "h-48" : "h-64"} w-full object-cover group-hover:scale-110 transition-transform duration-300`}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </div>
-          <div className="p-4">
-            <h4 className="font-semibold text-gray-800 line-clamp-2 leading-snug">
-              {item.title}
-            </h4>
-          </div>
-        </Link>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 export default NewsCategoryPage;
