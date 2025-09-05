@@ -2,13 +2,15 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, Shield, CheckCircle, AlertCircle, Sparkles, Star, Heart, Zap, Key } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 export default function PasswordResetForm() {
-  const [email, setEmail] = useState('focus001@gmail.com');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
+
+
 
   useEffect(() => {
     const t = setTimeout(() => setIsLoaded(true), 20);
@@ -36,6 +38,7 @@ export default function PasswordResetForm() {
     setIsLoading(true);
     setTimeout(() => {
       console.log('Resetting password with:', { email, newPassword });
+      window.location.reload();
       setIsLoading(false);
     }, 2000);
   };
@@ -389,3 +392,5 @@ export default function PasswordResetForm() {
     </div>
   );
 }
+
+
