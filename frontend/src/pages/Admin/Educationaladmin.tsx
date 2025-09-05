@@ -67,6 +67,7 @@ const EducationalAdminPanel: React.FC = () => {
     AdminID: currentAdmin?.ID || 1,
     EducationalGroupID: undefined,
     ContentCategoryID: undefined,
+    type: "" 
   });
 
   // ======= โหลดข้อมูลจาก backend =======
@@ -145,6 +146,7 @@ const EducationalAdminPanel: React.FC = () => {
       AdminID: currentAdmin?.ID || 1,
       EducationalGroupID: undefined,
       ContentCategoryID: undefined,
+      type: "" 
     });
   };
 
@@ -224,6 +226,7 @@ const EducationalAdminPanel: React.FC = () => {
       AdminID: currentAdmin?.ID || 1,
       EducationalGroupID: formData.EducationalGroupID,
       ContentCategoryID: formData.ContentCategoryID,
+      type: "" 
     };
 
     if (editingItem?.ID) {
