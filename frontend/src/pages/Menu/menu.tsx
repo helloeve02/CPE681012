@@ -297,6 +297,7 @@ const Menu: React.FC = () => {
                                 </span>
                               ))}
                           </div>
+                          
                         </div>
 
                         <h3 className="text-xl font-kanit font-bold text-gray-800 mb-4 
