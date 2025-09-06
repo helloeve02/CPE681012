@@ -14,24 +14,18 @@ import {
     PolarAngleAxis,
     PolarRadiusAxis,
 } from "recharts";
+import { GetAllMenu } from "../../services/https";
+import { useEffect, useState } from "react";
+import type { MenuInterface } from "../../interfaces/Menu";
 // import { useNavigate } from "react-router-dom";
 // import { Leaf } from 'lucide-react';
-const data = [
-    { name: "บะหมี่กึ่งสำเร็จรูป", sodium: 1400 },
-    { name: "บะหมี่น้ำหมูแดง", sodium: 1777 },
-    { name: "ไส้กรอกคอคเทล", sodium: 1000 },
-    { name: "ข้าวผัดหมู", sodium: 755 },
-    { name: "ชีสบอร์เกอร์", sodium: 750 },
-    { name: "เส้นเล็กน้ำหมู", sodium: 700 },
-    { name: "ข้าวไข่ตุ๋น", sodium: 623 },
-    { name: "พิซซ่าทะเล", sodium: 583 },
-    { name: "ขนมอบกรอบ", sodium: 223 },
-];
+
 
 // ฟังก์ชันแปลง sodium → สี
-const getColor = (sodium: number) => {
-    if (sodium > 1200) return "#ef4444"; // แดงเข้ม
-    if (sodium > 800) return "#f59e0b"; // เหลือง
+const getColor = (sodium: string) => {
+    const value = Number(sodium);
+    if (value > 1200) return "#ef4444"; // แดงเข้ม
+    if (value > 800) return "#f59e0b"; // เหลือง
     return "#10b981"; // เขียว
 };
 
@@ -45,7 +39,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
                 <p className="font-semibold text-gray-800 mb-1">{label}</p>
                 <p className="text-sm">
                     <span className="text-blue-600">โซเดียม: </span>
-                    <span className="font-bold">{payload[0]?.value} mg</span>
+                    <span className="font-bold">{payload[0]?.payload.sodium} mg</span>
                 </p>
             </div>
         );
@@ -54,6 +48,35 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function SodiumCharts() {
+    const [data, setMenu] = useState<MenuInterface[]>([]);
+    const [error, setError] = useState("");
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const res = await GetAllMenu();
+      if (Array.isArray(res?.data?.menu)) {
+        const mappedData = res.data.menu
+          .map((item: MenuInterface) => ({
+            name: item.Title,   // ✅ ชื่อเมนู
+            sodium: item.Sodium // ✅ ปริมาณโซเดียม
+          }))
+          .sort((a: { sodium: number; }, b: { sodium: number; }) => b.sodium - a.sodium) // ✅ เรียงจากมากไปน้อย
+          .slice(0, 10); // ✅ เอาแค่ 10 อันดับแรก
+
+        setMenu(mappedData);
+      } else {
+        setError("Failed to load menu items");
+      }
+    } catch {
+      setError("Error fetching menu items. Please try again later.");
+    }
+  };
+
+  fetchData();
+}, []);
+
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 font-kanit">
             {/* Header Section */}
@@ -75,7 +98,7 @@ export default function SodiumCharts() {
                     </div>
                 </div>
             </div>
-            
+
 
             <div className="max-w-7xl mx-auto px-6 py-12">
                 {/* Charts Grid */}
@@ -116,11 +139,12 @@ export default function SodiumCharts() {
                                         <Tooltip content={<CustomTooltip />} />
                                         <Scatter data={data}>
                                             {data.map((entry, index) => (
-                                                <Cell 
-                                                    key={`cell-${index}`} 
-                                                    fill={getColor(entry.sodium)}
-                                                    className="hover:opacity-80 transition-opacity" 
+                                                <Cell
+                                                    key={`cell-${index}`}
+                                                    fill={getColor(entry.Sodium?.toString() || "")}
+                                                    className="hover:opacity-80 transition-opacity"
                                                 />
+
                                             ))}
                                         </Scatter>
                                     </ScatterChart>
@@ -147,13 +171,13 @@ export default function SodiumCharts() {
                                 <ResponsiveContainer width="100%" height={450}>
                                     <RadarChart cx="50%" cy="50%" outerRadius="75%" data={data}>
                                         <PolarGrid stroke="#e5e7eb" />
-                                        <PolarAngleAxis 
-                                            dataKey="name" 
-                                            tick={{ fontSize: 12, fill: '#6b7280' }} 
+                                        <PolarAngleAxis
+                                            dataKey="name"
+                                            tick={{ fontSize: 12, fill: '#6b7280' }}
                                         />
-                                        <PolarRadiusAxis 
-                                            angle={30} 
-                                            domain={[0, 1800]} 
+                                        <PolarRadiusAxis
+                                            angle={30}
+                                            domain={[0, 1800]}
                                             tick={{ fontSize: 10, fill: '#9ca3af' }}
                                         />
                                         <Tooltip content={<CustomTooltip />} />
@@ -244,8 +268,8 @@ export default function SodiumCharts() {
                         </h3>
                         <div className="bg-white/70 backdrop-blur-sm p-4 rounded-lg border border-emerald-100">
                             <p className="text-sm text-gray-700 leading-relaxed">
-                                <span className="font-semibold text-emerald-700">แนะนำ:</span> บริโภคโซเดียมไม่เกิน 
-                                <span className="font-bold text-emerald-800 mx-1">2,000 มก./วัน</span> 
+                                <span className="font-semibold text-emerald-700">แนะนำ:</span> บริโภคโซเดียมไม่เกิน
+                                <span className="font-bold text-emerald-800 mx-1">2,000 มก./วัน</span>
                                 เพื่อลดความเสี่ยงโรคความดันโลหิตสูงและโรคหัวใจ
                             </p>
                             <div className="mt-3 pt-3 border-t border-emerald-100">
