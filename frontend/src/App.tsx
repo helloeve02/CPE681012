@@ -50,6 +50,7 @@ import FoodExchanges from "./pages/Nutrition/FoodExchanges";
 import DiabetesResultPage from "./pages/Assessment/Diabetes/DiabetesResultPage ";
 import KidneyRiskResultsPage from "./pages/Assessment/Kidney/KidneyResult";
 import Menulabel from "./pages/Menu/menulabel"
+import Footer from "./components/Footer";
 const AppContent = () => {
   const location = useLocation();
 
@@ -107,6 +108,7 @@ const AppContent = () => {
         <Route path="/food-exchanges" element={<FoodExchanges />} />
         <Route path="/menulabel" element={<Menulabel />} />
       </Routes>
+      {!hideNavBar && <Footer />}
     </>
   );
 };

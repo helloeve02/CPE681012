@@ -458,6 +458,7 @@ const ChooseAvoid = () => {
           {/* Popup */}
           <FoodPopup
             item={selectedItem}
+            ruleNumber={ruleNumber ?? undefined}
             onClose={() => setSelectedItem(null)}
           />
         </div>

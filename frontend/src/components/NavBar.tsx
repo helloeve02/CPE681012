@@ -48,7 +48,7 @@ const NavBar = () => {
             onClick={handleIconClick}
             className="flex items-center space-x-3 cursor-pointer group"
           >
-            <div className="bg-white bg-opacity-20 p-2 rounded-xl group-hover:bg-opacity-30 transition-all duration-300">
+            <div className="bg-blue-500 bg-opacity-20 p-2 rounded-xl group-hover:bg-opacity-30 transition-all duration-300">
               <div className="w-8 h-8 text-white flex items-center justify-center font-bold text-lg">
                 N
               </div>

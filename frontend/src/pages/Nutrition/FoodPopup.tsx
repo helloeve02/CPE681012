@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import type { FoodItem } from "../../interfaces/FoodItem";
 import type { FoodExchangeInterface } from "../../interfaces/FoodExchange";
+import { getValidRule } from "../../services/https/ruleUtils";
+import { useNavigate } from "react-router-dom";
 
 interface NormalizedFood {
   Name?: string;
@@ -19,10 +21,11 @@ interface NormalizedFood {
 
 type FoodPopupProps = {
   item: FoodItem | FoodExchangeInterface | null;
+  ruleNumber?: number;
   onClose: () => void;
 };
 
-const FoodPopup: React.FC<FoodPopupProps> = ({ item, onClose }) => {
+const FoodPopup: React.FC<FoodPopupProps> = ({ item, ruleNumber, onClose }) => {
   if (!item) return null;
 
   const normalized: NormalizedFood =
@@ -64,8 +67,18 @@ const FoodPopup: React.FC<FoodPopupProps> = ({ item, onClose }) => {
                      rounded-full flex items-center justify-center text-gray-500 hover:text-gray-700 
                      transition-all duration-300 hover:scale-110 shadow-lg border border-gray-100 z-10"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
 
@@ -99,7 +112,11 @@ const FoodPopup: React.FC<FoodPopupProps> = ({ item, onClose }) => {
               </span>
             )}
             {normalized.FoodFlag?.Flag && (
-              <span className={`px-3 py-1.5 rounded-full text-sm font-medium shadow-sm ${getFlagStyles(normalized.FoodFlag.Flag)}`}>
+              <span
+                className={`px-3 py-1.5 rounded-full text-sm font-medium shadow-sm ${getFlagStyles(
+                  normalized.FoodFlag.Flag
+                )}`}
+              >
                 {normalized.FoodFlag.Flag}
               </span>
             )}
@@ -109,20 +126,36 @@ const FoodPopup: React.FC<FoodPopupProps> = ({ item, onClose }) => {
           {normalized.Amount && normalized.Unit && (
             <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-4 mb-6 shadow-sm">
               <div className="flex items-center justify-center gap-2">
-                <span className="text-amber-800 font-semibold">1 ส่วน เท่ากับ </span>
-                <span className="text-amber-900 font-bold">{normalized.Amount} {normalized.Unit}</span>
+                <span className="text-amber-800 font-semibold">
+                  1 ส่วน เท่ากับ{" "}
+                </span>
+                <span className="text-amber-900 font-bold">
+                  {normalized.Amount} {normalized.Unit}
+                </span>
               </div>
             </div>
           )}
 
           {/* Description section */}
-          {normalized.Description && (
+          {ruleNumber !== undefined && (ruleNumber < 17 || ruleNumber > 22) && normalized.Description && (
             <div className="bg-gradient-to-r from-slate-50 to-gray-50 border border-slate-200 rounded-2xl p-5 mb-6 shadow-sm">
               <div className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-slate-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-5 h-5 text-slate-600 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
-                <p className="text-slate-700 text-sm leading-relaxed">{normalized.Description}</p>
+                <p className="text-slate-700 text-sm leading-relaxed">
+                  {normalized.Description}
+                </p>
               </div>
             </div>
           )}
@@ -136,15 +169,25 @@ const FoodPopup: React.FC<FoodPopupProps> = ({ item, onClose }) => {
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-700 text-xs underline decoration-dotted underline-offset-2 transition-colors duration-200 flex items-center gap-1"
               >
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                <svg
+                  className="w-3 h-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
                 </svg>
                 เครดิตรูปภาพ
               </a>
             ) : (
               <div />
             )}
-            
+
             <button
               onClick={onClose}
               className="bg-gradient-to-r from-slate-100 to-gray-100 hover:from-slate-200 hover:to-gray-200 

@@ -2795,8 +2795,8 @@ func SetupDatabase() {
 		},
 		{
 			Name:        "แครกเกอร์",
-			Image:       "https://t3.ftcdn.net/jpg/02/93/06/52/360_F_293065233_CQ3WBmQafv2T91cvOXp0RkNUSjInYNXa.jpg",
-			Credit:      "https://stock.adobe.com/jp/search/images?k=%E3%82%AF%E3%83%A9%E3%83%83%E3%82%AB%E3%83%BC",
+			Image:       "https://www.scimath.org/images/stories/flexicontent/item_12043_field_65/l_12043_image_01.jpg",
+			Credit:      "https://www.scimath.org/image-science/item/12043-2020-12-02-06-32-39-11922",
 			Description: "ฟอสฟอรัสสูง,โพแทสเซียมสูง",
 			FoodFlagID:  5,
 		},
@@ -3172,14 +3172,14 @@ func SetupDatabase() {
 			FoodFlagID:  8,
 		},
 		{
-			Name:        "ไข่แดง",
+			Name:        "ไข่แดงและ ผลิตภัณฑ์จากไข่แดง",
 			Image:       "https://www.tcs-mart.com/web/wp-content/uploads/2022/11/yolk1.jpg",
 			Credit:      "https://www.tcs-mart.com/product/%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%88%E0%B8%99%E0%B9%84%E0%B8%82%E0%B9%88%E0%B9%81%E0%B8%94%E0%B8%87-egg-yolk-flavour-water-flavour/",
 			Description: "ฟอสฟอรัสสูง",
 			FoodFlagID:  8,
 		},
 		{
-			Name:        "นม",
+			Name:        "นมและ  cursor-pointerผลิตภัณฑ์จากนม",
 			Image:       "https://5.imimg.com/data5/HW/IA/MY-41175207/full-cream-pure-goat-milk-500x500.jpg",
 			Credit:      "https://www.indiamart.com/proddetail/full-cream-pure-goat-milk-16132391897.html",
 			Description: "ฟอสฟอรัสสูง,โพแทสเซียมสูง",
