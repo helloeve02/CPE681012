@@ -10,5 +10,6 @@ export interface MenuInterface {
     Sodium?: number;
     AdminID?: number; //FK
     Credit?: string;
+    Potassium?: string;
     Tags: TagInterface[]; 
 }
