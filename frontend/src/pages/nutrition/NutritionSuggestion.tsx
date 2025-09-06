@@ -465,7 +465,7 @@ const NutritionSuggestion = () => {
                                 }
                                 key={foodGroupName}
                                 className="
-  relative cursor-pointer p-4 text-center font-semibold text-gray-700 min-w-32
+  relative p-4 text-center font-semibold text-gray-700 min-w-32
   overflow-hidden transition-all duration-300 ease-in-out
   hover:text-transparent hover:bg-clip-text
   hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600
@@ -476,9 +476,13 @@ const NutritionSuggestion = () => {
   hover:after:w-3/4
 "
                               >
-                                <Tooltip title="ดูคำแนะนำเพิ่มเติม">
+                                {ruleNum! < 17 || ruleNum! > 22 ? (
+                                  <Tooltip title="ดูคำแนะนำเพิ่มเติม">
+                                    <span className="cursor-pointer">{foodGroupName}</span>
+                                  </Tooltip>
+                                ) : (
                                   <span>{foodGroupName}</span>
-                                </Tooltip>
+                                )}
                               </th>
                             )
                           )}
