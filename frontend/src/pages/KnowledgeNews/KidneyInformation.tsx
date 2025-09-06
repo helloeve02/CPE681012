@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft, FileText, Video, Image, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
-import { GetContentAllByKidney } from "../../services/https";
+import { GetContentAllByKidney, GetContentKidneyByArticle, GetContentKidneyByInfographics, GetContentKidneyByVideo } from "../../services/https";
 
 const KidneyInformation: React.FC = () => {
   const [activeTab, setActiveTab] = useState("ทั้งหมด");
   const [kidney, setKidney] = useState<EducationalContentInterface[]>([]);
+  const [KidneyByVideo, setKidneyByVideo] = useState<EducationalContentInterface[]>([]);
+  const [KidneyByArticle, setKidneyByArticle] = useState<EducationalContentInterface[]>([]);
+  const [KidneyByInfographics, setKidneyByInfographics] = useState<EducationalContentInterface[]>([]);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -22,6 +26,7 @@ const KidneyInformation: React.FC = () => {
     try {
       setIsLoading(true);
       const res = await GetContentAllByKidney();
+      
       if (Array.isArray(res?.data?.educationalContents)) {
         setKidney(res.data.educationalContents);
       }
@@ -32,15 +37,66 @@ const KidneyInformation: React.FC = () => {
     }
   };
 
+  const getContentKidneyByArticle = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentKidneyByArticle();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setKidneyByArticle(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching kidney content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getContentKidneyByVideo = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentKidneyByVideo();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setKidneyByVideo(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching kidney content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getContentKidneyByInfographics = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentKidneyByInfographics();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setKidneyByInfographics(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching kidney content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     getContentAllByKidney();
+    getContentKidneyByVideo();
+    getContentKidneyByArticle();
+    getContentKidneyByInfographics();
   }, []);
+// Filter by active tab
+let filteredData: EducationalContentInterface[] = [];
 
-  // Filter by active tab
-  const filteredData =
-    activeTab === "ทั้งหมด"
-      ? kidney
-      : kidney.filter((item) => item.type === activeTab);
+if (activeTab === "ทั้งหมด") {
+  filteredData = kidney;
+} else if (activeTab === "บทความ") {
+  filteredData = KidneyByArticle;
+} else if (activeTab === "คลังวิดีโอ") {
+  filteredData = KidneyByVideo;
+} else if (activeTab === "อินโฟกราฟฟิก") {
+  filteredData = KidneyByInfographics;
+}
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-kanit">
@@ -104,11 +160,10 @@ const KidneyInformation: React.FC = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`relative flex-1 flex items-center justify-center gap-2 py-4 px-4 rounded-lg font-medium text-sm transition-all duration-300 ${
-                      activeTab === tab.id
+                    className={`relative flex-1 flex items-center justify-center gap-2 py-4 px-4 rounded-lg font-medium text-sm transition-all duration-300 ${activeTab === tab.id
                         ? "bg-white text-green-700 shadow-lg shadow-green-500/20 border border-green-200/50"
                         : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
-                    }`}
+                      }`}
                   >
                     <Icon size={18} />
                     <span className="hidden sm:inline font-semibold">{tab.label}</span>
@@ -172,13 +227,13 @@ const KidneyInformation: React.FC = () => {
                         className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      
+
                       {/* Content type badge */}
                       <div className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
                         {item.type}
                       </div>
                     </div>
-                    
+
                     <div className="p-5">
                       <h3 className="font-bold text-gray-800 text-base leading-tight mb-3 group-hover:text-green-700 transition-colors duration-200 line-clamp-2">
                         {item.Title}
@@ -186,7 +241,7 @@ const KidneyInformation: React.FC = () => {
                       <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 mb-4">
                         {item.Description}
                       </p>
-                      
+
                       {/* Read more indicator */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300">

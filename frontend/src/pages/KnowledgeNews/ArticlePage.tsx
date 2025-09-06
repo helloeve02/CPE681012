@@ -29,7 +29,7 @@ const ArticleDetailPage: React.FC = () => {
       if (Array.isArray(res?.data?.educationalContents)) {
         // Filter out current article and limit to 6 items
         const filtered = res.data.educationalContents
-          .filter((item) => item.ID !== parseInt(id || '0'))
+          .filter((item: { ID: number; }) => item.ID !== parseInt(id || '0'))
           .slice(0, 6);
         setRelated(filtered);
       }

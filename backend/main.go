@@ -90,6 +90,18 @@ func main() {
 		r.GET("/foodexchanges", controller.GetAllFoodExchanges)
 		r.POST("/send-otp", controller.SendOTP)
 		r.POST("/verify-otp", controller.VerifyOTP)
+		r.GET("/contentkidney-video", controller.GetContentKidneyByVideo)
+		r.GET("/contentdiabetes-video", controller.GetContentDiabetesByVideo)
+		r.GET("/contentexercise-video", controller.GetContentExerciseByVideo)
+		r.GET("/contentnutrition-video", controller.GetContentNutritionByVideo)
+		r.GET("/contentkidney-infographics", controller.GetContentKidneyByInfographics)
+		r.GET("/contentdiabetes-infographics", controller.GetContentDiabetesByInfographics)
+		r.GET("/contentexercise-infographics", controller.GetContentExerciseByInfographics)
+		r.GET("/contentnutrition-infographics", controller.GetContentNutritionByInfographics)
+		r.GET("/contentkidney-article", controller.GetContentKidneyByArticle)
+		r.GET("/contentdiabetes-article", controller.GetContentDiabetesByArticle)
+		r.GET("/contentexercise-article", controller.GetContentExerciseByArticle)
+		r.GET("/contentnutrition-article", controller.GetContentNutritionByArticle)
 
 	}
 
