@@ -7,7 +7,9 @@ export interface MenuInterface {
     Description?: string;
     Region?: string;
     Image?: string;
+    Sodium?: number;
     AdminID?: number; //FK
     Credit?: string;
+    Potassium?: string;
     Tags: TagInterface[]; 
 }

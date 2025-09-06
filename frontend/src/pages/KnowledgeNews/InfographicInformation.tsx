@@ -49,6 +49,7 @@ const InfographicInformation: React.FC = () => {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
     getAllContent();

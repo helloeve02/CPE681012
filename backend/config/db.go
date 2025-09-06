@@ -86,7 +86,9 @@ func SetupDatabase() {
 		5. ตักใส่จาน โรยหน้าด้วยต้นหอม ผักชี และใบแมงลักเพื่อความสวยงาม`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://f.ptcdn.info/511/002/000/1361646707-IMG2766Med-o.jpg",
+			Sodium:180.30,
 			Credit: "https://pantip.com/topic/30178641",
+			Potassium: "344.14",
 		},
 		{
 			Title: "น้ำพริกอ่อง",
@@ -116,7 +118,9 @@ func SetupDatabase() {
 	6. ตักใส่ถ้วย แต่งหน้าด้วยผักชี รับประทานกับผักสด`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://img.wongnai.com/p/1920x0/2017/09/24/c415bbcecc5145c9a967b132e28a1087.jpg",
+			Sodium:206.31,
 			Credit: "https://www.facebook.com/amonrat.Thuamchot",
+			Potassium: "383",
 		},
 		{
 			Title: "แกงแคไก่บ้าน",
@@ -142,7 +146,9 @@ func SetupDatabase() {
 	5. รอให้เดือดอีกครั้ง แล้วยกลงจากเตา ตักเสิร์ฟร้อน ๆ`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://i.ytimg.com/vi/Jvf4KMuuoEQ/maxresdefault.jpg",
+			Sodium:194.05,
 			Credit: "https://www.facebook.com/profile.php?id=100080562848664",
+			Potassium: "319",
 		},
 		{
 			Title: "แกงส้มตูนปลานิล",
@@ -167,7 +173,9 @@ func SetupDatabase() {
 	5. ปรุงรสด้วยน้ำมะกรูดก่อนยกลง ตักใส่ถ้วยพร้อมเสิร์ฟ`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikO0YvxPPCqwJAgtPfgJjjdTX2oZvUWFvgAHLRItqY9q1UbwYqXBIEZqUmjsrk4wfTavQfzmLbPzMUSd6LBjZmxI3Vhag7jsOMyxPg3V2AVikonT_SdHb5CiDBbQkI2Fv68L8eMmlyKhM/s1600/%E0%B9%81%E0%B8%81%E0%B8%87%E0%B8%95%E0%B8%B9%E0%B8%99%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%9B%E0%B8%A5%E0%B8%B2.jpg",
+			Sodium:173.34,
 			Credit: "https://th.wikipedia.org/wiki/%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88",
+		    Potassium: "299",
 		},
 		{
 			Title: "จอผักกาด",
@@ -191,6 +199,9 @@ func SetupDatabase() {
 	5. ตักใส่ถ้วย โรยหน้าด้วยกระเทียมเจียว และแต่งหน้าด้วยพริกทอดที่เหลือ`,
 			// Region: "ภาคเหนือ",
 			Image: "https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSC41tBS2JyaLrHhBkHieCf4lwMRxT.jpg",
+			Sodium:180.70,
+			Credit: "https://www.thairath.co.th/lifestyle/food/2168370",
+			Potassium: "279",
 		},
 		{
 			Title: "ลาบคั่ว",
@@ -220,7 +231,9 @@ func SetupDatabase() {
 	6. ปิดไฟใส่น้ำมะนาวคนให้เข้ากันตักใส่จาน โรยด้วยต้นหอม ผักชีอีกเล็กน้อย รับประทานคู่กับผักกาดขาว`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://png.pngtree.com/thumb_back/fh260/background/20220324/pngtree-spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo-image_21814272.jpg",
+			Sodium:203.24,
 			Credit: "https://th.pngtree.com/freebackground/spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo_8413949.html",
+			Potassium: "222",
 		},
 		{
 			Title: "ขนมจีนน้ำเงี้ยว",
@@ -250,7 +263,9 @@ func SetupDatabase() {
 	5. จัดเสิร์ฟ พร้อมกะหล่ำปลีซอย กระเทียมเจียว หากชอบรสเปรี้ยวสามารถปรุงรสด้วยน้ำมะนาวตามชอบ`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://sharp-weeclub.com/wp-content/uploads/2022/01/%E0%B8%82%E0%B8%99%E0%B8%A1%E0%B8%88%E0%B8%B5%E0%B8%991-990x510-1.jpg",
+			Sodium:401.79,
 			Credit: "https://kongthaijeen.com/cn/41301/",
+			Potassium: "301",
 		},
 		{
 			Title: "ตำขนุน",
@@ -283,7 +298,9 @@ func SetupDatabase() {
   5. เมื่อเนื้อหมูสุกดีแล้ว ใส่ใบมะกรูด ตามด้วยผักชี ต้นหอมซอย ลงผัดให้เข้ากัน`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://www.maeban.co.th/upfiles/blog/469811576_1757125385107540_8515113923452393484_n.jpg",
+			Sodium:188.92,
 			Credit: "https://phiangphitc.wordpress.com/2013/07/18/%E0%B8%95%E0%B8%B3%E0%B8%82%E0%B8%99%E0%B8%B8%E0%B8%99/",
+			Potassium: "152",
 		},
 		{
 			Title: "น้ำพริกมะเขือเทศ",
@@ -305,7 +322,9 @@ func SetupDatabase() {
   5. หากชอบรสเปรี้ยว ให้ปรุงรสด้วยน้ำมะนาวเล็กน้อย รับประทานแนมกับผักลวก และไข่ต้ม`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://img.kapook.com/u/surauch/cook1/Thai_2.jpg",
+			Sodium:192.19,
 			Credit: "https://www.bloggang.com/m/viewdiary.php?id=thewho&month=03-2018&date=31&group=18&gblog=1",
+			Potassium: "355",
 		},
 		{
 			Title: "แอ๊บหมู",
@@ -324,7 +343,9 @@ func SetupDatabase() {
 4. ตักส่วนผสมใส่ห่อใบตอง ใช้ไม้กลัดนำไปย่างหรืออบจนสุก`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://img.wongnai.com/p/256x256/2023/06/04/b1e8748c61d4459d826187fb574aeb1f.jpg",
+			Sodium:187.69,
 			Credit: "https://shorturl.at/YuvZu",
+			Potassium: "132",
 		},
 		{
 			Title: "ต้มโคล้งปลาช่อน",
@@ -346,7 +367,9 @@ func SetupDatabase() {
 5. ตักต้มโคล้งใส่ลงไป รับประทานกับข้าวสวยร้อน ๆ`,
 			// Region: "ภาคกลาง",
 			Image:  "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-650.jpg",
+			Sodium:143.50,
 			Credit: "https://www.wongnai.com/reviews/71c0729575454bc18a87cdc060ac937c",
+			Potassium: "230",
 		},
 		{
 			Title: "แกงส้มเปลือกแตงโม กุ้งสด",
@@ -371,7 +394,9 @@ func SetupDatabase() {
 5. ปรุงรสด้วยน้ำตาลและน้ำมะขามเปียก ตามด้วยกุ้ง รอจนสุกพร้อมตักเสิร์ฟ`,
 			// Region: "ภาคกลาง",
 			Image:  "https://thecookingsociety.com/wp-content/uploads/2022/02/Screen-Shot-2565-02-26-at-15.54.50.png",
+			Sodium:189.81,
 			Credit: "https://cooking.kapook.com/view75219.html",
+			Potassium: "76",
 		},
 		{
 			Title: "ผัดฉ่าไข่ขาว",
@@ -395,7 +420,9 @@ func SetupDatabase() {
 3. ปรุงรสด้วยน้ำตาล, น้ำปลา แล้วจึงใส่ผักชีฝรั่งและใบกะเพรา ยกลงพร้อมเสิร์ฟ`,
 			// Region: "ภาคกลาง",
 			Image:  "https://i.ytimg.com/vi/dGQwq6GshVw/maxresdefault.jpg",
+			Sodium:185.97,
 			Credit: "https://www.youtube.com/watch?v=QluWnJGqMuU&ab_channel=%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%B5%E0%B8%81%E0%B8%B4%E0%B8%99%E0%B8%94%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B8%AA%E0%B8%95%E0%B8%B4",
+			Potassium: "130",
 		},
 		{
 			Title: "หลนกุ้ง ผักสด",
@@ -420,7 +447,9 @@ func SetupDatabase() {
 3. พอสุก ตักใส่ถ้วย ตกแต่งโรยหน้าด้วยพริกสี, ตะไคร้ซอย, ใบมะกรูดซอย ตกแต่งด้วยผักให้สวยงาม`,
 			// Region: "ภาคกลาง",
 			Image:  "https://www.bloggang.com/data/jazzy-bong/picture/1436528038.jpg",
+			Sodium:203.52,
 			Credit: "https://www.bloggang.com/m/mainblog.php?id=jazzy-bong&month=11-07-2015&group=28&gblog=20",
+			Potassium: "152",
 		},
 		{
 			Title: "ข้าวผัดเบญจรงค์",
@@ -444,7 +473,9 @@ func SetupDatabase() {
 3. ใส่ข้าวสวยปรุงรสด้วยซีอิ๊วขาว ผัดให้เข้ากัน ตักใส่จาน โรยด้วยพริกไทย ตกแต่งด้วยแตงกวา, ต้นหอม`,
 			// Region: "ภาคกลาง",
 			Image:  "https://img.wongnai.com/p/1920x0/2021/02/19/4ebb3ee1417746ba8f552a195f26e908.jpg",
+			Sodium:355.21,
 			Credit: "https://www.sanook.com/women/tag/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9C%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%B8%E0%B9%89%E0%B8%87/",
+			Potassium: "334",
 		},
 		{
 			Title: "ปลาสามรส",
@@ -470,7 +501,9 @@ func SetupDatabase() {
 4. นำปลาที่ทอดไว้จัดใส่จาน ราดซอสบนปลาที่ทอดแล้ว แต่งหน้าด้วยผักชีและพริกชี้ฟ้าแดง`,
 			// Region: "ภาคกลาง",
 			Image:  "https://www.ajinomoto.co.th/storage/photos/shares/Recipe/Menu/Lot5-16/61fa99ec4d2b6.jpg",
+			Sodium:207.17,
 			Credit: "https://shop.line.me/@nuy98/product/1000746977",
+			Potassium: "269",
 		},
 		{
 			Title: "ยำใหญ่",
@@ -495,7 +528,9 @@ func SetupDatabase() {
 3. ผสมปลาหมึกสด, กุ้งสด, ไข่ขาว, แครอท, หอมใหญ่, แตงกวา, หัวไชเท้า และน้ำยำในข้อ 2 คลุกให้เข้ากัน จากนั้นตักใส่จาน ยกขึ้นเสิร์ฟ`,
 			// Region: "ภาคกลาง",
 			Image:  "https://img.wongnai.com/p/1920x0/2018/09/11/60880f95ecfd4ff68756ec9e680a6f3f.jpg",
+			Sodium:169.32,
 			Credit: "https://www.wongnai.com/recipes/mixed-spicy-salad-recipe",
+			Potassium: "175",
 		},
 
 		{
@@ -525,7 +560,9 @@ func SetupDatabase() {
 5. เติมน้ำต้มสุกให้ปริมาณน้ำต่ำกว่าผักเล็กน้อย ต้มไฟอ่อนๆ ต่อจนผักเปื่อย แล้วตักใส่ชามพร้อมเสิร์ฟ`,
 			// Region: "ภาคกลาง",
 			Image:  "https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5LJGNmDUIqkiQVkYDqXcFTh41EztNktBWbceEb2EWQpvlrKxcWU.jpg",
+			Sodium:203.95,
 			Credit: "https://shorturl.at/Wdgo0",
+			Potassium: "329",
 		},
 
 		{
@@ -546,7 +583,9 @@ func SetupDatabase() {
 4. ปรุงรสด้วยซีอิ๊วขาว คนให้เข้ากันพอสุกยกลง`,
 			// Region: "ภาคกลาง",
 			Image:  "https://img.kapook.com/u/2018/surauch/cooking/co1/pk2.jpg",
+			Sodium:216.82,
 			Credit: "https://cooking.kapook.com/view207896.html",
+			Potassium: "350",
 		},
 
 		{
@@ -568,7 +607,9 @@ func SetupDatabase() {
 3. ตั้งกระทะพอร้อน ใส่ไข่ที่ผสมแล้ว ทอดแผ่ให้ทั่วกระทะใส่ส่วนผสมข้อที่ 1 วางตรงกลางไข่ เสร็จแล้วจึงค่อยๆ ห่อไข่เป็นรูปสี่เหลี่ยม พอสุกยกลงเสิร์ฟพร้อมผักต่างๆ`,
 			// Region: "ภาคกลาง",
 			Image:  "https://img.wongnai.com/p/1968x0/2020/03/24/524ed43d3e914520934b9f277820f00b.jpg",
+			Sodium:212.36,
 			Credit: "https://www.wongnai.com/recipes/ugc/08e2db7d1ac74e20b284c21388751dbd",
+			Potassium: "244",
 		},
 		{
 			Title: "ขนมจีนน้ำยาปักษ์ใต้",
@@ -591,7 +632,9 @@ func SetupDatabase() {
 หมายเหตุ: กรณีผู้ป่วยเบาหวาน สามารถเพิ่มรสหวานโดยใส่น้ำตาลเทียมแทนน้ำตาลปี๊บและน้ำตาลทราย`,
 			// Region: "ภาคใต้",
 			Image:  "https://img.kapook.com/u/2017/surauch/cooking/y1_4.jpg",
+			Sodium:315.75,
 			Credit: "https://shorturl.at/TpDA3",
+			Potassium: "156",
 		},
 		{
 			Title: "น้ำพริกแกงปักษ์ใต้",
@@ -614,7 +657,9 @@ func SetupDatabase() {
 หมายเหตุ: สูตรน้ำพริกนี้เมื่อทำเสร็จจะได้ 195 กรัม (13 ช้อนโต๊ะ) สามารถนำไปเป็นเครื่องปรุงน้ำพริกแกงคั่ว น้ำยาปักษ์ใต้ ผัดเผ็ด คั่วกลิ้ง หรือแกงไตปลา ฯลฯ`,
 			// Region: "ภาคใต้",
 			Image:  "https://jeeor.com/wp-content/uploads/2023/08/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%9B%E0%B8%81%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%95%E0%B8%9B%E0%B8%A5%E0%B8%B2-Recovered.jpg",
+			Sodium:172.66,
 			Credit: "https://jeeor.com/?page_id=3444",
+			Potassium: "69",
 		},
 		{
 			Title: "คั่วกลิ้งหมู",
@@ -637,7 +682,9 @@ func SetupDatabase() {
 3. ปิดไฟแล้วใส่พริกไทยอ่อน, ตะไคร้หั่นฝอย ข่าสดสับ พริกชี้ฟ้าแดงหั่น และใบมะกรูดซอยลงไปผัดให้เข้ากัน ตักใส่จาน เสิร์ฟพร้อมกับผักสดตามชอบ`,
 			// Region: "ภาคใต้",
 			Image:  "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/red-meats-&-red-meat-dishes/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9_header.jpg",
+			Sodium:201.02,
 			Credit: "https://www.unileverfoodsolutions.co.th/th/recipe/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9-R90018816.html",
+			Potassium: "164",
 		},
 		{
 			Title: "ต้มกะทิผักเหลียงกุ้งสด",
@@ -663,7 +710,9 @@ func SetupDatabase() {
 6. ใส่กุ้งสด เร่งไฟให้แรง จะช่วยป้องกันผักเหม็นเขียวได้ เติมหัวกะทิคนไม่ให้กะทิแตกมัน เมื่อกะทิเดือดอีกครั้ง ยกลงตักเสิร์ฟ`,
 			// Region: "ภาคใต้",
 			Image:  "https://img.wongnai.com/p/1920x0/2017/10/13/c4cd67bcd224401f800730cd9e4f3d02.jpg",
+			Sodium:115.93,
 			Credit: "https://nlovecooking.com/%E0%B9%83%E0%B8%9A%E0%B9%80%E0%B8%AB%E0%B8%A5%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%81%E0%B8%B0%E0%B8%97%E0%B8%B4/",
+			Potassium: "53",
 		},
 		{
 			Title: "ผัดผักเหลียงไข่ขาว",
@@ -687,7 +736,9 @@ func SetupDatabase() {
 6. โรยหน้าด้วยพริกไทยป่น`,
 			// Region: "ภาคใต้",
 			Image:  "https://img.wongnai.com/p/1920x0/2019/03/07/fd1ee1e79c1043c281b46c47b8f8f6e6.jpg",
+			Sodium:201.07,
 			Credit: "https://www.wongnai.com/recipes/ugc/330d0ad616a2490ebdbef06a61f86835",
+			Potassium: "79",
 		},
 		{
 			Title: "แกงเหลืองสับปะรด ปลากะพง",
@@ -713,7 +764,9 @@ func SetupDatabase() {
 หมายเหตุ: รสหวานของแกงเหลืองขึ้นอยู่กับความสุกของสับปะรด ดังนั้นควรค่อยๆ ปรุงน้ำตาลทีละน้อย`,
 			// Region: "ภาคใต้",
 			Image:  "https://img.wongnai.com/p/1920x0/2019/11/30/b3f5f4b444cd446aab4fc25d8b87880c.jpg",
+			Sodium:203.16,
 			Credit: "https://www.wongnai.com/recipes/ugc/aafcebb8d02d4b69a84a05a69e128a4e",
+			Potassium: "134",
 		},
 		{
 			Title: "พริกแกงเหลือง",
@@ -733,7 +786,9 @@ func SetupDatabase() {
 หรือแกงเหลืองยอดมะพร้าวใส่ปลากะพง ฯลฯ`,
 			// Region: "ภาคใต้",
 			Image:  "https://www.thaimee-d.com/pub/media/catalog/product/cache/9ef2995c1c404cd4852076153399d50d/f/i/file_17_3.jpg",
+			Sodium:268.32,
 			Credit: "https://www.lazada.co.th/products/500-i4821168369.html",
+			Potassium: "41",
 		},
 
 		{
@@ -755,7 +810,9 @@ func SetupDatabase() {
 4. ใส่เนื้อกุ้งที่เหลือ หอมแดงซอยลงไปคลุกเคล้าให้เข้ากัน (ไม่ต้องตำ) จากนั้นตักใส่ถ้วย เสิร์ฟคู่กับผักสด - ผักลวกตามชอบ`,
 			// Region: "ภาคใต้",
 			Image:  "https://www.gourmetandcuisine.com/Images/cooking/recipes/recipe_502detail.jpg",
+			Sodium:197.37,
 			Credit: "https://www.wongnai.com/restaurants/2146372Lg-%E0%B9%80%E0%B8%A2%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A1%E0%B9%83%E0%B8%95%E0%B9%89-south-cuisine",
+			Potassium: "106",
 		},
 
 		{
@@ -775,7 +832,9 @@ func SetupDatabase() {
 3. ปรุงรสด้วยน้ำปลาดี น้ำตาลปี๊บ เคี่ยวให้เหลือน้ำขลุกขลิก ใส่ใบยี่หร่ายกลงตักเสิร์ฟกับข้าวสวยร้อนๆ`,
 			// Region: "ภาคใต้",
 			Image:  "https://i.ytimg.com/vi/5WmM3b-gaIY/sddefault.jpg",
+			Sodium:180.15,
 			Credit: "https://www.youtube.com/watch?v=5WmM3b-gaIY&ab_channel=EasyYummy",
+			Potassium: "158",
 		},
 
 		{
@@ -806,11 +865,13 @@ func SetupDatabase() {
 4. นำก๋วยเตี๋ยวเส้นเล็กหรือเส้นหมี่ขาวลงผัดกับน้ำแกงผัดหมี่ ใส่กุ้งสดลงผัดให้สุก เติมน้ำเปล่า ผัดคลุกจนเส้นนิ่ม ยกลงจัดใส่จาน รับประทานกับผัก เช่น แตงกวา ใบบัวบก ถั่วงอก ใบกุยช่าย มะนาว มะม่วงสับฝอย หรือลูกมุดสับฝอย`,
 			// Region: "ภาคใต้",
 			Image:  "https://img.wongnai.com/p/1920x0/2019/11/03/0f27887e3dcf43c9879e6693588e3751.jpg",
+			Sodium:228.69,
 			Credit: "https://www.wongnai.com/recipes/ugc/74fb5e3274c24f17b01926ffcf9bcabe",
+			Potassium: "108",
 		},
 
 		{
-			Title: "ปลาต้มขมิ้นและ ข้าวยำปักษ์ใต้",
+			Title: "ปลาต้มขมิ้น",
 			Description: `ส่วนประกอบ (ต่อ 4 ที่)
 - ปลาทูสดล้างสะอาด หั่นเป็นชิ้น (ชิ้นละ 30 กรัม): 2 ตัว (120 กรัม)
 - ขมิ้นชันล้างสะอาด ปอกผิวออก ทุบหรือหั่นเป็นชิ้น: 12 แว่น (25 กรัม)
@@ -825,30 +886,16 @@ func SetupDatabase() {
 - พริกขี้หนูสดบุบพอแตก: 4 เม็ด (5 กรัม)
 - น้ำเปล่า: 2 ถ้วยตวง (480 กรัม)
 
-ส่วนประกอบข้าวยำปักษ์ใต้ (ต่อ 1 ที่)
-- มะพร้าวคั่ว: 2 ช้อนโต๊ะ (30 กรัม)
-- กุ้งแห้งป่น: 1 ช้อนชา (5 กรัม)
-- ตะไคร้หั่นฝอย: 2 ช้อนโต๊ะ (30 กรัม)
-- ถั่วฝักยาวหั่นฝอย: 3 ฝัก (30 กรัม)
-- ใบมะกรูดหั่นฝอย: 10 ใบ (10 กรัม)
-- ใบชะพลูหั่นฝอย: 12 ใบ (20 กรัม)
-- มะม่วงดิบสับหั่นฝอย: 2 ช้อนโต๊ะ (30 กรัม)
-- ส้มโอแกะกลีบ: 2 กลีบ (30 กรัม)
-- ถั่วงอกเด็ดหาง: 2 ช้อนโต๊ะ (15 กรัม)
-- ถั่วพูหั่นฝอย: 3 ช้อนโต๊ะ (30 กรัม)
-- แครอทหั่นฝอย: 2 ช้อนชา (10 กรัม)
-- พริกขี้หนูปั่นละเอียด: 1/2 ช้อนชา (2 กรัม)
-- ข้าวสวย: 1/3 ถ้วย (55 กรัม)
-- น้ำบูดู: 1 2/3 ช้อนโต๊ะ (25 กรัม)
-
 วิธีทำ
 1. ตั้งหม้อใส่น้ำเปล่า ตะไคร้ ขมิ้น หอมแดงบุบ และกระเทียม ตั้งไฟเคี่ยวจนมีกลิ่นหอมและสีขมิ้นออก
 2. พอเดือด ใส่ส้มแขก เกลือป่น น้ำตาลปี๊บ น้ำตาลทราย และน้ำมะขามเปียก เคี่ยวสักพัก
-3. ใส่ปลาทูต้มจนสุก
+3. ใส่ปลากระบอกต้มจนสุก
 4. ใส่พริกขี้หนูสด ยกลงตักเสิร์ฟ`,
 			// Region: "ภาคใต้",
 			Image:  "https://i.ytimg.com/vi/S3V3tA18wAY/maxresdefault.jpg",
+			Sodium:182.28,
 			Credit: "https://www.youtube.com/watch?v=S3V3tA18wAY&ab_channel=%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B8%9E%E0%B8%B5%E0%B9%88%E0%B8%81%E0%B8%B1%E0%B8%8D%E0%B8%8D%E0%B9%8CKruaP%27gunn",
+			Potassium: "157",
 		},
 		{
 			Title: "ข้าวยำปักษ์ใต้และน้ำบูดู",
@@ -876,19 +923,49 @@ func SetupDatabase() {
 - ตะไคร้: 6 ช้อนชา (30 กรัม)
 
 วิธีทำน้ำบูดู
-1. นำน้ำเปล่าเทใส่หม้อต้มให้เดือด
-2. ใส่เครื่องสมุนไพรทั้งหมดลงไปต้มให้กลิ่นหอม
-3. เติมน้ำตาลปี๊บลงไปแล้วคนจนละลาย
-4. ใส่น้ำบูดู แต่งสีให้เข้มด้วยซีอิ๊วแดงหวาน
-5. เคี่ยวต่อประมาณ 5 นาที ยกลงพักไว้
+1. นำน้ำเปล่าเทใส่หม้อต้มให้เดือด ใส่เครื่องสมุนไพรทั้งหมดลงไปต้มให้กลิ่นหอม 
+2. เติมน้ำตาลปี๊บลงไปแล้วคนจนละลาย
+3. ใส่น้ำบูดู แต่งสีให้เข้มด้วยซีอิ๊วแดงหวาน เคี่ยวต่อประมาณ 5 นาที ยกลงพักไว้
+หมายเหตุ: น้ำบูดูสูตรนี้จะได้ปริมาณ 360 มิลลิลิตร หรือ 24 ช้อนโต๊ะ มีรสหวานนำและมีกลิ่นของสมุนไพรจากข่า ตะไคร้ หอมแดง เมื่อนำไปผสมกับข้าวสวยและเครื่องข้าวยำ จะช่วยเพิ่มรสเปรี้ยวและกลมกล่อมด้วยมะม่วงดิบ ส้มโอ และมะนาว
 
-หมายเหตุ: น้ำบูดูสูตรนี้จะได้ปริมาณ 360 มิลลิลิตร หรือ 24 ช้อนโต๊ะ มีรสหวานนำและมีกลิ่นของสมุนไพรจากข่า ตะไคร้ หอมแดง เมื่อนำไปผสมกับข้าวสวยและเครื่องข้าวยำ จะช่วยเพิ่มรสเปรี้ยวและกลมกล่อมด้วยมะม่วงดิบ ส้มโอ และมะนาว`,
+วิธีทำข้าวยำปักษ์ใต้
+1.ผสมน้ำบูดูในข้าวสวย คลุกเคล้าจนทั่ว
+2.ใส่น้ำมะพร้าวคั่ว กุ้งแห้งป่น ใส่ผักทุกอย่างลงไปคลุกให้เข้ากัน
+3.เติมพริกขี้หนูแห้งป่น หากชอบทานเปรี้ยวปรุงรสด้วยน้ำมะนาวตามชอบ`,
 			// Region: "ภาคใต้",
 			Image:  "https://storage.googleapis.com/gsk-site/khao-yam-1.jpg",
+			Sodium:289.81,
 			Credit: "https://www.genyoungactive.com/articles/khao-yam",
+			Potassium: "9",
 		},
 		{
 			Title: "แกงผักหวานไข่มดแดง",
+			Description: `ส่วนประกอบ (ต่อ 4 ที่)
+- ผักหวานเด็ดใบอ่อน: 3 ถ้วยตวง (100 กรัม)
+- ผักติ้ว: 5 ยอด (5 กรัม)
+- ไข่มดแดง: 6 ช้อนโต๊ะ (120 กรัม)
+- ปลาช่อน: 6 ช้อนโต๊ะ (90 กรัม)
+- เกลือ: 1/6 ช้อนชา (0.75 กรัม)
+- น้ำปลาร้า: 1 ช้อนโต๊ะ (15 กรัม)
+- น้ำเปล่า: 2 ถ้วยตวง (400 กรัม)
+- พริกขี้หนูสด: 5 - 6 เม็ด (5 กรัม)
+- หอมแดงซอย: 10 ช้อนชา (50 กรัม)
+- ตะไคร้: 6 ช้อนชา (30 กรัม)
+
+วิธีทำ
+1. นำพริกขี้หนู หอมซอย ตะไคร้ โขลกรวมกันให้ละเอียด
+2. เติมน้ำเปล่าในหม้อตั้งไฟให้เดือด เติมเครื่องแกงที่โขลก ข้อ 1 ลงในหม้อ ใส่ปลาช่อนต้มจนสุก
+3. ล้างไข่มดแดงในน้ำให้สะอาด สรงใส่ตะแกรงให้สะเด็ดน้ำ
+4. นำผักหวานที่ล้างน้ำแล้ว ใส่ลงในหม้อคนให้ทั่ว แล้วหรี่ไฟลง
+5. ปรุงรสด้วยน้ำปลาร้า เติมผักติ้ว ไข่มดแดง คนจนทั่ว เคี่ยวจนเดือดประมาณ 5 นาที ปิดไฟ ตักใส่ชามพร้อมเสิร์ฟ`,
+			// Region: "ภาคอีสาน",
+			Image:  "https://img.wongnai.com/p/1920x0/2017/10/04/f4d2d901befc492f9569d9e47d3aca14.jpg",
+			Sodium:214.84,
+			Credit: "https://www.wongnai.com/cooking/cookbooks/ant-eggs-recipes",
+			Potassium: "151",
+		},
+		{
+			Title: "ขนมจีนน้ำยาลาว",
 			Description: `ส่วนประกอบ (ต่อ 4 ที่)
 - เนื้อปลานิล: 5 ช้อนโต๊ะ (80 กรัม)
 - ไข่ขาวต้ม: 4 ฟอง (140 กรัม)
@@ -908,38 +985,15 @@ func SetupDatabase() {
 - ถั่วฝักยาวหั่นฝอย: 1 ฝัก (10 กรัม)
 
 วิธีทำ
-1. นำพริกขี้หนู หอมซอย ตะไคร้ โขลกรวมกันให้ละเอียด
-2. เติมน้ำเปล่าในหม้อตั้งไฟให้เดือด เติมเครื่องแกงที่โขลก ข้อ 1 ลงในหม้อ ใส่ปลาช่อนต้มจนสุก
-3. ล้างไข่มดแดงในน้ำให้สะอาด สรงใส่ตะแกรงให้สะเด็ดน้ำ
-4. นำผักหวานที่ล้างน้ำแล้ว ใส่ลงในหม้อคนให้ทั่ว แล้วหรี่ไฟลง
-5. ปรุงรสด้วยน้ำปลาร้า เติมผักติ้ว ไข่มดแดง คนจนทั่ว เคี่ยวจนเดือดประมาณ 5 นาที ปิดไฟ ตักใส่ชามพร้อมเสิร์ฟ`,
-			// Region: "ภาคอีสาน",
-			Image:  "https://img.wongnai.com/p/1920x0/2017/10/04/f4d2d901befc492f9569d9e47d3aca14.jpg",
-			Credit: "https://www.wongnai.com/cooking/cookbooks/ant-eggs-recipes",
-		},
-		{
-			Title: "ขนมจีนน้ำยาลาว",
-			Description: `ส่วนประกอบ (ต่อ 4 ที่)
-- หยวกกล้วย: 2 ถ้วยตวง (200 กรัม)
-- อกไก่ไม่มีหนัง: 4 ช้อนโต๊ะ (40 กรัม)
-- วุ้นเส้น 1 ห่อเล็ก: 1 ถ้วยตวง (40 กรัม)
-- ตะไคร้: 3 ช้อนชา (15 กรัม)
-- พริกแห้งเม็ดใหญ่: 4 ช้อนโต๊ะ (10 กรัม)
-- กระเทียม: 1 ช้อนชา (5 กรัม)
-- หอมแดง: 4 ช้อนชา (20 กรัม)
-- ข่า: 1 แว่น (5 กรัม)
-- กะปิ: 1/4 ช้อนชา (1.25 กรัม)
-- เกลือ: 1/4 ช้อนชา (1.25 กรัม)
-- น้ำมันรำข้าว: 2 ช้อนชา (10 กรัม)
-
-วิธีทำ
 1. ล้างและปอกเปลือกหอมแดง กระเทียม ตะไคร้ ขิง กระชาย พริกแห้ง นำไปต้มในหม้อพร้อมปลานิล
 2. นำเครื่องสมุนไพรในข้อ 1 มาโขลกให้ละเอียด
 3. นำปลาต้มมายีและผสมกับเครื่องแกง ข้อ 2 โขลกให้เข้ากัน
 4. นำน้ำที่ต้มเครื่องแกงมากรองด้วยกระชอน ตั้งไฟให้เดือด นำส่วนผสม ข้อ 3 ใส่ลงในน้ำ คนให้เข้ากัน ปรุงรสด้วยปลาร้า เกลือ พอน้ำเดือดได้ที่ ปิดไฟ เสิร์ฟพร้อมขนมจีน ผักหั่นฝอย ไข่ขาวต้ม`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://food-heal.com/wp-content/uploads/2022/10/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9B%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B8%A7.png",
+			Sodium:406.67,
 			Credit: "https://food-heal.com/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9B%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B8%A7/",
+			Potassium: "240",
 		},
 		{
 			Title: "แกงหยวกกล้วย",
@@ -964,7 +1018,9 @@ func SetupDatabase() {
 5. รอให้เดือดอีกครั้ง เติมวุ้นเส้น ปิดไฟ พร้อมเสิร์ฟ`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://img.wongnai.com/p/1920x0/2023/08/01/7c1432face3448ffa084b0d7b204cddf.jpg",
+			Sodium:194.48,
 			Credit: "https://www.wongnai.com/recipes/ugc/19c117fd310344ec86eeb1dada5225b0",
+			Potassium: "69",
 		},
 		{
 			Title: "ห่อหมกปลาช่อนกะหล่ำปลี",
@@ -988,7 +1044,9 @@ func SetupDatabase() {
 4. รองใบตองด้วยใบแมงลัก และกะหล่ำปลีหั่นต้มสุก ตักส่วนผสมข้อ 2 และ 3 ใส่กระทงใบตอง นึ่งในน้ำเดือดจัดประมาณ 30 นาที`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://i.ytimg.com/vi/7sL1cOs-q68/sddefault.jpg",
+			Sodium:106.26,
 			Credit: "https://youtu.be/7sL1cOs-q68?si=Nao2LeC2WagHDAsf",
+			Potassium: "174",
 		},
 		{
 			Title: "ส้มตำปลาร้าพายัพ",
@@ -1014,7 +1072,9 @@ func SetupDatabase() {
 4. เติมน้ำปลาร้า น้ำมะขามเปียก น้ำมะนาว ผสมให้เข้ากัน ตักใส่จาน เสิร์ฟพร้อมขนมจีน`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://img.wongnai.com/p/1920x0/2020/10/18/1ac05bb40f974c268374a1ae7c491e94.jpg",
+			Sodium:393.39,
 			Credit: "https://www.wongnai.com/reviews/5fd7db16875b4da9843cfd227a12ade3",
+			Potassium: "319",
 		},
 		{
 			Title: "แกงลาวผักรวม",
@@ -1046,6 +1106,9 @@ func SetupDatabase() {
 5. ต้มน้ำใบย่านางพอเดือดใส่เครื่องแกง ฟักทองพอสุก บวบ เห็ด ข้าวเบือ ปรุงรสด้วยน้ำปลาร้า พอเดือดใส่ ใบมะกรูดฉีก ใบแมงลัก พริกแดง ยกลงตักเสิร์ฟ`,
 			// Region: "ภาคอีสาน",
 			Image: "https://i.ytimg.com/vi/bWBpR0KQXD4/maxresdefault.jpg",
+			Sodium:205.34,
+			Credit:"https://www.youtube.com/watch?v=bWBpR0KQXD4",
+			Potassium: "276",
 		},
 		{
 			Title: "แจ่วบองสมุนไพร",
@@ -1073,7 +1136,9 @@ func SetupDatabase() {
 5. ตักใส่จาน โรยหน้าด้วยใบมะกรูดหั่นฝอย จัดเสิร์ฟพร้อมผักสด`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://th-live-01.slatic.net/p/d885d27f6948ca0a9876c3beccf3a912.jpg",
+			Sodium:196.95,
 			Credit: "https://www.lazada.co.th/products/1-kg-i619954353.html",
+			Potassium: "347",
 		},
 		{
 			Title: "ลาบไข่ขาว",
@@ -1101,7 +1166,9 @@ func SetupDatabase() {
 3. นำไข่ขาว ใส่น้ำปรุงรส ข้อ 2. เติมน้ำต้มสุก ใส่หอมแดง ข้าวคั่ว พริกขี้หนูซอย พริกป่น ต้นหอม ผักชี คลุกเคล้าให้เข้ากัน จัดใส่จาน แต่งหน้าด้วยสะระแหน่ เสิร์ฟพร้อมผักสด`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://sou-dai.com/wp-content/uploads/2022/03/21-1.png",
+			Sodium:200.31,
 			Credit: "https://youtu.be/G2wsykvvx_U?si=pNtg4x9Ywf5Qkwa3",
+			Potassium: "215",
 		},
 		{
 			Title: "ผัดหมี่พิมาย",
@@ -1130,7 +1197,9 @@ func SetupDatabase() {
 6. ตักเสิร์ฟ ตกแต่งด้วยไข่ฝอย ถั่วงอก และต้นหอม`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://img.wongnai.com/p/1920x0/2017/10/21/2b9ba64f21e84f40a041377cd3b58e1d.jpg",
+			Sodium:412.70,
 			Credit: "https://shorturl.at/JTFGx",
+			Potassium: "254",
 		},
 		{
 			Title: "ป่นปลาผักต้ม",
@@ -1157,7 +1226,9 @@ func SetupDatabase() {
 4. ปรุงรสด้วยน้ำปลาร้า น้ำมะขามเปียก น้ำมะนาว หากข้นไปให้เติมน้ำต้มสุกเพิ่ม จัดเสิร์ฟพร้อมผักสด และผักต้ม`,
 			// Region: "ภาคอีสาน",
 			Image:  "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.jpg",
+			Sodium: 203,
 			Credit: "https://siamfishing.com/m/content/m.view.php?cat=recipe&nid=150703",
+			Potassium: "388",
 		},
 		{
 			Title: "ซาหริ่ม",
@@ -1181,6 +1252,7 @@ func SetupDatabase() {
 		2.ต้มด้วยไฟอ่อนจนกะทิหอมและเนียน ไม่ต้องให้เดือดจัด`,
 			// Region: "ภาคเหนือ",
 			Image:  "https://cookinghub.in.th/wp-content/uploads/2024/12/%E0%B8%8B%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A.jpg",
+			Sodium: 0,
 			Credit: "https://cookinghub.in.th/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3-%E0%B8%8B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A%E0%B9%81%E0%B8%A5/",
 		},
 	}

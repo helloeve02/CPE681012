@@ -1,4 +1,5 @@
 export interface EducationalContentInterface {
+    type: string;
     ID?: number;
     Title?: string;
     PictureIn?: string;

@@ -447,7 +447,7 @@ async function DeleteContent(id: number | undefined) {
 
 async function CreateContent(data: EducationalContentInterface) {
   return await axios
-    .post(`${apiUrl}/content`, data ,requestOptions)
+    .post(`${apiUrl}/content`, data, requestOptions)
     .then((res) => res?.data)
     .catch((e) => {
       console.error("Error creating content:", e.response?.data || e.message);
@@ -557,7 +557,89 @@ async function GetContentAllByNutrition() {
     .catch((e) => e.response);
 }
 
+async function GetContentKidneyByVideo() {
+  return await axios
+    .get(`${apiUrl}/contentkidney-video`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
 
+async function GetContentDiabetesByVideo() {
+  return await axios
+    .get(`${apiUrl}/contentdiabetes-video`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentExerciseByVideo() {
+  return await axios
+    .get(`${apiUrl}/contentexercise-video`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentNutritionByVideo() {
+  return await axios
+    .get(`${apiUrl}/contentnutrition-video`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentKidneyByInfographics() {
+  return await axios
+    .get(`${apiUrl}/contentkidney-infographics`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentDiabetesByInfographics() {
+  return await axios
+    .get(`${apiUrl}/contentdiabetes-infographics`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentExerciseByInfographics() {
+  return await axios
+    .get(`${apiUrl}("/contentexercise-infographics`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentNutritionByInfographics() {
+  return await axios
+    .get(`${apiUrl}/contentnutrition-infographics`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentKidneyByArticle() {
+  return await axios
+    .get(`${apiUrl}/contentkidney-article`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentDiabetesByArticle() {
+  return await axios
+    .get(`${apiUrl}/contentdiabetes-article`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentExerciseByArticle() {
+  return await axios
+    .get(`${apiUrl}/contentexercise-article`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+async function GetContentNutritionByArticle() {
+  return await axios
+    .get(`${apiUrl}/contentnutrition-article`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
 
 
 
@@ -624,5 +706,16 @@ export {
   GetContentAllByExercise,
   GetContentAllByNutrition,
   ListUsers,
-
+  GetContentKidneyByVideo,
+  GetContentDiabetesByVideo,
+  GetContentExerciseByVideo,
+  GetContentNutritionByVideo,
+  GetContentKidneyByInfographics,
+  GetContentDiabetesByInfographics,
+  GetContentExerciseByInfographics,
+  GetContentNutritionByInfographics,
+  GetContentKidneyByArticle,
+  GetContentDiabetesByArticle,
+  GetContentExerciseByArticle,
+  GetContentNutritionByArticle,
 }

@@ -17,8 +17,6 @@ import {
 import { GetAllMenu } from "../../services/https";
 import { useEffect, useState } from "react";
 import type { MenuInterface } from "../../interfaces/Menu";
-import { ChevronRight, Leaf, TrendingUp } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 // import { Leaf } from 'lucide-react';
 
@@ -40,7 +38,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             <div className="bg-white/95 backdrop-blur-sm p-3 rounded-lg shadow-xl border border-gray-200">
                 <p className="font-semibold text-gray-800 mb-1">{label}</p>
                 <p className="text-sm">
-                    <span className="text-blue-600">โซเดียม: </span>
+                    <span className="text-blue-600">โพแทสเซียม: </span>
                     <span className="font-bold">{payload[0]?.payload.sodium} mg</span>
                 </p>
             </div>
@@ -52,32 +50,31 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 export default function SodiumCharts() {
     const [data, setMenu] = useState<MenuInterface[]>([]);
     const [error, setError] = useState("");
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await GetAllMenu();
-                if (Array.isArray(res?.data?.menu)) {
-                    const mappedData = res.data.menu
-                        .map((item: MenuInterface) => ({
-                            name: item.Title,   // ✅ ชื่อเมนู
-                            sodium: item.Sodium // ✅ ปริมาณโซเดียม
-                        }))
-                        .sort((a: { sodium: number; }, b: { sodium: number; }) => b.sodium - a.sodium) // ✅ เรียงจากมากไปน้อย
-                        .slice(0, 10); // ✅ เอาแค่ 10 อันดับแรก
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const res = await GetAllMenu();
+      if (Array.isArray(res?.data?.menu)) {
+        const mappedData = res.data.menu
+          .map((item: MenuInterface) => ({
+            name: item.Title,   // ✅ ชื่อเมนู
+            sodium: item.Potassium // ✅ ปริมาณโซเดียม
+          }))
+          .sort((a: { sodium: number; }, b: { sodium: number; }) => b.sodium - a.sodium) // ✅ เรียงจากมากไปน้อย
+          .slice(0, 10); // ✅ เอาแค่ 10 อันดับแรก
 
-                    setMenu(mappedData);
-                } else {
-                    setError("Failed to load menu items");
-                }
-            } catch {
-                setError("Error fetching menu items. Please try again later.");
-            }
-        };
+        setMenu(mappedData);
+      } else {
+        setError("Failed to load menu items");
+      }
+    } catch {
+      setError("Error fetching menu items. Please try again later.");
+    }
+  };
 
-        fetchData();
-    }, []);
+  fetchData();
+}, []);
 
 
     return (
@@ -93,28 +90,14 @@ export default function SodiumCharts() {
                             </svg>
                         </div>
                         <h1 className="text-4xl font-bold mb-4">
-                            การวิเคราะห์โซเดียมในอาหาร
+                            การวิเคราะห์โพแทสเซียมในอาหาร
                         </h1>
                         <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-                            เปรียบเทียบปริมาณโซเดียมในเมนูอาหารยอดนิยม เพื่อการเลือกรับประทานที่ดีต่อสุขภาพ
+                            เปรียบเทียบปริมาณโพแทสเซียมในเมนูอาหารยอดนิยม เพื่อการเลือกรับประทานที่ดีต่อสุขภาพ
                         </p>
                     </div>
                 </div>
             </div>
-            <div className="flex justify-end mt-5 mr-20">
-                <button
-                    onClick={() => navigate("/potassium")}
-                    className="flex items-center gap-3 bg-gradient-to-r from-rose-500 to-pink-600 
-               hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 
-               rounded-2xl font-kanit text-lg font-medium shadow-lg 
-               hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                >
-                    <TrendingUp size={22} />
-                    การเปรียบเทียบโพแทสเซียมในเมนูอาหาร
-                    <ChevronRight size={20} />
-                </button>
-            </div>
-
 
 
             <div className="max-w-7xl mx-auto px-6 py-12">
@@ -132,7 +115,7 @@ export default function SodiumCharts() {
                                     </div>
                                     Bubble Chart
                                 </h2>
-                                <p className="text-pink-100 text-sm mt-1">ขนาดและสีของฟองแสดงระดับโซเดียม</p>
+                                <p className="text-pink-100 text-sm mt-1">ขนาดและสีของฟองแสดงระดับโพแทสเซียม</p>
                             </div>
                             <div className="p-6">
                                 <ResponsiveContainer width="100%" height={450}>
@@ -149,7 +132,7 @@ export default function SodiumCharts() {
                                         <YAxis
                                             type="number"
                                             dataKey="sodium"
-                                            name="โซเดียม (mg)"
+                                            name="โพแทสเซียม (mg)"
                                             tick={{ fontSize: 12, fill: '#6b7280' }}
                                         />
                                         <ZAxis dataKey="sodium" range={[80, 500]} />
@@ -182,7 +165,7 @@ export default function SodiumCharts() {
                                     </div>
                                     Radar Chart
                                 </h2>
-                                <p className="text-purple-100 text-sm mt-1">ระยะห่างจากจุดกลางแสดงปริมาณโซเดียม</p>
+                                <p className="text-purple-100 text-sm mt-1">ระยะห่างจากจุดกลางแสดงปริมาณโพแทสเซียม</p>
                             </div>
                             <div className="p-6">
                                 <ResponsiveContainer width="100%" height={450}>
@@ -229,20 +212,20 @@ export default function SodiumCharts() {
                                     <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
                                 </svg>
                             </div>
-                            ระดับโซเดียม
+                            ระดับโพแทสเซียม
                         </h3>
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 p-2 bg-white rounded-lg">
                                 <div className="w-4 h-4 rounded-full bg-emerald-500 shadow-lg"></div>
-                                <span className="text-sm font-medium text-gray-700">ต่ำ (≤800 mg)</span>
+                                <span className="text-sm font-medium text-gray-700">ต่ำ (≤xxx mg)</span>
                             </div>
                             <div className="flex items-center gap-3 p-2 bg-white rounded-lg">
                                 <div className="w-4 h-4 rounded-full bg-amber-500 shadow-lg"></div>
-                                <span className="text-sm font-medium text-gray-700">ปานกลาง (801-1200 mg)</span>
+                                <span className="text-sm font-medium text-gray-700">ปานกลาง (xxx-2000 mg)</span>
                             </div>
                             <div className="flex items-center gap-3 p-2 bg-white rounded-lg">
                                 <div className="w-4 h-4 rounded-full bg-red-500 shadow-lg"></div>
-                                <span className="text-sm font-medium text-gray-700">สูง (≥1200 mg)</span>
+                                <span className="text-sm font-medium text-gray-700">สูง (≥2000 mg)</span>
                             </div>
                         </div>
                     </div>
@@ -259,16 +242,16 @@ export default function SodiumCharts() {
                         </h3>
                         <div className="space-y-2">
                             <div className="bg-white/70 backdrop-blur-sm p-3 rounded-lg border border-red-100">
-                                <div className="text-sm font-semibold text-red-800">บะหมี่น้ำหมูแดง</div>
-                                <div className="text-xs text-red-600">1,777 mg โซเดียม</div>
+                                <div className="text-sm font-semibold text-red-800">แกงเลียงผักรวม (พร้อมกุ้ง)</div>
+                                <div className="text-xs text-red-600">2,400–2,800 mg โพแทสเซียม</div>
                             </div>
                             <div className="bg-white/70 backdrop-blur-sm p-3 rounded-lg border border-red-100">
-                                <div className="text-sm font-semibold text-red-800">บะหมี่กึ่งสำเร็จรูป</div>
-                                <div className="text-xs text-red-600">1,400 mg โซเดียม</div>
+                                <div className="text-sm font-semibold text-red-800">ต้มยำกุ้งใส่เห็ด</div>
+                                <div className="text-xs text-red-600">2,200–2,500 mg โพแทสเซียม</div>
                             </div>
                             <div className="bg-white/70 backdrop-blur-sm p-3 rounded-lg border border-red-100">
-                                <div className="text-sm font-semibold text-red-800">ไส้กรอกคอคเทล</div>
-                                <div className="text-xs text-red-600">1,000 mg โซเดียม</div>
+                                <div className="text-sm font-semibold text-red-800">ผัดผักโขมไฟแดง + ไข่ดาว</div>
+                                <div className="text-xs text-red-600">2,100–2,200 mg โพแทสเซียม</div>
                             </div>
                         </div>
                     </div>
@@ -285,13 +268,13 @@ export default function SodiumCharts() {
                         </h3>
                         <div className="bg-white/70 backdrop-blur-sm p-4 rounded-lg border border-emerald-100">
                             <p className="text-sm text-gray-700 leading-relaxed">
-                                <span className="font-semibold text-emerald-700">แนะนำ:</span> บริโภคโซเดียมไม่เกิน
+                                <span className="font-semibold text-emerald-700">แนะนำ:</span> บริโภคโพแทสเซียมไม่เกิน
                                 <span className="font-bold text-emerald-800 mx-1">2,000 มก./วัน</span>
-                                เพื่อลดความเสี่ยงโรคความดันโลหิตสูงและโรคหัวใจ
+                                เพื่อลดความเสี่ยงต่อการทำงานของกล้ามเนื้อและหัวใจ
                             </p>
                             <div className="mt-3 pt-3 border-t border-emerald-100">
                                 <p className="text-xs text-emerald-600 font-medium">
-                                    💡 เลือกเมนูที่มีโซเดียมต่ำและดื่มน้ำเปล่ามากๆ
+                                    💡 เลือกเมนูที่มีโพแทสเซียมต่ำและดื่มน้ำเปล่ามากๆ
                                 </p>
                             </div>
                         </div>
