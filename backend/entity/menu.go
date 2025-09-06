@@ -10,6 +10,7 @@ type Menu struct {
 	Image		string
 	Sodium 		float32
 	Credit 		string
+	Potassium	string
 	AdminID		uint
 	Admin 	Admin
 
