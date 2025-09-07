@@ -54,7 +54,7 @@ const NutritionInput = () => {
       console.log(userData);
       if (rule?.data) {
         const now = Date.now();
-        const expiresAt = now + 12 * 60 * 60 * 1000; // 12 hours from now
+        const expiresAt = now + 2 * 60 * 60 * 1000; // 2 hours from now
 
         const ruleWithExpiry = {
           rule: rule.data,
@@ -304,12 +304,12 @@ const NutritionInput = () => {
                         className="w-full"
                       >
                         <div className="space-y-3">
-                          <div className="bg-white/60 rounded-xl p-4 border border-orange-200 transition-all duration-200 hover:bg-white/80">
+                          <div onClick={() => setDisease(1)} className="cursor-pointer bg-white/60 rounded-xl p-4 border border-orange-200 transition-all duration-200 hover:bg-white/80">
                             <Radio value={1} className="!font-kanit text-gray-700 text-base">
                               🩺 เบาหวาน
                             </Radio>
                           </div>
-                          <div className="bg-white/60 rounded-xl p-4 border border-orange-200 transition-all duration-200 hover:bg-white/80">
+                          <div onClick={() => setDisease(2)} className="cursor-pointer bg-white/60 rounded-xl p-4 border border-orange-200 transition-all duration-200 hover:bg-white/80">
                             <Radio value={2} className="!font-kanit text-gray-700 text-base">
                               🫘 โรคไต
                             </Radio>
@@ -374,8 +374,8 @@ const NutritionInput = () => {
                       <div>
                         <h4 className="font-semibold text-gray-800 mb-2">ข้อมูลสำคัญ</h4>
                         <p className="text-gray-600 text-sm leading-relaxed">
-                          ข้อมูลที่คุณกรอกจะถูกใช้ในการคำนวณค่า IBW (Ideal Body Weight) และเลือกแผนโภชนาการที่เหมาะสมกับสถานะสุขภาพของคุณ 
-                          ข้อมูลจะถูกเก็บไว้ในระบบเป็นเวลา 12 ชั่วโมง
+                          ข้อมูลที่ท่านกรอกจะถูกใช้ในการคำนวณค่า IBW (Ideal Body Weight) และเลือกแผนโภชนาการที่เหมาะสมกับสถานะสุขภาพของท่าน 
+                          โดยข้อมูลดังกล่าวจะถูกจัดเก็บไว้ในระบบเป็นเวลา 2 ชั่วโมง ท่านสามารถดาวน์โหลดข้อมูลคำแนะนำทางโภชนาการเพื่อเก็บไว้ได้
                         </p>
                       </div>
                     </div>

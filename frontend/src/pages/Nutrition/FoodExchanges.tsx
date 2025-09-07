@@ -258,9 +258,9 @@ const FoodExchanges = () => {
 
                                 {/* Enhanced Amount Display */}
                                 <div className="relative">
-                                  <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-4 text-center border border-blue-200/50 group-hover/item:from-blue-100 group-hover/item:to-indigo-200 group-hover/item:border-blue-300 group-hover/item:shadow-lg transition-all duration-500">
+                                  <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-2 text-center border border-blue-200/50 group-hover/item:from-blue-100 group-hover/item:to-indigo-200 group-hover/item:border-blue-300 group-hover/item:shadow-lg transition-all duration-500">
                                     <div className="flex items-baseline justify-center space-x-1">
-                                      <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover/item:from-blue-700 group-hover/item:to-purple-700 transition-all duration-300">
+                                      <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent group-hover/item:from-blue-700 group-hover/item:to-purple-700 transition-all duration-300">
                                         {exchange.Amount || "1"}
                                       </span>
                                       <span className="text-sm text-gray-600 font-semibold group-hover/item:text-gray-800 transition-colors duration-300">
