@@ -601,7 +601,7 @@ async function GetContentDiabetesByInfographics() {
 
 async function GetContentExerciseByInfographics() {
   return await axios
-    .get(`${apiUrl}("/contentexercise-infographics`, requestOptions)
+    .get(`${apiUrl}/contentexercise-infographics`, requestOptions)
     .then((res) => res)
     .catch((e) => e.response);
 }

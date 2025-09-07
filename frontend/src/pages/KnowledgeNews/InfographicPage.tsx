@@ -141,7 +141,7 @@ const InfographicDetailPage: React.FC = () => {
               {/* Image Container */}
               <div className="relative bg-white rounded-xl overflow-hidden border border-gray-100">
                 <img
-                  src={infographic.PictureIn || ""}
+                  src={infographic.PictureIn || infographic.PictureOut ||""}
                   alt={infographic.Title}
                   className="w-full h-auto object-contain bg-gray-50 p-4"
                 />
@@ -217,7 +217,7 @@ const InfographicDetailPage: React.FC = () => {
                       >
                         <div className="relative overflow-hidden rounded-lg flex-shrink-0">
                           <img
-                            src={item.PictureIn || "https://via.placeholder.com/80x60"}
+                            src={item.PictureOut || "https://via.placeholder.com/80x60"}
                             alt={item.Title}
                             className="w-20 h-15 object-cover group-hover:scale-110 transition-transform duration-300"
                           />
