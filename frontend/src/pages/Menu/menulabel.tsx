@@ -485,14 +485,6 @@ export default function NutritionLabelUI() {
 
         <footer className="mx-auto max-w-8xl mt-16">
           <Card variant="glass" hover={false} className="text-center">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <span className="text-4xl animate-bounce">🚀</span>
-              <h3 className="text-2xl font-bold text-gray-800">พร้อมใช้งานจริง</h3>
-            </div>
-            <p className="text-lg text-gray-700 font-medium leading-relaxed max-w-3xl mx-auto">
-              เค้าโครงนี้รองรับการผูกข้อมูลจริงจาก API ได้ทันที 
-              เพียงส่ง props ตามชนิดข้อมูลที่กำหนดไว้
-            </p>
             <div className="mt-8 flex justify-center space-x-3">
               <div className="w-3 h-3 bg-indigo-500 rounded-full animate-bounce" />
               <div className="w-3 h-3 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />

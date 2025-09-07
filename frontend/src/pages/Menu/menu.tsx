@@ -1,10 +1,22 @@
 import type { MenuInterface } from "../../interfaces/Menu";
-import { GetAllMenu, GetFoodItemsByFlags, GetAllTag } from "../../services/https";
+import {
+  GetAllMenu,
+  GetFoodItemsByFlags,
+  GetAllTag,
+} from "../../services/https";
 import React, { useEffect, useState } from "react";
-import { ChevronRight, Search, Eye, Filter, Calculator, Sparkles, Leaf } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import type { IngredientsInterface } from "../../interfaces/Ingredients"
-import type { TagInterface } from "../../interfaces/Tag"
+import {
+  ChevronRight,
+  Search,
+  Eye,
+  Filter,
+  Calculator,
+  Sparkles,
+  Leaf,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import type { IngredientsInterface } from "../../interfaces/Ingredients";
+import type { TagInterface } from "../../interfaces/Tag";
 import { useNavigate } from "react-router-dom";
 
 const Menu: React.FC = () => {
@@ -16,32 +28,36 @@ const Menu: React.FC = () => {
   const [tags, setTags] = useState<TagInterface[]>([]);
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
-  const [viewingItem, setViewingItem] = useState<IngredientsInterface | null>(null);
+  const [viewingItem, setViewingItem] = useState<IngredientsInterface | null>(
+    null
+  );
 
   const navigate = useNavigate();
 
   // Filter เมนูตาม search + selectedTags
-  const filteredItems = menu.filter(menuItem => {
-    const matchQuery = (menuItem.Title?.toLowerCase() ?? '').includes(query.toLowerCase());
+  const filteredItems = menu.filter((menuItem) => {
+    const matchQuery = (menuItem.Title?.toLowerCase() ?? "").includes(
+      query.toLowerCase()
+    );
 
     if (selectedTags.length === 0) return matchQuery;
 
-    const hasSelectedTag = menuItem.Tags
-      ?.filter((tag): tag is { ID: number } => tag.ID !== undefined)
-      .some(tag => selectedTags.includes(tag.ID));
+    const hasSelectedTag = menuItem.Tags?.filter(
+      (tag): tag is { ID: number } => tag.ID !== undefined
+    ).some((tag) => selectedTags.includes(tag.ID));
 
     return matchQuery && Boolean(hasSelectedTag);
   });
 
   // Filter วัตถุดิบตาม search
-  const filteredIngre = ingredients.filter(ingredients =>
-    (ingredients.Name?.toLowerCase() ?? '').includes(query.toLowerCase())
+  const filteredIngre = ingredients.filter((ingredients) =>
+    (ingredients.Name?.toLowerCase() ?? "").includes(query.toLowerCase())
   );
 
   // Toggle checkbox tag
   const toggleTag = (tagID: number) => {
     if (selectedTags.includes(tagID)) {
-      setSelectedTags(selectedTags.filter(id => id !== tagID));
+      setSelectedTags(selectedTags.filter((id) => id !== tagID));
     } else {
       setSelectedTags([...selectedTags, tagID]);
     }
@@ -87,11 +103,39 @@ const Menu: React.FC = () => {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    getAllMenu();
-    getFoodItemsByFlags();
-    getAllTags();
+    const loadData = async () => {
+      setIsLoading(true);
+      await Promise.all([getAllMenu(), getFoodItemsByFlags(), getAllTags()]);
+      setIsLoading(false);
+    };
+
+    loadData();
   }, []);
+  
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
+        {/* Animated Background Orbs */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        <div className="relative flex items-center justify-center min-h-screen">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-xl font-semibold text-gray-800">
+                กำลังโหลดข้อมูล...
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
@@ -124,19 +168,21 @@ const Menu: React.FC = () => {
             <div className="inline-flex bg-gray-100 p-1 rounded-xl mt-6 mb-4">
               <button
                 onClick={() => setActiveTab("food")}
-                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${activeTab === "food"
+                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${
+                  activeTab === "food"
                     ? "bg-white text-blue-600 shadow-md transform scale-105"
                     : "text-gray-600 hover:text-blue-500 hover:bg-white/50"
-                  }`}
+                }`}
               >
                 🍽️ อาหาร
               </button>
               <button
                 onClick={() => setActiveTab("ingredient")}
-                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${activeTab === "ingredient"
+                className={`px-8 py-3 rounded-lg font-kanit text-lg font-medium transition-all duration-300 ${
+                  activeTab === "ingredient"
                     ? "bg-white text-blue-600 shadow-md transform scale-105"
                     : "text-gray-600 hover:text-blue-500 hover:bg-white/50"
-                  }`}
+                }`}
               >
                 🥬 วัตถุดิบ
               </button>
@@ -156,8 +202,10 @@ const Menu: React.FC = () => {
             <input
               type="text"
               value={query}
-              onChange={e => setQuery(e.target.value)}
-              placeholder={`🔍 ค้นหา${activeTab === "food" ? "เมนูอาหาร" : "วัตถุดิบ"}ที่คุณต้องการ...`}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={`🔍 ค้นหา${
+                activeTab === "food" ? "เมนูอาหาร" : "วัตถุดิบ"
+              }ที่คุณต้องการ...`}
               className="w-full pl-12 pr-6 py-4 bg-white border-2 border-gray-200 rounded-2xl 
                        focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100 
                        font-kanit text-lg shadow-lg transition-all duration-300
@@ -182,24 +230,34 @@ const Menu: React.FC = () => {
               </button>
 
               {isTagDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-white rounded-2xl shadow-2xl 
-                              border border-gray-100 min-w-[280px] max-h-80 overflow-y-auto z-50">
+                <div
+                  className="absolute top-full right-0 mt-2 bg-white rounded-2xl shadow-2xl 
+                              border border-gray-100 min-w-[280px] max-h-80 overflow-y-auto z-50"
+                >
                   <div className="p-6 space-y-3">
                     <div className="text-gray-800 font-kanit font-medium mb-4 text-lg">
                       เลือกหมวดหมู่อาหาร
                     </div>
                     {tags
-                      .filter((tag): tag is TagInterface & { ID: number } => tag.ID !== undefined)
-                      .map(tag => (
-                        <label key={tag.ID} className="flex items-center space-x-3 cursor-pointer 
-                                                     p-3 rounded-xl hover:bg-blue-50 transition-colors">
+                      .filter(
+                        (tag): tag is TagInterface & { ID: number } =>
+                          tag.ID !== undefined
+                      )
+                      .map((tag) => (
+                        <label
+                          key={tag.ID}
+                          className="flex items-center space-x-3 cursor-pointer 
+                                                     p-3 rounded-xl hover:bg-blue-50 transition-colors"
+                        >
                           <input
                             type="checkbox"
                             checked={selectedTags.includes(tag.ID)}
                             onChange={() => toggleTag(tag.ID)}
                             className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
                           />
-                          <span className="font-kanit text-gray-700">{tag.Name}</span>
+                          <span className="font-kanit text-gray-700">
+                            {tag.Name}
+                          </span>
                         </label>
                       ))}
                   </div>
@@ -236,11 +294,14 @@ const Menu: React.FC = () => {
         {selectedTags.length > 0 && (
           <div className="mt-6 flex flex-wrap gap-2">
             <span className="font-kanit text-gray-600 mr-2">แท็กที่เลือก:</span>
-            {selectedTags.map(tagId => {
-              const tag = tags.find(t => t.ID === tagId);
+            {selectedTags.map((tagId) => {
+              const tag = tags.find((t) => t.ID === tagId);
               return tag ? (
-                <span key={tagId} className="inline-flex items-center gap-2 bg-blue-100 
-                                           text-blue-800 px-4 py-2 rounded-full font-kanit text-sm">
+                <span
+                  key={tagId}
+                  className="inline-flex items-center gap-2 bg-blue-100 
+                                           text-blue-800 px-4 py-2 rounded-full font-kanit text-sm"
+                >
                   {tag.Name}
                   <button
                     onClick={() => toggleTag(tagId)}
@@ -262,58 +323,77 @@ const Menu: React.FC = () => {
             {filteredItems.length === 0 && (
               <div className="text-center py-20">
                 <div className="text-6xl mb-4">🔍</div>
-                <p className="text-xl text-gray-500 font-kanit">ไม่พบเมนูที่คุณค้นหา</p>
-                <p className="text-gray-400 font-kanit mt-2">ลองเปลี่ยนคำค้นหาหรือแท็กดูนะครับ</p>
+                <p className="text-xl text-gray-500 font-kanit">
+                  ไม่พบเมนูที่คุณค้นหา
+                </p>
+                <p className="text-gray-400 font-kanit mt-2">
+                  ลองเปลี่ยนคำค้นหาหรือแท็กดูนะครับ
+                </p>
               </div>
             )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {filteredItems.map((item) => (
-                <div key={item.ID} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl 
+                <div
+                  key={item.ID}
+                  className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl 
                                             transition-all duration-500 overflow-hidden border border-gray-100
-                                            hover:transform hover:scale-[1.02]">
+                                            hover:transform hover:scale-[1.02]"
+                >
                   <div className="p-6">
                     <div className="flex gap-6">
-                      <div className="w-32 h-32 bg-gray-100 rounded-2xl overflow-hidden flex-shrink-0 
-                                    shadow-inner group-hover:shadow-lg transition-shadow">
-                        <img src={item.Image} className="w-full h-full object-cover 
-                                                       group-hover:scale-110 transition-transform duration-500" />
+                      <div
+                        className="w-32 h-32 bg-gray-100 rounded-2xl overflow-hidden flex-shrink-0 
+                                    shadow-inner group-hover:shadow-lg transition-shadow"
+                      >
+                        <img
+                          src={item.Image}
+                          className="w-full h-full object-cover 
+                                                       group-hover:scale-110 transition-transform duration-500"
+                        />
                       </div>
 
                       <div className="flex-grow">
                         <div className="flex items-center gap-2 mb-4">
                           <div className="text-2xl">⭐</div>
                           <div className="flex flex-wrap gap-2">
-                            {item.Tags
-                              ?.filter((tag): tag is { ID: number; Name: string } => tag.ID !== undefined)
-                              .map(tag => (
-                                <span
-                                  key={tag.ID}
-                                  className="bg-gradient-to-r from-yellow-100 to-orange-100 
+                            {item.Tags?.filter(
+                              (tag): tag is { ID: number; Name: string } =>
+                                tag.ID !== undefined
+                            ).map((tag) => (
+                              <span
+                                key={tag.ID}
+                                className="bg-gradient-to-r from-yellow-100 to-orange-100 
                                            text-orange-700 px-3 py-1 rounded-full text-sm 
                                            font-medium font-kanit shadow-sm"
-                                >
-                                  {tag.Name}
-                                </span>
-                              ))}
+                              >
+                                {tag.Name}
+                              </span>
+                            ))}
                           </div>
-                          
                         </div>
 
-                        <h3 className="text-xl font-kanit font-bold text-gray-800 mb-4 
-                                     group-hover:text-blue-600 transition-colors">
+                        <h3
+                          className="text-xl font-kanit font-bold text-gray-800 mb-4 
+                                     group-hover:text-blue-600 transition-colors"
+                        >
                           {item.Title}
                         </h3>
 
                         <Link to={`/menu/${item.ID}`}>
-                          <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 
+                          <button
+                            className="w-full bg-gradient-to-r from-blue-500 to-blue-600 
                                            hover:from-blue-600 hover:to-blue-700 text-white 
                                            px-6 py-3 rounded-2xl flex items-center justify-center 
                                            gap-2 font-kanit font-medium shadow-md hover:shadow-lg 
                                            transition-all duration-300 group-hover:transform 
-                                           group-hover:scale-105">
+                                           group-hover:scale-105"
+                          >
                             <span>ดูข้อมูลเพิ่มเติม</span>
-                            <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                            <ChevronRight
+                              size={20}
+                              className="group-hover:translate-x-1 transition-transform"
+                            />
                           </button>
                         </Link>
                       </div>
@@ -330,35 +410,53 @@ const Menu: React.FC = () => {
             {filteredIngre.length === 0 && (
               <div className="text-center py-20">
                 <div className="text-6xl mb-4">🥬</div>
-                <p className="text-xl text-gray-500 font-kanit">ไม่พบผลไม้และวัตถุดิบที่คุณค้นหา</p>
-                <p className="text-gray-400 font-kanit mt-2">ลองเปลี่ยนคำค้นหาดูนะครับ</p>
+                <p className="text-xl text-gray-500 font-kanit">
+                  ไม่พบผลไม้และวัตถุดิบที่คุณค้นหา
+                </p>
+                <p className="text-gray-400 font-kanit mt-2">
+                  ลองเปลี่ยนคำค้นหาดูนะครับ
+                </p>
               </div>
             )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {filteredIngre.map((item) => (
-                <div key={item.ID} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl 
+                <div
+                  key={item.ID}
+                  className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl 
                                             transition-all duration-500 overflow-hidden border border-gray-100
-                                            hover:transform hover:scale-[1.02]">
+                                            hover:transform hover:scale-[1.02]"
+                >
                   <div className="p-6">
                     <div className="flex gap-6">
-                      <div className="w-32 h-32 bg-gray-100 rounded-2xl overflow-hidden flex-shrink-0 
-                                    shadow-inner group-hover:shadow-lg transition-shadow">
-                        <img src={item.Image} className="w-full h-full object-cover 
-                                                       group-hover:scale-110 transition-transform duration-500" />
+                      <div
+                        className="w-32 h-32 bg-gray-100 rounded-2xl overflow-hidden flex-shrink-0 
+                                    shadow-inner group-hover:shadow-lg transition-shadow"
+                      >
+                        <img
+                          src={item.Image}
+                          className="w-full h-full object-cover 
+                                                       group-hover:scale-110 transition-transform duration-500"
+                        />
                       </div>
 
                       <div className="flex-grow flex flex-col justify-between">
                         <div>
-                          <h3 className="text-xl font-kanit font-bold text-gray-800 mb-3 
-                                       group-hover:text-blue-600 transition-colors">
+                          <h3
+                            className="text-xl font-kanit font-bold text-gray-800 mb-3 
+                                       group-hover:text-blue-600 transition-colors"
+                          >
                             {item.Name}
                           </h3>
 
                           <div className="mb-4">
-                            <a href={item.Credit} target="_blank" rel="noopener noreferrer"
+                            <a
+                              href={item.Credit}
+                              target="_blank"
+                              rel="noopener noreferrer"
                               className="text-sm font-kanit text-blue-500 hover:text-blue-600 
-                                        underline decoration-dotted">
+                                        underline decoration-dotted"
+                            >
                               📷 ขอบคุณภาพจาก
                             </a>
                           </div>
@@ -389,8 +487,10 @@ const Menu: React.FC = () => {
       {/* Enhanced Modal */}
       {viewingItem && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto 
-                        animate-in fade-in zoom-in duration-300">
+          <div
+            className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto 
+                        animate-in fade-in zoom-in duration-300"
+          >
             <div className="relative">
               <button
                 onClick={() => setViewingItem(null)}
@@ -416,7 +516,8 @@ const Menu: React.FC = () => {
 
                 <div className="bg-blue-50 rounded-2xl p-6 mb-6">
                   <p className="text-gray-700 font-kanit text-lg leading-relaxed">
-                    {viewingItem.Description || "ยังไม่มีรายละเอียดเพิ่มเติมในขณะนี้"}
+                    {viewingItem.Description ||
+                      "ยังไม่มีรายละเอียดเพิ่มเติมในขณะนี้"}
                   </p>
                 </div>
 

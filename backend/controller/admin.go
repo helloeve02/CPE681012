@@ -24,7 +24,6 @@ type (
 
 	ResetPassword struct {
 		UserName string
-		Email    string
 		Password string
 	}
 
@@ -244,4 +243,42 @@ func UpdateUserByid(c *gin.Context) {
         "token":      signedToken,
         "id":         user.ID,
     })
+}
+
+func ResetPasswordUser(c *gin.Context) {
+	var payload ResetPassword
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user entity.Admin
+	db := config.DB()
+
+	// ค้นหาผู้ใช้ด้วย Username และ Email
+	result := db.Where("user_name = ?", payload.UserName).First(&user)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": result.Error.Error()})
+		}
+		return
+	}
+
+	// แฮชรหัสผ่านใหม่
+	hashedPassword, err := config.HashPassword(payload.Password)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
+		return
+	}
+
+	// อัปเดตรหัสผ่านในฐานข้อมูล
+	user.Password = hashedPassword
+	if err := db.Save(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update password"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Password reset successful"})
 }

@@ -60,10 +60,21 @@ const FoodDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-          <p className="text-xl font-kanit text-blue-600">กำลังโหลด...</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
+        {/* Animated Background Orbs */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        <div className="relative flex items-center justify-center min-h-screen">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-xl font-semibold text-gray-800">
+                กำลังโหลดข้อมูล...
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     );

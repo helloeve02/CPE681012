@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetAllChooseAvoid } from "../../services/https";
-import { Button, Image, Spin } from "antd";
+import { Button, Image } from "antd";
 import type { FoodItem } from "../../interfaces/FoodItem";
 import { useLocation, useNavigate } from "react-router-dom";
 import PDFDownloadButton from "../../components/PDFDownloadButton";
@@ -21,40 +21,42 @@ const ChooseAvoid = () => {
   const handleNext = () => {
     navigate("/mealplanner");
   };
-
   type FoodGroupData = {
     topic: string;
     recommended: FoodItem[];
     avoided: FoodItem[];
   };
 
-  function transformFoodItems(foodItems: FoodItem[]): FoodGroupData[] {
-    const groupMap: Record<
-      string,
-      { recommended: FoodItem[]; avoided: FoodItem[] }
-    > = {};
+  function transformFoodItems(foodItems: FoodItem[], ruleNum: number): FoodGroupData[] {
+  const groupMap: Record<
+    string,
+    { recommended: FoodItem[]; avoided: FoodItem[] }
+  > = {};
 
-    foodItems.forEach((item) => {
-      const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
-      const flag = item.FoodFlag.Flag;
+  foodItems.forEach((item) => {
+    const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
+    const flag = item.FoodFlag.Flag;
 
-      if (!groupMap[groupName]) {
-        groupMap[groupName] = { recommended: [], avoided: [] };
-      }
+    if (!groupMap[groupName]) {
+      groupMap[groupName] = { recommended: [], avoided: [] };
+    }
 
-      if (flag === "ควรรับประทาน") {
-        groupMap[groupName].recommended.push(item);
-      } else if (flag === "ควรหลีกเลี่ยง") {
-        groupMap[groupName].avoided.push(item);
-      }
-    });
+    if (flag === "ควรรับประทาน") {
+      groupMap[groupName].recommended.push(item);
+    } else if (flag === "ควรหลีกเลี่ยง") {
+      groupMap[groupName].avoided.push(item);
+    } else if (flag === "ไม่ควรรับประทาน" && (ruleNum < 17 || ruleNum > 22)) {
+      groupMap[groupName].avoided.push(item);
+    }
+  });
 
-    return Object.entries(groupMap).map(([topic, data]) => ({
-      topic,
-      recommended: data.recommended,
-      avoided: data.avoided,
-    }));
-  }
+  return Object.entries(groupMap).map(([topic, data]) => ({
+    topic,
+    recommended: data.recommended,
+    avoided: data.avoided,
+  }));
+}
+
 
   useEffect(() => {
     if (location.state?.scrollTo) {
@@ -67,13 +69,18 @@ const ChooseAvoid = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const ruleNum = getValidRule();
+      if (!ruleNum) {
+        navigate("/nutrition");
+        return;
+      }
       const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
       try {
         const [res] = await Promise.all([GetAllChooseAvoid(), delay(300)]);
 
         if (res && res.data?.fooditems) {
-          setFoodGroups(transformFoodItems(res.data.fooditems));
+          setFoodGroups(transformFoodItems(res.data.fooditems, ruleNum));
         }
       } catch (err) {
         console.error("Failed to fetch some data", err);
@@ -117,7 +124,6 @@ const ChooseAvoid = () => {
               preview={false}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             />
-            
           </div>
 
           <div className="p-3">
@@ -150,14 +156,21 @@ const ChooseAvoid = () => {
   return (
     <>
       {isLoading ? (
-        <div className="fixed inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-          <div className="text-center">
-            <Spin size="large" />
-            <div className="mt-4 text-lg font-kanit text-gray-600 animate-pulse">
-              กำลังโหลดข้อมูลอาหาร...
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
+        {/* Animated Background Orbs */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        <div className="relative flex items-center justify-center min-h-screen">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-xl font-semibold text-gray-800">กำลังโหลดข้อมูล...</span>
             </div>
           </div>
         </div>
+      </div>
       ) : (
         <div className="font-kanit min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
           <div className="relative overflow-hidden">

@@ -24,6 +24,7 @@ func main() {
 	router := r.Group("/")
 	r.POST("/signin", controller.SignIn)
 	r.POST("/createadmin", controller.CreateUser)
+	r.PUT("/ResetPasswordUser", controller.ResetPasswordUser)
 
 	if err := godotenv.Load(); err != nil {
 		fmt.Println("⚠️ ไม่พบไฟล์ .env จะใช้ค่า environment ของระบบแทน")
