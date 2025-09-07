@@ -73,6 +73,8 @@ const MenuAdminPanel = () => {
     Title: '',
     Description: '',
     Region: '',
+    Sodium: undefined,
+    Potassium: undefined,
     Image: '',
     Credit: '',
     Tags: []
@@ -118,7 +120,7 @@ const MenuAdminPanel = () => {
         setMenus(items => [...items, newItem]);
       }
 
-      setFormData({ Title: '', Description: '', Image: '', Credit: '', Tags: [] });
+      setFormData({ Title: '', Description: '', Region: '', Sodium: undefined, Potassium: undefined, Image: '', Credit: '', Tags: [] });
       setSelectedFormTags([]);
       setShowAddForm(false);
 
@@ -173,7 +175,7 @@ const MenuAdminPanel = () => {
   const handleCancel = () => {
     setShowAddForm(false);
     setEditingItem(null);
-    setFormData({ Title: '', Description: '', Region: '', Image: '', Credit: '', Tags: [] });
+    setFormData({ Title: '', Description: '', Region: '', Sodium: undefined, Potassium: undefined, Image: '', Credit: '', Tags: [] });
     setSelectedFormTags([]);
   };
 
@@ -456,6 +458,45 @@ const MenuAdminPanel = () => {
                 />
               </div>
 
+              {/* New Sodium and Potassium Fields */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="space-y-3">
+                  <label className="block font-bold text-gray-700 text-lg">
+                    ปริมาณโซเดียม (มก.)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    className="w-full px-4 py-4 rounded-2xl border-2 border-gray-200 hover:border-blue-400 focus:border-blue-500 focus:outline-none shadow-sm hover:shadow-md focus:shadow-lg transition-all duration-200 bg-white/80 backdrop-blur-sm text-lg"
+                    placeholder="ระบุปริมาณโซเดียม"
+                    value={formData.Sodium || ''}
+                    onChange={(e) => setFormData({ 
+                      ...formData, 
+                      Sodium: e.target.value ? parseFloat(e.target.value) : undefined 
+                    })}
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <label className="block font-bold text-gray-700 text-lg">
+                    ปริมาณโพแทสเซียม (มก.)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    className="w-full px-4 py-4 rounded-2xl border-2 border-gray-200 hover:border-blue-400 focus:border-blue-500 focus:outline-none shadow-sm hover:shadow-md focus:shadow-lg transition-all duration-200 bg-white/80 backdrop-blur-sm text-lg"
+                    placeholder="ระบุปริมาณโพแทสเซียม"
+                    value={formData.Potassium || ''}
+                    onChange={(e) => setFormData({ 
+                      ...formData, 
+                      Potassium: e.target.value ? parseFloat(e.target.value) : undefined 
+                    })}
+                  />
+                </div>
+              </div>
+
               <div className="space-y-4">
                 <label className="block font-bold text-gray-700 text-lg">
                   แท็ก <span className="text-red-500">*</span>
@@ -586,6 +627,26 @@ const MenuAdminPanel = () => {
                         </p>
                       </div>
 
+                      {/* Sodium and Potassium Display */}
+                      {(menu.Sodium !== undefined || menu.Potassium !== undefined) && (
+                        <div className="bg-gradient-to-r from-green-50 to-blue-50 p-3 rounded-xl border border-green-200">
+                          <div className="grid grid-cols-2 gap-2 text-sm">
+                            {menu.Sodium !== undefined && (
+                              <div>
+                                <span className="font-medium text-green-700">โซเดียม:</span>
+                                <span className="text-green-600 ml-1">{menu.Sodium} มก.</span>
+                              </div>
+                            )}
+                            {menu.Potassium !== undefined && (
+                              <div>
+                                <span className="font-medium text-blue-700">โพแทสเซียม:</span>
+                                <span className="text-blue-600 ml-1">{menu.Potassium} มก.</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
                       {menu.Tags?.length > 0 && (
                         <div className="flex flex-wrap gap-2">
                           {menu.Tags.slice(0, 3).map(tag => (
@@ -649,6 +710,33 @@ const MenuAdminPanel = () => {
                 <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl">
                   <h3 className="font-bold text-gray-800 mb-3">รายละเอียด</h3>
                   <p className="text-gray-700 leading-relaxed">{viewingItem.Description}</p>
+                </div>
+              )}
+
+              {/* Sodium and Potassium in Modal */}
+              {(viewingItem.Sodium !== undefined || viewingItem.Potassium !== undefined) && (
+                <div className="bg-gradient-to-br from-green-50 to-blue-50 p-6 rounded-2xl border border-green-200">
+                  <h3 className="font-bold text-gray-800 mb-3">ข้อมูลโภชนาการ</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {viewingItem.Sodium !== undefined && (
+                      <div className="bg-white/60 p-4 rounded-xl">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                          <span className="font-medium text-green-700">โซเดียม</span>
+                        </div>
+                        <p className="text-2xl font-bold text-green-600 mt-2">{viewingItem.Sodium} มก.</p>
+                      </div>
+                    )}
+                    {viewingItem.Potassium !== undefined && (
+                      <div className="bg-white/60 p-4 rounded-xl">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <span className="font-medium text-blue-700">โพแทสเซียม</span>
+                        </div>
+                        <p className="text-2xl font-bold text-blue-600 mt-2">{viewingItem.Potassium} มก.</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
 
