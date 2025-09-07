@@ -112,12 +112,12 @@ const ArticleDetailPage: React.FC = () => {
             </ol>
           </nav>
           <button
-              onClick={() => navigate(-1)}
-              className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
-            >
-              <ArrowLeft size={22} />
-            </button>
-        </div> 
+            onClick={() => navigate(-1)}
+            className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
+          >
+            <ArrowLeft size={22} />
+          </button>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 -mt-8 relative z-10">
@@ -140,16 +140,17 @@ const ArticleDetailPage: React.FC = () => {
           <div className="lg:col-span-3">
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden p-2">
               {/* Featured Image */}
-              {article.PictureOut && (
-                <div className="relative bg-white rounded-xl overflow-hidden border border-gray-100 mb-2">
+              {(article.PictureIn) && (
+                <div className="relative w-[300px] h-[300px] bg-white rounded-xl overflow-hidden border border-gray-100 mb-2 flex justify-center items-center mx-auto">
                   <img
-                    src={article.PictureOut}
+                    src={article.PictureIn}
                     alt={article.Title}
-                    className="w-full h-auto object-cover rounded-lg"
+                    className="w-full h-full object-cover rounded-lg"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               )}
+
 
               {/* Article Content */}
               <div className="bg-white rounded-xl border border-gray-100 p-8">
@@ -183,8 +184,8 @@ const ArticleDetailPage: React.FC = () => {
                         {paragraph}
                       </p>
                     )) || (
-                      <p>{article.Description}</p>
-                    )}
+                        <p>{article.Description}</p>
+                      )}
                   </div>
                 </article>
 

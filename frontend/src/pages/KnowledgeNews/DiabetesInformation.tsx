@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft, FileText, Video, Image, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
-import { GetContentAllByDiabetes } from "../../services/https";
+import { GetContentAllByDiabetes, GetContentDiabetesByArticle, GetContentDiabetesByInfographics, GetContentDiabetesByVideo } from "../../services/https";
 
-const ExerciseInformation: React.FC = () => {
+const DiabetesInformation: React.FC = () => {
   const [activeTab, setActiveTab] = useState("ทั้งหมด");
- const [diabetes, setDiabetes] = useState<EducationalContentInterface[]>([]);
+  const [diabetes, setDiabetes] = useState<EducationalContentInterface[]>([]);
+  const [DiabetesByInfographics, setDiabetesByInfographics] = useState<EducationalContentInterface[]>([]);
+  const [DiabetesByArticle, setDiabetesByArticle] = useState<EducationalContentInterface[]>([]);
+  const [DiabetesByVideo, setDiabetesByVideo] = useState<EducationalContentInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -26,21 +29,90 @@ const ExerciseInformation: React.FC = () => {
         setDiabetes(res.data.educationalContents);
       }
     } catch (error) {
-      console.error("Error fetching kidney content:", error);
+      console.error("Error fetching diabetes content:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const getContentDiabetesByInfographics = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentDiabetesByInfographics();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setDiabetesByInfographics(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching diabetes content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getContentDiabetesByArticle = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentDiabetesByArticle();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setDiabetesByArticle(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching diabetes content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getContentDiabetesByVideo = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentDiabetesByVideo();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setDiabetesByVideo(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching diabetes content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ฟังก์ชันสำหรับนำทางไปยังหน้ารายละเอียด
+  const handleContentClick = (contentId: string | number, categoryId?: number) => {
+    switch (categoryId) {
+      case 2: // วิดีโอ
+        navigate(`/video/${contentId}`);
+        break;
+      case 1: // บทความ
+        navigate(`/article/${contentId}`);
+        break;
+      case 3: // อินโฟกราฟฟิก
+        navigate(`/infographic/${contentId}`);
+        break;
+      default: // ถ้าไม่ตรง category ไหนเลย
+        navigate(`/diabetes-detail/${contentId}`);
+    }
+  };
+
   useEffect(() => {
     getContentAllByDiabetes();
+    getContentDiabetesByArticle();
+    getContentDiabetesByInfographics();
+    getContentDiabetesByVideo();
   }, []);
 
   // Filter by active tab
-  const filteredData =
-    activeTab === "ทั้งหมด"
-      ? diabetes
-      : diabetes.filter((item) => item.type === activeTab);
+  let filteredData: EducationalContentInterface[] = [];
+
+  if (activeTab === "ทั้งหมด") {
+    filteredData = diabetes;
+  } else if (activeTab === "บทความ") {
+    filteredData = DiabetesByArticle;
+  } else if (activeTab === "คลังวิดีโอ") {
+    filteredData = DiabetesByVideo;
+  } else if (activeTab === "อินโฟกราฟฟิก") {
+    filteredData = DiabetesByInfographics;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-kanit">
@@ -65,13 +137,13 @@ const ExerciseInformation: React.FC = () => {
           {/* Hero Content */}
           <div className="text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-white/10 backdrop-blur-sm rounded-3xl mb-6 border border-white/20">
-              <span className="text-4xl">🥗</span>
+              <span className="text-4xl">🩺</span>
             </div>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
               โรคเบาหวาน
             </h2>
-            <p className="text-xl text-green-100 max-w-2xl mx-auto leading-relaxed">
-              ค้นพบข้อมูลโภชนาการที่เป็นประโยชน์ต่อสุขภาพของคุณ อัพเดทความรู้ใหม่ๆ ให้ทันสมัยเสมอ
+            <p className="text-xl text-purple-100 max-w-2xl mx-auto leading-relaxed">
+              ค้นพบข้อมูลโรคเบาหวานที่เป็นประโยชน์ต่อสุขภาพของคุณ อัพเดทความรู้ใหม่ๆ ให้ทันสมัยเสมอ
             </p>
           </div>
         </div>
@@ -88,8 +160,8 @@ const ExerciseInformation: React.FC = () => {
         {/* Tabs Section */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 mb-8 overflow-hidden">
           <div className="p-6 border-b border-gray-100">
-            <div className="inline-flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full text-green-700 text-sm font-medium mb-4">
-              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+            <div className="inline-flex items-center gap-2 bg-purple-50 px-4 py-2 rounded-full text-purple-700 text-sm font-medium mb-4">
+              <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
               เนื้อหาโรคเบาหวาน
             </div>
             <h3 className="text-2xl font-bold text-gray-800 mb-2">เลือกประเภทเนื้อหา</h3>
@@ -106,14 +178,14 @@ const ExerciseInformation: React.FC = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`relative flex-1 flex items-center justify-center gap-2 py-4 px-4 rounded-lg font-medium text-sm transition-all duration-300 ${
                       activeTab === tab.id
-                        ? "bg-white text-green-700 shadow-lg shadow-green-500/20 border border-green-200/50"
+                        ? "bg-white text-purple-700 shadow-lg shadow-purple-500/20 border border-purple-200/50"
                         : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
                     }`}
                   >
                     <Icon size={18} />
                     <span className="hidden sm:inline font-semibold">{tab.label}</span>
                     {activeTab === tab.id && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 rounded-lg"></div>
                     )}
                   </button>
                 );
@@ -126,7 +198,7 @@ const ExerciseInformation: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 mb-12">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-20">
-              <div className="animate-spin rounded-full h-16 w-16 border-4 border-green-500 border-t-transparent mb-6"></div>
+              <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-500 border-t-transparent mb-6"></div>
               <p className="text-gray-600 text-lg font-medium">กำลังโหลดข้อมูล...</p>
               <p className="text-gray-400 text-sm mt-1">รอสักครู่นะคะ</p>
             </div>
@@ -163,24 +235,25 @@ const ExerciseInformation: React.FC = () => {
                 {filteredData.map((item, idx) => (
                   <div
                     key={idx}
+                    onClick={() => handleContentClick(item.ID || idx, item.ContentCategoryID)}
                     className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 cursor-pointer"
                   >
                     <div className="relative overflow-hidden">
                       <img
-                        src={item.PictureIn}
+                        src={item.PictureOut || item.PictureIn}
                         alt={item.Title ?? ""}
                         className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       
                       {/* Content type badge */}
-                      <div className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
+                      <div className="absolute top-3 right-3 bg-purple-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
                         {item.type}
                       </div>
                     </div>
                     
                     <div className="p-5">
-                      <h3 className="font-bold text-gray-800 text-base leading-tight mb-3 group-hover:text-green-700 transition-colors duration-200 line-clamp-2">
+                      <h3 className="font-bold text-gray-800 text-base leading-tight mb-3 group-hover:text-purple-700 transition-colors duration-200 line-clamp-2">
                         {item.Title}
                       </h3>
                       <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 mb-4">
@@ -189,7 +262,7 @@ const ExerciseInformation: React.FC = () => {
                       
                       {/* Read more indicator */}
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <div className="flex items-center text-purple-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300">
                           <span>อ่านเพิ่มเติม</span>
                           <ArrowLeft className="ml-2 rotate-180" size={14} />
                         </div>
@@ -209,4 +282,4 @@ const ExerciseInformation: React.FC = () => {
   );
 };
 
-export default ExerciseInformation;
+export default DiabetesInformation;

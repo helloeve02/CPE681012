@@ -139,7 +139,7 @@ const navigate = useNavigate();
           subtitle="ข้อมูลที่เข้าใจง่าย ผ่านภาพประกอบ"
           items={infographics.map((item) => ({
             id: item.ID,
-            img: item.PictureIn ?? "",
+            img: item.PictureOut ?? item.PictureIn ?? "",
             title: item.Title ?? "",
           }))}
           type="card"
@@ -153,7 +153,7 @@ const navigate = useNavigate();
           subtitle="เรียนรู้ผ่านคลิปวิดีโอที่น่าสนใจ"
           items={video.map((item) => ({
             id: item.ID,
-            img: item.PictureOut ?? "",
+            img: item.PictureOut ?? item.PictureIn ?? "",
             title: item.Title ?? "",
           }))}
           type="video"
@@ -191,7 +191,7 @@ const navigate = useNavigate();
               >
                 <div className="relative overflow-hidden">
                   <img
-                    src={item.PictureOut ?? ""}
+                    src={item.PictureOut ?? "/default-image.jpg"}
                     alt={item.Title ?? ""}
                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                   />

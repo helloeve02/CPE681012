@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft, FileText, Video, Image, Sparkles, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
-import { GetContentAllByDiabetes } from "../../services/https";
+import {  GetContentByArticle } from "../../services/https";
 
 const ArticleInformation: React.FC = () => {
   const [activeTab, setActiveTab] = useState("ทั้งหมด");
@@ -18,6 +18,7 @@ const ArticleInformation: React.FC = () => {
     { id: "ออกกำลังกาย", label: "ออกกำลังกาย", icon: Video },
     { id: "โภชนาการ", label: "โภชนาการ", icon: Image }
   ];
+  
 
   const tabToPath: Record<string, string | null> = {
     "ทั้งหมด": null,         // stay หน้าเดิม
@@ -36,10 +37,10 @@ const ArticleInformation: React.FC = () => {
     }
   };
 
-  const getAllContent = async () => {
+  const getContentByArticle = async () => {
     try {
       setIsLoading(true);
-      const res = await GetContentAllByDiabetes();
+      const res = await GetContentByArticle();
       if (Array.isArray(res?.data?.educationalContents)) {
         setAllContent(res.data.educationalContents);
       }
@@ -51,7 +52,7 @@ const ArticleInformation: React.FC = () => {
   };
 
   useEffect(() => {
-    getAllContent();
+    getContentByArticle();
   }, []);
 
   // Filter by active tab
@@ -187,7 +188,7 @@ const ArticleInformation: React.FC = () => {
                   >
                     <div className="relative overflow-hidden">
                       <img
-                        src={item.PictureIn}
+                        src={item.PictureOut}
                         alt={item.Title ?? ""}
                         className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                       />

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { ArrowLeft, FileText, Video, Image, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { EducationalContentInterface } from "../../interfaces/EducationalContent ";
-import { GetContentAllByNutrition } from "../../services/https";
+import { GetContentAllByNutrition, GetContentNutritionByArticle, GetContentNutritionByInfographics, GetContentNutritionByVideo } from "../../services/https";
 
 const NutritionInformation: React.FC = () => {
   const [activeTab, setActiveTab] = useState("ทั้งหมด");
   const [kidney, setKidney] = useState<EducationalContentInterface[]>([]);
+  const [NutritionByVideo, setNutritionByVideo] = useState<EducationalContentInterface[]>([]);
+  const [NutritionByInfographics, setNutritionByInfographics] = useState<EducationalContentInterface[]>([]);
+  const [NutritionByArticle, setNutritionByArticle] = useState<EducationalContentInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -31,17 +34,86 @@ const NutritionInformation: React.FC = () => {
       setIsLoading(false);
     }
   };
+  const getContentNutritionByVideo = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentNutritionByVideo();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setNutritionByVideo(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching kidney content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getContentNutritionByInfographics = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentNutritionByInfographics();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setNutritionByInfographics(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching kidney content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getContentNutritionByArticle = async () => {
+    try {
+      setIsLoading(true);
+      const res = await GetContentNutritionByArticle();
+      if (Array.isArray(res?.data?.educationalContents)) {
+        setNutritionByArticle(res.data.educationalContents);
+      }
+    } catch (error) {
+      console.error("Error fetching kidney content:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // ฟังก์ชันสำหรับนำทางไปยังหน้ารายละเอียด
+  // แก้ฟังก์ชัน handleContentClick ให้รับ type ด้วย
+const handleContentClick = (contentId: string | number, categoryId?: number) => {
+  switch (categoryId) {
+    case 2: // วิดีโอ
+      navigate(`/video/${contentId}`);
+      break;
+    case 1: // บทความ
+      navigate(`/article/${contentId}`);
+      break;
+    case 3: // อินโฟกราฟฟิก
+      navigate(`/infographic/${contentId}`);
+      break;
+    default: // ถ้าไม่ตรง category ไหนเลย
+      navigate(`/nutrition-detail/${contentId}`);
+  }
+};
+
+
 
   useEffect(() => {
     getContentAllByNutrition();
+    getContentNutritionByArticle();
+    getContentNutritionByInfographics();
+    getContentNutritionByVideo();
   }, []);
 
-  // Filter by active tab
-  const filteredData =
-    activeTab === "ทั้งหมด"
-      ? kidney
-      : kidney.filter((item) => item.type === activeTab);
-
+ let filteredData: EducationalContentInterface[] = [];
+ 
+   if (activeTab === "ทั้งหมด") {
+     filteredData = kidney;
+   } else if (activeTab === "บทความ") {
+     filteredData = NutritionByArticle;
+   } else if (activeTab === "คลังวิดีโอ") {
+     filteredData = NutritionByVideo;
+   } else if (activeTab === "อินโฟกราฟฟิก") {
+     filteredData = NutritionByInfographics;
+   }   
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-kanit">
       {/* Hero Section */}
@@ -104,11 +176,10 @@ const NutritionInformation: React.FC = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`relative flex-1 flex items-center justify-center gap-2 py-4 px-4 rounded-lg font-medium text-sm transition-all duration-300 ${
-                      activeTab === tab.id
+                    className={`relative flex-1 flex items-center justify-center gap-2 py-4 px-4 rounded-lg font-medium text-sm transition-all duration-300 ${activeTab === tab.id
                         ? "bg-white text-green-700 shadow-lg shadow-green-500/20 border border-green-200/50"
                         : "text-gray-600 hover:text-gray-800 hover:bg-white/50"
-                    }`}
+                      }`}
                   >
                     <Icon size={18} />
                     <span className="hidden sm:inline font-semibold">{tab.label}</span>
@@ -163,22 +234,23 @@ const NutritionInformation: React.FC = () => {
                 {filteredData.map((item, idx) => (
                   <div
                     key={idx}
+                    onClick={() => handleContentClick(item.ID || idx, item.ContentCategoryID)}
                     className="group bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:scale-105 cursor-pointer"
                   >
                     <div className="relative overflow-hidden">
                       <img
-                        src={item.PictureIn}
+                        src={item.PictureOut || item.PictureIn}
                         alt={item.Title ?? ""}
                         className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      
+
                       {/* Content type badge */}
                       <div className="absolute top-3 right-3 bg-green-500/90 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-full font-medium border border-white/20">
                         {item.type}
                       </div>
                     </div>
-                    
+
                     <div className="p-5">
                       <h3 className="font-bold text-gray-800 text-base leading-tight mb-3 group-hover:text-green-700 transition-colors duration-200 line-clamp-2">
                         {item.Title}
@@ -186,7 +258,7 @@ const NutritionInformation: React.FC = () => {
                       <p className="text-sm text-gray-600 leading-relaxed line-clamp-3 mb-4">
                         {item.Description}
                       </p>
-                      
+
                       {/* Read more indicator */}
                       <div className="flex items-center justify-between">
                         <div className="flex items-center text-green-600 text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300">
