@@ -729,8 +729,8 @@ const MealPlannerApp = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Loading */}
-      {isLoading && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+      {isLoading && ( //แบบเก่า
+        /* <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center space-y-4">
             <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
             <span className="font-kanit text-xl text-gray-700">กำลังโหลดข้อมูล...</span>
@@ -738,7 +738,22 @@ const MealPlannerApp = () => {
               <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
             </div>
           </div>
+        </div> */
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
+        {/* Animated Background Orbs */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
         </div>
+        <div className="relative flex items-center justify-center min-h-screen">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-xl font-semibold text-gray-800">กำลังโหลดข้อมูล...</span>
+            </div>
+          </div>
+        </div>
+      </div>
       )}
 
       {/* Error */}
@@ -767,7 +782,13 @@ const MealPlannerApp = () => {
       )}
 
       {/* Header */}
-      <div className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white">
+      <div className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute top-0 left-0 w-full h-full">
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-16 h-16 bg-white/10 rounded-full animate-pulse delay-300"></div>
+          <div className="absolute top-1/2 right-1/4 w-12 h-12 bg-white/5 rounded-full animate-pulse delay-700"></div>
+        </div>
         <div className="relative px-6 py-12 text-center">
           <div className="flex items-center justify-center mb-6">
             <Sparkles className="w-8 h-8 mr-3 text-yellow-300" />
