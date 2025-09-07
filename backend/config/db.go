@@ -2817,6 +2817,11 @@ func SetupDatabase() {
 		{MenuID: 42, TagID: 18},
 		{MenuID: 43, TagID: 15}, //ซาหริ่ม
 		{MenuID: 43, TagID: 18},
+		{MenuID: 44, TagID: 15}, //ซาหริ่ม
+		{MenuID: 44, TagID: 16},
+		{MenuID: 44, TagID: 17},
+		{MenuID: 45, TagID: 10},
+		{MenuID: 45, TagID: 17},
 	}
 	db.Create(&MenuTag)
 
