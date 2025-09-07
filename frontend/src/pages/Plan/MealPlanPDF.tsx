@@ -25,20 +25,14 @@ interface MealPlanPDFProps {
   recommendations?: Recommendations;
 }
 
-/** --------------------------------------------------------
- *  พาเล็ตต์สี (เหมาะกับทั้งสีและขาวดำ)
- *  - ใช้หัวตารางน้ำเงินเข้ม, แถวสลับฟ้าอ่อน
- *  - ชิปสีเขียว/แดงอ่อน + เส้นกรอบเข้ม
- *  - เส้นกรอบ/ข้อความหลักเป็นโทนเข้มอ่านง่าย
- * -------------------------------------------------------- */
 const P = {
   ink: "#111827",
   sub: "#4b5563",
   line: "#1f2937",
   faintLine: "#9ca3af",
-  zebra: "#eff6ff",       // ฟ้าอ่อน (แถวสลับ)
-  headerBg: "#2563eb",    // น้ำเงินเข้ม (หัวตาราง)
-  headerText: "#ffffff",  // ตัวอักษรหัวตาราง
+  zebra: "#ffeff6",       // ฟ้าอ่อน (แถวสลับ)
+  headerBg: "#d6e8ff",    // น้ำเงินเข้ม (หัวตาราง)
+  headerText: "#000000",  // ตัวอักษรหัวตาราง
   chipOkBorder: "#15803d",
   chipOkBg: "#dcfce7",
   chipAvoidBorder: "#b91c1c",
@@ -117,7 +111,7 @@ const styles = StyleSheet.create({
   },
   timeCell: {
     width: 68,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f0efff",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -203,7 +197,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: P.divider,
-    marginVertical: 10,
+    marginVertical: 4,
   },
 
   // ---------- Note ----------
@@ -241,14 +235,14 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
       {/* ---------- Page 1: ตารางแผนมื้ออาหาร ---------- */}
       <Page style={styles.page} size="A4">
         <View style={styles.headerWrap}>
-          <Text style={styles.title}>แผนการทานอาหารประจำสัปดาห์</Text>
+          <Text style={styles.title}>แผนการทานอาหารประจำสัปดาห์{" "}</Text>
           <Text style={styles.subTitle}>
             {diseaseTitle || "ยังไม่เลือกระยะโรค"}
             {dateText ? ` • สร้างเมื่อ ${dateText}` : ""}
           </Text>
 
           {/* Legend */}
-          <View style={styles.legendRow}>
+          {/* <View style={styles.legendRow}>
             <View style={styles.legendItem}>
               <View style={[styles.legendSwatch, { backgroundColor: "#ffffff" }]} />
               <Text style={styles.legendText}>แถวปกติ</Text>
@@ -261,7 +255,7 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
               <View style={[styles.legendSwatch, { backgroundColor: P.headerBg }]} />
               <Text style={styles.legendText}>หัวตาราง</Text>
             </View>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.table}>
@@ -294,8 +288,7 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
                     {meals.length > 0 ? (
                       meals.map((meal: any, i: number) => (
                         <Text key={meal?.ID || i} style={styles.mealText}>
-                          {/* สัญลักษณ์ ● ช่วยให้โดดเด่นแม้พิมพ์ขาวดำ */}
-                          ● {meal?.PortionText || "-"}
+                          {meal?.PortionText || "-"} {" "}
                         </Text>
                       ))
                     ) : (
@@ -308,9 +301,9 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
           ))}
         </View>
 
-        <Text style={styles.note}>
-          *หมายเหตุ: เมนูที่เลือกผ่าน QuickPick จะถือว่า “ล็อก/ปักหมุด” และจะไม่ถูกสุ่มทับ
-        </Text>
+        {/* <Text style={styles.note}>
+          *หมายเหตุ: 
+        </Text> */}
       </Page>
 
       {/* ---------- Page 2: คำแนะนำโภชนาการ (มีเมื่อส่ง props) ---------- */}
@@ -321,12 +314,12 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
             <View style={styles.section}>
               <View style={styles.sectionTitleBar}>
                 <Text style={styles.sectionIcon}>■</Text>
-                <Text style={styles.sectionTitle}>คำแนะนำทั่วไป</Text>
+                <Text style={styles.sectionTitle}>คำแนะนำทั่วไป  </Text>
               </View>
               {recommendations.general.map((g, idx) => (
                 <View key={idx} style={styles.bullet}>
                   <Text style={styles.bulletDot}>• </Text>
-                  <Text style={styles.bulletText}>{g}</Text>
+                  <Text style={styles.bulletText}>{g}  </Text>
                 </View>
               ))}
             </View>
@@ -357,13 +350,13 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
             <View style={styles.section}>
               <View style={styles.sectionTitleBar}>
                 <Text style={styles.sectionIcon}>■</Text>
-                <Text style={styles.sectionTitle}>คำแนะนำการเลือกอาหาร</Text>
+                <Text style={styles.sectionTitle}>คำแนะนำการเลือกอาหาร  </Text>
               </View>
               {recommendations.foodChoices.map((fc, i) => (
                 <View key={`${fc.FoodChoiceID || i}`} style={styles.bullet}>
                   <Text style={styles.bulletDot}>• </Text>
                   <Text style={styles.bulletText}>
-                    {fc.FoodChoice?.FoodName || `ตัวเลือก ${fc.FoodChoiceID || i + 1}`} – {fc.Description || ""}
+                    {fc.FoodChoice?.FoodName || `ตัวเลือก ${fc.FoodChoiceID || i + 1}`} – {fc.Description || ""}   {" "}
                   </Text>
                 </View>
               ))}
@@ -374,13 +367,13 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
           <View style={styles.section}>
             <View style={styles.sectionTitleBar}>
               <Text style={styles.sectionIcon}>■</Text>
-              <Text style={styles.sectionTitle}>อาหารที่แนะนำ</Text>
+              <Text style={styles.sectionTitle}>อาหารที่แนะนำ  </Text>
             </View>
             <View style={styles.chipRow}>
               {(recommendations.foods?.แนะนำ || []).map((name, i) => (
-                <View key={`ok-${i}`} style={[styles.chip, styles.chipOk]}>
+                <View key={`ok-${i}`} style={[styles.chip, styles.chipOk]}>{" "}
                   <Text>✓</Text>
-                  <Text>{name}</Text>
+                  <Text>{name}{" "}</Text>
                 </View>
               ))}
             </View>
@@ -393,9 +386,9 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
             </View>
             <View style={styles.chipRow}>
               {(recommendations.foods?.ควรหลีกเลี่ยง || []).map((name, i) => (
-                <View key={`avoid-${i}`} style={[styles.chip, styles.chipAvoid]}>
+                <View key={`avoid-${i}`} style={[styles.chip, styles.chipAvoid]}> {" "}
                   <Text>⚠</Text>
-                  <Text>{name}</Text>
+                  <Text>{name}{" "}</Text>
                 </View>
               ))}
             </View>
@@ -403,7 +396,7 @@ const MealPlanPDF: React.FC<MealPlanPDFProps> = ({
 
           <View style={styles.divider} />
           <Text style={styles.note}>
-            *คำแนะนำนี้เป็นแนวทางทั่วไป ควรปรึกษาแพทย์/นักโภชนาการเพื่อปรับให้เหมาะสมกับสภาวะของท่าน
+            *คำแนะนำนี้เป็นแนวทางทั่วไป ควรปรึกษาแพทย์/นักโภชนาการเพื่อปรับให้เหมาะสมกับสภาวะของท่าน{" "}
           </Text>
         </Page>
       )}
