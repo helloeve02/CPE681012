@@ -21,7 +21,6 @@ const ChooseAvoid = () => {
   const handleNext = () => {
     navigate("/mealplanner");
   };
-  const [ruleNum, setRuleNum] = useState<number | null>(null);
   type FoodGroupData = {
     topic: string;
     recommended: FoodItem[];
@@ -75,8 +74,6 @@ const ChooseAvoid = () => {
         navigate("/nutrition");
         return;
       }
-
-      setRuleNum(ruleNum);
       const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
       try {

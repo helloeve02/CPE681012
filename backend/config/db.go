@@ -2873,6 +2873,10 @@ func SetupDatabase() {
 			Flag:        "-", 
 			FoodGroupID: 4,
 		},
+		{
+			Flag:        "ไม่ควรรับประทาน", //เนื้อสัตว์
+			FoodGroupID: 5,
+		},
 	}
 
 	for _, flag := range FoodFlag {
@@ -3335,21 +3339,21 @@ func SetupDatabase() {
 			Image:       "https://www.tcs-mart.com/web/wp-content/uploads/2022/11/yolk1.jpg",
 			Credit:      "https://www.tcs-mart.com/product/%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%88%E0%B8%99%E0%B9%84%E0%B8%82%E0%B9%88%E0%B9%81%E0%B8%94%E0%B8%87-egg-yolk-flavour-water-flavour/",
 			Description: "ฟอสฟอรัสสูง",
-			FoodFlagID:  8,
+			FoodFlagID:  14,
 		},
 		{
-			Name:        "นมและ  cursor-pointerผลิตภัณฑ์จากนม",
+			Name:        "นมและ ผลิตภัณฑ์จากนม",
 			Image:       "https://5.imimg.com/data5/HW/IA/MY-41175207/full-cream-pure-goat-milk-500x500.jpg",
 			Credit:      "https://www.indiamart.com/proddetail/full-cream-pure-goat-milk-16132391897.html",
 			Description: "ฟอสฟอรัสสูง,โพแทสเซียมสูง",
-			FoodFlagID:  8,
+			FoodFlagID:  14,
 		},
 		{
 			Name:        "ถั่วเมล็ดแห้ง",
 			Image:       "https://s359.kapook.com/pagebuilder/403cf7d4-0659-4f84-9450-97174e198fbb.jpg",
 			Credit:      "https://health.kapook.com/view279785.html",
 			Description: "ฟอสฟอรัสสูง,โพแทสเซียมสูง",
-			FoodFlagID:  8,
+			FoodFlagID:  14,
 		},
 		{
 			Name:        "น้ำมันถั่วเหลือง",
