@@ -139,15 +139,15 @@ async function CreateUser(data: AdminInterface) {
     .catch((e) => e.response);
 }
 // ResetPassword
-async function ResetPassword(data: AdminInterface) {
+async function ResetPassword(username: string, newPassword: string) {
+  const data = { UserName: username, Password: newPassword };
+
   return await axios
-
     .put(`${apiUrl}/ResetPasswordUser`, data, requestOptions)
-
     .then((res) => res)
-
     .catch((e) => e.response);
 }
+
 
 //==================================Login======================================⏫
 
@@ -640,7 +640,6 @@ async function GetContentNutritionByArticle() {
     .then((res) => res)
     .catch((e) => e.response);
 }
-
 
 
 export {
