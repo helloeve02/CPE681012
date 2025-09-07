@@ -1,4 +1,4 @@
-import { Button, Spin, Tooltip } from "antd";
+import { Button, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type {
@@ -246,14 +246,21 @@ const NutritionSuggestion = () => {
   return (
     <>
       {isLoading ? (
-        <div className="fixed inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-          <div className="text-center">
-            <Spin size="large" />
-            <div className="mt-4 text-lg font-kanit text-gray-600 animate-pulse">
-              กำลังโหลดข้อมูลโภชนาการ...
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
+        {/* Animated Background Orbs */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
+          <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+        </div>
+        <div className="relative flex items-center justify-center min-h-screen">
+          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
+            <div className="flex items-center space-x-4">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-xl font-semibold text-gray-800">กำลังโหลดข้อมูล...</span>
             </div>
           </div>
         </div>
+      </div>
       ) : (
         <div className="font-kanit min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
           {/* Enhanced Header */}
@@ -465,7 +472,7 @@ const NutritionSuggestion = () => {
                                 }
                                 key={foodGroupName}
                                 className="
-  relative cursor-pointer p-4 text-center font-semibold text-gray-700 min-w-32
+  relative p-4 text-center font-semibold text-gray-700 min-w-32
   overflow-hidden transition-all duration-300 ease-in-out
   hover:text-transparent hover:bg-clip-text
   hover:bg-gradient-to-r hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600
@@ -476,9 +483,17 @@ const NutritionSuggestion = () => {
   hover:after:w-3/4
 "
                               >
-                                <Tooltip title="ดูคำแนะนำเพิ่มเติม">
+                                {ruleNum !== null &&
+                                (ruleNum < 17 || ruleNum > 22) ? (
+                                  <Tooltip
+                                    title="ดูคำแนะนำเพิ่มเติม"
+                                    className="cursor-pointer"
+                                  >
+                                    <span>{foodGroupName}</span>
+                                  </Tooltip>
+                                ) : (
                                   <span>{foodGroupName}</span>
-                                </Tooltip>
+                                )}
                               </th>
                             )
                           )}
