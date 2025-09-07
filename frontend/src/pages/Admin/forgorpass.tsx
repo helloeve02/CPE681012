@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft, Shield, CheckCircle, AlertCircle, Sparkles, Star, Heart, Zap, Key } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { ResetPassword } from "../../services/https";
+
 export default function PasswordResetForm() {
-  const [newPassword, setNewPassword] = useState('');
+
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState('');
-
+  const [username, setUsername] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
 
   useEffect(() => {
@@ -31,22 +33,33 @@ export default function PasswordResetForm() {
   const passwordsMatch = confirmPassword && newPassword === confirmPassword;
   const passwordsDontMatch = confirmPassword && newPassword !== confirmPassword;
 
-  const handleReset = () => {
-    if (newPassword !== confirmPassword) {
-      return;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      console.log('Resetting password with:', { email, newPassword });
+const handleReset = async () => {
+  if (!passwordsMatch) return;
+
+  setIsLoading(true);
+  try {
+
+    const res = await ResetPassword(username, newPassword);
+
+    if (res.status === 200) {
+      console.log("Reset success:", res.data);
+      navigate("/admin"); // กลับไปหน้า login
       window.location.reload();
-      setIsLoading(false);
-    }, 2000);
-  };
+    } else {
+      console.error("Reset failed:", res.data);
+    }
+  } catch (err) {
+    console.error("Error while resetting password:", err);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const navigate= useNavigate();
     
 
-  const isFormValid = email && newPassword && confirmPassword && passwordsMatch;
+    const isFormValid = username && newPassword && confirmPassword && passwordsMatch;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 flex items-center justify-center p-4 font-kanit relative overflow-hidden">
@@ -236,23 +249,23 @@ export default function PasswordResetForm() {
             <div className="space-y-6">
               {/* Email Field */}
               <div className="group">
-                <label className="block text-gray-700 font-bold mb-3 text-sm flex items-center space-x-2">
-                  <Mail className="w-4 h-4 text-sky-600" />
-                  <span>ชื่อผู้ใช้/อีเมล</span>
-                </label>
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white/80 backdrop-blur border-2 border-sky-200 rounded-xl py-3 px-4 pr-12 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all duration-300 hover:border-sky-300 hover:shadow-lg group-hover:shadow-lg text-sm font-medium shadow-md"
-                    placeholder="กรอกชื่อผู้ใช้หรืออีเมล"
-                  />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-gradient-to-r from-sky-500 to-cyan-500 rounded-lg shadow-md">
-                    <Mail className="w-4 h-4 text-white" />
-                  </div>
-                </div>
-              </div>
+        <label className="block text-gray-700 font-bold mb-3 text-sm flex items-center space-x-2">
+          <Mail className="w-4 h-4 text-sky-600" />
+          <span>ชื่อผู้ใช้</span>
+        </label>
+        <div className="relative">
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full bg-white/80 backdrop-blur border-2 border-sky-200 rounded-xl py-3 px-4 pr-12 text-gray-800 placeholder-gray-400 focus:outline-none focus:border-sky-500 focus:bg-white transition-all duration-300 hover:border-sky-300 hover:shadow-lg group-hover:shadow-lg text-sm font-medium shadow-md"
+            placeholder="กรอกชื่อผู้ใช้"
+          />
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-gradient-to-r from-sky-500 to-cyan-500 rounded-lg shadow-md">
+            <Mail className="w-4 h-4 text-white" />
+          </div>
+        </div>
+      </div>
 
               {/* New Password Field */}
               <div className="group">
