@@ -88,6 +88,7 @@ func SetupDatabase() {
 			Image:  "https://f.ptcdn.info/511/002/000/1361646707-IMG2766Med-o.jpg",
 			Sodium: 180.30,
 			Credit: "https://pantip.com/topic/30178641",
+			Potassium: "344.14",
 		},
 		{
 			Title: "น้ำพริกอ่อง",
@@ -119,6 +120,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2017/09/24/c415bbcecc5145c9a967b132e28a1087.jpg",
 			Sodium: 206.31,
 			Credit: "https://www.facebook.com/amonrat.Thuamchot",
+			Potassium: "383",
 		},
 		{
 			Title: "แกงแคไก่บ้าน",
@@ -146,6 +148,7 @@ func SetupDatabase() {
 			Image:  "https://i.ytimg.com/vi/Jvf4KMuuoEQ/maxresdefault.jpg",
 			Sodium: 194.05,
 			Credit: "https://www.facebook.com/profile.php?id=100080562848664",
+			Potassium: "319",
 		},
 		{
 			Title: "แกงส้มตูนปลานิล",
@@ -172,6 +175,7 @@ func SetupDatabase() {
 			Image:  "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEikO0YvxPPCqwJAgtPfgJjjdTX2oZvUWFvgAHLRItqY9q1UbwYqXBIEZqUmjsrk4wfTavQfzmLbPzMUSd6LBjZmxI3Vhag7jsOMyxPg3V2AVikonT_SdHb5CiDBbQkI2Fv68L8eMmlyKhM/s1600/%E0%B9%81%E0%B8%81%E0%B8%87%E0%B8%95%E0%B8%B9%E0%B8%99%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%9B%E0%B8%A5%E0%B8%B2.jpg",
 			Sodium: 173.34,
 			Credit: "https://th.wikipedia.org/wiki/%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88",
+		    Potassium: "299",
 		},
 		{
 			Title: "จอผักกาด",
@@ -197,6 +201,7 @@ func SetupDatabase() {
 			Image:  "https://static.thairath.co.th/media/4DQpjUtzLUwmJZZSC41tBS2JyaLrHhBkHieCf4lwMRxT.jpg",
 			Sodium: 180.70,
 			Credit: "https://www.thairath.co.th/lifestyle/food/2168370",
+			Potassium: "279",
 		},
 		{
 			Title: "ลาบคั่ว",
@@ -228,6 +233,7 @@ func SetupDatabase() {
 			Image:  "https://png.pngtree.com/thumb_back/fh260/background/20220324/pngtree-spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo-image_21814272.jpg",
 			Sodium: 203.24,
 			Credit: "https://th.pngtree.com/freebackground/spicy-thai-pork-salad-with-ground-pork-and-pork-liver-larb-mu-photo_8413949.html",
+			Potassium: "222",
 		},
 		{
 			Title: "ขนมจีนน้ำเงี้ยว",
@@ -259,6 +265,7 @@ func SetupDatabase() {
 			Image:  "https://sharp-weeclub.com/wp-content/uploads/2022/01/%E0%B8%82%E0%B8%99%E0%B8%A1%E0%B8%88%E0%B8%B5%E0%B8%991-990x510-1.jpg",
 			Sodium: 401.79,
 			Credit: "https://kongthaijeen.com/cn/41301/",
+			Potassium: "301",
 		},
 		{
 			Title: "ตำขนุน",
@@ -293,6 +300,7 @@ func SetupDatabase() {
 			Image:  "https://www.maeban.co.th/upfiles/blog/469811576_1757125385107540_8515113923452393484_n.jpg",
 			Sodium: 188.92,
 			Credit: "https://phiangphitc.wordpress.com/2013/07/18/%E0%B8%95%E0%B8%B3%E0%B8%82%E0%B8%99%E0%B8%B8%E0%B8%99/",
+			Potassium: "152",
 		},
 		{
 			Title: "น้ำพริกมะเขือเทศ",
@@ -316,6 +324,7 @@ func SetupDatabase() {
 			Image:  "https://img.kapook.com/u/surauch/cook1/Thai_2.jpg",
 			Sodium: 192.19,
 			Credit: "https://www.bloggang.com/m/viewdiary.php?id=thewho&month=03-2018&date=31&group=18&gblog=1",
+			Potassium: "355",
 		},
 		{
 			Title: "แอ๊บหมู",
@@ -336,6 +345,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/256x256/2023/06/04/b1e8748c61d4459d826187fb574aeb1f.jpg",
 			Sodium: 187.69,
 			Credit: "https://shorturl.at/YuvZu",
+			Potassium: "132",
 		},
 		{
 			Title: "ต้มโคล้งปลาช่อน",
@@ -359,6 +369,7 @@ func SetupDatabase() {
 			Image:  "https://api2.krua.co/wp-content/uploads/2020/06/SlideBanner1140x507-650.jpg",
 			Sodium: 143.50,
 			Credit: "https://www.wongnai.com/reviews/71c0729575454bc18a87cdc060ac937c",
+			Potassium: "230",
 		},
 		{
 			Title: "แกงส้มเปลือกแตงโม กุ้งสด",
@@ -385,6 +396,7 @@ func SetupDatabase() {
 			Image:  "https://thecookingsociety.com/wp-content/uploads/2022/02/Screen-Shot-2565-02-26-at-15.54.50.png",
 			Sodium: 189.81,
 			Credit: "https://cooking.kapook.com/view75219.html",
+			Potassium: "76",
 		},
 		{
 			Title: "ผัดฉ่าไข่ขาว",
@@ -410,6 +422,7 @@ func SetupDatabase() {
 			Image:  "https://i.ytimg.com/vi/dGQwq6GshVw/maxresdefault.jpg",
 			Sodium: 185.97,
 			Credit: "https://www.youtube.com/watch?v=QluWnJGqMuU&ab_channel=%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%AD%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%B4%E0%B8%99%E0%B8%B5%E0%B8%81%E0%B8%B4%E0%B8%99%E0%B8%94%E0%B8%B5%E0%B8%A1%E0%B8%B5%E0%B8%AA%E0%B8%95%E0%B8%B4",
+			Potassium: "130",
 		},
 		{
 			Title: "หลนกุ้ง ผักสด",
@@ -436,6 +449,7 @@ func SetupDatabase() {
 			Image:  "https://www.bloggang.com/data/jazzy-bong/picture/1436528038.jpg",
 			Sodium: 203.52,
 			Credit: "https://www.bloggang.com/m/mainblog.php?id=jazzy-bong&month=11-07-2015&group=28&gblog=20",
+			Potassium: "152",
 		},
 		{
 			Title: "ข้าวผัดเบญจรงค์",
@@ -461,6 +475,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2021/02/19/4ebb3ee1417746ba8f552a195f26e908.jpg",
 			Sodium: 355.21,
 			Credit: "https://www.sanook.com/women/tag/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9C%E0%B8%B1%E0%B8%94%E0%B8%81%E0%B8%B8%E0%B9%89%E0%B8%87/",
+			Potassium: "334",
 		},
 		{
 			Title: "ปลาสามรส",
@@ -488,6 +503,7 @@ func SetupDatabase() {
 			Image:  "https://www.ajinomoto.co.th/storage/photos/shares/Recipe/Menu/Lot5-16/61fa99ec4d2b6.jpg",
 			Sodium: 207.17,
 			Credit: "https://shop.line.me/@nuy98/product/1000746977",
+			Potassium: "269",
 		},
 		{
 			Title: "ยำใหญ่",
@@ -514,6 +530,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2018/09/11/60880f95ecfd4ff68756ec9e680a6f3f.jpg",
 			Sodium: 169.32,
 			Credit: "https://www.wongnai.com/recipes/mixed-spicy-salad-recipe",
+			Potassium: "175",
 		},
 
 		{
@@ -545,6 +562,7 @@ func SetupDatabase() {
 			Image:  "https://static.thairath.co.th/media/dFQROr7oWzulq5Fa5LJGNmDUIqkiQVkYDqXcFTh41EztNktBWbceEb2EWQpvlrKxcWU.jpg",
 			Sodium: 203.95,
 			Credit: "https://shorturl.at/Wdgo0",
+			Potassium: "329",
 		},
 
 		{
@@ -567,6 +585,7 @@ func SetupDatabase() {
 			Image:  "https://img.kapook.com/u/2018/surauch/cooking/co1/pk2.jpg",
 			Sodium: 216.82,
 			Credit: "https://cooking.kapook.com/view207896.html",
+			Potassium: "350",
 		},
 
 		{
@@ -590,6 +609,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1968x0/2020/03/24/524ed43d3e914520934b9f277820f00b.jpg",
 			Sodium: 212.36,
 			Credit: "https://www.wongnai.com/recipes/ugc/08e2db7d1ac74e20b284c21388751dbd",
+			Potassium: "244",
 		},
 		{
 			Title: "ขนมจีนน้ำยาปักษ์ใต้",
@@ -614,6 +634,7 @@ func SetupDatabase() {
 			Image:  "https://img.kapook.com/u/2017/surauch/cooking/y1_4.jpg",
 			Sodium: 315.75,
 			Credit: "https://shorturl.at/TpDA3",
+			Potassium: "156",
 		},
 		{
 			Title: "น้ำพริกแกงปักษ์ใต้",
@@ -638,6 +659,7 @@ func SetupDatabase() {
 			Image:  "https://jeeor.com/wp-content/uploads/2023/08/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%9B%E0%B8%81%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B9%84%E0%B8%95%E0%B8%9B%E0%B8%A5%E0%B8%B2-Recovered.jpg",
 			Sodium: 172.66,
 			Credit: "https://jeeor.com/?page_id=3444",
+			Potassium: "69",
 		},
 		{
 			Title: "คั่วกลิ้งหมู",
@@ -662,6 +684,7 @@ func SetupDatabase() {
 			Image:  "https://www.unileverfoodsolutions.co.th/dam/global-ufs/mcos/SEA/calcmenu/recipes/TH-recipes/red-meats-&-red-meat-dishes/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9_header.jpg",
 			Sodium: 201.02,
 			Credit: "https://www.unileverfoodsolutions.co.th/th/recipe/%E0%B8%84%E0%B8%B1%E0%B9%88%E0%B8%A7%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%89%E0%B8%87%E0%B8%AB%E0%B8%A1%E0%B8%B9-R90018816.html",
+			Potassium: "164",
 		},
 		{
 			Title: "ต้มกะทิผักเหลียงกุ้งสด",
@@ -689,6 +712,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2017/10/13/c4cd67bcd224401f800730cd9e4f3d02.jpg",
 			Sodium: 115.93,
 			Credit: "https://nlovecooking.com/%E0%B9%83%E0%B8%9A%E0%B9%80%E0%B8%AB%E0%B8%A5%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%81%E0%B8%B0%E0%B8%97%E0%B8%B4/",
+			Potassium: "53",
 		},
 		{
 			Title: "ผัดผักเหลียงไข่ขาว",
@@ -714,6 +738,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2019/03/07/fd1ee1e79c1043c281b46c47b8f8f6e6.jpg",
 			Sodium: 201.07,
 			Credit: "https://www.wongnai.com/recipes/ugc/330d0ad616a2490ebdbef06a61f86835",
+			Potassium: "79",
 		},
 		{
 			Title: "แกงเหลืองสับปะรด ปลากะพง",
@@ -741,6 +766,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2019/11/30/b3f5f4b444cd446aab4fc25d8b87880c.jpg",
 			Sodium: 203.16,
 			Credit: "https://www.wongnai.com/recipes/ugc/aafcebb8d02d4b69a84a05a69e128a4e",
+			Potassium: "134",
 		},
 		{
 			Title: "พริกแกงเหลือง",
@@ -762,6 +788,7 @@ func SetupDatabase() {
 			Image:  "https://www.thaimee-d.com/pub/media/catalog/product/cache/9ef2995c1c404cd4852076153399d50d/f/i/file_17_3.jpg",
 			Sodium: 268.32,
 			Credit: "https://www.lazada.co.th/products/500-i4821168369.html",
+			Potassium: "41",
 		},
 
 		{
@@ -785,6 +812,7 @@ func SetupDatabase() {
 			Image:  "https://www.gourmetandcuisine.com/Images/cooking/recipes/recipe_502detail.jpg",
 			Sodium: 197.37,
 			Credit: "https://www.wongnai.com/restaurants/2146372Lg-%E0%B9%80%E0%B8%A2%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%A1%E0%B9%83%E0%B8%95%E0%B9%89-south-cuisine",
+			Potassium: "106",
 		},
 
 		{
@@ -806,6 +834,7 @@ func SetupDatabase() {
 			Image:  "https://i.ytimg.com/vi/5WmM3b-gaIY/sddefault.jpg",
 			Sodium: 180.15,
 			Credit: "https://www.youtube.com/watch?v=5WmM3b-gaIY&ab_channel=EasyYummy",
+			Potassium: "158",
 		},
 
 		{
@@ -838,6 +867,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2019/11/03/0f27887e3dcf43c9879e6693588e3751.jpg",
 			Sodium: 228.69,
 			Credit: "https://www.wongnai.com/recipes/ugc/74fb5e3274c24f17b01926ffcf9bcabe",
+			Potassium: "108",
 		},
 
 		{
@@ -865,6 +895,7 @@ func SetupDatabase() {
 			Image:  "https://i.ytimg.com/vi/S3V3tA18wAY/maxresdefault.jpg",
 			Sodium: 182.28,
 			Credit: "https://www.youtube.com/watch?v=S3V3tA18wAY&ab_channel=%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B8%9E%E0%B8%B5%E0%B9%88%E0%B8%81%E0%B8%B1%E0%B8%8D%E0%B8%8D%E0%B9%8CKruaP%27gunn",
+			Potassium: "157",
 		},
 		{
 			Title: "ข้าวยำปักษ์ใต้และน้ำบูดู",
@@ -905,6 +936,7 @@ func SetupDatabase() {
 			Image:  "https://storage.googleapis.com/gsk-site/khao-yam-1.jpg",
 			Sodium: 289.81,
 			Credit: "https://www.genyoungactive.com/articles/khao-yam",
+			Potassium: "9",
 		},
 		{
 			Title: "แกงผักหวานไข่มดแดง",
@@ -930,6 +962,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2017/10/04/f4d2d901befc492f9569d9e47d3aca14.jpg",
 			Sodium: 214.84,
 			Credit: "https://www.wongnai.com/cooking/cookbooks/ant-eggs-recipes",
+			Potassium: "151",
 		},
 		{
 			Title: "ขนมจีนน้ำยาลาว",
@@ -960,6 +993,7 @@ func SetupDatabase() {
 			Image:  "https://food-heal.com/wp-content/uploads/2022/10/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9B%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B8%A7.png",
 			Sodium: 406.67,
 			Credit: "https://food-heal.com/%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%A7%E0%B8%9B%E0%B8%B8%E0%B9%89%E0%B8%99%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B2%E0%B8%A7/",
+			Potassium: "240",
 		},
 		{
 			Title: "แกงหยวกกล้วย",
@@ -986,6 +1020,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2023/08/01/7c1432face3448ffa084b0d7b204cddf.jpg",
 			Sodium: 194.48,
 			Credit: "https://www.wongnai.com/recipes/ugc/19c117fd310344ec86eeb1dada5225b0",
+			Potassium: "69",
 		},
 		{
 			Title: "ห่อหมกปลาช่อนกะหล่ำปลี",
@@ -1011,6 +1046,7 @@ func SetupDatabase() {
 			Image:  "https://i.ytimg.com/vi/7sL1cOs-q68/sddefault.jpg",
 			Sodium: 106.26,
 			Credit: "https://youtu.be/7sL1cOs-q68?si=Nao2LeC2WagHDAsf",
+			Potassium: "174",
 		},
 		{
 			Title: "ส้มตำปลาร้าพายัพ",
@@ -1038,6 +1074,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2020/10/18/1ac05bb40f974c268374a1ae7c491e94.jpg",
 			Sodium: 393.39,
 			Credit: "https://www.wongnai.com/reviews/5fd7db16875b4da9843cfd227a12ade3",
+			Potassium: "319",
 		},
 		{
 			Title: "แกงลาวผักรวม",
@@ -1068,9 +1105,10 @@ func SetupDatabase() {
 4. เตรียมเครื่องแกงพริกขี้หนู หอมแดง กระเทียม ตะไคร้ ข่า ผิวมะกรูด กระชายหั่นฝอย ตวงตามส่วน โขลกรวมกันจนละเอียด
 5. ต้มน้ำใบย่านางพอเดือดใส่เครื่องแกง ฟักทองพอสุก บวบ เห็ด ข้าวเบือ ปรุงรสด้วยน้ำปลาร้า พอเดือดใส่ ใบมะกรูดฉีก ใบแมงลัก พริกแดง ยกลงตักเสิร์ฟ`,
 			// Region: "ภาคอีสาน",
-			Image:  "https://i.ytimg.com/vi/bWBpR0KQXD4/maxresdefault.jpg",
-			Sodium: 205.34,
-			Credit: "https://www.youtube.com/watch?v=bWBpR0KQXD4",
+			Image: "https://i.ytimg.com/vi/bWBpR0KQXD4/maxresdefault.jpg",
+			Sodium:205.34,
+			Credit:"https://www.youtube.com/watch?v=bWBpR0KQXD4",
+			Potassium: "276",
 		},
 		{
 			Title: "แจ่วบองสมุนไพร",
@@ -1100,6 +1138,7 @@ func SetupDatabase() {
 			Image:  "https://th-live-01.slatic.net/p/d885d27f6948ca0a9876c3beccf3a912.jpg",
 			Sodium: 196.95,
 			Credit: "https://www.lazada.co.th/products/1-kg-i619954353.html",
+			Potassium: "347",
 		},
 		{
 			Title: "ลาบไข่ขาว",
@@ -1129,6 +1168,7 @@ func SetupDatabase() {
 			Image:  "https://sou-dai.com/wp-content/uploads/2022/03/21-1.png",
 			Sodium: 200.31,
 			Credit: "https://youtu.be/G2wsykvvx_U?si=pNtg4x9Ywf5Qkwa3",
+			Potassium: "215",
 		},
 		{
 			Title: "ผัดหมี่พิมาย",
@@ -1159,6 +1199,7 @@ func SetupDatabase() {
 			Image:  "https://img.wongnai.com/p/1920x0/2017/10/21/2b9ba64f21e84f40a041377cd3b58e1d.jpg",
 			Sodium: 412.70,
 			Credit: "https://shorturl.at/JTFGx",
+			Potassium: "254",
 		},
 		{
 			Title: "ป่นปลาผักต้ม",
@@ -1187,6 +1228,7 @@ func SetupDatabase() {
 			Image:  "https://siamfishing.com/_pictures/content/upload2014/201401/1389089340.jpg",
 			Sodium: 203,
 			Credit: "https://siamfishing.com/m/content/m.view.php?cat=recipe&nid=150703",
+			Potassium: "388",
 		},
 		{
 			Title: "ซาหริ่ม",
@@ -1212,6 +1254,48 @@ func SetupDatabase() {
 			Image:  "https://cookinghub.in.th/wp-content/uploads/2024/12/%E0%B8%8B%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A.jpg",
 			Sodium: 0,
 			Credit: "https://cookinghub.in.th/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3-%E0%B8%8B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A%E0%B9%81%E0%B8%A5/",
+		},
+				{
+			Title: "ลอดช่องน้ำกะทิ",
+			Description: ` ส่วนประกอบ 
+			- แป้งข้าวเจ้า 200 กรัม
+- แป้งเท้ายายม่อม หรือแป้งมัน 50 กรัม
+- แป้งถั่วเขียว 40 กรัม
+- ใบเตย 20 ใบ
+- น้ำปูนใส 1.2 ลิตร
+- น้ำปูนใส 250 มิลลิลิตร (สำหรับกวนขนม)
+- น้ำผสมน้ำแข็ง
+- หัวกะทิ 500 กรัม
+- น้ำตาลมะพร้าว 300 กรัม
+- ใบเตย 10 ใบ
+- เกลือป่น 1/2 ช้อนชา
+- เทียนอบขนม`,
+			Image:  "https://s359.kapook.com/pagebuilder/1b30a4c9-dbe6-46d5-8477-e8bc66bb94a7.jpg",
+			Sodium: 62,
+			Credit: "https://cooking.kapook.com/view268218.html",
+			Potassium: "0",
+		},
+		{
+			Title: "ก๋วยเตี๋ยวลูกชิ้นน้ำใส ",
+			Description: ` ส่วนประกอบ 
+			- น้ำสะอาด 3 ลิตร
+- กระดูกหมู 500 กรัม
+- คนอร์ 2 ก้อน
+- รากผักชี 5 ก้าน
+- พริกไทย 10 เม็ด
+- น้ำตาล 1 ช้อนตวง
+- ซีอิ๋วขาว 2 ช้อนตวง
+- ซอสปรุงรสฝาเขียว 2 ช้อนตวง
+- ลูกชิ้น
+- เส้นก๋วยเตี๋ยว
+- ถั่วงอก
+- กระเทียมเจียว
+- ต้นหอมผักชี
+- เกลือ 1 ช้อนชา `,
+			Image:  "https://img.wongnai.com/p/1968x0/2019/03/17/abef3072f4924196a2ae1d06f5c948ed.jpg",
+			Sodium: 62,
+			Credit: "https://www.wongnai.com/recipes/ugc/6c273742a82a4d588d5a610113a62bf9?ref=ct",
+			Potassium: "0",
 		},
 	}
 
@@ -2590,6 +2674,8 @@ func SetupDatabase() {
 		{Name: "ส้มตำ"},
 		{Name: "อาหารหวาน"},
 		{Name: "อาหารหวานสำหรับผู้ป่วยโรคเบาหวาน"},
+		{Name: "โรคเบาหวาน"},
+		{Name: "โรคไต"},
 	}
 
 	for _, Tag := range Tag {
@@ -2601,93 +2687,136 @@ func SetupDatabase() {
 	MenuTag := []entity.MenuTag{
 		{MenuID: 1, TagID: 4},
 		{MenuID: 1, TagID: 6},
+		{MenuID: 1, TagID: 18},
 		{MenuID: 2, TagID: 4},
 		{MenuID: 2, TagID: 7},
+		{MenuID: 2, TagID: 18},
 		{MenuID: 3, TagID: 4},
 		{MenuID: 3, TagID: 8},
+		{MenuID: 3, TagID: 18},
 		{MenuID: 4, TagID: 4},
 		{MenuID: 4, TagID: 8},
+		{MenuID: 4, TagID: 18},
 		{MenuID: 5, TagID: 4},
 		{MenuID: 5, TagID: 5},
+		{MenuID: 5, TagID: 18},
 		{MenuID: 6, TagID: 4},
 		{MenuID: 6, TagID: 9},
+		{MenuID: 6, TagID: 18},
 		{MenuID: 7, TagID: 4},
 		{MenuID: 7, TagID: 10},
+		{MenuID: 7, TagID: 18},
 		{MenuID: 8, TagID: 4},
 		{MenuID: 8, TagID: 6},
+		{MenuID: 8, TagID: 18},
 		{MenuID: 9, TagID: 4},
 		{MenuID: 9, TagID: 7},
+		{MenuID: 9, TagID: 18},
 		{MenuID: 10, TagID: 4},
 		{MenuID: 10, TagID: 7},
+		{MenuID: 10, TagID: 18},
 
 		{MenuID: 11, TagID: 2},
 		{MenuID: 11, TagID: 5},
+		{MenuID: 11, TagID: 18},
 		{MenuID: 12, TagID: 2},
 		{MenuID: 12, TagID: 8},
+		{MenuID: 12, TagID: 18},
 		{MenuID: 13, TagID: 2},
 		{MenuID: 13, TagID: 11},
+		{MenuID: 13, TagID: 18},
 		{MenuID: 14, TagID: 2},
 		{MenuID: 14, TagID: 7},
+		{MenuID: 14, TagID: 18},
 		{MenuID: 15, TagID: 2},
 		{MenuID: 15, TagID: 11},
+		{MenuID: 15, TagID: 18},
 		{MenuID: 16, TagID: 2},
 		{MenuID: 16, TagID: 12},
+		{MenuID: 16, TagID: 18},
 		{MenuID: 17, TagID: 2},
 		{MenuID: 17, TagID: 6},
+		{MenuID: 17, TagID: 18},
 		{MenuID: 18, TagID: 2},
 		{MenuID: 18, TagID: 5},
+		{MenuID: 18, TagID: 18},
 		{MenuID: 19, TagID: 2},
 		{MenuID: 19, TagID: 11},
+		{MenuID: 19, TagID: 18},
 		{MenuID: 20, TagID: 2},
 		{MenuID: 20, TagID: 11},
+		{MenuID: 20, TagID: 18},
 
 		{MenuID: 21, TagID: 1},
 		{MenuID: 21, TagID: 10},
+		{MenuID: 21, TagID: 18},
 		{MenuID: 22, TagID: 1},
 		{MenuID: 22, TagID: 7},
+		{MenuID: 22, TagID: 18},
 		{MenuID: 23, TagID: 1},
 		{MenuID: 23, TagID: 11},
+		{MenuID: 23, TagID: 18},
 		{MenuID: 24, TagID: 1},
 		{MenuID: 24, TagID: 5},
+		{MenuID: 24, TagID: 18},
 		{MenuID: 25, TagID: 1},
 		{MenuID: 25, TagID: 11},
+		{MenuID: 25, TagID: 18},
 		{MenuID: 26, TagID: 1},
 		{MenuID: 26, TagID: 8},
+		{MenuID: 26, TagID: 18},
 		{MenuID: 27, TagID: 1},
 		{MenuID: 27, TagID: 7},
+		{MenuID: 27, TagID: 18},
 		{MenuID: 28, TagID: 1},
 		{MenuID: 28, TagID: 7},
+		{MenuID: 28, TagID: 18},
 		{MenuID: 29, TagID: 1},
 		{MenuID: 29, TagID: 8},
+		{MenuID: 29, TagID: 18},
 		{MenuID: 30, TagID: 1},
 		{MenuID: 30, TagID: 10},
 		{MenuID: 30, TagID: 11},
+		{MenuID: 30, TagID: 18},
 		{MenuID: 31, TagID: 1},
 		{MenuID: 31, TagID: 6},
+		{MenuID: 31, TagID: 18},
 
 		{MenuID: 32, TagID: 3},
 		{MenuID: 32, TagID: 8},
+		{MenuID: 32, TagID: 18},
 		{MenuID: 33, TagID: 3},
 		{MenuID: 33, TagID: 10},
+		{MenuID: 33, TagID: 18},
 		{MenuID: 34, TagID: 3},
 		{MenuID: 34, TagID: 8},
+		{MenuID: 34, TagID: 18},
 		{MenuID: 35, TagID: 3},
 		{MenuID: 35, TagID: 13},
+		{MenuID: 35, TagID: 18},
 		{MenuID: 36, TagID: 3},
 		{MenuID: 36, TagID: 14},
+		{MenuID: 36, TagID: 18},
 		{MenuID: 37, TagID: 3},
 		{MenuID: 37, TagID: 8},
+		{MenuID: 37, TagID: 18},
 		{MenuID: 38, TagID: 3},
 		{MenuID: 38, TagID: 7},
+		{MenuID: 38, TagID: 18},
 		{MenuID: 39, TagID: 3},
 		{MenuID: 39, TagID: 9},
+		{MenuID: 39, TagID: 18},
 		{MenuID: 40, TagID: 3},
 		{MenuID: 40, TagID: 11},
+		{MenuID: 40, TagID: 18},
 		{MenuID: 41, TagID: 3},
 		{MenuID: 41, TagID: 7},
+		{MenuID: 41, TagID: 18},
 		{MenuID: 42, TagID: 3},  // ป่นปลา
 		{MenuID: 42, TagID: 9},  // ป่นปลา
+		{MenuID: 42, TagID: 18},
 		{MenuID: 43, TagID: 15}, //ซาหริ่ม
+		{MenuID: 43, TagID: 18},
 	}
 	db.Create(&MenuTag)
 
@@ -2825,8 +2954,8 @@ func SetupDatabase() {
 		},
 		{
 			Name:        "แครกเกอร์",
-			Image:       "https://t3.ftcdn.net/jpg/02/93/06/52/360_F_293065233_CQ3WBmQafv2T91cvOXp0RkNUSjInYNXa.jpg",
-			Credit:      "https://stock.adobe.com/jp/search/images?k=%E3%82%AF%E3%83%A9%E3%83%83%E3%82%AB%E3%83%BC",
+			Image:       "https://www.scimath.org/images/stories/flexicontent/item_12043_field_65/l_12043_image_01.jpg",
+			Credit:      "https://www.scimath.org/image-science/item/12043-2020-12-02-06-32-39-11922",
 			Description: "ฟอสฟอรัสสูง,โพแทสเซียมสูง",
 			FoodFlagID:  5,
 		},
@@ -3202,14 +3331,14 @@ func SetupDatabase() {
 			FoodFlagID:  8,
 		},
 		{
-			Name:        "ไข่แดง",
+			Name:        "ไข่แดงและ ผลิตภัณฑ์จากไข่แดง",
 			Image:       "https://www.tcs-mart.com/web/wp-content/uploads/2022/11/yolk1.jpg",
 			Credit:      "https://www.tcs-mart.com/product/%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%87%E0%B8%81%E0%B8%A5%E0%B8%B4%E0%B9%88%E0%B8%99%E0%B9%84%E0%B8%82%E0%B9%88%E0%B9%81%E0%B8%94%E0%B8%87-egg-yolk-flavour-water-flavour/",
 			Description: "ฟอสฟอรัสสูง",
 			FoodFlagID:  8,
 		},
 		{
-			Name:        "นม",
+			Name:        "นมและ  cursor-pointerผลิตภัณฑ์จากนม",
 			Image:       "https://5.imimg.com/data5/HW/IA/MY-41175207/full-cream-pure-goat-milk-500x500.jpg",
 			Credit:      "https://www.indiamart.com/proddetail/full-cream-pure-goat-milk-16132391897.html",
 			Description: "ฟอสฟอรัสสูง,โพแทสเซียมสูง",

@@ -54,7 +54,10 @@ import StressResultsPage from "./pages/Assessment/Stress/StressResult";
 import DepressionAssessmentForm from "./pages/Assessment/Depression/Depression";
 import DepressionResultsPage from "./pages/Assessment/Depression/DepressionResult";
 import Menulabel from "./pages/Menu/menulabel"
+import Footer from "./components/Footer";
 import ConfirmOTP from "./pages/Admin/otp"
+import Potassium from "./pages/Menu/potassium"
+
 const AppContent = () => {
   const location = useLocation();
 
@@ -116,7 +119,9 @@ const AppContent = () => {
         <Route path="/food-exchanges" element={<FoodExchanges />} />
         <Route path="/menulabel" element={<Menulabel />} />
         <Route path="/confirm-otp" element={<ConfirmOTP />} />
+        <Route path="/potassium" element={<Potassium />} />
       </Routes>
+      {!hideNavBar && <Footer />}
     </>
   );
 };
