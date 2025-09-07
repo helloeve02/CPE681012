@@ -74,7 +74,7 @@ const MenuAdminPanel = () => {
     Description: '',
     Region: '',
     Sodium: undefined,
-    Potassium: undefined,
+    Potassium: '',
     Image: '',
     Credit: '',
     Tags: []
@@ -489,10 +489,7 @@ const MenuAdminPanel = () => {
                     className="w-full px-4 py-4 rounded-2xl border-2 border-gray-200 hover:border-blue-400 focus:border-blue-500 focus:outline-none shadow-sm hover:shadow-md focus:shadow-lg transition-all duration-200 bg-white/80 backdrop-blur-sm text-lg"
                     placeholder="ระบุปริมาณโพแทสเซียม"
                     value={formData.Potassium || ''}
-                    onChange={(e) => setFormData({ 
-                      ...formData, 
-                      Potassium: e.target.value ? parseFloat(e.target.value) : undefined 
-                    })}
+                    onChange={(e) => setFormData({ ...formData, Potassium: e.target.value })}
                   />
                 </div>
               </div>
