@@ -21,40 +21,43 @@ const ChooseAvoid = () => {
   const handleNext = () => {
     navigate("/mealplanner");
   };
-
+  const [ruleNum, setRuleNum] = useState<number | null>(null);
   type FoodGroupData = {
     topic: string;
     recommended: FoodItem[];
     avoided: FoodItem[];
   };
 
-  function transformFoodItems(foodItems: FoodItem[]): FoodGroupData[] {
-    const groupMap: Record<
-      string,
-      { recommended: FoodItem[]; avoided: FoodItem[] }
-    > = {};
+  function transformFoodItems(foodItems: FoodItem[], ruleNum: number): FoodGroupData[] {
+  const groupMap: Record<
+    string,
+    { recommended: FoodItem[]; avoided: FoodItem[] }
+  > = {};
 
-    foodItems.forEach((item) => {
-      const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
-      const flag = item.FoodFlag.Flag;
+  foodItems.forEach((item) => {
+    const groupName = item.FoodFlag.FoodGroup.Name ?? "Unknown Group";
+    const flag = item.FoodFlag.Flag;
 
-      if (!groupMap[groupName]) {
-        groupMap[groupName] = { recommended: [], avoided: [] };
-      }
+    if (!groupMap[groupName]) {
+      groupMap[groupName] = { recommended: [], avoided: [] };
+    }
 
-      if (flag === "ควรรับประทาน") {
-        groupMap[groupName].recommended.push(item);
-      } else if (flag === "ควรหลีกเลี่ยง") {
-        groupMap[groupName].avoided.push(item);
-      }
-    });
+    if (flag === "ควรรับประทาน") {
+      groupMap[groupName].recommended.push(item);
+    } else if (flag === "ควรหลีกเลี่ยง") {
+      groupMap[groupName].avoided.push(item);
+    } else if (flag === "ไม่ควรรับประทาน" && (ruleNum < 17 || ruleNum > 22)) {
+      groupMap[groupName].avoided.push(item);
+    }
+  });
 
-    return Object.entries(groupMap).map(([topic, data]) => ({
-      topic,
-      recommended: data.recommended,
-      avoided: data.avoided,
-    }));
-  }
+  return Object.entries(groupMap).map(([topic, data]) => ({
+    topic,
+    recommended: data.recommended,
+    avoided: data.avoided,
+  }));
+}
+
 
   useEffect(() => {
     if (location.state?.scrollTo) {
@@ -67,13 +70,20 @@ const ChooseAvoid = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const ruleNum = getValidRule();
+      if (!ruleNum) {
+        navigate("/nutrition");
+        return;
+      }
+
+      setRuleNum(ruleNum);
       const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
       try {
         const [res] = await Promise.all([GetAllChooseAvoid(), delay(300)]);
 
         if (res && res.data?.fooditems) {
-          setFoodGroups(transformFoodItems(res.data.fooditems));
+          setFoodGroups(transformFoodItems(res.data.fooditems, ruleNum));
         }
       } catch (err) {
         console.error("Failed to fetch some data", err);
@@ -117,7 +127,6 @@ const ChooseAvoid = () => {
               preview={false}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             />
-            
           </div>
 
           <div className="p-3">
