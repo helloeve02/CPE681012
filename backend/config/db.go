@@ -1255,6 +1255,48 @@ func SetupDatabase() {
 			Sodium: 0,
 			Credit: "https://cookinghub.in.th/%E0%B8%AA%E0%B8%B9%E0%B8%95%E0%B8%A3-%E0%B8%8B%E0%B9%88%E0%B8%B2%E0%B8%AB%E0%B8%A3%E0%B8%B4%E0%B9%88%E0%B8%A1-%E0%B8%A7%E0%B8%B1%E0%B8%95%E0%B8%96%E0%B8%B8%E0%B8%94%E0%B8%B4%E0%B8%9A%E0%B9%81%E0%B8%A5/",
 		},
+				{
+			Title: "ลอดช่องน้ำกะทิ",
+			Description: ` ส่วนประกอบ 
+			- แป้งข้าวเจ้า 200 กรัม
+- แป้งเท้ายายม่อม หรือแป้งมัน 50 กรัม
+- แป้งถั่วเขียว 40 กรัม
+- ใบเตย 20 ใบ
+- น้ำปูนใส 1.2 ลิตร
+- น้ำปูนใส 250 มิลลิลิตร (สำหรับกวนขนม)
+- น้ำผสมน้ำแข็ง
+- หัวกะทิ 500 กรัม
+- น้ำตาลมะพร้าว 300 กรัม
+- ใบเตย 10 ใบ
+- เกลือป่น 1/2 ช้อนชา
+- เทียนอบขนม`,
+			Image:  "https://s359.kapook.com/pagebuilder/1b30a4c9-dbe6-46d5-8477-e8bc66bb94a7.jpg",
+			Sodium: 62,
+			Credit: "https://cooking.kapook.com/view268218.html",
+			Potassium: "0",
+		},
+		{
+			Title: "ก๋วยเตี๋ยวลูกชิ้นน้ำใส ",
+			Description: ` ส่วนประกอบ 
+			- น้ำสะอาด 3 ลิตร
+- กระดูกหมู 500 กรัม
+- คนอร์ 2 ก้อน
+- รากผักชี 5 ก้าน
+- พริกไทย 10 เม็ด
+- น้ำตาล 1 ช้อนตวง
+- ซีอิ๋วขาว 2 ช้อนตวง
+- ซอสปรุงรสฝาเขียว 2 ช้อนตวง
+- ลูกชิ้น
+- เส้นก๋วยเตี๋ยว
+- ถั่วงอก
+- กระเทียมเจียว
+- ต้นหอมผักชี
+- เกลือ 1 ช้อนชา `,
+			Image:  "https://img.wongnai.com/p/1968x0/2019/03/17/abef3072f4924196a2ae1d06f5c948ed.jpg",
+			Sodium: 62,
+			Credit: "https://www.wongnai.com/recipes/ugc/6c273742a82a4d588d5a610113a62bf9?ref=ct",
+			Potassium: "0",
+		},
 	}
 
 	for _, pkg := range Menu {
@@ -2632,6 +2674,8 @@ func SetupDatabase() {
 		{Name: "ส้มตำ"},
 		{Name: "อาหารหวาน"},
 		{Name: "อาหารหวานสำหรับผู้ป่วยโรคเบาหวาน"},
+		{Name: "โรคเบาหวาน"},
+		{Name: "โรคไต"},
 	}
 
 	for _, Tag := range Tag {
@@ -2643,93 +2687,136 @@ func SetupDatabase() {
 	MenuTag := []entity.MenuTag{
 		{MenuID: 1, TagID: 4},
 		{MenuID: 1, TagID: 6},
+		{MenuID: 1, TagID: 18},
 		{MenuID: 2, TagID: 4},
 		{MenuID: 2, TagID: 7},
+		{MenuID: 2, TagID: 18},
 		{MenuID: 3, TagID: 4},
 		{MenuID: 3, TagID: 8},
+		{MenuID: 3, TagID: 18},
 		{MenuID: 4, TagID: 4},
 		{MenuID: 4, TagID: 8},
+		{MenuID: 4, TagID: 18},
 		{MenuID: 5, TagID: 4},
 		{MenuID: 5, TagID: 5},
+		{MenuID: 5, TagID: 18},
 		{MenuID: 6, TagID: 4},
 		{MenuID: 6, TagID: 9},
+		{MenuID: 6, TagID: 18},
 		{MenuID: 7, TagID: 4},
 		{MenuID: 7, TagID: 10},
+		{MenuID: 7, TagID: 18},
 		{MenuID: 8, TagID: 4},
 		{MenuID: 8, TagID: 6},
+		{MenuID: 8, TagID: 18},
 		{MenuID: 9, TagID: 4},
 		{MenuID: 9, TagID: 7},
+		{MenuID: 9, TagID: 18},
 		{MenuID: 10, TagID: 4},
 		{MenuID: 10, TagID: 7},
+		{MenuID: 10, TagID: 18},
 
 		{MenuID: 11, TagID: 2},
 		{MenuID: 11, TagID: 5},
+		{MenuID: 11, TagID: 18},
 		{MenuID: 12, TagID: 2},
 		{MenuID: 12, TagID: 8},
+		{MenuID: 12, TagID: 18},
 		{MenuID: 13, TagID: 2},
 		{MenuID: 13, TagID: 11},
+		{MenuID: 13, TagID: 18},
 		{MenuID: 14, TagID: 2},
 		{MenuID: 14, TagID: 7},
+		{MenuID: 14, TagID: 18},
 		{MenuID: 15, TagID: 2},
 		{MenuID: 15, TagID: 11},
+		{MenuID: 15, TagID: 18},
 		{MenuID: 16, TagID: 2},
 		{MenuID: 16, TagID: 12},
+		{MenuID: 16, TagID: 18},
 		{MenuID: 17, TagID: 2},
 		{MenuID: 17, TagID: 6},
+		{MenuID: 17, TagID: 18},
 		{MenuID: 18, TagID: 2},
 		{MenuID: 18, TagID: 5},
+		{MenuID: 18, TagID: 18},
 		{MenuID: 19, TagID: 2},
 		{MenuID: 19, TagID: 11},
+		{MenuID: 19, TagID: 18},
 		{MenuID: 20, TagID: 2},
 		{MenuID: 20, TagID: 11},
+		{MenuID: 20, TagID: 18},
 
 		{MenuID: 21, TagID: 1},
 		{MenuID: 21, TagID: 10},
+		{MenuID: 21, TagID: 18},
 		{MenuID: 22, TagID: 1},
 		{MenuID: 22, TagID: 7},
+		{MenuID: 22, TagID: 18},
 		{MenuID: 23, TagID: 1},
 		{MenuID: 23, TagID: 11},
+		{MenuID: 23, TagID: 18},
 		{MenuID: 24, TagID: 1},
 		{MenuID: 24, TagID: 5},
+		{MenuID: 24, TagID: 18},
 		{MenuID: 25, TagID: 1},
 		{MenuID: 25, TagID: 11},
+		{MenuID: 25, TagID: 18},
 		{MenuID: 26, TagID: 1},
 		{MenuID: 26, TagID: 8},
+		{MenuID: 26, TagID: 18},
 		{MenuID: 27, TagID: 1},
 		{MenuID: 27, TagID: 7},
+		{MenuID: 27, TagID: 18},
 		{MenuID: 28, TagID: 1},
 		{MenuID: 28, TagID: 7},
+		{MenuID: 28, TagID: 18},
 		{MenuID: 29, TagID: 1},
 		{MenuID: 29, TagID: 8},
+		{MenuID: 29, TagID: 18},
 		{MenuID: 30, TagID: 1},
 		{MenuID: 30, TagID: 10},
 		{MenuID: 30, TagID: 11},
+		{MenuID: 30, TagID: 18},
 		{MenuID: 31, TagID: 1},
 		{MenuID: 31, TagID: 6},
+		{MenuID: 31, TagID: 18},
 
 		{MenuID: 32, TagID: 3},
 		{MenuID: 32, TagID: 8},
+		{MenuID: 32, TagID: 18},
 		{MenuID: 33, TagID: 3},
 		{MenuID: 33, TagID: 10},
+		{MenuID: 33, TagID: 18},
 		{MenuID: 34, TagID: 3},
 		{MenuID: 34, TagID: 8},
+		{MenuID: 34, TagID: 18},
 		{MenuID: 35, TagID: 3},
 		{MenuID: 35, TagID: 13},
+		{MenuID: 35, TagID: 18},
 		{MenuID: 36, TagID: 3},
 		{MenuID: 36, TagID: 14},
+		{MenuID: 36, TagID: 18},
 		{MenuID: 37, TagID: 3},
 		{MenuID: 37, TagID: 8},
+		{MenuID: 37, TagID: 18},
 		{MenuID: 38, TagID: 3},
 		{MenuID: 38, TagID: 7},
+		{MenuID: 38, TagID: 18},
 		{MenuID: 39, TagID: 3},
 		{MenuID: 39, TagID: 9},
+		{MenuID: 39, TagID: 18},
 		{MenuID: 40, TagID: 3},
 		{MenuID: 40, TagID: 11},
+		{MenuID: 40, TagID: 18},
 		{MenuID: 41, TagID: 3},
 		{MenuID: 41, TagID: 7},
+		{MenuID: 41, TagID: 18},
 		{MenuID: 42, TagID: 3},  // ป่นปลา
 		{MenuID: 42, TagID: 9},  // ป่นปลา
+		{MenuID: 42, TagID: 18},
 		{MenuID: 43, TagID: 15}, //ซาหริ่ม
+		{MenuID: 43, TagID: 18},
 	}
 	db.Create(&MenuTag)
 

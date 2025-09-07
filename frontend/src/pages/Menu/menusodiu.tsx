@@ -17,7 +17,7 @@ import {
 import { GetAllMenu } from "../../services/https";
 import { useEffect, useState } from "react";
 import type { MenuInterface } from "../../interfaces/Menu";
-import { ChevronRight, Leaf, TrendingUp } from "lucide-react";
+import { ChevronRight, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 // import { Leaf } from 'lucide-react';
