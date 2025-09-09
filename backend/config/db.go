@@ -1489,7 +1489,7 @@ func SetupDatabase() {
 	} */
 
 	AgeRanges := []entity.AgeRange{
-		{AgeMin: 0, AgeMax: 60},
+		{AgeMin: 15, AgeMax: 60},
 		{AgeMin: 61, AgeMax: 200},
 	}
 

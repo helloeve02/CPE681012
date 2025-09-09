@@ -9,6 +9,7 @@ export interface FoodExchangeInterface {
     FoodFlag?: {
       FoodGroup?: {
         Name?: string;
+        Unit?: string;
       };
     };
   };

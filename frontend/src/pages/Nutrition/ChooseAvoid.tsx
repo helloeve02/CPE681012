@@ -12,7 +12,7 @@ const ChooseAvoid = () => {
   const [isLoading, setLoading] = useState(true);
   const [foodGroups, setFoodGroups] = useState<FoodGroupData[]>([]);
   const [activeTab, setActiveTab] = useState<"recommended" | "avoided">(
-    "recommended"
+    "avoided"
   );
   const [isVisible, setIsVisible] = useState(false);
   const location = useLocation();

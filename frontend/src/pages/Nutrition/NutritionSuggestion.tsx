@@ -188,11 +188,11 @@ const NutritionSuggestion = () => {
       window.scrollTo({ top, behavior: "smooth" });
     }
   };
-
+  const hideTooltipGroups = ["ไขมัน", "นม", "ซอสปรุงรส"];
   const extraAdvice = [
     {
       id: "protein-card",
-      title: "ข้าว/แป้ง vs แป้งปลอดโปรตีน",
+      title: "ข้าว/แป้งไม่มีโปรตีน vs แป้งปลอดโปรตีน",
       icon: <LuEggFried size={32} />,
       risk: "การรับประทานอาหารประเภทโปรตีนสูง ในผู้ที่ไตมีการทำงานเสื่อมไปบางส่วน อาจเร่งการดำเนินของโรคไตให้เร็วขึ้นได้ เพราะอาหารเหล่านี้ทำให้เลือดในร่างกายมีความเป็นกรดมากขึ้น ไตจึงต้องทำงานหนักเพื่อขับยูเรียซึ่งเป็นของเสียที่ได้จากการสลายโปรตีนและเพิ่มการขับกรดออกจากร่างกาย",
       recommendation: {
@@ -201,7 +201,7 @@ const NutritionSuggestion = () => {
         dialysis:
           "ควรรับประทานโปรตีนในแต่ละวัน เพิ่มมากกว่าคนปกติ คือ ประมาณ 1.0 – 1.2 กรัม/น้ำหนักตัว 1 กก./วัน เนื่องจากร่างกายสูญเสียโปรตีนไปบางส่วนจากกระบวนการฟอกไต",
       },
-      note: "โปรตีนพบในอาหาร เช่น เนื้อสัตว์ ไก่ ปลา ไข่ นม และถั่วต่าง ๆ รวมถึงอาหารประเภทข้าว/แป้งอีกด้วย",
+      note: "โปรตีนพบในอาหาร เช่น เนื้อสัตว์ ไก่ ปลา ไข่ นม และถั่วต่าง ๆ รวมถึงอาหารประเภทข้าว/แป้งยังมีโปรตีนแฝงอีกด้วย",
       tips: null,
     },
     {
@@ -218,7 +218,7 @@ const NutritionSuggestion = () => {
       title: "โพแทสเซียม",
       icon: <LuApple size={32} />,
       risk: "โพแทสเซียมที่สูงทำให้หัวใจเต้นผิดปกติ",
-      recommendation: "ไม่ควรเกิน 2,000 – 2,500 มิลลิกรัม/วัน",
+      recommendation: "ไม่ควรเกิน 1,500 มิลลิกรัม/วัน",
       note: null,
       tips: "การนำผักมาสับเป็นชิ้นเล็ก ๆ ต้มในน้ำแล้วเทน้ำทิ้ง จะกำจัดโพแทสเซียมออกได้ประมาณร้อยละ 20 – 30 อย่างไรก็ตาม อาหารจะสูญเสียคุณค่าของวิตามินที่จำเป็นด้วย",
     },
@@ -247,20 +247,22 @@ const NutritionSuggestion = () => {
     <>
       {isLoading ? (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
-        {/* Animated Background Orbs */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
-          <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-        </div>
-        <div className="relative flex items-center justify-center min-h-screen">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-xl font-semibold text-gray-800">กำลังโหลดข้อมูล...</span>
+          {/* Animated Background Orbs */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
+            <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+          </div>
+          <div className="relative flex items-center justify-center min-h-screen">
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <span className="text-xl font-semibold text-gray-800">
+                  กำลังโหลดข้อมูล...
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       ) : (
         <div className="font-kanit min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
           {/* Enhanced Header */}
@@ -519,20 +521,50 @@ const NutritionSuggestion = () => {
                                 <span>{mealTime}</span>
                               </div>
                             </td>
-                            {Object.values(groupedByFoodGroup).map(
-                              (items, groupIndex) => {
+                            {Object.entries(groupedByFoodGroup).map(
+                              ([foodGroupName, items], groupIndex) => {
                                 const item = items.find(
                                   (i) => i.meal_time_name === mealTime
                                 );
+                                const showTooltip =
+                                  !hideTooltipGroups.includes(foodGroupName);
                                 return (
                                   <td
                                     key={`${mealTime}-${groupIndex}`}
                                     className="p-4 text-center text-gray-600"
                                   >
                                     {item && item.amount > 0 ? (
-                                      <div className="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-2 px-3 text-sm font-medium inline-block">
-                                        {item.amount} {item.unit}
-                                      </div>
+                                      showTooltip ? (
+                                        <Tooltip
+                                          title={`อาหารแลกเปลี่ยนของ${foodGroupName}`}
+                                        >
+                                          <div
+                                            onClick={() =>
+                                              navigate("/food-exchanges", {
+                                                state: {
+                                                  scrollTo: foodGroupName,
+                                                },
+                                              })
+                                            }
+                                            className="cursor-pointer bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-2 px-3 text-sm font-medium inline-block"
+                                          >
+                                            {item.amount} {item.unit}
+                                          </div>
+                                        </Tooltip>
+                                      ) : (
+                                        <div
+                                          onClick={() =>
+                                            navigate("/food-exchanges", {
+                                              state: {
+                                                scrollTo: foodGroupName,
+                                              },
+                                            })
+                                          }
+                                          className="cursor-pointer bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-2 px-3 text-sm font-medium inline-block"
+                                        >
+                                          {item.amount} {item.unit}
+                                        </div>
+                                      )
                                     ) : (
                                       <span className="text-gray-400">-</span>
                                     )}
