@@ -4,19 +4,19 @@ import "gorm.io/gorm"
 
 type EducationalContent  struct {
 	gorm.Model
-	Title			string
-	PictureIn 		string
-	PictureOut 		string
-	Link			string
-	Credit			string
-	Description		string
+	Title			string `valid:"required~Title is required"`
+	PictureIn 		string /* `valid:"required~PictureIn is required,url~PictureIn must be a valid URL"` */
+	PictureOut 		string /* `valid:"required~PictureOut is PictureOut,url~PictureOut must be a valid URL"` */
+	Link			string /* `valid:"required~Link is required,url~Link must be a valid URL"` */
+	Credit			string /* `valid:"required~Credit is required,url~Credit must be a valid URL"` */
+	Description		string `valid:"required~Description is required"`
 
 	AdminID		uint
 	Admin		Admin
 	
-	EducationalGroupID uint
-	EducationalGroup EducationalGroup `gorm:"foreignKey:EducationalGroupID"`
+	EducationalGroupID uint `valid:"range(1|4294967295)~EducationalGroupID is required"`
+	EducationalGroup EducationalGroup `gorm:"foreignKey:EducationalGroupID" valid:"-"`
 
-	ContentCategoryID uint
-	ContentCategory ContentCategory `gorm:"foreignKey:ContentCategoryID"`
+	ContentCategoryID uint `valid:"range(1|4294967295)~ContentCategoryID is required"`
+	ContentCategory ContentCategory `gorm:"foreignKey:ContentCategoryID" valid:"-"`
 }
