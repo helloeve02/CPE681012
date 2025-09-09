@@ -242,6 +242,137 @@ const NutritionSuggestion = () => {
       tips: "ควรหลีกเลี่ยงไขมันอิ่มตัวสูง เช่น น้ำมันจากสัตว์ น้ำมันปาล์ม น้ำมันมะพร้าว และหลีกเลี่ยงไขมันทรานส์ที่แฝงในอาหาร เช่น เนยเทียม มาการีน เบเกอรี่ คุกกี้",
     },
   ];
+  const carbCountingData = {
+    description:
+      "สารอาหารที่เรียกว่า คาร์บโบไฮเดรต เรียกย่อๆว่า คาร์บ พบมากในอาหารกลุ่ม ข้าวแป้ง ซึ่งเป็นสารตั้งต้นพื้นฐานของน้ำตาลกลูโคส ร่างกายนำไปใช้เป็นพลังงานได้ง่าย หากบริโภคใช้ปริมาณมากเกินอาจส่งผลกระทบต่อระดับน้ำตาลในเลือด โดยเฉพาะผู้ที่เป็นโรคเบาหวานและผู้ที่เสี่ยงจะเป็นโรคเบาหวาน",
+    importance:
+      "ดังนั้นการรู้จัก นับคาร์บ จึงเป็นสิ่งสำคัญเพื่อปรับสมดุลอาหาร ควบคุมเบาหวาน",
+    averageCarbPerUnit: "15-18", // คาร์โบไฮเดรตเฉลี่ย 15-18 กรัม = 1 คาร์บ
+    categories: [
+      {
+        name: "ข้าว-แป้ง",
+        portion: {
+          carbohydrate_g: "18",
+          protein_g: "2",
+          fat_g: "—",
+          energy_kcal: "80",
+          carb_unit: "1",
+        },
+        examples: [
+          { name: "ข้าวกล้อง", quantity: "1 ทัพพี", weight_g: 55 },
+          { name: "ข้าวขัดขาว", quantity: "1 ทัพพี", weight_g: 55 },
+          { name: "ข้าวเหนียว", quantity: "1/2 ทัพพี", weight_g: 35 },
+        ],
+      },
+      {
+        name: "เนื้อสัตว์",
+        portion: {
+          carbohydrate_g: "—",
+          protein_g: "7",
+          fat_g: "0-8",
+          energy_kcal: "35-100",
+          carb_unit: "0",
+        },
+        examples: [
+          { name: "ไข่ไก่", quantity: "1 ฟอง", weight_g: 55 },
+          { name: "ปลา (สุก)", quantity: "2 ช้อนโต๊ะ", weight_g: 30 },
+          { name: "อกไก่ (สุก)", quantity: "2 ช้อนโต๊ะ", weight_g: 30 },
+        ],
+      },
+      {
+        name: "เนื้อสัตว์แปรรูป/ผลิตภัณฑ์จากนม",
+        portion: {
+          carbohydrate_g: "12-15",
+          protein_g: "—",
+          fat_g: "—",
+          energy_kcal: "—",
+          carb_unit: "1",
+          note: "1 ส่วนมีคาร์โบไฮเดรต โปรตีน และไขมัน ระบุในฉลากโภชนาการ",
+        },
+        examples: [
+          { name: "ไส้กรอกหมู/ไก่", quantity: null, weight_g: 70 },
+          { name: "นมจืด", quantity: "1 แก้ว", weight_ml: 250 },
+          { name: "นมเปรี้ยว", quantity: "1 ขวด", weight_ml: 80 },
+        ],
+      },
+      {
+        name: "ผัก ก.",
+        portion: {
+          carbohydrate_g: "0-3",
+          protein_g: "0-2",
+          fat_g: "—",
+          energy_kcal: "ต่ำมาก (ไม่คิดพลังงาน)",
+          carb_unit: "0",
+        },
+        examples: [
+          { name: "ผักกาดขาว", quantity: "1 ทัพพี", weight_g: 100 },
+          { name: "แตงกวา", quantity: "1 ทัพพี", weight_g: 70 },
+          { name: "บวบ", quantity: "1 ทัพพี", weight_g: 70 },
+        ],
+      },
+      {
+        name: "ผัก ข.",
+        portion: {
+          carbohydrate_g: "5",
+          protein_g: "2",
+          fat_g: "—",
+          energy_kcal: "25",
+          carb_unit: "0.3",
+        },
+        examples: [
+          { name: "กะหล่ำปลี", quantity: "1 ทัพพี", weight_g: 70 },
+          { name: "คะน้า", quantity: "1 ทัพพี", weight_g: 100 },
+          { name: "แครอท", quantity: "1 ทัพพี", weight_g: 70 },
+        ],
+      },
+      {
+        name: "ผลไม้",
+        portion: {
+          carbohydrate_g: "15",
+          protein_g: "—",
+          fat_g: "—",
+          energy_kcal: "60",
+          carb_unit: "1",
+        },
+        examples: [
+          { name: "แอปเปิ้ล", quantity: "1 ผลเล็ก", weight_g: 100 },
+          { name: "แก้วมังกร", quantity: "1/2 ผลกลาง", weight_g: 120 },
+          { name: "มะละกอสุก", quantity: "8 ชิ้น", weight_g: 115 },
+        ],
+      },
+      {
+        name: "ไขมัน",
+        portion: {
+          carbohydrate_g: "—",
+          protein_g: "—",
+          fat_g: "5",
+          energy_kcal: "45",
+          carb_unit: "0",
+        },
+        examples: [
+          { name: "น้ำมันมะกอก", quantity: "1 ช้อนชา", weight_g: 5 },
+          { name: "น้ำมันถั่วเหลือง", quantity: "1 ช้อนชา", weight_g: 5 },
+          { name: "น้ำมันรำข้าว", quantity: "1 ช้อนชา", weight_g: 5 },
+        ],
+      },
+      {
+        name: "ถั่วเปลือกแข็ง/ผลิตภัณฑ์จากถั่ว",
+        portion: {
+          carbohydrate_g: "15-18",
+          protein_g: "—",
+          fat_g: "—",
+          energy_kcal: "—",
+          carb_unit: "1",
+          note: "1 ส่วนมีคาร์โบไฮเดรต โปรตีน และไขมัน ระบุในฉลากโภชนาการ",
+        },
+        examples: [
+          { name: "อัลมอนด์", quantity: null, weight_g: 100 },
+          { name: "ถั่วลิสง", quantity: null, weight_g: 100 },
+          { name: "นมถั่วเหลือง", quantity: "1 แก้ว", weight_ml: 250 },
+        ],
+      },
+    ],
+  };
 
   return (
     <>
@@ -546,7 +677,7 @@ const NutritionSuggestion = () => {
                                                 },
                                               })
                                             }
-                                            className="cursor-pointer bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-2 px-3 text-sm font-medium inline-block"
+                                            className="cursor-pointer bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-2 px-3 text-sm font-medium inline-block transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-md hover:from-blue-200 hover:to-indigo-200 active:scale-95 active:shadow-sm"
                                           >
                                             {item.amount} {item.unit}
                                           </div>
@@ -560,7 +691,7 @@ const NutritionSuggestion = () => {
                                               },
                                             })
                                           }
-                                          className="cursor-pointer bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-2 px-3 text-sm font-medium inline-block"
+                                          className="cursor-pointer bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-2 px-3 text-sm font-medium inline-block transform transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-md hover:from-blue-200 hover:to-indigo-200 active:scale-95 active:shadow-sm"
                                         >
                                           {item.amount} {item.unit}
                                         </div>
@@ -668,7 +799,7 @@ const NutritionSuggestion = () => {
               </div>
             </div>
 
-            {/* Extra Nutrition Advice Cards */}
+            {/* Extra Nutrition Advice Cards for Non-Diabetes */}
             {(ruleNum! < 17 || ruleNum! > 22) && (
               <div
                 className={`
@@ -791,6 +922,243 @@ const NutritionSuggestion = () => {
                         )}
                       </div>
                     ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Carbohydrate Counting Section for Diabetes (rules 17-22) */}
+            {ruleNum! >= 17 && ruleNum! <= 22 && (
+              <div
+                className={`max-w-6xl mx-auto mb-8 ${
+                  isVisible
+                    ? "animate-in slide-in-from-bottom-8 fade-in duration-700 delay-600"
+                    : "opacity-0"
+                }`}
+              >
+                <div className="bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-white/30">
+                  <div className="flex items-center mb-6">
+                    <div className="w-1 h-12 bg-gradient-to-b from-emerald-500 to-teal-600 rounded-full mr-4"></div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center">
+                      <BulbOutlined className="mr-3 text-emerald-600" />
+                      การนับคาร์โบไฮเดรต (Carb Counting)
+                    </h3>
+                  </div>
+
+                  {/* Description and Importance */}
+                  <div className="mb-8">
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200 mb-4">
+                      <div className="flex items-center mb-3">
+                        <InfoCircleOutlined className="text-blue-600 mr-2 text-xl" />
+                        <h4 className="text-xl font-bold text-blue-800">
+                          คาร์โบไฮเดรต คืออะไร?
+                        </h4>
+                      </div>
+                      <p className="text-gray-700 leading-relaxed mb-4">
+                        {carbCountingData.description}
+                      </p>
+                      <div className="bg-blue-100 p-4 rounded-lg border-l-4 border-blue-500">
+                        <p className="text-blue-900 font-semibold">
+                          {carbCountingData.importance}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-200">
+                      <div className="flex items-center mb-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl flex items-center justify-center text-amber-600 mr-3 text-2xl">
+                          📏
+                        </div>
+                        <h4 className="text-xl font-bold text-amber-800">
+                          หน่วยวัดคาร์บ
+                        </h4>
+                      </div>
+                      <p className="text-gray-700">
+                        <strong>1 หน่วยคาร์บ (Carb Unit)</strong> ={" "}
+                        {carbCountingData.averageCarbPerUnit} กรัม คาร์โบไฮเดรต
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Food Categories */}
+                  <div className="space-y-6">
+                    {carbCountingData.categories.map((category, index) => (
+                      <div
+                        key={category.name}
+                        className={`bg-gradient-to-br from-gray-50/80 to-white/80 rounded-2xl p-6 border border-gray-200/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg ${
+                          isVisible
+                            ? "animate-in slide-in-from-bottom-4 fade-in"
+                            : "opacity-0"
+                        }`}
+                        style={{ animationDelay: `${700 + index * 100}ms` }}
+                      >
+                        {/* Category Header */}
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="text-xl font-bold text-gray-800 flex items-center">
+                            <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3"></div>
+                            {category.name}
+                          </h4>
+                          <div className="bg-gradient-to-r from-blue-100 to-purple-100 px-3 py-1 rounded-full flex items-center justify-center">
+                            <span className="text-sm font-semibold text-blue-800 text-center whitespace-nowrap">
+                              {category.portion.carb_unit} หน่วยคาร์บ
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Nutritional Info - Only render if data exists (not "—") */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                          {/* Carbohydrate - Always show since it's core data */}
+                          {category.portion.carbohydrate_g !== "—" && (
+                            <div className="bg-white/60 p-3 rounded-lg border border-gray-200">
+                              <div className="text-xs text-gray-600 mb-1">
+                                คาร์โบไฮเดรต
+                              </div>
+                              <div className="font-semibold text-blue-700">
+                                {category.portion.carbohydrate_g} กรัม
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Protein - Only show if not "—" */}
+                          {category.portion.protein_g !== "—" && (
+                            <div className="bg-white/60 p-3 rounded-lg border border-gray-200">
+                              <div className="text-xs text-gray-600 mb-1">
+                                โปรตีน
+                              </div>
+                              <div className="font-semibold text-green-700">
+                                {category.portion.protein_g} กรัม
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Fat - Only show if not "—" */}
+                          {category.portion.fat_g !== "—" && (
+                            <div className="bg-white/60 p-3 rounded-lg border border-gray-200">
+                              <div className="text-xs text-gray-600 mb-1">
+                                ไขมัน
+                              </div>
+                              <div className="font-semibold text-purple-700">
+                                {category.portion.fat_g} กรัม
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Energy - Only show if not "—" */}
+                          {category.portion.energy_kcal !== "—" && (
+                            <div className="bg-white/60 p-3 rounded-lg border border-gray-200">
+                              <div className="text-xs text-gray-600 mb-1">
+                                พลังงาน
+                              </div>
+                              <div className="font-semibold text-red-700">
+                                {category.portion.energy_kcal} กิโลแคลอรี่
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Note - Only show if exists */}
+                        {category.portion.note && (
+                          <div className="mb-4">
+                            <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-200 border-l-4 border-l-yellow-500">
+                              <p className="text-yellow-800 text-sm">
+                                <strong>หมายเหตุ:</strong>{" "}
+                                {category.portion.note}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Examples */}
+                        <div>
+                          <h5 className="font-semibold text-gray-800 mb-3 flex items-center">
+                            <div className="w-8 h-8 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center text-green-600 mr-2 text-lg">
+                              🥄
+                            </div>
+                            ตัวอย่างอาหาร (1 ส่วน)
+                          </h5>
+                          <div className="grid md:grid-cols-3 gap-3">
+                            {category.examples.map((example, idx) => (
+                              <div
+                                key={idx}
+                                className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-xl border border-blue-200 hover:shadow-md transition-all duration-300"
+                              >
+                                <div className="font-medium text-blue-900 mb-1">
+                                  {example.name}
+                                </div>
+                                <div className="text-sm text-blue-700">
+                                  {example.quantity && `${example.quantity} `}(
+                                  {(example as any).weight_g ||
+                                    (example as any).weight_ml}{" "}
+                                  {(example as any).weight_ml ? "มล." : "กรัม"})
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Sugar Section - Custom Design for Pure Carb */}
+                  <div
+                    className={`bg-gradient-to-br from-gray-50/80 to-white/80 rounded-2xl p-6 border border-gray-200/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg ${
+                      isVisible
+                        ? "animate-in slide-in-from-bottom-4 fade-in"
+                        : "opacity-0"
+                    }`}
+                    style={{
+                      animationDelay: `${
+                        700 + carbCountingData.categories.length * 100
+                      }ms`,
+                    }}
+                  >
+                    {/* Category Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <h4 className="text-xl font-bold text-gray-800 flex items-center">
+                        <div className="w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3"></div>
+                        น้ำตาลทราย
+                      </h4>
+                    </div>
+
+                    {/* Focused Nutritional Info - Only show relevant data */}
+                    <div className="mb-4">
+                      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+                        <div className="text-center">
+                          <div className="text-3xl font-bold text-blue-900 mb-2">
+                            3 ช้อนชา
+                          </div>
+                          <div className="text-sm text-blue-600">
+                            มีคาร์โบไฮเดรต 15 กรัม = 1 คาร์บ
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer Credit */}
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
+                      <svg
+                        className="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <span>ข้อมูลอ้างอิงจาก</span>
+                      <a
+                        href="https://www.vachiraphuket.go.th/health/%E0%B8%A3%E0%B8%B9%E0%B9%89%E0%B8%88%E0%B8%B1%E0%B8%81-%E0%B8%99%E0%B8%B1%E0%B8%9A%E0%B8%84%E0%B8%B2%E0%B8%A3%E0%B9%8C%E0%B8%9A/#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200 underline decoration-dotted"
+                      >
+                        โรงพยาบาลวชิระภูเก็ต
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
