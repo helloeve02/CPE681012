@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Mail, Lock, Eye, EyeOff, ArrowLeft, Shield, CheckCircle, AlertCircle, Sparkles, Star, Heart, Zap, Key } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
+import { Mail, Lock, Eye, EyeOff, ArrowLeft, Shield, CheckCircle, AlertCircle, Sparkles, Star, Heart, Zap } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { ResetPassword } from "../../services/https";
 
@@ -249,7 +249,7 @@ const handleReset = async () => {
             <div className="space-y-6">
               {/* Email Field */}
               <div className="group">
-        <label className="block text-gray-700 font-bold mb-3 text-sm flex items-center space-x-2">
+        <label className="block text-gray-700 font-bold mb-3 text-sm items-center space-x-2">
           <Mail className="w-4 h-4 text-sky-600" />
           <span>ชื่อผู้ใช้</span>
         </label>

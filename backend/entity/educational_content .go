@@ -14,9 +14,9 @@ type EducationalContent  struct {
 	AdminID		uint
 	Admin		Admin
 	
-	EducationalGroupID uint `valid:"range(1|4294967295)~EducationalGroupID is required"`
+	EducationalGroupID uint `valid:"required~EducationalGroupID is required"`
 	EducationalGroup EducationalGroup `gorm:"foreignKey:EducationalGroupID" valid:"-"`
 
-	ContentCategoryID uint `valid:"range(1|4294967295)~ContentCategoryID is required"`
+	ContentCategoryID uint `valid:"required~ContentCategoryID is required"`
 	ContentCategory ContentCategory `gorm:"foreignKey:ContentCategoryID" valid:"-"`
 }
