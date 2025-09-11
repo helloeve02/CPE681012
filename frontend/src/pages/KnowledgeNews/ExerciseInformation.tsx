@@ -96,6 +96,7 @@ const ExerciseInformation: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentAllByExercise();
     getContentExerciseByArticle();
     getContentExerciseByInfographics();

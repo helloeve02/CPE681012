@@ -39,6 +39,7 @@ const InfographicDetailPage: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     fetchInfographic();
     fetchRelatedInfographics();
   }, [id]);

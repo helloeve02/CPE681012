@@ -95,6 +95,7 @@ const KidneyInformation: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentAllByKidney();
     getContentKidneyByVideo();
     getContentKidneyByArticle();

@@ -97,6 +97,7 @@ const handleContentClick = (contentId: string | number, categoryId?: number) => 
 
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentAllByNutrition();
     getContentNutritionByArticle();
     getContentNutritionByInfographics();

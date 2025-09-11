@@ -95,6 +95,7 @@ const DiabetesInformation: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentAllByDiabetes();
     getContentDiabetesByArticle();
     getContentDiabetesByInfographics();

@@ -42,6 +42,7 @@ const VideoDetailPage: React.FC = () => {
   }, [id]);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentByVideo();
   }, [id]);
 

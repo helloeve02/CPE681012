@@ -52,6 +52,7 @@ const ArticleInformation: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentByArticle();
   }, []);
 

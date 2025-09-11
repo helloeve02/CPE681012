@@ -52,6 +52,7 @@ const InfographicInformation: React.FC = () => {
   
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentByInfographics();
   }, []);
 

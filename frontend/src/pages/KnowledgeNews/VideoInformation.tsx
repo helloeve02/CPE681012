@@ -51,6 +51,7 @@ const VideoInformation: React.FC = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getContentByVideo();
   }, []);
 
