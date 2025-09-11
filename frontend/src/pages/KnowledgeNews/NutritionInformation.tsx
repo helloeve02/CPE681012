@@ -118,7 +118,6 @@ const handleContentClick = (contentId: string | number, categoryId?: number) => 
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-kanit">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-teal-300 via-cyan-300 to-teal-500">
-        <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-7xl mx-auto px-6 py-12">
           {/* Header Navigation */}
           <div className="flex items-center mb-8">
@@ -208,7 +207,7 @@ const handleContentClick = (contentId: string | number, categoryId?: number) => 
               </div>
               <h4 className="text-xl font-bold text-gray-500 mb-2">ไม่มีข้อมูลในหมวดหมู่นี้</h4>
               <p className="text-gray-400 text-center max-w-md">
-                ขออพัยครับ ยังไม่มีเนื้อหาในหมวดหมู่ที่เลือก ลองเลือกหมวดหมู่อื่นดูสิ
+                ขออภัยครับ ยังไม่มีเนื้อหาในหมวดหมู่ที่เลือก ลองเลือกหมวดหมู่อื่นดูสิ
               </p>
             </div>
           ) : (

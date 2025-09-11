@@ -217,15 +217,15 @@ useEffect(() => {
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 p-2 bg-white rounded-lg">
                                 <div className="w-4 h-4 rounded-full bg-emerald-500 shadow-lg"></div>
-                                <span className="text-sm font-medium text-gray-700">ต่ำ (≤xxx mg)</span>
+                                <span className="text-sm font-medium text-gray-700">ต่ำ (≤700 mg)</span>
                             </div>
                             <div className="flex items-center gap-3 p-2 bg-white rounded-lg">
                                 <div className="w-4 h-4 rounded-full bg-amber-500 shadow-lg"></div>
-                                <span className="text-sm font-medium text-gray-700">ปานกลาง (xxx-2000 mg)</span>
+                                <span className="text-sm font-medium text-gray-700">ปานกลาง (700-1500 mg)</span>
                             </div>
                             <div className="flex items-center gap-3 p-2 bg-white rounded-lg">
                                 <div className="w-4 h-4 rounded-full bg-red-500 shadow-lg"></div>
-                                <span className="text-sm font-medium text-gray-700">สูง (≥2000 mg)</span>
+                                <span className="text-sm font-medium text-gray-700">สูง (≥1500 mg)</span>
                             </div>
                         </div>
                     </div>
