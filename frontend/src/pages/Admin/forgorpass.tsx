@@ -269,7 +269,7 @@ const handleReset = async () => {
 
               {/* New Password Field */}
               <div className="group">
-                <label className="block text-gray-700 font-bold mb-3 text-sm flex items-center space-x-2">
+                <label className="block text-gray-700 font-bold mb-3 text-sm items-center space-x-2">
                   <Lock className="w-4 h-4 text-sky-600" />
                   <span>รหัสผ่านใหม่</span>
                 </label>
@@ -296,7 +296,7 @@ const handleReset = async () => {
 
               {/* Confirm Password Field */}
               <div className="group">
-                <label className="block text-gray-700 font-bold mb-3 text-sm flex items-center space-x-2">
+                <label className="text-gray-700 font-bold mb-3 text-sm flex items-center space-x-2">
                   <Lock className="w-4 h-4 text-sky-600" />
                   <span>ยืนยันรหัสผ่าน</span>
                 </label>
