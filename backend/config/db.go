@@ -1489,7 +1489,7 @@ func SetupDatabase() {
 	} */
 
 	AgeRanges := []entity.AgeRange{
-		{AgeMin: 0, AgeMax: 60},
+		{AgeMin: 15, AgeMax: 60},
 		{AgeMin: 61, AgeMax: 200},
 	}
 
@@ -4694,7 +4694,7 @@ func SetupDatabase() {
 			FoodName: "สมุนไพร และเครื่องเทศ",
 		},
 		{
-			FoodName: "้เกลือ น้ำปลา ซีอิ้ว เครื่องปรุงรสที่มีโซเดียม",
+			FoodName: "เกลือ น้ำปลา ซีอิ๊ว เครื่องปรุงรสที่มีโซเดียม",
 		},
 		{
 			FoodName: "ขนมหวาน น้ำตาล เครื่องดื่มที่ใส่น้ำตาล",
