@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
   // Section styles
   sectionTitle: {
     fontSize: 14,
-    marginTop: 15,
     marginBottom: 12,
     color: "#1f2937",
     backgroundColor: "#f3f4f6",
@@ -243,9 +242,9 @@ const styles = StyleSheet.create({
     color: "#1f2937",
   },
 
-  // Conditional items
+  // Conditional items for diabetes
   conditionalContainer: {
-    marginBottom: 120,
+    marginBottom: 100,
     padding: 12,
     backgroundColor: "#ffffff",
     borderWidth: 2,
@@ -442,6 +441,7 @@ const NutritionPDF: React.FC<Props> = ({
 
         {/* Main Table */}
         <Text style={styles.sectionTitle}>ปริมาณอาหารที่ควรทานต่อวัน</Text>
+        <Text style={styles.ibwNote}>ตารางนี้เป็นเพียงแนวทางเบื้องต้น คุณสามารถปรับจำนวนมื้ออาหารในแต่ละวันให้เหมาะสมกับวิถีชีวิตและความสะดวกของคุณได้ .</Text>
 
         <View style={styles.tableContainer}>
           {/* Table Header */}

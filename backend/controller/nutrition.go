@@ -37,6 +37,12 @@ func FindRuleByUserInfo(c *gin.Context) {
 		return
 	}
 
+	// Basic input completeness check
+	if input.Age <= 0 || input.Height <= 0 || input.Gender == "" || input.DiseaseStage == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณากรอกข้อมูลให้ครบถ้วน"})
+		return
+	}
+
 	// Inline IBW calculation
 	calculateIBW := func(height float64, gender string) float64 {
 		if gender == "male" {
@@ -47,10 +53,55 @@ func FindRuleByUserInfo(c *gin.Context) {
 
 	ibw := calculateIBW(input.Height, input.Gender)
 
-	// query result
-	var ruleID int
+	db := config.DB()
 
-	// Raw SQL query with joins and conditions
+	// Validate Age range
+	var ageMatch bool
+	err := db.Raw(`SELECT EXISTS (SELECT 1 FROM age_ranges WHERE ? BETWEEN age_min AND age_max)`, input.Age).Scan(&ageMatch).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "เกิดข้อผิดพลาดในการตรวจสอบช่วงอายุ",
+			"details": err.Error(),
+		})
+		return
+	}
+	if !ageMatch {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ขออภัย อายุของคุณไม่อยู่ในช่วงที่รองรับ"})
+		return
+	}
+
+	// Validate IBW range
+	var ibwMatch bool
+	err = db.Raw(`SELECT EXISTS (SELECT 1 FROM ibw_ranges WHERE ? BETWEEN ibw_min AND ibw_max)`, ibw).Scan(&ibwMatch).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "เกิดข้อผิดพลาดในการตรวจสอบช่วง IBW",
+			"details": err.Error(),
+		})
+		return
+	}
+	if !ibwMatch {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ขออภัย ส่วนสูงของคุณอยู่นอกช่วงที่ระบบรองรับ"})
+		return
+	}
+
+	// Validate Disease stage
+	var diseaseMatch bool
+	err = db.Raw(`SELECT EXISTS (SELECT 1 FROM diseases WHERE stage = ?)`, input.DiseaseStage).Scan(&diseaseMatch).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "เกิดข้อผิดพลาดในการตรวจสอบข้อมูลโรค",
+			"details": err.Error(),
+		})
+		return
+	}
+	if !diseaseMatch {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ข้อมูลระยะของโรคไม่ถูกต้อง"})
+		return
+	}
+
+	// Now find the matching rule
+	var ruleID int
 	query := `
 		SELECT rules.id
 		FROM rules
@@ -62,17 +113,25 @@ func FindRuleByUserInfo(c *gin.Context) {
 		  AND diseases.stage = ?
 		  LIMIT 1;
 	`
-
-	db := config.DB()
-	err := db.Raw(query, input.Age, ibw, input.DiseaseStage).Scan(&ruleID).Error
-
+	err = db.Raw(query, input.Age, ibw, input.DiseaseStage).Scan(&ruleID).Error
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database query failed"})
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "เกิดข้อผิดพลาดในการค้นหาข้อมูล",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	if ruleID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "ไม่พบคำแนะนำที่ตรงกับข้อมูลของคุณ",
+		})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": ruleID})
 }
+
 
 func GetNutritionRecommendationByRule(c *gin.Context) {
 	// รับค่า Rule จากพารามิเตอร์ใน URL
@@ -147,34 +206,34 @@ func GetPortionRecommendationByRule(c *gin.Context) {
 }
 
 func GetCaloriesByRuleID(c *gin.Context) {
-    ruleID := c.Param("rule")
-    var calories int
+	ruleID := c.Param("rule")
+	var calories int
 
-    db := config.DB()
+	db := config.DB()
 
-    err := db.Model(&entity.Rule{}).
-        Select("calories").
-        Where("id = ?", ruleID).
-        Scan(&calories).Error
+	err := db.Model(&entity.Rule{}).
+		Select("calories").
+		Where("id = ?", ruleID).
+		Scan(&calories).Error
 
-    if err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to fetch calories"})
-        return
-    }
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Unable to fetch calories"})
+		return
+	}
 
-    c.JSON(http.StatusOK, gin.H{"calories": calories})
+	c.JSON(http.StatusOK, gin.H{"calories": calories})
 }
 
 func GetRuleDetailsByRuleID(c *gin.Context) {
 	rule := c.Param("rule")
 
 	type RuleDetails struct {
-		DiseaseName  string  `gorm:"column:name"`
-		DiseaseStage string  `gorm:"column:stage"`
-		AgeMin       int32 `gorm:"column:age_min"`
-		AgeMax       int32 `gorm:"column:age_max"`
-		IBWMin       int32 `gorm:"column:ibw_min"`
-		IBWMax       int32 `gorm:"column:ibw_max"`
+		DiseaseName  string `gorm:"column:name"`
+		DiseaseStage string `gorm:"column:stage"`
+		AgeMin       int32  `gorm:"column:age_min"`
+		AgeMax       int32  `gorm:"column:age_max"`
+		IBWMin       int32  `gorm:"column:ibw_min"`
+		IBWMax       int32  `gorm:"column:ibw_max"`
 	}
 
 	var ruleDetail RuleDetails

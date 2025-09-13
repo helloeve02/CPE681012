@@ -37,6 +37,16 @@ const NutritionInput = () => {
       return;
     }
 
+    if (age < 15) {
+      alert("อายุต้องไม่ต่ำกว่า 15 ปี");
+      return;
+    }
+
+    if (height < 100 || height > 999) {
+      alert("ส่วนสูงต้องเป็นตัวเลข 3 หลัก (เช่น 150 ซม.)");
+      return;
+    }
+
     if (disease === 2 && !diseaseStage) {
       alert("กรุณาเลือกระยะของโรคไต");
       return;
@@ -60,7 +70,7 @@ const NutritionInput = () => {
           rule: rule.data,
           expiresAt,
         };
-        // Save to localStorage
+
         localStorage.setItem("rule", JSON.stringify(ruleWithExpiry));
         navigate("/nutrition-suggestion");
       } else {
@@ -68,7 +78,7 @@ const NutritionInput = () => {
       }
     } catch (error) {
       console.error("Error getting rule:", error);
-      alert("เกิดข้อผิดพลาดในการเรียกข้อมูล");
+      alert(error);
     }
   };
 
@@ -92,24 +102,24 @@ const NutritionInput = () => {
       // Enhanced loading sequence
       setTimeout(() => {
         setLoading(false);
-      }, 800);
+      }, 100);
 
       // Staggered animation sequence
       setTimeout(() => {
         setAnimationStage(1); // Header animation
-      }, 1000);
+      }, 600);
 
       setTimeout(() => {
         setAnimationStage(2); // Form container animation
-      }, 1200);
+      }, 800);
 
       setTimeout(() => {
         setAnimationStage(3); // Form fields animation
-      }, 1400);
+      }, 1000);
 
       setTimeout(() => {
         setAnimationStage(4); // Info card and button animation
-      }, 1800);
+      }, 1400);
 
       console.log(React);
     };
@@ -384,8 +394,13 @@ const NutritionInput = () => {
                         className="!font-kanit"
                         size="large"
                         suffix="ปี"
-                        min={0}
+                        min={15}
                       />
+                      {age !== null && age < 15 && (
+                        <p className="text-red-500 mt-2 text-sm">
+                          อายุต้องไม่ต่ำกว่า 15 ปี
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -420,8 +435,14 @@ const NutritionInput = () => {
                         className="!font-kanit"
                         size="large"
                         suffix="ซม."
-                        min={0}
+                        min={100}
+                        max={999}
                       />
+                      {height !== null && (height < 100 || height > 999) && (
+                        <p className="text-red-500 mt-2 text-sm">
+                          ส่วนสูงต้องเป็นตัวเลข 3 หลัก (เช่น 150 ซม.)
+                        </p>
+                      )}
                     </div>
                   </div>
 

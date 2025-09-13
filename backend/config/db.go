@@ -1560,10 +1560,10 @@ func SetupDatabase() {
 	}
 
 	Diseases := []entity.Disease{
-		{Name: "โรคไต", Stage: "1-3a"},   //1
-		{Name: "โรคไต", Stage: "3b-5"},   //2
-		{Name: "โรคไต", Stage: "HD"},     //3
-		{Name: "โรคไต", Stage: "CAPD"},   //4
+		{Name: "โรคไต", Stage: "ระยะ 1-3a"},   //1
+		{Name: "โรคไต", Stage: "ระยะ 3b-5"},   //2
+		{Name: "โรคไต", Stage: "ฟอกเลือดด้วยเครื่องไตเทียม (HD)"},     //3
+		{Name: "โรคไต", Stage: "ล้างไตทางช่องท้องแบบต่อเนื่อง (CAPD)"},   //4
 		{Name: "โรคเบาหวาน", Stage: "-"}, //5
 	}
 
