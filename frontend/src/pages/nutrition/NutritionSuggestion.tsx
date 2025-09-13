@@ -141,7 +141,7 @@ const NutritionSuggestion = () => {
           getPortionDatas(ruleNum),
           getCaloryDatas(ruleNum),
           getRuleDatas(ruleNum),
-          delay(300),
+          delay(100),
         ]);
       } catch (err) {
         console.error("Failed to fetch some data", err);
@@ -482,6 +482,18 @@ const NutritionSuggestion = () => {
               </div>
             </div>
 
+{/* Disclaimer text */}
+            <div className="max-w-6xl mx-auto mt-6 mb-6 text-center">
+              <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl p-4 border border-blue-200/50">
+                <div className="flex items-center justify-center">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-3 animate-pulse"></div>
+                  <p className="text-blue-800 text-sm font-medium">
+                    ตารางนี้เป็นเพียงแนวทางเบื้องต้น คุณสามารถปรับจำนวนมื้ออาหารในแต่ละวันให้เหมาะสมกับวิถีชีวิตและความสะดวกของคุณได้
+                  </p>
+                </div>
+              </div>
+            </div>
+            
             {/* Mobile Portion Table */}
             <div
               className={`
@@ -553,7 +565,16 @@ const NutritionSuggestion = () => {
                                     className="p-3 text-center text-gray-600"
                                   >
                                     {item && item.amount > 0 ? (
-                                      <div className="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-1 px-2 text-sm font-medium">
+                                      <div
+                                        onClick={() =>
+                                          navigate("/food-exchanges", {
+                                            state: {
+                                              scrollTo: foodGroupName,
+                                            },
+                                          })
+                                        }
+                                        className="bg-gradient-to-r from-blue-100 to-indigo-100 rounded-lg py-1 px-2 text-sm font-medium"
+                                      >
                                         {item.amount} {item.unit}
                                       </div>
                                     ) : (
@@ -667,7 +688,7 @@ const NutritionSuggestion = () => {
                                     {item && item.amount > 0 ? (
                                       showTooltip ? (
                                         <Tooltip
-                                          title={`อาหารแลกเปลี่ยนของ${foodGroupName}`}
+                                          title={`ดูอาหารแลกเปลี่ยนของ${foodGroupName}`}
                                         >
                                           <div
                                             onClick={() =>
@@ -708,6 +729,27 @@ const NutritionSuggestion = () => {
                       </tbody>
                     </table>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/*call to action*/}
+            <div className="max-w-6xl mx-auto mt-4 mb-8 text-center">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-600">
+                {/* Only show table header hint for non-diabetes rules */}
+                {ruleNum !== null && (ruleNum < 17 || ruleNum > 22) && (
+                  <>
+                    <div className="flex items-center">
+                      <div className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
+                      <span>คลิกที่หัวตารางเพื่อดูคำแนะนำเพิ่มเติม</span>
+                    </div>
+                    <div className="hidden sm:block w-px h-4 bg-gray-300"></div>
+                  </>
+                )}
+                <div className="hidden sm:block w-px h-4 bg-gray-300"></div>
+                <div className="flex items-center">
+                  <div className="w-2 h-2 bg-indigo-400 rounded-full mr-2 animate-pulse"></div>
+                  <span>คลิกที่จำนวนเพื่อดูรายการอาหารแลกเปลี่ยน</span>
                 </div>
               </div>
             </div>

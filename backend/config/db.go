@@ -1560,10 +1560,10 @@ func SetupDatabase() {
 	}
 
 	Diseases := []entity.Disease{
-		{Name: "โรคไต", Stage: "1-3a"},   //1
-		{Name: "โรคไต", Stage: "3b-5"},   //2
-		{Name: "โรคไต", Stage: "HD"},     //3
-		{Name: "โรคไต", Stage: "CAPD"},   //4
+		{Name: "โรคไต", Stage: "ระยะ 1-3a"},   //1
+		{Name: "โรคไต", Stage: "ระยะ 3b-5"},   //2
+		{Name: "โรคไต", Stage: "ฟอกเลือดด้วยเครื่องไตเทียม (HD)"},     //3
+		{Name: "โรคไต", Stage: "ล้างไตทางช่องท้องแบบต่อเนื่อง (CAPD)"},   //4
 		{Name: "โรคเบาหวาน", Stage: "-"}, //5
 	}
 
@@ -3046,7 +3046,7 @@ func SetupDatabase() {
 			FoodFlagID:  3,
 		},
 		{
-			Name:        "สัปปะรด",
+			Name:        "สับปะรด",
 			Image:       "https://medthai.com/wp-content/uploads/2013/07/Pineapple-1.jpg",
 			Credit:      "https://medthai.com/%E0%B8%AA%E0%B8%B1%E0%B8%9A%E0%B8%9B%E0%B8%B0%E0%B8%A3%E0%B8%94/",
 			Description: "โพแทสเซียมต่ำ-ปานกลาง",
