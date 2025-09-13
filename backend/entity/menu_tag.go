@@ -4,6 +4,6 @@ package entity
 
 type MenuTag struct {
 	// gorm.Model
-    MenuID uint `gorm:"primaryKey"`
+    MenuID uint `gorm:"primaryKey"` 
     TagID  uint `gorm:"primaryKey"`
 }

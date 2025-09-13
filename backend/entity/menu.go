@@ -4,14 +4,14 @@ import "gorm.io/gorm"
 
 type Menu struct {
 	gorm.Model
-	Title		string
-	Description	string
-	Region		string
-	Image		string
-	Sodium 		float32
-	Credit 		string
-	Potassium	string
-	AdminID		uint
+	Title		string `valid:"required~Title is required"`
+	Description	string `valid:"required~Description is required"`
+	Region		string `valid:"required~Region is required"`
+	Image		string `valid:"required~Image is required,url~Image must be a valid URL"`
+	Sodium 		float32 
+	Credit 		string `valid:"required~Credit is required"`
+	Potassium	string 
+	AdminID		uint `valid:"required~AdminID is required"`
 	Admin 	Admin
 
 	// MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
