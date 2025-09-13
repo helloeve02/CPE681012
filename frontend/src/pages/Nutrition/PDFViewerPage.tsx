@@ -155,7 +155,7 @@ const hardcodedFoodExchanges: FoodExchangeInterface[] = [
         "https://www.sgethai.com/wp-content/uploads/2022/02/%E0%B8%9C%E0%B8%B1%E0%B8%81%E0%B8%95%E0%B9%89%E0%B8%A13.jpg",
       Credit:
         "https://www.sgethai.com/article/%E0%B8%9C%E0%B8%B1%E0%B8%81%E0%B8%95%E0%B9%89%E0%B8%A1-%E0%B8%95%E0%B9%89%E0%B8%A1%E0%B8%AD%E0%B8%A2%E0%B9%88%E0%B8%B2%E0%B8%87%E0%B9%84%E0%B8%A3%E0%B9%84%E0%B8%A1%E0%B9%88/?srsltid=AfmBOop5vfQQUi84RikxtIN899oG_xSGVp7CjPEuGQbB40p28BjQiyTO",
-      FoodFlag: { FoodGroup: { Name: "ผัก" } },
+      FoodFlag: { FoodGroup: { Name: "ผัก", Unit: "ส่วน" } },
     },
   },
   {
@@ -167,7 +167,7 @@ const hardcodedFoodExchanges: FoodExchangeInterface[] = [
       Image:
         "https://s.isanook.com/wo/0/ud/14/73853/73853-thumbnail.jpg?ip/crop/w1200h700/q80/webp",
       Credit: "https://www.sanook.com/women/73853/",
-      FoodFlag: { FoodGroup: { Name: "ผัก" } },
+      FoodFlag: { FoodGroup: { Name: "ผัก", Unit: "ส่วน" } },
     },
   },
   {
@@ -180,7 +180,7 @@ const hardcodedFoodExchanges: FoodExchangeInterface[] = [
         "https://www.foodnetworksolution.com/uploads/process/7d5db8ee90181960985e37bd89ad1a57.jpg",
       Credit:
         "https://www.foodnetworksolution.com/wiki/word/1141/meat-%E0%B9%80%E0%B8%99%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%AA%E0%B8%B1%E0%B8%95%E0%B8%A7%E0%B9%8C",
-      FoodFlag: { FoodGroup: { Name: "เนื้อสัตว์" } },
+      FoodFlag: { FoodGroup: { Name: "เนื้อสัตว์", Unit: "ส่วน" } },
     },
   },
 ];

@@ -3,6 +3,8 @@ import { GetAllFoodExchanges } from "../../services/https";
 import type { FoodExchangeInterface } from "../../interfaces/FoodExchange";
 import FoodPopup from "./FoodPopup";
 import { useLocation } from "react-router-dom";
+import foodExampleData from "../../data/food_exchange.json";
+import MeasurementExamplePopup from "./MeasurementExamplePopup";
 
 const FoodExchanges = () => {
   const [isLoading, setLoading] = useState(true);
@@ -13,6 +15,8 @@ const FoodExchanges = () => {
   const location = useLocation();
   const [selectedItem, setSelectedItem] =
     useState<FoodExchangeInterface | null>(null);
+  const [selectedMeasurementItem, setSelectedMeasurementItem] =
+    useState<any>(null);
 
   const getAllFoodExchanges = async () => {
     try {
@@ -29,35 +33,35 @@ const FoodExchanges = () => {
 
   const [isScrollNavigation, setIsScrollNavigation] = useState(false);
 
-// Modify the scroll useEffect to:
-useEffect(() => {
-  if (location.state?.scrollTo) {
-    setIsScrollNavigation(true);
-  }
-}, [location.state]);
-
-useEffect(() => {
-  if (!isLoading && location.state?.scrollTo && isScrollNavigation) {
-    const el = document.getElementById(location.state.scrollTo);
-    if (el) {
-      // Disable animations temporarily
-      document.body.style.setProperty('--animation-duration', '0s');
-      
-      setTimeout(() => {
-        el.scrollIntoView({ 
-          behavior: "smooth",
-          block: "center"
-        });
-        
-        // Re-enable animations after scroll
-        setTimeout(() => {
-          document.body.style.removeProperty('--animation-duration');
-          setIsScrollNavigation(false);
-        }, 500);
-      }, 200);
+  // Modify the scroll useEffect to:
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      setIsScrollNavigation(true);
     }
-  }
-}, [isLoading, location.state, isScrollNavigation]);
+  }, [location.state]);
+
+  useEffect(() => {
+    if (!isLoading && location.state?.scrollTo && isScrollNavigation) {
+      const el = document.getElementById(location.state.scrollTo);
+      if (el) {
+        // Disable animations temporarily
+        document.body.style.setProperty("--animation-duration", "0s");
+
+        setTimeout(() => {
+          el.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+
+          // Re-enable animations after scroll
+          setTimeout(() => {
+            document.body.style.removeProperty("--animation-duration");
+            setIsScrollNavigation(false);
+          }, 500);
+        }, 200);
+      }
+    }
+  }, [isLoading, location.state, isScrollNavigation]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -129,6 +133,46 @@ useEffect(() => {
     acc[groupName].exchanges.push(exchange);
     return acc;
   }, {} as Record<string, { unit: string; exchanges: FoodExchangeInterface[] }>);
+
+  // Group the imported food example data by category
+  const groupedExampleData = foodExampleData.reduce((acc, item) => {
+    if (!acc[item.group]) {
+      acc[item.group] = [];
+    }
+    acc[item.group].push(item);
+    return acc;
+  }, {} as Record<string, typeof foodExampleData>);
+
+  // Get color scheme for each category
+  const getCategoryStyle = (category: string) => {
+    const styles = {
+      ข้าวแป้ง: {
+        color: "orange",
+        emoji: "🍚",
+        bg: "from-orange-100 to-amber-100",
+        border: "border-orange-200/50",
+        text: "text-orange-700",
+        hover: "hover:border-orange-300",
+      },
+      ผลไม้: {
+        color: "pink",
+        emoji: "🍎",
+        bg: "from-pink-100 to-rose-100",
+        border: "border-pink-200/50",
+        text: "text-pink-700",
+        hover: "hover:border-pink-300",
+      },
+      ผัก: {
+        color: "green",
+        emoji: "🥬",
+        bg: "from-green-100 to-emerald-100",
+        border: "border-green-200/50",
+        text: "text-green-700",
+        hover: "hover:border-green-300",
+      },
+    };
+    return styles[category as keyof typeof styles] || styles["ผัก"];
+  };
 
   return (
     <>
@@ -377,6 +421,119 @@ useEffect(() => {
               </div>
             )}
 
+            {/* Measurement Examples Section */}
+            <div
+              className={`
+                max-w-5xl mx-auto mt-8 mb-8
+                ${
+                  isVisible
+                    ? "animate-in slide-in-from-bottom-8 fade-in duration-700 delay-900"
+                    : "opacity-0"
+                }
+              `}
+            >
+              <div className="group relative overflow-hidden bg-gradient-to-br from-white/80 to-green-50/80 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 transition-all duration-500 hover:shadow-2xl hover:scale-[1.01] hover:bg-gradient-to-br hover:from-white/90 hover:to-green-50/90">
+                {/* Decorative elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400/5 to-emerald-400/5 rounded-full transform translate-x-16 -translate-y-16 group-hover:scale-150 transition-transform duration-700"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-teal-400/5 to-green-400/5 rounded-full transform -translate-x-12 translate-y-12 group-hover:scale-150 transition-transform duration-700"></div>
+
+                <div className="relative">
+                  <div className="text-center mb-8">
+                    <div className="flex items-center justify-center mb-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center text-green-600 mr-4 shadow-xl group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300">
+                        <span className="text-3xl group-hover:scale-110 transition-transform duration-300">
+                          📏
+                        </span>
+                      </div>
+                      <h4 className="text-2xl font-bold text-gray-800 group-hover:text-green-700 transition-colors duration-300">
+                        ตัวอย่างการวัดปริมาณอาหาร
+                      </h4>
+                    </div>
+                    <p className="text-gray-600 text-lg group-hover:text-gray-700 transition-colors duration-300">
+                      ตัวอย่างการวัดปริมาณอาหารแต่ละประเภทสำหรับ 1
+                      ส่วนแลกเปลี่ยน
+                    </p>
+                  </div>
+
+                  {/* Food Categories from JSON */}
+                  <div className="space-y-8">
+                    {Object.entries(groupedExampleData).map(
+                      ([category, items]) => {
+                        const style = getCategoryStyle(category);
+                        return (
+                          <div key={category} className="group/category">
+                            {/* Category Header */}
+                            <div
+                              className={`bg-gradient-to-r ${style.bg} rounded-2xl p-6 mb-4 border ${style.border} ${style.hover} transition-all duration-300 hover:shadow-lg`}
+                            >
+                              <div className="flex items-center">
+                                <div className="text-3xl mr-4">
+                                  {style.emoji}
+                                </div>
+                                <div>
+                                  <h5
+                                    className={`text-xl font-bold ${style.text} mb-1`}
+                                  >
+                                    หมวดหมู่ {category}
+                                  </h5>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Food Items Grid */}
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                              {items.map((item, itemIndex) => (
+                                <div
+                                  key={`${category}-${itemIndex}`}
+                                  className="group/item bg-white/70 backdrop-blur-sm rounded-2xl border border-white/40 hover:border-white/60 hover:shadow-xl hover:bg-white/90 transform transition-all duration-500 hover:scale-105 hover:-translate-y-1 overflow-hidden"
+                                >
+                                  {/* Food Image */}
+                                  <div
+                                    className="relative w-full aspect-square overflow-hidden rounded-t-2xl bg-gray-100"
+                                    onClick={() =>
+                                      setSelectedMeasurementItem(item)
+                                    }
+                                  >
+                                    <img
+                                      src={item.image}
+                                      alt={item.food}
+                                      className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500"
+                                      onError={(e) => {
+                                        const target =
+                                          e.target as HTMLImageElement;
+                                        target.src =
+                                          "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDQwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNGM0Y0RjYiLz48Y2lyY2xlIGN4PSIyMDAiIGN5PSIyMDAiIHI9IjUwIiBmaWxsPSIjRDVEN0RBIi8+PC9zdmc+";
+                                      }}
+                                    />
+                                  </div>
+
+                                  {/* Food Details */}
+                                  <div className="p-4">
+                                    <h6 className="font-bold text-center text-gray-800 mb-2 group-hover/item:text-blue-700 transition-colors duration-300">
+                                      {item.food}
+                                    </h6>
+                                    <div
+                                      className={`bg-gradient-to-r ${style.bg} rounded-xl p-3 border ${style.border} group-hover/item:shadow-md transition-all duration-300`}
+                                    >
+                                      <p
+                                        className={`text-sm font-semibold ${style.text} text-center`}
+                                      >
+                                        {item.portion}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      }
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Enhanced Info Section */}
             <div
               className={`
@@ -458,6 +615,10 @@ useEffect(() => {
           <FoodPopup
             item={selectedItem}
             onClose={() => setSelectedItem(null)}
+          />
+          <MeasurementExamplePopup
+            item={selectedMeasurementItem}
+            onClose={() => setSelectedMeasurementItem(null)}
           />
         </div>
       )}

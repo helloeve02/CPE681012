@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import type { FoodItem } from "../../interfaces/FoodItem";
 import type { FoodExchangeInterface } from "../../interfaces/FoodExchange";
-import { getValidRule } from "../../services/https/ruleUtils";
-import { useNavigate } from "react-router-dom";
 
 interface NormalizedFood {
   Name?: string;

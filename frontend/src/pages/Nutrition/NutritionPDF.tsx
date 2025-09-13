@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Document,
@@ -435,13 +434,17 @@ const NutritionPDF: React.FC<Props> = ({
 
           <Text style={styles.ibwNote}>
             หมายเหตุ: IBW (Ideal Body Weight) = น้ำหนักมาตรฐานตามส่วนสูง (ซม.)
-            ลบ 105 สำหรับผู้หญิง หรือ 100 สำหรับผู้ชาย  .
+            ลบ 105 สำหรับผู้หญิง หรือ 100 สำหรับผู้ชาย .
           </Text>
         </View>
 
         {/* Main Table */}
         <Text style={styles.sectionTitle}>ปริมาณอาหารที่ควรทานต่อวัน</Text>
-        <Text style={styles.ibwNote}>ตารางนี้เป็นเพียงแนวทางเบื้องต้น คุณสามารถปรับจำนวนมื้ออาหารในแต่ละวันให้เหมาะสมกับวิถีชีวิตและความสะดวกของคุณได้ .</Text>
+        <Text style={styles.ibwNote}>
+          ตารางนี้เป็นเพียงแนวทางเบื้องต้น
+          คุณสามารถปรับจำนวนมื้ออาหารในแต่ละวันให้เหมาะสมกับวิถีชีวิตและความสะดวกของคุณได้
+          .
+        </Text>
 
         <View style={styles.tableContainer}>
           {/* Table Header */}
@@ -463,7 +466,7 @@ const NutritionPDF: React.FC<Props> = ({
           </View>
 
           {/* Table Body */}
-          {mealTimes.map((mealTime, index) => (
+          {mealTimes.map((mealTime) => (
             <View key={mealTime} style={styles.tableRow}>
               <Text style={[styles.tableCell, styles.mealCell]}>
                 {mealTime}
@@ -607,27 +610,31 @@ const NutritionPDF: React.FC<Props> = ({
                 );
 
                 return Object.entries(groupedExchanges).map(
-                  ([groupName, items]) => (
-                    <View key={groupName} style={styles.exchangeGroup}>
-                      <Text style={styles.exchangeGroupTitle}>
-                        {groupName} 1 ส่วน เท่ากับ
-                      </Text>
-                      <Text style={styles.exchangeItems}>
-                        {items
-                          .filter((item) => item.FoodItem?.Name)
-                          .map((item, index, arr) => {
-                            const text = `${item.FoodItem?.Name}${
-                              item.Amount ? ` ${item.Amount}` : ""
-                            }${item.Unit ? ` ${item.Unit}` : ""}`;
-                            // If this is the last item in the array, append a space
-                            return index === arr.length - 1
-                              ? text + "\u00A0"
-                              : text;
-                          })
-                          .join(", ")}
-                      </Text>
-                    </View>
-                  )
+                  ([groupName, items]) => {
+                    const groupUnit =
+                      items[0]?.FoodItem?.FoodFlag?.FoodGroup?.Unit || "ส่วน";
+
+                    return (
+                      <View key={groupName} style={styles.exchangeGroup}>
+                        <Text style={styles.exchangeGroupTitle}>
+                          {groupName} 1 {groupUnit} เท่ากับ
+                        </Text>
+                        <Text style={styles.exchangeItems}>
+                          {items
+                            .filter((item) => item.FoodItem?.Name)
+                            .map((item, index, arr) => {
+                              const text = `${item.FoodItem?.Name}${
+                                item.Amount ? ` ${item.Amount}` : ""
+                              }${item.Unit ? ` ${item.Unit}` : ""}`;
+                              return index === arr.length - 1
+                                ? text + "\u00A0"
+                                : text;
+                            })
+                            .join(", ")}
+                        </Text>
+                      </View>
+                    );
+                  }
                 );
               })()}
             </View>

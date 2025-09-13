@@ -3046,7 +3046,7 @@ func SetupDatabase() {
 			FoodFlagID:  3,
 		},
 		{
-			Name:        "สัปปะรด",
+			Name:        "สับปะรด",
 			Image:       "https://medthai.com/wp-content/uploads/2013/07/Pineapple-1.jpg",
 			Credit:      "https://medthai.com/%E0%B8%AA%E0%B8%B1%E0%B8%9A%E0%B8%9B%E0%B8%B0%E0%B8%A3%E0%B8%94/",
 			Description: "โพแทสเซียมต่ำ-ปานกลาง",
