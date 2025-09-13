@@ -214,19 +214,24 @@ const pickOne = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
 const isDessertSnack = (item: MealMenuInterface | null | undefined) =>
   !!item && !item.isFoodItem;
 
+// ★ PATCH: ใช้ TargetID เสมอสำหรับการนำทาง
 const toSnackItemFromFruit = (it: FoodItemInterface): MealMenuInterface => ({
   ID: it.ID ?? 0,
   PortionText: it.Name ?? "ผลไม้",
-  MenuID: it.ID ?? 0,
+  MealID: undefined,
+  MenuID: undefined,
   isFoodItem: true,
   isSpecialDessert: false,
+  TargetID: it.ID ?? 0, // ★ PATCH
 });
 const toSnackItemFromMenu = (m: MenuInterface, isDiabetic: boolean): MealMenuInterface => ({
   ID: m.ID ?? 0,
   PortionText: m.Title ?? "เมนูไม่มีชื่อ",
+  MealID: undefined,
   MenuID: m.ID ?? 0,
   isFoodItem: false,
   isSpecialDessert: isDiabetic,
+  TargetID: m.ID ?? 0, // ★ PATCH
 });
 
 const uniqueById = <T extends { ID?: number }>(arr: T[]) => {
@@ -239,7 +244,7 @@ const uniqueById = <T extends { ID?: number }>(arr: T[]) => {
   });
 };
 const mapMenusToOptions = (menus: MenuInterface[]): QuickPickOption[] =>
-  menus.map((m) => ({
+  uniqueById(menus).map((m) => ({
     id: m.ID!,
     label: m.Title || `เมนู #${m.ID}`,
     isFoodItem: false,
@@ -480,7 +485,11 @@ const MealPlannerApp = () => {
       const snackDessertPool = isDiabetic ? diabeticDesserts : desserts;
       if (fruits.length === 0 && snackDessertPool.length === 0) throw new Error("ไม่พบตัวเลือกสำหรับมื้อว่างตามเงื่อนไข");
 
-      const resultPlan: MealPlan = JSON.parse(JSON.stringify(currentMealPlan));
+      // clone แผนเดิม
+      const resultPlan: MealPlan = typeof structuredClone === "function"
+        ? structuredClone(currentMealPlan)
+        : JSON.parse(JSON.stringify(currentMealPlan));
+
       const makeSnackItem = (): MealMenuInterface | null => {
         const preferFruit = Math.random() < 0.7;
         if (preferFruit && fruits.length > 0) return toSnackItemFromFruit(pickOne(fruits));
@@ -501,7 +510,14 @@ const MealPlannerApp = () => {
               if (pinned) (daily as any)[mealType] = [{ ...pinned }];
               else {
                 const chosen = pickOne(menus);
-                (daily as any)[mealType] = [{ ID: chosen.ID, PortionText: chosen.Title ?? "เมนูไม่มีชื่อ", MenuID: chosen.ID, isFoodItem: false, isSpecialDessert: false }];
+                (daily as any)[mealType] = [{
+                  ID: chosen.ID,
+                  PortionText: chosen.Title ?? "เมนูไม่มีชื่อ",
+                  MenuID: chosen.ID,
+                  isFoodItem: false,
+                  isSpecialDessert: false,
+                  TargetID: chosen.ID, // ★ PATCH: ใส่เสมอ
+                }];
               }
             }
           }
@@ -612,9 +628,24 @@ const MealPlannerApp = () => {
     const mealType = quickPick.mealType!;
     const pinKey = getPinKey(day, mealType);
 
+    // ★ PATCH: ใส่ TargetID เสมอ
     const item: MealMenuInterface = opt.isFoodItem
-      ? toSnackItemFromFruit({ ID: opt.id, Name: opt.label } as any)
-      : toSnackItemFromMenu({ ID: opt.id, Title: opt.label } as any, !!opt.isDiabeticDessert);
+      ? {
+          ID: opt.id,
+          PortionText: opt.label,
+          isFoodItem: true,
+          isSpecialDessert: false,
+          MenuID: undefined,
+          TargetID: opt.id, // ★ PATCH
+        }
+      : {
+          ID: opt.id,
+          PortionText: opt.label,
+          isFoodItem: false,
+          isSpecialDessert: !!opt.isDiabeticDessert,
+          MenuID: opt.id,
+          TargetID: opt.id,     // ★ PATCH
+        };
 
     setCurrentMealPlan((prev) => {
       const copy = { ...prev };
@@ -679,7 +710,7 @@ const MealPlannerApp = () => {
 
   const isPlanReady = useMemo(() => {
     const d = ["วันจันทร์", "วันอังคาร", "วันพุธ", "วันพฤหัสบดี", "วันศุกร์", "วันเสาร์", "วันอาทิตย์"];
-    const s = ["เช้า", "ว่างเช้า", "กลางวัน", "ว่างบ่าย", "เย็น"];
+    const s: MealType[] = ["เช้า", "ว่างเช้า", "กลางวัน", "ว่างบ่าย", "เย็น"];
     if (!currentMealPlan) return false;
     return d.every((day) => {
       const daily = (currentMealPlan as any)[day];
@@ -729,31 +760,21 @@ const MealPlannerApp = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
       {/* Loading */}
-      {isLoading && ( //แบบเก่า
-        /* <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center space-y-4">
-            <RefreshCw className="w-8 h-8 animate-spin text-blue-500" />
-            <span className="font-kanit text-xl text-gray-700">กำลังโหลดข้อมูล...</span>
-            <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-            </div>
-          </div>
-        </div> */
+      {isLoading && (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
-        {/* Animated Background Orbs */}
-        <div className="fixed inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
-          <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
-        </div>
-        <div className="relative flex items-center justify-center min-h-screen">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
-            <div className="flex items-center space-x-4">
-              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-xl font-semibold text-gray-800">กำลังโหลดข้อมูล...</span>
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-r from-blue-300/30 to-cyan-300/30 rounded-full filter blur-3xl animate-pulse"></div>
+            <div className="absolute top-1/3 right-20 w-80 h-80 bg-gradient-to-r from-cyan-300/30 to-teal-300/30 rounded-full filter blur-3xl animate-pulse delay-1000"></div>
+          </div>
+          <div className="relative flex items-center justify-center min-h-screen">
+            <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl px-12 py-8 border border-white/50">
+              <div className="flex items-center space-x-4">
+                <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <span className="text-xl font-semibold text-gray-800">กำลังโหลดข้อมูล...</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       )}
 
       {/* Error */}
@@ -1018,101 +1039,99 @@ const MealPlannerApp = () => {
                           : "bg-gradient-to-br from-purple-400 to-purple-600";
 
                       return (
-                        <td className={`border border-gray-200 px-4 py-4 relative group ${isSnack ? "bg-gradient-to-br from-orange-50/40 to-yellow-50/40" : ""}`}>
-                          {/* ปุ่มเลือกเมนูมุมขวาบน */}
-                          {/* ปุ่มเลือกเมนู - แสดงตลอดบนมือถือ, hover เฉพาะ md+ */}
-                          <div className="absolute top-2 right-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                        <td className={`border border-gray-200 px-4 py-4 relative ${isSnack ? "bg-gradient-to-br from-orange-50/40 to-yellow-50/40" : ""}`}>
+                          {/* เนื้อหาแบบไม่มีกรอบ */}
+                          <div className="mb-4">
+                            {items?.length ? (
+                              <ul className="space-y-2">
+                                {items.map((mealMenu) => (
+                                  <li key={mealMenu.ID} className="flex items-start group">
+                                    {/* dot สี */}
+                                    {!isSnack ? (
+                                      <div className={`w-3 h-3 ${dotClassForMain} rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}></div>
+                                    ) : (
+                                      <div
+                                        className={`w-3 h-3 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200 ${mealMenu.isFoodItem
+                                            ? "bg-gradient-to-br from-green-400 to-emerald-600"
+                                            : "bg-gradient-to-br from-orange-400 to-orange-600"
+                                          }`}
+                                      ></div>
+                                    )}
+
+                                    <div>
+                                      {mealMenu.isFoodItem ? (
+                                        // ★ PATCH: นำทางไปหน้าเพื่อน (แท็บ ingredient + modal เปิดด้วย open=<TargetID>)
+                                        <button
+                                          onClick={() => navigate(`/menu?tab=ingredient&open=${mealMenu.TargetID}`)} // ★ PATCH
+                                          className={`font-kanit text-gray-700 ${isSnack ? "group-hover:text-green-700 focus:ring-green-500" : "group-hover:text-purple-700 focus:ring-purple-500"
+                                            } transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-opacity-50 rounded px-1`}
+                                        >
+                                          {mealMenu.PortionText}
+                                        </button>
+                                      ) : (
+                                        // เมนูอาหาร → /menu/:id
+                                        <button
+                                          onClick={() => navigate(`/menu/${mealMenu.TargetID}`)} // ★ PATCH
+                                          className={`font-kanit text-gray-700 ${mealType === "กลางวัน" ? "group-hover:text-teal-700 focus:ring-teal-500" : "group-hover:text-purple-700 focus:ring-purple-500"
+                                            } transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-opacity-50 rounded px-1`}
+                                        >
+                                          {mealMenu.PortionText}
+                                        </button>
+                                      )}
+
+                                      {/* Badge สำหรับมื้อว่าง */}
+                                      {isSnack && (
+                                        <>
+                                          {mealMenu.isFoodItem ? (
+                                            <span className="text-xs text-green-600 ml-1">(ผลไม้)</span>
+                                          ) : mealMenu.isSpecialDessert ? (
+                                            <span className="text-xs text-blue-600 ml-1">(ของหวานสำหรับผู้ป่วยโรคเบาหวาน)</span>
+                                          ) : (
+                                            <span className="text-xs text-purple-600 ml-1">(ของหวาน)</span>
+                                          )}
+                                        </>
+                                      )}
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <span className="font-kanit text-gray-400 italic">
+                                {isSnack ? "-" : "(ยังไม่เลือก)"}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* ปุ่มเลือกเมนูและปักหมุดด้านล่าง */}
+                          <div className="flex gap-2 justify-center">
                             <button
                               onClick={() => openQuickPick(day, mealType)}
-                              className={`p-1.5 rounded-lg bg-white/90 shadow-md border hover:shadow-lg hover:bg-white focus:outline-none focus:ring-2 transition-all duration-200
-      ${isSnack
-                                  ? "border-orange-200 focus:ring-orange-300"
+                              className={`flex items-center gap-2 px-4 py-2 rounded-xl bg-white shadow-sm border hover:shadow-md focus:outline-none focus:ring-2 transition-all duration-200 font-kanit text-sm ${isSnack
+                                  ? "border-orange-200 hover:border-orange-300 focus:ring-orange-300 text-orange-700 hover:bg-orange-50"
                                   : mealType === "กลางวัน"
-                                    ? "border-teal-200 focus:ring-teal-300"
-                                    : "border-purple-200 focus:ring-purple-300"
+                                    ? "border-teal-200 hover:border-teal-300 focus:ring-teal-300 text-teal-700 hover:bg-teal-50"
+                                    : "border-purple-200 hover:border-purple-300 focus:ring-purple-300 text-purple-700 hover:bg-purple-50"
                                 }`}
                               title={`เลือก/เปลี่ยนเมนู${mealType}`}
                             >
-                              {
-                                // ไอคอน: มื้อว่างใช้ Plus (ส้ม), มื้อหลักใช้ ChefHat
-                                isSnack ? (
-                                  <Plus className="w-3.5 h-3.5 text-orange-600" />
-                                ) : mealType === "กลางวัน" ? (
-                                  <ChefHat className="w-3.5 h-3.5 text-teal-600" />
-                                ) : (
-                                  <ChefHat className="w-3.5 h-3.5 text-purple-600" />
-                                )
-                              }
+                              {isSnack ? (
+                                <Plus className="w-4 h-4" />
+                              ) : (
+                                <ChefHat className="w-4 h-4" />
+                              )}
+                              เลือกเมนู
                             </button>
-                          </div>
 
-                          {/* เนื้อหาแบบไม่มีกรอบ */}
-                          {items?.length ? (
-                            <ul className="space-y-2">
-                              {items.map((mealMenu) => (
-                                <li key={mealMenu.ID} className="flex items-start group">
-                                  {/* dot สี */}
-                                  {!isSnack ? (
-                                    <div className={`w-3 h-3 ${dotClassForMain} rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}></div>
-                                  ) : (
-                                    <div
-                                      className={`w-3 h-3 rounded-full mt-2 mr-3 flex-shrink-0 group-hover:scale-110 transition-transform duration-200 ${mealMenu.isFoodItem
-                                          ? "bg-gradient-to-br from-green-400 to-emerald-600"
-                                          : "bg-gradient-to-br from-orange-400 to-orange-600"
-                                        }`}
-                                    ></div>
-                                  )}
-
-                                  <div>
-                                    {mealMenu.isFoodItem ? (
-                                      <button
-                                        onClick={() => navigate(`/fooditem/${mealMenu.MenuID}`)}
-                                        className={`font-kanit text-gray-700 ${isSnack ? "group-hover:text-green-700 focus:ring-green-500" : "group-hover:text-purple-700 focus:ring-purple-500"
-                                          } transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-opacity-50 rounded px-1`}
-                                      >
-                                        {mealMenu.PortionText}
-                                      </button>
-                                    ) : (
-                                      <button
-                                        onClick={() => navigate(`/menu/${mealMenu.MenuID}`)}
-                                        className={`font-kanit text-gray-700 ${mealType === "กลางวัน" ? "group-hover:text-teal-700 focus:ring-teal-500" : "group-hover:text-purple-700 focus:ring-purple-500"
-                                          } transition-colors duration-200 text-left hover:underline cursor-pointer focus:outline-none focus:ring-2 focus:ring-opacity-50 rounded px-1`}
-                                      >
-                                        {mealMenu.PortionText}
-                                      </button>
-                                    )}
-
-                                    {/* Badge สำหรับมื้อว่าง (ข้อ 2) */}
-                                    {isSnack && (
-                                      <>
-                                        {mealMenu.isFoodItem ? (
-                                          <span className="text-xs text-green-600 ml-1">(ผลไม้)</span>
-                                        ) : mealMenu.isSpecialDessert ? (
-                                          <span className="text-xs text-blue-600 ml-1">(หวานสำหรับเบาหวาน)</span>
-                                        ) : (
-                                          <span className="text-xs text-purple-600 ml-1">(ของหวาน)</span>
-                                        )}
-                                      </>
-                                    )}
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          ) : (
-                            <span className="font-kanit text-gray-400 italic">
-                              {isSnack ? "-" : "(ยังไม่เลือก)"}
-                            </span>
-                          )}
-
-                          {/* ปุ่มปักหมุด */}
-                          <div className="mt-3 flex justify-end">
                             <button
                               onClick={() => togglePin(day, mealType)}
-                              className={`p-2 rounded-lg transition-all duration-200 hover:scale-110 ${isPinned(day, mealType) ? "text-amber-600 bg-amber-100 hover:bg-amber-200" : "text-gray-400 hover:text-amber-600 hover:bg-amber-50"
+                              className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 shadow-sm border font-kanit text-sm ${isPinned(day, mealType) 
+                                ? "bg-amber-100 border-amber-300 text-amber-700 hover:bg-amber-200 hover:border-amber-400" 
+                                : "bg-white border-gray-200 text-gray-600 hover:border-amber-300 hover:text-amber-600 hover:bg-amber-50"
                                 }`}
                               title={isPinned(day, mealType) ? "เอาปักหมุดออก" : "ปักหมุดเมนูนี้"}
                             >
                               <Pin className="w-4 h-4" />
+                              {isPinned(day, mealType) ? "ยกเลิกปักหมุด" : "ปักหมุด"}
                             </button>
                           </div>
                         </td>
@@ -1159,7 +1178,7 @@ const MealPlannerApp = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="p-4 bg-white rounded-2xl border border-amber-200 shadow-sm">
                       <p className="font-kanit text-amber-800 font-semibold mb-1">เลือก/ล็อกเมนูอย่างรวดเร็ว</p>
-                      <p className="font-kanit text-amber-700 text-sm">ชี้เม้าส์ที่ช่อง แล้วกดไอคอน <b>ChefHat</b> มุมขวาบนเพื่อเลือกและปักหมุด</p>
+                      <p className="font-kanit text-amber-700 text-sm">การเลือกเมนู: กดปุ่ม <b>“เลือกเมนู”</b> ด้านล่างแต่ละช่องเพื่อเลือกเมนูที่ต้องการโดยเมนูที่เลือกจะถูกล็อคเมนูโดยอัตโนมัติ <br /> การปักหมุดเมนู: กดปุ่ม <b>“ปักหมุด“</b> เพื่อล็อกเมนูที่ต้องการ</p>
                     </div>
                     <div className="p-4 bg-white rounded-2xl border border-amber-200 shadow-sm">
                       <p className="font-kanit text-amber-800 font-semibold mb-1">การสุ่มแผนอาหาร</p>
@@ -1292,7 +1311,61 @@ const MealPlannerApp = () => {
                   </div>
                 </div>
               )}
-              {/* Food lists */} <div className="grid grid-cols-1 lg:grid-cols-2 gap-8"> <div> <div className="flex items-center mb-6"> <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mr-3"> <span className="text-white font-bold text-sm">✓</span> </div> <h4 className="font-kanit text-xl font-bold text-green-600"> อาหารที่แนะนำ </h4> </div> <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200"> <ul className="space-y-3"> {getRecommendations()?.foods.แนะนำ.map((food, index) => (<li key={index} className="flex items-start p-3 bg-white rounded-xl border border-green-200 hover:shadow-sm transition-all duration-300" > <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0"> <span className="text-white text-xs font-bold">✓</span> </div> <span className="font-kanit text-gray-700">{food}</span> </li>))} </ul> </div> </div> <div> <div className="flex items-center mb-6"> <div className="w-8 h-8 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-3"> <span className="text-white font-bold text-sm">✕</span> </div> <h4 className="font-kanit text-xl font-bold text-red-600"> อาหารที่ควรหลีกเลี่ยง </h4> </div> <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-6 border border-red-200"> <ul className="space-y-3"> {getRecommendations()?.foods.ควรหลีกเลี่ยง.map((food, index) => (<li key={index} className="flex items-start p-3 bg-white rounded-xl border border-red-200 hover:shadow-sm transition-all duration-300" > <div className="w-6 h-6 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0"> <span className="text-white text-xs font-bold">✕</span> </div> <span className="font-kanit text-gray-700">{food}</span> </li>))} </ul> </div> </div> </div> {/* Notice */} <div className="mt-8 bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-400 rounded-2xl p-6"> <div className="flex items-start"> <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0"> <span className="text-white font-bold text-sm">!</span> </div> <div> <p className="font-kanit font-semibold text-yellow-800 mb-2"> ข้อควรระวัง </p> <p className="font-kanit text-yellow-700 leading-relaxed"> คำแนะนำเหล่านี้เป็นแนวทางทั่วไป ควรปรึกษาแพทย์หรือนักโภชนาการ เพื่อการวางแผนอาหารที่เหมาะสมกับสภาวะสุขภาพของท่านโดยเฉพาะ </p> </div> </div> </div>
+              {/* Food lists */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                  <div className="flex items-center mb-6">
+                    <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-white font-bold text-sm">✓</span>
+                    </div>
+                    <h4 className="font-kanit text-xl font-bold text-green-600"> อาหารที่แนะนำ </h4>
+                  </div>
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-200">
+                    <ul className="space-y-3">
+                      {getRecommendations()?.foods.แนะนำ.map((food, index) => (
+                        <li key={index} className="flex items-start p-3 bg-white rounded-xl border border-green-200 hover:shadow-sm transition-all duration-300" >
+                          <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                            <span className="text-white text-xs font-bold">✓</span>
+                          </div>
+                          <span className="font-kanit text-gray-700">{food}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center mb-6">
+                    <div className="w-8 h-8 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-3">
+                      <span className="text-white font-bold text-sm">✕</span>
+                    </div>
+                    <h4 className="font-kanit text-xl font-bold text-red-600"> อาหารที่ควรหลีกเลี่ยง </h4>
+                  </div>
+                  <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-6 border border-red-200">
+                    <ul className="space-y-3">
+                      {getRecommendations()?.foods.ควรหลีกเลี่ยง.map((food, index) => (
+                        <li key={index} className="flex items-start p-3 bg-white rounded-xl border border-red-200 hover:shadow-sm transition-all duration-300" >
+                          <div className="w-6 h-6 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-3 mt-1 flex-shrink-0">
+                            <span className="text-white text-xs font-bold">✕</span>
+                          </div>
+                          <span className="font-kanit text-gray-700">{food}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              {/* Notice */}
+              <div className="mt-8 bg-gradient-to-r from-yellow-50 to-orange-50 border-l-4 border-yellow-400 rounded-2xl p-6">
+                <div className="flex items-start">
+                  <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <span className="text-white font-bold text-sm">!</span>
+                  </div>
+                  <div>
+                    <p className="font-kanit font-semibold text-yellow-800 mb-2"> ข้อควรระวัง </p>
+                    <p className="font-kanit text-yellow-700 leading-relaxed"> คำแนะนำเหล่านี้เป็นแนวทางทั่วไป ควรปรึกษาแพทย์หรือนักโภชนาการ เพื่อการวางแผนอาหารที่เหมาะสมกับสภาวะสุขภาพของท่านโดยเฉพาะ </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -1385,7 +1458,7 @@ const MealPlannerApp = () => {
                             )}
                             {option.kind === "dessert" && (
                               <span className="text-xs px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-                                {option.isDiabeticDessert ? "หวานสำหรับเบาหวาน" : "ของหวาน"}
+                                {option.isDiabeticDessert ? "ของหวานสำหรับผู้ป่วยเบาหวาน" : "ของหวาน"}
                               </span>
                             )}
                             {option.kind === "menu" && (
