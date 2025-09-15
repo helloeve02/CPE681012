@@ -897,7 +897,7 @@ const MealPlannerApp = () => {
             className="flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-teal-600 text-white px-8 py-4 rounded-2xl font-kanit text-lg font-medium shadow-lg"
           >
             <Droplets className="w-5 h-5" />
-            คำนวณ Maintenance Fluid
+            คำนวณปริมาณน้ำสำหรับผู้ป่วย
           </button>
 
           {pinCount > 0 && (

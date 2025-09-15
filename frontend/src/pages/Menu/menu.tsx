@@ -4,7 +4,7 @@ import {
   GetFoodItemsByFlags,
   GetAllTag,
 } from "../../services/https";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   ChevronRight,
   Search,
@@ -14,10 +14,9 @@ import {
   Sparkles,
   Leaf,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import type { IngredientsInterface } from "../../interfaces/Ingredients";
 import type { TagInterface } from "../../interfaces/Tag";
-import { useNavigate } from "react-router-dom";
 
 const Menu: React.FC = () => {
   const [menu, setMenu] = useState<MenuInterface[]>([]);
@@ -28,39 +27,43 @@ const Menu: React.FC = () => {
   const [tags, setTags] = useState<TagInterface[]>([]);
   const [selectedTags, setSelectedTags] = useState<number[]>([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
-  const [viewingItem, setViewingItem] = useState<IngredientsInterface | null>(
-    null
-  );
+  const [viewingItem, setViewingItem] = useState<IngredientsInterface | null>(null);
+
+  // สำหรับกรณีเปิดจาก URL ทันที
+  const [pendingOpenId, setPendingOpenId] = useState<number | null>(null);
+  const [openingFromURL, setOpeningFromURL] = useState(false);
 
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Filter เมนูตาม search + selectedTags
-  const filteredItems = menu.filter((menuItem) => {
-    const matchQuery = (menuItem.Title?.toLowerCase() ?? "").includes(
-      query.toLowerCase()
-    );
-
-    if (selectedTags.length === 0) return matchQuery;
-
-    const hasSelectedTag = menuItem.Tags?.filter(
-      (tag): tag is { ID: number } => tag.ID !== undefined
-    ).some((tag) => selectedTags.includes(tag.ID));
-
-    return matchQuery && Boolean(hasSelectedTag);
-  });
+  const filteredItems = useMemo(() => {
+    const q = query.toLowerCase();
+    const hasTags = selectedTags.length > 0;
+    return (menu ?? []).filter((menuItem) => {
+      const matchQuery = (menuItem.Title?.toLowerCase() ?? "").includes(q);
+      if (!hasTags) return matchQuery;
+      const hasSelectedTag =
+        menuItem.Tags?.filter(
+          (tag): tag is { ID: number } => tag?.ID !== undefined
+        ).some((tag) => selectedTags.includes(tag.ID)) ?? false;
+      return matchQuery && hasSelectedTag;
+    });
+  }, [menu, query, selectedTags]);
 
   // Filter วัตถุดิบตาม search
-  const filteredIngre = ingredients.filter((ingredients) =>
-    (ingredients.Name?.toLowerCase() ?? "").includes(query.toLowerCase())
-  );
+  const filteredIngre = useMemo(() => {
+    const q = query.toLowerCase();
+    return (ingredients ?? []).filter((ing) =>
+      (ing.Name?.toLowerCase() ?? "").includes(q)
+    );
+  }, [ingredients, query]);
 
   // Toggle checkbox tag
   const toggleTag = (tagID: number) => {
-    if (selectedTags.includes(tagID)) {
-      setSelectedTags(selectedTags.filter((id) => id !== tagID));
-    } else {
-      setSelectedTags([...selectedTags, tagID]);
-    }
+    setSelectedTags((prev) =>
+      prev.includes(tagID) ? prev.filter((id) => id !== tagID) : [...prev, tagID]
+    );
   };
 
   // API Call
@@ -86,7 +89,7 @@ const Menu: React.FC = () => {
         setError("Failed to load ingredients items");
       }
     } catch {
-      setError("Error fetching ingredients items. Please try again later.");
+        setError("Error fetching ingredients items. Please try again later.");
     }
   };
 
@@ -105,16 +108,89 @@ const Menu: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  // โหลดข้อมูลหลัก
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
       await Promise.all([getAllMenu(), getFoodItemsByFlags(), getAllTags()]);
       setIsLoading(false);
     };
-
     loadData();
   }, []);
-  
+
+  // อ่านค่าจาก URL ตั้งแต่ mount → ถ้ามี ?open=<id> ให้เปิดโมดัลทันที (placeholder)
+  useEffect(() => {
+    const urlTab = (searchParams.get("tab") || "").toLowerCase();
+    const openParam = searchParams.get("open");
+    const id = openParam ? Number(openParam) : NaN;
+
+    if (urlTab === "ingredient") {
+      setActiveTab("ingredient");
+    } else if (urlTab === "food") {
+      setActiveTab("food");
+    }
+
+    if (!Number.isNaN(id)) {
+      setPendingOpenId(id);
+      setOpeningFromURL(true);
+      // เปิดโมดัลทันทีด้วย placeholder
+      setViewingItem({
+        ID: id,
+        Name: "กำลังโหลด...",
+        Description: "กำลังดึงข้อมูลวัตถุดิบ โปรดรอสักครู่",
+        Image: "",
+        Credit: "",
+      } as IngredientsInterface);
+      // บังคับแท็บ
+      setActiveTab("ingredient");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // เมื่อโหลด ingredients เสร็จ และมี pendingOpenId → ใส่ข้อมูลจริงแทน placeholder
+  useEffect(() => {
+    if (!openingFromURL) return;
+    if (isLoading) return;
+    if (!pendingOpenId) return;
+
+    const found = ingredients.find((ing) => ing.ID === pendingOpenId);
+    if (found) {
+      setViewingItem(found);
+      setOpeningFromURL(false);
+    } else {
+      // ถ้าไม่เจอ -> ปิดโมดัลและล้าง query
+      setViewingItem(null);
+      const sp = new URLSearchParams(searchParams);
+      sp.delete("open");
+      setSearchParams(sp);
+      setOpeningFromURL(false);
+    }
+  }, [openingFromURL, isLoading, pendingOpenId, ingredients, searchParams, setSearchParams]);
+
+  // ซิงก์ state → URL เมื่อสลับแท็บเอง
+  useEffect(() => {
+    const currentTab = searchParams.get("tab");
+    const wantTab = activeTab;
+    if (currentTab !== wantTab) {
+      const sp = new URLSearchParams(searchParams);
+      sp.set("tab", wantTab);
+      if (wantTab === "food") {
+        sp.delete("open");
+      }
+      setSearchParams(sp);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
+
+  const closeModal = () => {
+    setViewingItem(null);
+    setOpeningFromURL(false);
+    setPendingOpenId(null);
+    const sp = new URLSearchParams(searchParams);
+    sp.delete("open");
+    setSearchParams(sp);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden font-kanit">
@@ -139,7 +215,7 @@ const Menu: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      {/* Enhanced Header */}
+      {/* Header */}
       <div className="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute top-0 left-0 w-full h-full">
@@ -161,7 +237,7 @@ const Menu: React.FC = () => {
         </div>
       </div>
 
-      {/* Modern Tabs */}
+      {/* Tabs */}
       <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-center">
@@ -191,7 +267,7 @@ const Menu: React.FC = () => {
         </div>
       </div>
 
-      {/* Enhanced Search Section */}
+      {/* Search + Controls */}
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
           {/* Search Bar */}
@@ -266,7 +342,7 @@ const Menu: React.FC = () => {
             </div>
           )}
 
-          {/* Calculator Button */}
+          {/* Buttons */}
           <button
             onClick={() => navigate("/menucal")}
             className="flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-600 
@@ -316,7 +392,7 @@ const Menu: React.FC = () => {
         )}
       </div>
 
-      {/* Content Section */}
+      {/* Content */}
       <div className="max-w-7xl mx-auto px-4 pb-12">
         {activeTab === "food" && (
           <div className="space-y-6">
@@ -463,7 +539,15 @@ const Menu: React.FC = () => {
                         </div>
 
                         <button
-                          onClick={() => setViewingItem(item)}
+                          onClick={() => {
+                            setViewingItem(item);
+                            setOpeningFromURL(false);
+                            setPendingOpenId(item.ID ?? null);
+                            const sp = new URLSearchParams(searchParams);
+                            sp.set("tab", "ingredient");
+                            if (item.ID !== undefined) sp.set("open", String(item.ID));
+                            setSearchParams(sp);
+                          }}
                           className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 
                                    hover:from-emerald-600 hover:to-teal-700 text-white 
                                    px-6 py-3 rounded-2xl flex items-center justify-center 
@@ -484,7 +568,7 @@ const Menu: React.FC = () => {
         )}
       </div>
 
-      {/* Enhanced Modal */}
+      {/* Modal */}
       {viewingItem && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div
@@ -493,7 +577,7 @@ const Menu: React.FC = () => {
           >
             <div className="relative">
               <button
-                onClick={() => setViewingItem(null)}
+                onClick={closeModal}
                 className="absolute top-4 right-4 w-10 h-10 bg-white/90 hover:bg-white 
                          rounded-full flex items-center justify-center text-gray-500 
                          hover:text-gray-700 shadow-lg z-10 transition-all"
@@ -501,39 +585,44 @@ const Menu: React.FC = () => {
                 ✕
               </button>
 
-              <div className="aspect-video w-full bg-gray-100 rounded-t-3xl overflow-hidden">
-                <img
-                  src={viewingItem.Image}
-                  alt={viewingItem.Name}
-                  className="w-full h-full object-cover"
-                />
+              <div className="aspect-video w-full bg-gray-100 rounded-t-3xl overflow-hidden flex items-center justify-center">
+                {viewingItem.Image ? (
+                  <img
+                    src={viewingItem.Image}
+                    alt={viewingItem.Name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="text-gray-400 font-kanit">กำลังโหลดรูปภาพ...</div>
+                )}
               </div>
 
               <div className="p-8">
                 <h2 className="text-3xl font-kanit font-bold text-gray-900 mb-4">
-                  {viewingItem.Name}
+                  {viewingItem.Name || "กำลังโหลด..."}
                 </h2>
 
                 <div className="bg-blue-50 rounded-2xl p-6 mb-6">
                   <p className="text-gray-700 font-kanit text-lg leading-relaxed">
-                    {viewingItem.Description ||
-                      "ยังไม่มีรายละเอียดเพิ่มเติมในขณะนี้"}
+                    {viewingItem.Description || "กำลังโหลดรายละเอียด..."}
                   </p>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <a
-                    href={viewingItem.Credit}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 
-                             font-kanit font-medium underline decoration-2 underline-offset-4"
-                  >
-                    📷 ขอบคุณภาพจาก
-                  </a>
+                  {viewingItem.Credit ? (
+                    <a
+                      href={viewingItem.Credit}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 
+                               font-kanit font-medium underline decoration-2 underline-offset-4"
+                    >
+                      📷 ขอบคุณภาพจาก
+                    </a>
+                  ) : <span />}
 
                   <button
-                    onClick={() => setViewingItem(null)}
+                    onClick={closeModal}
                     className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 
                              rounded-2xl font-kanit font-medium transition-colors"
                   >

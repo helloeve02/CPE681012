@@ -402,7 +402,7 @@ const FluidCalculator: React.FC = () => {
             <div className="flex items-center justify-center mb-4">
               <Droplets className="w-8 h-8 mr-3 text-blue-200" />
               <Calculator className="w-8 h-8 mr-3 text-indigo-200" />
-              <h1 className="font-bold text-4xl md:text-5xl text-center">เครื่องคำนวณปริมาณน้ำสำหรับผู้ป่วย</h1>
+              <h1 className="font-bold text-4xl md:text-5xl text-center">คำนวณปริมาณน้ำสำหรับผู้ป่วย</h1>
             </div>
             <p className="text-blue-100 text-lg text-center max-w-3xl mx-auto">
               โรคไตเรื้อรัง และ โรคเบาหวาน — เครื่องมือช่วยวางแผนการดื่มน้ำตามภาวะสุขภาพ
