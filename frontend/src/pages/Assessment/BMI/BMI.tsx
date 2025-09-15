@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  ArrowLeft, 
-  Calculator, 
-  Activity, 
-  Ruler, 
+import {
+  ArrowLeft,
+  Calculator,
+  Activity,
+  Ruler,
   Scale,
   CheckCircle,
   AlertCircle,
@@ -21,11 +21,17 @@ const BMICalculatorFormPage: React.FC = () => {
     chest: "",
     hip: "",
   });
-  
+
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "-" || e.key === "+") {
+      e.preventDefault(); // กันไม่ให้พิมพ์เลย
+    }
   };
 
   const handleSubmit = () => {
@@ -33,7 +39,7 @@ const BMICalculatorFormPage: React.FC = () => {
   };
 
   const isFormComplete = () => {
-    return form.weight && form.height ;
+    return form.weight && form.height;
   };
 
   const getCompletedFields = () => {
@@ -48,8 +54,10 @@ const BMICalculatorFormPage: React.FC = () => {
       <input
         name={name}
         type="number"
+        min={0}
         value={form[name as keyof typeof form]}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder}
         className="w-full pl-12 pr-16 py-4 rounded-2xl border-2 border-gray-200 bg-white text-lg font-medium focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 hover:border-gray-300"
       />
@@ -82,7 +90,9 @@ const BMICalculatorFormPage: React.FC = () => {
 
   const bmiValue = calculateBMI();
   const bmiStatus = bmiValue ? getBMIStatus(parseFloat(bmiValue)) : null;
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 font-kanit">
       {/* Enhanced Hero Section */}
@@ -93,7 +103,7 @@ const BMICalculatorFormPage: React.FC = () => {
           <div className="absolute bottom-20 right-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
           <div className="absolute top-1/2 left-1/2 w-20 h-20 bg-white/10 rounded-full blur-lg"></div>
         </div>
-        
+
         <div className="relative max-w-6xl mx-auto px-6 py-16">
           {/* Header Navigation */}
           <div className="flex items-center mb-12">
@@ -120,7 +130,7 @@ const BMICalculatorFormPage: React.FC = () => {
             <p className="text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed mb-8">
               วัดและคำนวณดัชนีมวลกายของคุณเพื่อสุขภาพที่ดีขึ้น
             </p>
-            
+
             {/* Quick Stats */}
             {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {[
@@ -161,9 +171,9 @@ const BMICalculatorFormPage: React.FC = () => {
               <div className="text-sm text-gray-500">ข้อมูลที่กรอก</div>
             </div>
           </div>
-          
+
           <div className="w-full bg-gray-200 rounded-full h-3 mb-4 overflow-hidden">
-            <div 
+            <div
               className="bg-gradient-to-r from-blue-500 to-indigo-600 h-full rounded-full transition-all duration-700 ease-out"
               style={{ width: `${(getCompletedFields() / 5) * 100}%` }}
             ></div>
@@ -201,7 +211,7 @@ const BMICalculatorFormPage: React.FC = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="p-8">
             <div className="grid grid-cols-1 gap-8">
               {/* Essential Measurements */}
@@ -210,12 +220,12 @@ const BMICalculatorFormPage: React.FC = () => {
                   <div className="w-2 h-8 bg-gradient-to-b from-green-500 to-teal-600 rounded-full"></div>
                   <h4 className="text-xl font-bold text-gray-800">ข้อมูลหลัก (จำเป็น)</h4>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {renderInput("weight", "น้ำหนักปัจจุบัน", Scale, "กก.", true)}
                   {renderInput("height", "ส่วนสูง", Ruler, "ซม.", true)}
                 </div>
-                
+
                 {/* <div className="grid grid-cols-1 gap-6">
                   {renderInput("waist", "รอบเอว (วัดในระดับสะดือ)", Activity, "ซม.", true)}
                 </div> */}
@@ -248,26 +258,25 @@ const BMICalculatorFormPage: React.FC = () => {
                 <Calculator className="text-white" size={32} />
               )}
             </div>
-            
+
             <h3 className="text-2xl font-bold text-gray-800 mb-3">
               {isFormComplete() ? "พร้อมคำนวณแล้ว!" : "เกือบเสร็จแล้ว"}
             </h3>
-            
+
             <p className="text-gray-600 mb-8 text-lg">
-              {isFormComplete() 
+              {isFormComplete()
                 ? "ข้อมูลครบถ้วนแล้ว คลิกเพื่อดูผลลัพธ์ BMI และคำแนะนำ"
                 : "กรุณากรอกข้อมูลน้ำหนัก ส่วนสูง และรอบเอวให้ครบถ้วน"
               }
             </p>
-            
+
             <button
               onClick={handleSubmit}
               disabled={!isFormComplete()}
-              className={`w-full max-w-md py-5 rounded-2xl font-bold text-lg text-white transition-all duration-300 ${
-                isFormComplete()
+              className={`w-full max-w-md py-5 rounded-2xl font-bold text-lg text-white transition-all duration-300 ${isFormComplete()
                   ? "bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 transform hover:scale-105 shadow-xl hover:shadow-2xl"
                   : "bg-gray-300 cursor-not-allowed"
-              }`}
+                }`}
             >
               {isFormComplete() ? (
                 <div className="flex items-center justify-center gap-3">

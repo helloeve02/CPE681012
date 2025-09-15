@@ -1,7 +1,7 @@
-import React from "react";
-import { 
-  ArrowLeft, 
-  Users, 
+import React, { useEffect } from "react";
+import {
+  ArrowLeft,
+  Users,
   ChevronRight,
   Info,
   Activity,
@@ -11,7 +11,9 @@ import { useNavigate } from "react-router-dom";
 const DiabetesAssessmentPage: React.FC = () => {
   const navigate = useNavigate();
 
-  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-sans">

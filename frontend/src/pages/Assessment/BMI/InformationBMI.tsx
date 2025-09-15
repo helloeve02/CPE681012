@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { 
   ArrowLeft, 
   Calculator, 
@@ -43,7 +43,9 @@ const navigate = useNavigate();
     { range: "25.0-29.9", status: "น้ำหนักเกิน", color: "text-yellow-600", bg: "bg-yellow-50" },
     { range: "≥ 30.0", status: "โรคอ้วน", color: "text-red-600", bg: "bg-red-50" }
   ];
-
+ useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-kanit">
       {/* Hero Section */}

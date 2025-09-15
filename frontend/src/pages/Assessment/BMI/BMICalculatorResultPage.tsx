@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { 
   ArrowLeft, 
@@ -128,7 +128,9 @@ const BMICalculatorResultPage: React.FC = () => {
   };
 
   const healthFactors = getHealthStatus();
-
+ useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 font-kanit">
       {/* Enhanced Hero Section */}

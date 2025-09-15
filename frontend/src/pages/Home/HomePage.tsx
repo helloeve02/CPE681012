@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AssessmentSlider from "../../components/AssessmentSlider";
+import mainImg from "../../data/main.png";
+import membersImg from "../../data/members.png";
 
 const images = [
   {
-    src: "https://healthmedia.hss.moph.go.th/wp-content/uploads/2025/06/2025-06-13_13-42-56_717798.jpg",
-    alt: "ข่าวสาร 1",
-    title: "เคล็ดลับการดูแลสุขภาพในยุคใหม่",
-    description: "เทคนิคใหม่ๆ ในการดูแลสุขภาพให้แข็งแรงอย่างยั่งยืน"
+    src: mainImg,
+    // alt: "ข่าวสาร 1",
+    // title: "เคล็ดลับการดูแลสุขภาพในยุคใหม่",
+    // description: "เทคนิคใหม่ๆ ในการดูแลสุขภาพให้แข็งแรงอย่างยั่งยืน"
   },
   {
-    src: "https://www.ddc.moph.go.th/uploads/publish/1727420250801113442.jpg",
-    alt: "ข่าวสาร 2",
-    title: "โภชนาการที่ถูกต้องสำหรับทุกวัย",
-    description: "แนวทางการเลือกอาหารที่เหมาะสมกับแต่ละช่วงวัย"
-  },
-  {
-    src: "https://thaincd.com/images/media/info/NCD/%E0%B9%80%E0%B8%9A%E0%B8%B2%E0%B8%AB%E0%B8%A7%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%B1%E0%B8%9A%E0%B8%A7%E0%B8%B1%E0%B8%93%E0%B9%82%E0%B8%A3%E0%B8%841.jpg",
-    alt: "ข่าวสาร 3",
-    title: "ป้องกันโรคเบาหวานด้วยวิธีธรรมชาติ",
-    description: "วิธีการป้องกันและจัดการโรคเบาหวานอย่างมีประสิทธิภาพ"
+    src:membersImg
   },
 ];
+
+
 
 const HomePage: React.FC = () => {
   const [current, setCurrent] = useState(0);
@@ -71,13 +66,13 @@ const HomePage: React.FC = () => {
             <div className="relative h-[300px] sm:h-[450px] md:h-[550px] lg:h-[600px] overflow-hidden">
               <img
                 src={images[current].src}
-                alt={images[current].alt}
+                // alt={images[current].alt}
                 className="w-full h-full object-cover transform transition-all duration-700 group-hover:scale-110"
               />
               
               {/* Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-pink-900/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-900/10 to-pink-900/10"></div>
               
               {/* Navigation Arrows */}
               <button
@@ -98,7 +93,7 @@ const HomePage: React.FC = () => {
               </button>
             </div>
 
-            {/* Content Overlay */}
+            {/* Content Overlay
             <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
               <div className="max-w-3xl">
                 <h3 className="text-2xl sm:text-3xl font-bold mb-3 drop-shadow-lg">
@@ -108,7 +103,7 @@ const HomePage: React.FC = () => {
                   {images[current].description}
                 </p>
               </div>
-            </div>
+            </div> */}
 
             {/* Enhanced Dots */}
             <div className="absolute bottom-6 right-8 flex space-x-3">

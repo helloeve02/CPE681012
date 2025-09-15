@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { 
   ArrowLeft, 
   CheckCircle, 
@@ -132,7 +132,9 @@ const DiabetesResultPage = () => {
     if (bmi < 30) return 'อ้วนระดับ 1';
     return 'อ้วนระดับ 2';
   };
-
+useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-sans">
       {/* Header */}

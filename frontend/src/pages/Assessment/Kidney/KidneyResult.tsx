@@ -68,6 +68,8 @@ const navigate = useNavigate();
       } catch (error) {
         console.log("Error accessing location state:", error);
       }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     // Priority 3: ข้อมูลจาก URL parameters (fallback)
@@ -415,7 +417,7 @@ const navigate = useNavigate();
               </div>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">ระดับซิสโตลิก:</span>
+                  <span className="text-gray-600">ระดับความดันโลหิต:</span>
                   <span className="font-medium">{getBpText(formData.bp)}</span>
                 </div>
               </div>
@@ -425,6 +427,7 @@ const navigate = useNavigate();
       )
     }
   ];
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-sans">

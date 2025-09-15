@@ -127,7 +127,9 @@ const StressResultsPage: React.FC = () => {
 
     return () => clearTimeout(timer);
   }, [results.totalScore]);
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const getRecommendations = () => {
     const score = results.totalScore;
     if (score <= 4) {

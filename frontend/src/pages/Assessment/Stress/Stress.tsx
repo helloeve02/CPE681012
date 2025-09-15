@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   ArrowLeft, 
@@ -143,7 +143,9 @@ const StressAssessmentForm: React.FC = () => {
 
   const currentScore = getTotalScore();
   const scoreInterpretation = getScoreInterpretation(currentScore);
-
+useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 font-kanit">
       {/* Hero Section */}
