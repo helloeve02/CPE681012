@@ -698,10 +698,10 @@ const EducationalAdminPanel: React.FC = () => {
                     className="group bg-white/95 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-white/50"
                   >
                     <div className="relative h-48 overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-100">
-                      {item.PictureIn ? (
+                      {(item.PictureIn || item.PictureOut) ?  (
                         <img
-                          src={item.PictureIn}
-                          alt={item.Title}
+                          src={item.PictureIn || item.PictureOut  }
+                          alt={item.Title ?? ""}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
                       ) : (
