@@ -218,7 +218,7 @@ const InfographicDetailPage: React.FC = () => {
                       >
                         <div className="relative overflow-hidden rounded-lg flex-shrink-0">
                           <img
-                            src={item.PictureOut || "https://via.placeholder.com/80x60"}
+                            src={item.PictureOut}
                             alt={item.Title}
                             className="w-20 h-15 object-cover group-hover:scale-110 transition-transform duration-300"
                           />
