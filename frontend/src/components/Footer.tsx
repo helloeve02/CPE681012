@@ -110,11 +110,6 @@ const Footer = () => {
                   ความรู้
                 </button>
               </li>
-              <li>
-                <span className="text-blue-100 text-sm block">
-                  คำแนะนำโภชนาการ
-                </span>
-              </li>
             </ul>
           </div>
 
