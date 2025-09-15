@@ -93,7 +93,7 @@ export default function AdminDashboard() {
     icon: React.ReactNode;
   }> = [
       {
-        title: "จัดการข่าวสารและการใช้ความรู้",
+        title: "จัดการข่าวสารและการให้ความรู้",
         link: "/admin/educational",
         icon: <Newspaper className="w-10 h-10" />,
         gradient: "from-blue-500 via-blue-600 to-cyan-500",
