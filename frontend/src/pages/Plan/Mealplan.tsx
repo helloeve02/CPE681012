@@ -65,6 +65,7 @@ const SELECTED_DISEASE_ID_KEY = "selectedDiseaseId:v1";
 const LAST_RANDOMIZED_KEY = "lastRandomized:v1";
 const PINNED_ITEMS_CACHE_KEY = "pinnedItems:v1";
 const TTL_MS = 10 * 1000; // demo TTL
+/* const TTL_MS = 6 * 60 * 60 * 1000; // 6 hr */
 
 type DayName =
   | "วันจันทร์"
