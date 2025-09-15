@@ -208,7 +208,7 @@ const ExerciseInformation: React.FC = () => {
               </div>
               <h4 className="text-xl font-bold text-gray-500 mb-2">ไม่มีข้อมูลในหมวดหมู่นี้</h4>
               <p className="text-gray-400 text-center max-w-md">
-                ขออพัยครับ ยังไม่มีเนื้อหาในหมวดหมู่ที่เลือก ลองเลือกหมวดหมู่อื่นดูสิ
+                ขออภัยครับ ยังไม่มีเนื้อหาในหมวดหมู่ที่เลือก ลองเลือกหมวดหมู่อื่นดูสิ
               </p>
             </div>
           ) : (
