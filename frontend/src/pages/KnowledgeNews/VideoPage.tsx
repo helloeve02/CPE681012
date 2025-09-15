@@ -208,7 +208,7 @@ const VideoDetailPage: React.FC = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="mt-8 pt-6 border-t border-gray-200">
+                {/* <div className="mt-8 pt-6 border-t border-gray-200">
                   <div className="flex flex-wrap gap-4">
                     <button className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105 font-medium">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -229,7 +229,7 @@ const VideoDetailPage: React.FC = () => {
                       เพิ่มในเพลย์ลิสต์
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
