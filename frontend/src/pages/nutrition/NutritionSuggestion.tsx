@@ -192,7 +192,7 @@ const NutritionSuggestion = () => {
   const extraAdvice = [
     {
       id: "protein-card",
-      title: "ข้าว/แป้งไม่มีโปรตีน vs แป้งปลอดโปรตีน",
+      title: "ข้าว/แป้งมีโปรตีน vs แป้งปลอดโปรตีน",
       icon: <LuEggFried size={32} />,
       risk: "การรับประทานอาหารประเภทโปรตีนสูง ในผู้ที่ไตมีการทำงานเสื่อมไปบางส่วน อาจเร่งการดำเนินของโรคไตให้เร็วขึ้นได้ เพราะอาหารเหล่านี้ทำให้เลือดในร่างกายมีความเป็นกรดมากขึ้น ไตจึงต้องทำงานหนักเพื่อขับยูเรียซึ่งเป็นของเสียที่ได้จากการสลายโปรตีนและเพิ่มการขับกรดออกจากร่างกาย",
       recommendation: {
@@ -482,18 +482,19 @@ const NutritionSuggestion = () => {
               </div>
             </div>
 
-{/* Disclaimer text */}
+            {/* Disclaimer text */}
             <div className="max-w-6xl mx-auto mt-6 mb-6 text-center">
               <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl p-4 border border-blue-200/50">
                 <div className="flex items-center justify-center">
                   <div className="w-2 h-2 bg-blue-400 rounded-full mr-3 animate-pulse"></div>
                   <p className="text-blue-800 text-sm font-medium">
-                    ตารางนี้เป็นเพียงแนวทางเบื้องต้น คุณสามารถปรับจำนวนมื้ออาหารในแต่ละวันให้เหมาะสมกับวิถีชีวิตและความสะดวกของคุณได้
+                    ตารางนี้เป็นเพียงแนวทางเบื้องต้น
+                    คุณสามารถปรับจำนวนมื้ออาหารในแต่ละวันให้เหมาะสมกับวิถีชีวิตและความสะดวกของคุณได้
                   </p>
                 </div>
               </div>
             </div>
-            
+
             {/* Mobile Portion Table */}
             <div
               className={`
