@@ -2,18 +2,15 @@
 // import {
 //   ArrowLeft,
 //   User,
-//   // Weight,
 //   Ruler,
 //   Heart,
-//   Droplets,
 //   Users,
 //   Info,
-//   // Calendar,
 //   Activity
 // } from "lucide-react";
 // import { useNavigate } from "react-router-dom";
 
-// const DiabetesMoreAssessmentPage: React.FC = () => {
+// const DiabetesMoreAssessmentPage = () => {
 //   const [form, setForm] = useState({
 //     age: "",
 //     gender: "",
@@ -22,54 +19,58 @@
 //     waist: "",
 //     systolic: "",
 //     diastolic: "",
-//     bloodSugar: "",
 //     familyHistory: "",
 //   });
 
-//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//   const navigate = useNavigate();
+
+//   const handleChange = (e: { target: { name: any; value: any; }; }) => {
 //     setForm({ ...form, [e.target.name]: e.target.value });
 //   };
-
-//   const navigate = useNavigate();
 
 //   const handleRadio = (name: string, value: string) => {
 //     setForm({ ...form, [name]: value });
 //   };
 
-//   // ฟังก์ชันคำนวณคะแนนความเสี่ยง
+//   // ฟังก์ชันคำนวณคะแนนความเสี่ยงตามตารางที่ให้มา
 //   const calculateRiskScore = () => {
 //     let totalScore = 0;
 
 //     // 1. อายุ
 //     const age = parseInt(form.age);
-//     if (age >= 34 && age <= 39) totalScore += 0;
-//     else if (age >= 40 && age <= 44) totalScore += 0;
-//     else if (age >= 45 && age <= 49) totalScore += 1;
-//     else if (age >= 50) totalScore += 2;
+//     if (age >= 35 && age <= 39) totalScore += 0;
+//     else if (age >= 40 && age <= 44) totalScore += 1;
+//     else if (age >= 45 && age <= 49) totalScore += 2;
+//     else if (age >= 50 && age <= 54) totalScore += 3;
+//     else if (age >= 55 && age <= 59) totalScore += 4;
+//     else if (age >= 60 && age <= 64) totalScore += 5;
+//     else if (age >= 65) totalScore += 6;
 
 //     // 2. เพศ
 //     if (form.gender === "female") totalScore += 0;
-//     else if (form.gender === "male") totalScore += 2;
+//     else if (form.gender === "male") totalScore += 1;
 
 //     // 3. ดัชนีมวลกาย (BMI)
 //     const weight = parseFloat(form.weight);
-//     const height = parseFloat(form.height) / 100; // แปลงซม.เป็นม.
+//     const height = parseFloat(form.height) / 100;
 //     if (weight && height) {
 //       const bmi = weight / (height * height);
 //       if (bmi < 23) totalScore += 0;
-//       else if (bmi >= 23 && bmi < 27.5) totalScore += 3;
-//       else if (bmi >= 27.5) totalScore += 5;
+//       else if (bmi >= 23 && bmi < 27.5) totalScore += 1;
+//       else if (bmi >= 27.5) totalScore += 3;
 //     }
 
-//     // 4. รอบเอว (ใช้เงื่อนไขจากเพศ)
+//     // 4. รอบเอว
 //     const waist = parseFloat(form.waist);
 //     if (waist) {
 //       if (form.gender === "female") {
 //         if (waist < 80) totalScore += 0;
-//         else if (waist >= 80) totalScore += 2;
+//         else if (waist >= 80 && waist < 88) totalScore += 3;
+//         else if (waist >= 88) totalScore += 4;
 //       } else if (form.gender === "male") {
 //         if (waist < 90) totalScore += 0;
-//         else if (waist >= 90) totalScore += 2;
+//         else if (waist >= 90 && waist < 102) totalScore += 3;
+//         else if (waist >= 102) totalScore += 4;
 //       }
 //     }
 
@@ -78,53 +79,41 @@
 //     const diastolic = parseInt(form.diastolic);
 //     if (systolic && diastolic) {
 //       if (systolic < 140 && diastolic < 90) totalScore += 0;
-//       else totalScore += 2;
+//       else totalScore += 1;
 //     }
 
 //     // 6. ประวัติโรคเบาหวานในญาติสายตรง
 //     if (form.familyHistory === "no") totalScore += 0;
-//     else if (form.familyHistory === "yes") totalScore += 4;
+//     else if (form.familyHistory === "yes") totalScore += 5;
 
 //     return totalScore;
 //   };
 
-//   const getRiskLevel = (score: number) => {
-//     if (score < 12) {
-//       return {
-//         level: "ความเสี่ยงต่ำ",
-//         description: "คุณมีความเสี่ยงต่ำในการเป็นโรคเบาหวาน",
-//         color: "green",
-//         bgColor: "from-green-500 to-emerald-500"
-//       };
-//     } else {
-//       return {
-//         level: "ความเสี่ยงสูง",
-//         description: "คุณควรปรึกษาแพทย์เพื่อตรวจวินิจฉัยเพิ่มเติม",
-//         color: "red",
-//         bgColor: "from-red-500 to-rose-500"
-//       };
-//     }
-//   };
-
 //   const handleSubmit = () => {
 //     // ตรวจสอบข้อมูลที่จำเป็น
-//     if (!form.age || !form.gender || !form.weight || !form.height || !form.systolic || !form.diastolic || !form.familyHistory) {
+//     if (!form.age || !form.gender || !form.weight || !form.height || !form.waist || !form.systolic || !form.diastolic || !form.familyHistory) {
 //       alert("กรุณากรอกข้อมูลให้ครบถ้วน");
 //       return;
 //     }
 
+//     if (parseInt(form.age) < 35) {
+//       alert("การประเมินนี้สำหรับผู้ที่มีอายุ 35 ปีขึ้นไป");
+//       return;
+//     }
+
 //     const score = calculateRiskScore();
-//     const risk = getRiskLevel(score);
-
-//     console.log("Assessment data:", form);
-//     console.log("Risk Score:", score);
-
-//     // แสดงผลลัพธ์
-//     alert(`ผลการประเมิน:\nคะแนนรวม: ${score} คะแนน\nระดับความเสี่ยง: ${risk.level}\n${risk.description}`);
+    
+//     // ส่งข้อมูลไปหน้าผลลัพธ์ผ่าน state
+//     navigate('/assessment/diabetes-result', { 
+//       state: { 
+//         formData: form, 
+//         score: score 
+//       } 
+//     });
 //   };
 
 //   return (
-//     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-kanit">
+//     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-sans">
 //       {/* Hero Section */}
 //       <div className="relative overflow-hidden bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600">
 //         <div className="absolute inset-0 bg-black/20"></div>
@@ -132,7 +121,7 @@
 //           {/* Header Navigation */}
 //           <div className="flex items-center mb-8">
 //             <button
-//               onClick={() => navigate(-1)}
+//               onClick={() => navigate('/assessment/selectagerange')}
 //               className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
 //             >
 //               <ArrowLeft size={22} />
@@ -347,16 +336,6 @@
 //                     />
 //                     <span>ไม่มี</span>
 //                   </label>
-//                   <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-teal-300 transition-colors cursor-pointer">
-//                     <input
-//                       type="radio"
-//                       name="familyHistory"
-//                       checked={form.familyHistory === "unknown"}
-//                       onChange={() => handleRadio("familyHistory", "unknown")}
-//                       className="text-teal-500"
-//                     />
-//                     <span>ไม่ทราบ</span>
-//                   </label>
 //                 </div>
 //               </div>
 //             </div>
@@ -365,9 +344,9 @@
 //             <div className="pt-6">
 //               <button
 //                 onClick={handleSubmit}
-//                 disabled={!form.age || parseInt(form.age) < 35} // ✅ ปิดปุ่มถ้าอายุ < 35 หรือยังไม่ได้กรอก
+//                 disabled={!form.age || parseInt(form.age) < 35}
 //                 className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform
-//     ${!form.age || parseInt(form.age) < 35
+//                   ${!form.age || parseInt(form.age) < 35
 //                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
 //                     : "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white hover:scale-105 hover:shadow-xl"
 //                   }`}

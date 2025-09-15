@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowLeft,
   User,
@@ -6,9 +6,11 @@ import {
   Heart,
   Users,
   Info,
-  Activity
+  Activity,
+  AlertTriangle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
 
 const DiabetesMoreAssessmentPage = () => {
   const [form, setForm] = useState({
@@ -21,11 +23,23 @@ const DiabetesMoreAssessmentPage = () => {
     diastolic: "",
     familyHistory: "",
   });
-
   const navigate = useNavigate();
 
+  const [ageError, setAgeError] = useState("");
+
   const handleChange = (e: { target: { name: any; value: any; }; }) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+    
+    // ตรวจสอบอายุเมื่อมีการเปลี่ยนแปลง
+    if (name === 'age') {
+      const age = parseInt(value);
+      if (value && age < 35) {
+        setAgeError("การประเมินนี้สำหรับผู้ที่มีอายุ 35 ปีขึ้นไป");
+      } else {
+        setAgeError("");
+      }
+    }
   };
 
   const handleRadio = (name: string, value: string) => {
@@ -90,20 +104,23 @@ const DiabetesMoreAssessmentPage = () => {
   };
 
   const handleSubmit = () => {
-    // ตรวจสอบข้อมูลที่จำเป็น
-    if (!form.age || !form.gender || !form.weight || !form.height || !form.waist || !form.systolic || !form.diastolic || !form.familyHistory) {
-      alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+    const age = parseInt(form.age);
+    
+    // ตรวจสอบอายุก่อน
+    if (!form.age || age < 35) {
+      alert("กรุณากรอกอายุ 35 ปีขึ้นไปเพื่อใช้การประเมินนี้");
       return;
     }
 
-    if (parseInt(form.age) < 35) {
-      alert("การประเมินนี้สำหรับผู้ที่มีอายุ 35 ปีขึ้นไป");
+    // ตรวจสอบข้อมูลที่จำเป็น
+    if (!form.gender || !form.weight || !form.height || !form.waist || !form.systolic || !form.diastolic || !form.familyHistory) {
+      alert("กรุณากรอกข้อมูลให้ครบถ้วน");
       return;
     }
 
     const score = calculateRiskScore();
     
-    // ส่งข้อมูลไปหน้าผลลัพธ์ผ่าน state
+   // ส่งข้อมูลไปหน้าผลลัพธ์ผ่าน state
     navigate('/assessment/diabetes-result', { 
       state: { 
         formData: form, 
@@ -112,6 +129,23 @@ const DiabetesMoreAssessmentPage = () => {
     });
   };
 
+  // ตรวจสอบว่าสามารถส่งข้อมูลได้หรือไม่
+  const isFormValid = () => {
+    const age = parseInt(form.age);
+    return form.age && age >= 35 && form.gender && form.weight && 
+           form.height && form.waist && form.systolic && 
+           form.diastolic && form.familyHistory;
+  };
+
+   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "-" || e.key === "+") {
+      e.preventDefault(); // กันไม่ให้พิมพ์เลย
+    }
+  };
+  const hasAgeError = form.age && parseInt(form.age) < 35;
+ useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-sans">
       {/* Hero Section */}
@@ -121,7 +155,7 @@ const DiabetesMoreAssessmentPage = () => {
           {/* Header Navigation */}
           <div className="flex items-center mb-8">
             <button
-              onClick={() => navigate('/assessment/selectagerange')}
+              onClick={() => navigate("/assessment/selectagerange")}
               className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
             >
               <ArrowLeft size={22} />
@@ -178,20 +212,54 @@ const DiabetesMoreAssessmentPage = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">อายุ</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    อายุ <span className="text-red-500">*</span>
+                    <span className="text-xs text-gray-500 block mt-1">(ต้องมีอายุ 35 ปีขึ้นไป)</span>
+                  </label>
                   <input
                     type="number"
                     name="age"
                     value={form.age}
                     min={35}
+                    max={120}
                     onChange={handleChange}
-                    placeholder="กรอกอายุของคุณ"
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors bg-white"
+                    onKeyDown={handleKeyDown}
+                    placeholder="กรอกอายุของคุณ (35 ปีขึ้นไป)"
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors bg-white focus:outline-none ${
+                      hasAgeError 
+                        ? 'border-red-400 focus:border-red-500' 
+                        : 'border-gray-200 focus:border-blue-500'
+                    }`}
                   />
+                  
+                  {/* Age Error Message */}
+                  {ageError && (
+                    <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
+                      <AlertTriangle className="text-red-500 flex-shrink-0 mt-0.5" size={16} />
+                      <div>
+                        <p className="text-sm text-red-700 font-medium">{ageError}</p>
+                        <p className="text-xs text-red-600 mt-1">
+                          แบบประเมินนี้ออกแบบมาสำหรับผู้ที่มีอายุ 35 ปีขึ้นไปเท่านั้น
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Age Success Message */}
+                  {form.age && parseInt(form.age) >= 35 && (
+                    <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-sm text-green-700 flex items-center gap-1">
+                        <span className="text-green-500">✓</span>
+                        อายุของคุณเหมาะสมสำหรับการประเมิน
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">เพศ</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    เพศ <span className="text-red-500">*</span>
+                  </label>
                   <div className="flex gap-4">
                     <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-blue-300 transition-colors cursor-pointer">
                       <input
@@ -229,11 +297,15 @@ const DiabetesMoreAssessmentPage = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">น้ำหนัก (กก.)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    น้ำหนัก (กก.) <span className="text-red-500">*</span>
+                  </label>
                   <input
                     name="weight"
                     type="number"
                     value={form.weight}
+                    min="1"
+                    step="0.1"
                     onChange={handleChange}
                     placeholder="น้ำหนัก"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors bg-white"
@@ -241,11 +313,14 @@ const DiabetesMoreAssessmentPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">ส่วนสูง (ซม.)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    ส่วนสูง (ซม.) <span className="text-red-500">*</span>
+                  </label>
                   <input
                     name="height"
                     type="number"
                     value={form.height}
+                    min="1"
                     onChange={handleChange}
                     placeholder="ส่วนสูง"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors bg-white"
@@ -253,11 +328,15 @@ const DiabetesMoreAssessmentPage = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">รอบเอว (ซม.)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    รอบเอว (ซม.) <span className="text-red-500">*</span>
+                  </label>
                   <input
                     name="waist"
                     type="number"
                     value={form.waist}
+                    min="1"
+                    step="0.1"
                     onChange={handleChange}
                     placeholder="วัดในระดับสะดือ"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors bg-white"
@@ -277,25 +356,33 @@ const DiabetesMoreAssessmentPage = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">ความดันตัวบน</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    ความดันตัวบน <span className="text-red-500">*</span>
+                  </label>
                   <input
                     name="systolic"
                     type="number"
                     value={form.systolic}
+                    min="50"
+                    max="300"
                     onChange={handleChange}
-                    placeholder="Systolic"
+                    placeholder="Systolic (mmHg)"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:outline-none transition-colors bg-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">ความดันตัวล่าง</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    ความดันตัวล่าง <span className="text-red-500">*</span>
+                  </label>
                   <input
                     name="diastolic"
                     type="number"
                     value={form.diastolic}
+                    min="30"
+                    max="200"
                     onChange={handleChange}
-                    placeholder="Diastolic"
+                    placeholder="Diastolic (mmHg)"
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:outline-none transition-colors bg-white"
                   />
                 </div>
@@ -313,7 +400,7 @@ const DiabetesMoreAssessmentPage = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-3">
-                  มีบิดา มารดา หรือพี่น้องสายตรงเป็นโรคเบาหวานหรือไม่
+                  มีบิดา มารดา หรือพี่น้องสายตรงเป็นโรคเบาหวานหรือไม่ <span className="text-red-500">*</span>
                 </label>
                 <div className="flex flex-wrap gap-3">
                   <label className="flex items-center gap-2 bg-white rounded-xl px-4 py-3 border-2 border-gray-200 hover:border-teal-300 transition-colors cursor-pointer">
@@ -344,15 +431,24 @@ const DiabetesMoreAssessmentPage = () => {
             <div className="pt-6">
               <button
                 onClick={handleSubmit}
-                disabled={!form.age || parseInt(form.age) < 35}
+                disabled={!isFormValid()}
                 className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 transform
-                  ${!form.age || parseInt(form.age) < 35
+                  ${!isFormValid()
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                     : "bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white hover:scale-105 hover:shadow-xl"
                   }`}
               >
-                ประเมินผลลัพธ์
+                {hasAgeError 
+                  ? "กรุณากรอกอายุ 35 ปีขึ้นไป" 
+                  : "ประเมินผลลัพธ์"
+                }
               </button>
+              
+              {!isFormValid() && !hasAgeError && (
+                <p className="text-center text-sm text-gray-500 mt-2">
+                  กรุณากรอกข้อมูลให้ครบถ้วนก่อนประเมินผล
+                </p>
+              )}
             </div>
           </div>
         </div>

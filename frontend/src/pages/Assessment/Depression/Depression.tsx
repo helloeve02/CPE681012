@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { 
   ArrowLeft, 
   Heart, 
@@ -203,7 +203,9 @@ const hasRisk = () => {
   );
 
   const currentRisk = getRiskLevel();
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 font-kanit">
       {/* Hero Section */}

@@ -27,7 +27,7 @@ const DepressionResultsPage: React.FC = () => {
       const hasHighRisk = data.riskLevel && (
         data.riskLevel.level.includes("รุนแรง") || 
         data.riskLevel.level.includes("ปานกลาง") ||
-        Object.values(data.answers || {}).some((answer: any) => 
+        Object.values(data.answers || {}).some(() => 
           data.answers?.q9 >= 1  // คำถามเกี่ยวกับการทำร้ายตัวเอง
         )
       );
@@ -45,7 +45,9 @@ const DepressionResultsPage: React.FC = () => {
       navigate("/assessment/depression", { replace: true });
     }
   }, [location.state, navigate]);
-
+ useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   // แสดง loading หากยังไม่มีข้อมูล
   if (!resultData) {
     return (
@@ -148,7 +150,6 @@ const DepressionResultsPage: React.FC = () => {
   const handleRetakeTest = () => {
     navigate("/assessment/depression");
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50 font-kanit">
       {/* Hero Section */}

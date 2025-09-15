@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -45,13 +45,13 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
     } else {
       // เก็บข้อมูลใน window object เป็น fallback
       (window as any).kidneyFormData = form;
-      
+
       // สร้าง custom event เพื่อแจ้งให้ components อื่นรู้
-      const event = new CustomEvent('kidneyAssessmentComplete', { 
-        detail: { formData: form } 
+      const event = new CustomEvent('kidneyAssessmentComplete', {
+        detail: { formData: form }
       });
       window.dispatchEvent(event);
-      
+
     }
   };
 
@@ -139,7 +139,7 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
       fields: [
         {
           name: "bp",
-          label: "ระดับความดันโลหิตซิสโตลิก",
+          label: "ระดับความดันโลหิต",
           options: [
             { value: "", label: "-- เลือกระดับ --" },
             { value: "-2", label: "น้อยกว่า 120 มิลลิเมตรปรอท" },
@@ -155,6 +155,11 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
     }
   ];
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 font-sans">
       {/* Hero Section */}
@@ -165,7 +170,7 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
           <div className="flex items-center mb-8">
             <button
               onClick={handleBack}
-              
+
               className="p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200 text-white"
             >
               <ArrowLeft size={22} />
@@ -250,8 +255,8 @@ const KidneyRiskAssessmentPage: React.FC<Props> = ({ onBack, onSubmit }) => {
                           required
                           disabled={field.name === "waist" && !form.gender}
                           className={`w-full px-4 py-3 rounded-xl border-2 focus:border-blue-500 focus:outline-none transition-colors text-gray-700 ${field.name === "waist" && !form.gender
-                              ? "bg-gray-100 border-gray-200 cursor-not-allowed"
-                              : "bg-gray-50 hover:bg-white border-gray-200"
+                            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+                            : "bg-gray-50 hover:bg-white border-gray-200"
                             }`}
                         >
                           {field.options.map((option, optionIdx) => (
