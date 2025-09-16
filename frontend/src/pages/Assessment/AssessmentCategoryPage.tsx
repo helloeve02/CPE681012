@@ -19,7 +19,7 @@ const healthSections = [
     color: "from-blue-500 to-blue-600",
     items: [
       { 
-        label: "บันทึกสุขภาพและดัชนีมวลกาย", 
+        label: "ตรวจสอบสุขภาพและดัชนีมวลกาย", 
         path: "/assessment/information/bmi",
         icon: Calculator,
         description: "ตรวจสอบดัชนีมวลกายและบันทึกข้อมูลสุขภาพส่วนตัว"

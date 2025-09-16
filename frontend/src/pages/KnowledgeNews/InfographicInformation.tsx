@@ -215,9 +215,9 @@ const InfographicInformation: React.FC = () => {
                           <span>อ่านเพิ่มเติม</span>
                           <ArrowLeft className="ml-2 rotate-180" size={14} />
                         </div>
-                        <div className="text-xs text-gray-400">
+                        {/* <div className="text-xs text-gray-400">
                           {new Date().toLocaleDateString('th-TH')}
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>

@@ -389,6 +389,11 @@ const NutritionInput = () => {
                           const value = Number(e.target.value);
                           setAge(value >= 0 ? value : null);
                         }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "+") {
+                            e.preventDefault();
+                          }
+                        }}
                         type="number"
                         placeholder="กรอกอายุ (ปี)"
                         className="!font-kanit"
@@ -429,6 +434,11 @@ const NutritionInput = () => {
                         onChange={(e) => {
                           const value = Number(e.target.value);
                           setHeight(value >= 0 ? value : null);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "+") {
+                            e.preventDefault();
+                          }
                         }}
                         type="number"
                         placeholder="กรอกส่วนสูง (ซม.)"
