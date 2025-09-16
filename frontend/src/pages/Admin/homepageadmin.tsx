@@ -130,7 +130,7 @@ export default function AdminDashboard() {
         link: "/admin/adminmanage",
         icon: <FileUser className="w-10 h-10" />,
         gradient: "from-purple-500 via-violet-500 to-indigo-500",
-        description: "จัดการข้อมูลอาหารและส่วนผสม",
+        description: "จัดการข้อมูลแอดมิน",
         delay: "delay-300",
         stats: { recent: admin },
         color: "purple",
