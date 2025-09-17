@@ -64,7 +64,7 @@ const NutritionInput = () => {
       console.log(userData);
       if (rule?.data) {
         const now = Date.now();
-        const expiresAt = now + 2 * 60 * 60 * 1000; // 2 hours from now
+        const expiresAt = now + 6 * 60 * 60 * 1000; // 6 hours from now
 
         const ruleWithExpiry = {
           rule: rule.data,
@@ -577,7 +577,7 @@ const NutritionInput = () => {
                           ข้อมูลที่ท่านกรอกจะถูกใช้ในการคำนวณค่า IBW (Ideal Body
                           Weight)
                           และเลือกแผนโภชนาการที่เหมาะสมกับสถานะสุขภาพของท่าน
-                          โดยข้อมูลดังกล่าวจะถูกจัดเก็บไว้ในระบบเป็นเวลา 2
+                          โดยข้อมูลดังกล่าวจะถูกจัดเก็บไว้ในระบบเป็นเวลา 6
                           ชั่วโมง
                           ท่านสามารถดาวน์โหลดข้อมูลคำแนะนำทางโภชนาการเพื่อเก็บไว้ได้
                         </p>
