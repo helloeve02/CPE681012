@@ -6,7 +6,7 @@ type Admin struct {
 	gorm.Model
 	FirstName string   `valid:"required~FirstName is required"`  
     LastName  string     `valid:"required~LastName is required"`
-	UserName string `json:"UserName valid:"required~UserName is required"`
+	UserName string `valid:"required~UserName is required"`
     Password string `json:"Password"`
 	
 	Menu	[]Menu `gorm:"foreignKey:AdminID"`
