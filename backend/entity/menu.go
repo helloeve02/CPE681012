@@ -11,8 +11,8 @@ type Menu struct {
 	Sodium 		float32 
 	Credit 		string `valid:"required~Credit is required"`
 	Potassium	string 
-	AdminID		uint `valid:"required~AdminID is required"`
-	Admin 	Admin
+	AdminID		uint `valid:"required~AdminID is required" `
+	Admin 	Admin `valid:"-"`
 
 	// MenuImage	[]MenuImage `gorm:"foreignKey:MenuID"`
 	MealMenus []MealMenu `gorm:"foreignKey:MenuID"`

@@ -12,7 +12,7 @@ type EducationalContent  struct {
 	Description		string `valid:"required~Description is required"`
 
 	AdminID		uint
-	Admin		Admin
+	Admin		Admin `valid:"-"`
 	
 	EducationalGroupID uint `valid:"required~EducationalGroupID is required"`
 	EducationalGroup EducationalGroup `gorm:"foreignKey:EducationalGroupID" valid:"-"`

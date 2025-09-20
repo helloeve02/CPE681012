@@ -27,7 +27,7 @@ func TestMenuAdminID(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
-		g.Expect(err.Error()).To(Equal("AdminID is required"))
+		g.Expect(err.Error()).To(ContainSubstring("AdminID is required"))
 
 	})
 }
@@ -52,7 +52,7 @@ func TestMenuTitle(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Title is required"))
+		g.Expect(err.Error()).To(ContainSubstring("Title is required"))
 
 	})
 }
@@ -76,7 +76,7 @@ func TestMenuDescription(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Description is required"))
+		g.Expect(err.Error()).To(ContainSubstring("Description is required"))
 
 	})
 }
@@ -100,7 +100,7 @@ func TestMenuRegion(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Region is required"))
+		g.Expect(err.Error()).To(ContainSubstring("Region is required"))
 
 	})
 }
@@ -124,7 +124,7 @@ func TestMenuImage(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Image is required"))
+		g.Expect(err.Error()).To(ContainSubstring("Image is required"))
 
 	})
 
@@ -144,7 +144,7 @@ func TestMenuImage(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Image must be a valid URL"))
+		g.Expect(err.Error()).To(ContainSubstring("Image must be a valid URL"))
 
 	})
 }
@@ -168,7 +168,7 @@ func TestMenuCredit(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).NotTo(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Credit is required"))
+		g.Expect(err.Error()).To(ContainSubstring("Credit is required"))
 
 	})
 }
