@@ -375,7 +375,7 @@ const FoodAdminPanel = () => {
                   </div>
                   <input
                     type="text"
-                    placeholder="ค้นหาชื่ออาหาร..."
+                    placeholder="ค้นหาชื่อรายการอาหาร..."
                     className="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-gray-200 hover:border-blue-400 focus:border-blue-500 focus:outline-none shadow-sm hover:shadow-md focus:shadow-lg transition-all duration-200 bg-white/80 backdrop-blur-sm"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -429,7 +429,7 @@ const FoodAdminPanel = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="space-y-3">
                   <label className="block font-bold text-gray-700 text-lg">
-                    ชื่ออาหาร <span className="text-red-500">*</span>
+                    ชื่อรายการอาหารและวัตถุดิบ <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
