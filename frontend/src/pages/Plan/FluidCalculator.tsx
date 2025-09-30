@@ -1,4 +1,3 @@
-// FluidCalculator.tsx
 import React, { useState, useEffect } from 'react';
 import {
   Calculator,
@@ -20,6 +19,11 @@ const toNumber = (s: string) => {
   const n = Number(s);
   return Number.isFinite(n) ? n : 0;
 };
+// แสดงค่าว่างเมื่อ state เป็น 0 เพื่อไม่ให้ขึ้นเลข 0 ในช่อง input
+const numOrEmpty = (n: number) => (n === 0 ? '' : String(n));
+// ช่วยให้แก้ง่ายขึ้น: โฟกัสแล้ว select ทั้งช่อง
+const selectAllOnFocus = (e: React.FocusEvent<HTMLInputElement>) => e.currentTarget.select();
+
 const roundTo50 = (x: number) => Math.round(x / 50) * 50;
 
 /** ---------- Types ---------- */
@@ -493,8 +497,9 @@ const FluidCalculator: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-3">น้ำหนัก (กก.)</label>
                   <input
                     type="number"
-                    value={patientData.weight}
+                    value={numOrEmpty(patientData.weight)}
                     onChange={(e) => updatePatientData('weight', toNumber(e.target.value))}
+                    onFocus={selectAllOnFocus}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all bg-white text-lg"
                     min={20}
                     max={200}
@@ -505,8 +510,9 @@ const FluidCalculator: React.FC = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-3">อายุ (ปี)</label>
                   <input
                     type="number"
-                    value={patientData.age}
+                    value={numOrEmpty(patientData.age)}
                     onChange={(e) => updatePatientData('age', Math.trunc(toNumber(e.target.value)))}
+                    onFocus={selectAllOnFocus}
                     className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all bg-white text-lg"
                     min={1}
                     max={120}
@@ -574,8 +580,9 @@ const FluidCalculator: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-3">ปริมาณปัสสาวะ 24 ชม. (มล.)</label>
                     <input
                       type="number"
-                      value={patientData.urineOutput}
+                      value={numOrEmpty(patientData.urineOutput)}
                       onChange={(e) => updatePatientData('urineOutput', clamp(toNumber(e.target.value), 0, 5000))}
+                      onFocus={selectAllOnFocus}
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-400 outline-none transition-all bg-white text-lg"
                       min={0}
                       max={5000}
@@ -654,8 +661,9 @@ const FluidCalculator: React.FC = () => {
                       <input
                         type="number"
                         step="0.1"
-                        value={patientData.hba1c}
+                        value={numOrEmpty(patientData.hba1c)}
                         onChange={(e) => updatePatientData('hba1c', toNumber(e.target.value))}
+                        onFocus={selectAllOnFocus}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-400 outline-none transition-all bg-white text-lg"
                         min={4}
                         max={15}
@@ -669,7 +677,7 @@ const FluidCalculator: React.FC = () => {
                       <label className="block text-sm font-medium text-gray-700 mb-3">ความดันโลหิต Systolic</label>
                       <input
                         type="number"
-                        value={patientData.bloodPressure.systolic}
+                        value={numOrEmpty(patientData.bloodPressure.systolic)}
                         onChange={(e) =>
                           updateNestedData(
                             'bloodPressure',
@@ -677,6 +685,7 @@ const FluidCalculator: React.FC = () => {
                             clamp(Math.trunc(toNumber(e.target.value)), 80, 250)
                           )
                         }
+                        onFocus={selectAllOnFocus}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-400 outline-none transition-all bg-white text-lg"
                         min={80}
                         max={250}
@@ -684,10 +693,10 @@ const FluidCalculator: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text_sm font-medium text-gray-700 mb-3">ความดันโลหิต Diastolic</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-3">ความดันโลหิต Diastolic</label>
                       <input
                         type="number"
-                        value={patientData.bloodPressure.diastolic}
+                        value={numOrEmpty(patientData.bloodPressure.diastolic)}
                         onChange={(e) =>
                           updateNestedData(
                             'bloodPressure',
@@ -695,6 +704,7 @@ const FluidCalculator: React.FC = () => {
                             clamp(Math.trunc(toNumber(e.target.value)), 50, 150)
                           )
                         }
+                        onFocus={selectAllOnFocus}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-400 outline-none transition-all bg-white text-lg"
                         min={50}
                         max={150}
